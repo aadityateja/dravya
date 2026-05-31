@@ -1,3 +1,93 @@
+// ================= SKY GRADIENT =================
+const skyGeo = new THREE.SphereGeometry(500, 32, 32);
+const skyMat = new THREE.MeshBasicMaterial({
+  side: THREE.BackSide,
+  vertexColors: false
+});
+
+const sky = new THREE.Mesh(skyGeo, skyMat);
+scene.add(sky);
+
+// custom gradient via canvas texture
+const skyCanvas = document.createElement("canvas");
+skyCanvas.width = 512;
+skyCanvas.height = 512;
+
+const ctx = skyCanvas.getContext("2d");
+const gradient = ctx.createLinearGradient(0,0,0,512);
+
+gradient.addColorStop(0, "#0b1020"); // deep night blue
+gradient.addColorStop(0.5, "#2a3b6b"); // twilight
+gradient.addColorStop(1, "#ffb36b"); // horizon glow
+
+ctx.fillStyle = gradient;
+ctx.fillRect(0,0,512,512);
+
+const skyTexture = new THREE.CanvasTexture(skyCanvas);
+skyMat.map = skyTexture;
+
+const starGeometry = new THREE.BufferGeometry();
+const starCount = 300;
+const starPositions = [];
+
+for (let i = 0; i < starCount; i++) {
+  starPositions.push(
+    (Math.random() - 0.5) * 400,
+    Math.random() * 200 + 50,
+    (Math.random() - 0.5) * 400
+  );
+}
+
+starGeometry.setAttribute(
+  "position",
+  new THREE.Float32BufferAttribute(starPositions, 3)
+);
+
+const starMaterial = new THREE.PointsMaterial({
+  color: 0xffffff,
+  size: 0.5
+});
+
+const stars = new THREE.Points(starGeometry, starMaterial);
+scene.add(stars);
+
+const clouds = [];
+
+for (let i = 0; i < 15; i++) {
+  const cloud = new THREE.Mesh(
+    new THREE.SphereGeometry(2 + Math.random()*2, 6, 6),
+    new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.4
+    })
+  );
+
+  cloud.position.set(
+    (Math.random() - 0.5) * 200,
+    25 + Math.random() * 10,
+    (Math.random() - 0.5) * 200
+  );
+
+  scene.add(cloud);
+  clouds.push(cloud);
+}
+
+// ================= CLOUD MOVEMENT =================
+clouds.forEach(c => {
+  c.position.x += 0.01;
+  if (c.position.x > 100) c.position.x = -100;
+});
+
+// subtle star shimmer
+stars.rotation.y += 0.0002;
+
+scene.fog = new THREE.FogExp2(0x0b1020, 0.003);
+
+
+
+
+
 const scene = new THREE.Scene();
 scene.fog = new THREE.Fog(0x0b0f1a, 10, 120);
 
