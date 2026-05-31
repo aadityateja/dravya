@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Dravya Mountain Pixel World v1</title>
+<title>Dravya Mountain Pixel World v2</title>
 
 <style>
 body {
@@ -19,11 +19,18 @@ body {
     color: #b6f7ff;
     font-size: 13px;
     z-index: 10;
-    opacity: 0.85;
 }
 
-canvas {
-    image-rendering: pixelated;
+#story {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 360px;
+    padding: 12px;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid #2bdfff33;
+    color: #dffcff;
+    display: none;
 }
 </style>
 </head>
@@ -31,9 +38,11 @@ canvas {
 <body>
 
 <div id="ui">
-🧭 DRAVYA MOUNTAIN PIXEL WORLD<br>
-Move: Arrow Keys / WASD | Mouse Click Move
+🧭 DRAVYA PIXEL WORLD v2<br>
+Move: Arrow Keys / WASD | Click to walk
 </div>
+
+<div id="story"></div>
 
 <script>
 const canvas = document.createElement("canvas");
@@ -43,20 +52,28 @@ document.body.appendChild(canvas);
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
-// 🧠 PLAYER
-let player = { x: 200, y: 300, speed: 2.2, tx: null, ty: null };
+let storyBox = document.getElementById("story");
 
-// 🌲 WORLD OBJECTS
+// 🧍 PLAYER
+let player = {
+    x: 200,
+    y: 320,
+    speed: 2.4,
+    tx: null,
+    ty: null
+};
+
+// 🌍 WORLD ZONES (your story mapped)
 const zones = [
-    { name:"🌊 Lake of Reflection", x:200, y:300, r:80, color:"#1e90ff" },
-    { name:"🌲 Forest Path", x:400, y:200, r:100, color:"#2ecc71" },
-    { name:"⛰️ Mountain Zone", x:700, y:150, r:120, color:"#95a5a6" },
-    { name:"🏰 Dravya Castle", x:950, y:180, r:130, color:"#7f8c8d" }
+    { name:"🌊 Lake of Reflection", x:200, y:320, r:90, color:"#1e90ff", text:"You sit by the lake. Thoughts echo like water." },
+    { name:"🌲 Forest Path", x:420, y:220, r:110, color:"#2ecc71", text:"Trees block the sky. Silence grows heavier." },
+    { name:"⛰️ Mountain Zone", x:700, y:160, r:130, color:"#95a5a6", text:"Wind becomes colder. The peak is near." },
+    { name:"🏰 Dravya Castle", x:980, y:180, r:140, color:"#7f8c8d", text:"An abandoned castle watches you… or remembers you." }
 ];
 
-// 🎮 INPUT
 let keys = {};
 
+// 🎮 INPUT
 window.addEventListener("keydown", e=>keys[e.key.toLowerCase()] = true);
 window.addEventListener("keyup", e=>keys[e.key.toLowerCase()] = false);
 
@@ -65,51 +82,61 @@ window.addEventListener("click", e=>{
     player.ty = e.clientY;
 });
 
-// 🧭 MOVE SYSTEM
+// 🌫️ ATMOSPHERE TIMER
+let time = 0;
+
+// 🧭 MOVE SYSTEM (smooth + weighted)
 function move(){
 
-    // keyboard
-    if(keys["arrowup"]||keys["w"]) player.y -= player.speed;
-    if(keys["arrowdown"]||keys["s"]) player.y += player.speed;
-    if(keys["arrowleft"]||keys["a"]) player.x -= player.speed;
-    if(keys["arrowright"]||keys["d"]) player.x += player.speed;
+    let speed = player.speed;
 
-    // mouse target
+    if(keys["arrowup"]||keys["w"]) player.y -= speed;
+    if(keys["arrowdown"]||keys["s"]) player.y += speed;
+    if(keys["arrowleft"]||keys["a"]) player.x -= speed;
+    if(keys["arrowright"]||keys["d"]) player.x += speed;
+
     if(player.tx !== null){
-        let dx = player.tx - player.x;
-        let dy = player.ty - player.y;
-
-        player.x += dx * 0.03;
-        player.y += dy * 0.03;
+        player.x += (player.tx - player.x) * 0.04;
+        player.y += (player.ty - player.y) * 0.04;
     }
 }
 
-// 🌌 DRAW WORLD
-function drawWorld(){
+// 🌌 DRAW BACKGROUND (dynamic sky)
+function drawSky(){
 
-    // sky gradient
-    const g = ctx.createLinearGradient(0,0,0,canvas.height);
-    g.addColorStop(0,"#02030a");
-    g.addColorStop(1,"#050816");
+    let g = ctx.createLinearGradient(0,0,0,canvas.height);
+
+    // pseudo time-of-day shift
+    let dusk = Math.sin(time*0.0005)*0.5 + 0.5;
+
+    g.addColorStop(0, `rgb(${2+dusk*20},${3+dusk*10},20)`);
+    g.addColorStop(1, "#02040a");
+
     ctx.fillStyle = g;
     ctx.fillRect(0,0,canvas.width,canvas.height);
+}
 
-    // zones
+// 🌲 WORLD ELEMENTS
+function drawWorld(){
+
     zones.forEach(z=>{
 
+        // pulsing aura
+        let pulse = Math.sin(time*0.003 + z.x)*5;
+
         ctx.beginPath();
-        ctx.fillStyle = z.color + "33";
-        ctx.arc(z.x, z.y, z.r, 0, Math.PI*2);
+        ctx.fillStyle = z.color + "22";
+        ctx.arc(z.x, z.y, z.r + pulse, 0, Math.PI*2);
         ctx.fill();
 
         ctx.fillStyle = "#b6f7ff";
-        ctx.fillText(z.name, z.x - 40, z.y - z.r - 10);
+        ctx.fillText(z.name, z.x-60, z.y - z.r - 10);
     });
 
-    // lake shimmer effect
-    ctx.fillStyle = "rgba(0,150,255,0.1)";
+    // lake shimmer
     ctx.beginPath();
-    ctx.arc(200,300,90 + Math.sin(Date.now()*0.002)*5,0,Math.PI*2);
+    ctx.fillStyle = "rgba(30,144,255,0.12)";
+    ctx.arc(200,320,95 + Math.sin(time*0.004)*4,0,Math.PI*2);
     ctx.fill();
 }
 
@@ -125,27 +152,49 @@ function drawPlayer(){
     ctx.strokeRect(player.x-8, player.y-8, 16, 16);
 }
 
-// 🧠 DETECTION (CASTLE TRIGGER IDEA)
-function checkZones(){
+// 📖 STORY SYSTEM
+function checkStory(){
+
+    let active = null;
 
     zones.forEach(z=>{
         let dx = player.x - z.x;
         let dy = player.y - z.y;
         let dist = Math.sqrt(dx*dx + dy*dy);
 
-        if(dist < z.r*0.5 && z.name.includes("Castle")){
-            ctx.fillStyle = "#ffffff";
-            ctx.fillText("🔥 DRAGON AWAKE (IMAGINED EVENT)", 50, 50);
+        if(dist < z.r*0.6){
+            active = z;
+        }
+
+        // 🐉 castle anomaly effect
+        if(z.name.includes("Castle") && dist < z.r){
+            ctx.fillStyle = "rgba(255,0,0,0.05)";
+            ctx.fillRect(0,0,canvas.width,canvas.height);
+
+            ctx.fillStyle = "#ffaaaa";
+            ctx.fillText("UNKNOWN PRESENCE DETECTED", 40, 40);
         }
     });
+
+    if(active){
+        storyBox.style.display = "block";
+        storyBox.innerHTML = `<b style="color:#7df9ff">${active.name}</b><br><br>${active.text}`;
+    } else {
+        storyBox.style.display = "none";
+    }
 }
 
 // 🔁 LOOP
 function loop(){
-    move();
+
+    time++;
+
+    drawSky();
     drawWorld();
     drawPlayer();
-    checkZones();
+    move();
+    checkStory();
+
     requestAnimationFrame(loop);
 }
 
