@@ -1,14 +1,9 @@
 // ================= SCENE =================
 const scene = new THREE.Scene();
-scene.fog = new THREE.Fog(0x0b0f1a, 20, 120);
+scene.fog = new THREE.Fog(0x0b0f1a, 10, 120);
 
 // CAMERA
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 camera.position.set(0, 5, 10);
 
 // RENDERER
@@ -16,102 +11,139 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// LIGHTS
-const light = new THREE.DirectionalLight(0xffffff, 1);
-light.position.set(10, 20, 10);
-scene.add(light);
+// ================= LIGHT =================
+const sun = new THREE.DirectionalLight(0xffcc88, 1);
+sun.position.set(10, 20, 10);
+scene.add(sun);
 
-scene.add(new THREE.AmbientLight(0x444444));
+const ambient = new THREE.AmbientLight(0x333344);
+scene.add(ambient);
 
-// ================= GROUND (CV WORLD BASE) =================
-const groundGeo = new THREE.PlaneGeometry(200, 200);
-const groundMat = new THREE.MeshStandardMaterial({ color: 0x1b2a1f });
-const ground = new THREE.Mesh(groundGeo, groundMat);
-ground.rotation.x = -Math.PI / 2;
+// ================= GROUND =================
+const ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(200, 200),
+  new THREE.MeshStandardMaterial({ color: 0x1b2a1f })
+);
+ground.rotation.x = -Math.PI/2;
 scene.add(ground);
 
-// ================= CASTLE (YOU - MAIN PROFILE HUB) =================
-const castle = new THREE.Group();
-
-const base = new THREE.Mesh(
-  new THREE.BoxGeometry(6, 3, 6),
+// ================= CASTLE =================
+const castle = new THREE.Mesh(
+  new THREE.BoxGeometry(8, 6, 8),
   new THREE.MeshStandardMaterial({ color: 0x888888 })
 );
-base.position.y = 1.5;
-castle.add(base);
-
-const tower = new THREE.Mesh(
-  new THREE.CylinderGeometry(1.2, 1.5, 6, 8),
-  new THREE.MeshStandardMaterial({ color: 0xaaaaaa })
-);
-tower.position.set(2, 4, 2);
-castle.add(tower);
-
-castle.position.set(0, 0, 0);
+castle.position.set(0, 3, -40);
 scene.add(castle);
 
-// ================= FOREST (EXPERIENCE ZONE) =================
-for (let i = 0; i < 20; i++) {
-  const tree = new THREE.Mesh(
-    new THREE.ConeGeometry(0.5, 2, 6),
-    new THREE.MeshStandardMaterial({ color: 0x145a32 })
-  );
+// glow state
+let castleAwake = false;
 
-  tree.position.set(
-    (Math.random() - 0.5) * 60,
-    1,
-    (Math.random() - 0.5) * 60
-  );
+// ================= LAKE (START ZONE) =================
+const lake = new THREE.Mesh(
+  new THREE.CircleGeometry(8, 32),
+  new THREE.MeshStandardMaterial({ color: 0x1b4d8f })
+);
+lake.rotation.x = -Math.PI/2;
+lake.position.set(0, 0.01, 5);
+scene.add(lake);
 
-  scene.add(tree);
+// ================= CANDLE =================
+const candle = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.2, 0.2, 1),
+  new THREE.MeshStandardMaterial({ color: 0xfff2cc })
+);
+candle.position.set(2, 0.5, 5);
+scene.add(candle);
+
+// ================= SMOKE PARTICLES =================
+const smokeParticles = [];
+let smokeActive = false;
+
+function spawnSmoke() {
+  for (let i = 0; i < 200; i++) {
+    const p = new THREE.Mesh(
+      new THREE.SphereGeometry(0.1),
+      new THREE.MeshBasicMaterial({ color: 0xcccccc })
+    );
+    p.position.set(2, 1, 5);
+    p.velocity = new THREE.Vector3(
+      (Math.random()-0.5)*0.02,
+      Math.random()*0.05,
+      (Math.random()-0.5)*0.02
+    );
+    scene.add(p);
+    smokeParticles.push(p);
+  }
 }
 
-// ================= SHRINE (ACHIEVEMENTS) =================
-const shrine = new THREE.Mesh(
-  new THREE.SphereGeometry(1, 16, 16),
-  new THREE.MeshStandardMaterial({ color: 0x7c4dff, emissive: 0x3a1a80 })
-);
-shrine.position.set(10, 1, -8);
-scene.add(shrine);
+// ================= PLAYER =================
+const player = { x:0, z:10, speed:0.15 };
+const keys = {};
 
-// ================= CONTROLS =================
-let keys = {};
-document.addEventListener("keydown", e => keys[e.key.toLowerCase()] = true);
-document.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
+document.addEventListener("keydown", e=>{
+  keys[e.key.toLowerCase()] = true;
 
-// MOUSE LOOK (simple)
-let mouseDown = false;
-let rotY = 0;
-
-document.addEventListener("mousedown", () => mouseDown = true);
-document.addEventListener("mouseup", () => mouseDown = false);
-
-document.addEventListener("mousemove", (e) => {
-  if (mouseDown) rotY -= e.movementX * 0.002;
+  // LIGHT CANDLE
+  if (e.code === "Space" && !smokeActive) {
+    smokeActive = true;
+    spawnSmoke();
+  }
 });
 
-// ================= PLAYER STATE =================
-const player = {
-  x: 0,
-  z: 10,
-  speed: 0.2
-};
+document.addEventListener("keyup", e=>keys[e.key.toLowerCase()] = false);
 
-// ================= UPDATE LOOP =================
+// mouse look
+let rotY = 0;
+let dragging = false;
+
+document.addEventListener("mousedown", ()=>dragging=true);
+document.addEventListener("mouseup", ()=>dragging=false);
+document.addEventListener("mousemove", e=>{
+  if(dragging) rotY -= e.movementX*0.002;
+});
+
+// ================= SUNSET TIMER =================
+let time = 0;
+
+// ================= UPDATE =================
 function update() {
 
   // movement
-  if (keys["w"]) player.z -= player.speed;
-  if (keys["s"]) player.z += player.speed;
-  if (keys["a"]) player.x -= player.speed;
-  if (keys["d"]) player.x += player.speed;
+  if(keys["w"]) player.z -= player.speed;
+  if(keys["s"]) player.z += player.speed;
+  if(keys["a"]) player.x -= player.speed;
+  if(keys["d"]) player.x += player.speed;
 
-  // camera follow (3rd person medieval feel)
-  camera.position.x = player.x - Math.sin(rotY) * 10;
-  camera.position.z = player.z - Math.cos(rotY) * 10;
+  camera.position.x = player.x - Math.sin(rotY)*10;
+  camera.position.z = player.z - Math.cos(rotY)*10;
   camera.position.y = 5;
-
   camera.lookAt(player.x, 1, player.z);
+
+  // ================= SUNSET SHIFT =================
+  time += 0.001;
+  sun.intensity = 1 - time;
+  scene.fog.color.setHSL(0.6, 0.5, 0.1 + time*0.3);
+
+  // ================= SMOKE UPDATE =================
+  if(smokeActive) {
+    smokeParticles.forEach(p=>{
+      p.position.add(p.velocity);
+      p.scale.multiplyScalar(1.01);
+      p.material.opacity = 1 - time;
+    });
+
+    // trigger castle when smoke "reaches distance"
+    if(time > 0.3 && !castleAwake) {
+      castleAwake = true;
+      sun.color.set(0xff3300);
+    }
+  }
+
+  // ================= CASTLE AWAKENING =================
+  if(castleAwake) {
+    castle.material.emissive = new THREE.Color(0x330000);
+    castle.rotation.y += 0.002;
+  }
 }
 
 // ================= RENDER LOOP =================
@@ -120,12 +152,11 @@ function animate() {
   update();
   renderer.render(scene, camera);
 }
-
 animate();
 
 // ================= RESIZE =================
-window.addEventListener("resize", () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
+window.addEventListener("resize", ()=>{
+  camera.aspect = window.innerWidth/window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
