@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Dark Physicist CV World v3</title>
+<title>Dark Physicist CV World v4</title>
 
 <style>
 body {
@@ -17,8 +17,8 @@ body {
     top: 20px;
     left: 20px;
     color: #7df9ff;
-    z-index: 10;
     font-size: 13px;
+    z-index: 10;
     opacity: 0.85;
 }
 
@@ -26,9 +26,9 @@ body {
     position: absolute;
     bottom: 20px;
     left: 20px;
-    width: 340px;
+    width: 360px;
     padding: 12px;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.65);
     border: 1px solid #1ff0ff33;
     color: #cfffff;
     display: none;
@@ -39,20 +39,19 @@ body {
 <body>
 
 <div id="hud">
-🧙 DARK CV WORLD v3 — WASD move | 1-4 spells | Enter simulation
+🧙 CV WORLD v4 — GOD MODE | WASD move | 1-4 spells
 </div>
 
 <div id="panel"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
 
 <script>
 let scene, camera, renderer;
-let player, mixer;
+let player;
 let buildings = [];
+let particles = [];
 let keys = {};
-let clock = new THREE.Clock();
 
 const panel = document.getElementById("panel");
 
@@ -61,44 +60,44 @@ animate();
 
 function init(){
 
-    // 🌌 Scene
+    // 🌌 SCENE
     scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(0x000000, 10, 80);
+    scene.fog = new THREE.Fog(0x000000, 10, 90);
 
-    // 🎥 Camera
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 3, 10);
+    // 🎥 CAMERA
+    camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
+    camera.position.set(0,3,10);
 
-    // 🎮 Renderer
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    // 🎮 RENDERER
+    renderer = new THREE.WebGLRenderer({ antialias:true });
+    renderer.setSize(innerWidth, innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    // 🌠 Star field
+    // 🌠 STAR FIELD (denser)
     const geo = new THREE.BufferGeometry();
     const arr = [];
 
-    for(let i=0;i<2000;i++){
-        arr.push((Math.random()-0.5)*250);
-        arr.push((Math.random()-0.5)*250);
-        arr.push((Math.random()-0.5)*250);
+    for(let i=0;i<3000;i++){
+        arr.push((Math.random()-0.5)*300);
+        arr.push((Math.random()-0.5)*300);
+        arr.push((Math.random()-0.5)*300);
     }
 
     geo.setAttribute("position", new THREE.Float32BufferAttribute(arr,3));
 
     const stars = new THREE.Points(
         geo,
-        new THREE.PointsMaterial({ color: 0x88ffff, size: 0.15 })
+        new THREE.PointsMaterial({ color: 0x88ffff, size: 0.12 })
     );
 
     scene.add(stars);
 
-    // 🌍 Ground grid
-    const grid = new THREE.GridHelper(120, 60, 0x0ff0ff, 0x111111);
+    // 🌍 GRID
+    const grid = new THREE.GridHelper(150, 70, 0x0ff0ff, 0x111111);
     scene.add(grid);
 
-    // 🧙 PLAYER (wizard placeholder)
-    const geoP = new THREE.ConeGeometry(0.8, 2, 6);
+    // 🧙 PLAYER (wizard core form)
+    const geoP = new THREE.ConeGeometry(0.9, 2.2, 6);
     const matP = new THREE.MeshBasicMaterial({
         color: 0xffffff,
         wireframe: true
@@ -108,62 +107,115 @@ function init(){
     player.position.set(0,1,6);
     scene.add(player);
 
-    // 🏛️ CV STRUCTURES
-    createBuilding("ABOUT TOWER", -12,0,0, "Identity field of Dravya — physicist explorer.");
-    createBuilding("SKILL REACTOR", 12,0,0, "Python, ML, DL, Three.js, simulations.");
-    createBuilding("PROJECT HANGAR", 0,0,-18, "AI systems, quantum-inspired models.");
-    createBuilding("CONTACT RIFT", 0,0,18, "GitHub • LinkedIn • Research links");
+    // ✨ AURA SYSTEM (fake glow field)
+    const auraGeo = new THREE.SphereGeometry(1.8, 16, 16);
+    const auraMat = new THREE.MeshBasicMaterial({
+        color: 0x00ffff,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.15
+    });
+
+    player.aura = new THREE.Mesh(auraGeo, auraMat);
+    player.add(player.aura);
+
+    // 🏛️ CV BUILDINGS
+    createBuilding("ABOUT", -14,0,0, "Identity of a physicist-builder.");
+    createBuilding("SKILLS", 14,0,0, "Python • ML • DL • Three.js • Physics systems.");
+    createBuilding("PROJECTS", 0,0,-20, "AI systems, simulations, quantum models.");
+    createBuilding("CONTACT", 0,0,20, "GitHub • Research • Collaboration portal");
 
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
-
     window.addEventListener("resize", onResize);
 
-    // ⚡ INTRO SEQUENCE
-    introSequence();
+    // ⚡ intro pulse
+    intro();
 }
 
-function introSequence(){
-    camera.position.set(0,20,40);
+function intro(){
+
+    camera.position.set(0,25,50);
 
     let t = 0;
-    const intro = setInterval(()=>{
+    const id = setInterval(()=>{
+
         t += 0.03;
 
-        camera.position.y = 20 - t*10;
-        camera.position.z = 40 - t*25;
+        camera.position.y = 25 - t*15;
+        camera.position.z = 50 - t*35;
 
-        if(t>=1){
-            clearInterval(intro);
-        }
+        if(t>=1) clearInterval(id);
+
     },16);
 }
 
 function createBuilding(name,x,y,z,desc){
 
-    const geo = new THREE.BoxGeometry(3,7,3);
+    const geo = new THREE.BoxGeometry(3.5,8,3.5);
     const mat = new THREE.MeshBasicMaterial({
         color: 0x0ff0ff,
-        wireframe: true
+        wireframe:true
     });
 
-    const b = new THREE.Mesh(geo, mat);
-    b.position.set(x,y+3.5,z);
+    const b = new THREE.Mesh(geo,mat);
+    b.position.set(x,y+4,z);
     b.userData = { name, desc, active:false };
 
     scene.add(b);
     buildings.push(b);
 }
 
+function spawnParticles(pos){
+
+    for(let i=0;i<20;i++){
+
+        const geo = new THREE.SphereGeometry(0.08,6,6);
+        const mat = new THREE.MeshBasicMaterial({ color: 0x7df9ff });
+
+        const p = new THREE.Mesh(geo,mat);
+
+        p.position.copy(pos);
+
+        p.velocity = new THREE.Vector3(
+            (Math.random()-0.5)*0.2,
+            (Math.random()-0.5)*0.2,
+            (Math.random()-0.5)*0.2
+        );
+
+        scene.add(p);
+        particles.push(p);
+    }
+}
+
+function castSpell(id){
+
+    buildings.forEach(b=>{
+
+        if(b.userData.name === id){
+
+            b.scale.set(1.5,1.5,1.5);
+
+            panel.style.display = "block";
+            panel.innerHTML = `
+                <b style="color:#7df9ff">${b.userData.name}</b><br><br>
+                ${b.userData.desc}
+            `;
+
+            spawnParticles(b.position);
+        }
+    });
+}
+
 function onKeyDown(e){
+
     keys[e.key.toLowerCase()] = true;
 
-    // 🪄 SPELLS
     switch(e.key){
-        case "1": castSpell("ABOUT TOWER"); break;
-        case "2": castSpell("SKILL REACTOR"); break;
-        case "3": castSpell("PROJECT HANGAR"); break;
-        case "4": castSpell("CONTACT RIFT"); break;
+        case "1": castSpell("ABOUT"); break;
+        case "2": castSpell("SKILLS"); break;
+        case "3": castSpell("PROJECTS"); break;
+        case "4": castSpell("CONTACT"); break;
     }
 }
 
@@ -171,25 +223,9 @@ function onKeyUp(e){
     keys[e.key.toLowerCase()] = false;
 }
 
-function castSpell(targetName){
+function move(){
 
-    buildings.forEach(b=>{
-        if(b.userData.name === targetName){
-            b.scale.set(1.4,1.4,1.4);
-            b.material.color.set(0xffffff);
-
-            panel.style.display = "block";
-            panel.innerHTML = `
-                <b style="color:#7df9ff">${b.userData.name}</b><br><br>
-                ${b.userData.desc}
-            `;
-        }
-    });
-}
-
-function movePlayer(){
-
-    let speed = 0.14;
+    const speed = 0.16;
 
     if(keys["w"]) player.position.z -= speed;
     if(keys["s"]) player.position.z += speed;
@@ -197,11 +233,25 @@ function movePlayer(){
     if(keys["d"]) player.position.x += speed;
 }
 
-function updateCamera(){
+function updateParticles(){
 
-    camera.position.x += (player.position.x - camera.position.x) * 0.08;
-    camera.position.z += (player.position.z + 8 - camera.position.z) * 0.08;
-    camera.position.y = 3;
+    particles.forEach((p,i)=>{
+
+        p.position.add(p.velocity);
+        p.velocity.y -= 0.003;
+
+        if(p.position.length() > 50){
+            scene.remove(p);
+            particles.splice(i,1);
+        }
+    });
+}
+
+function cameraFollow(){
+
+    camera.position.x += (player.position.x - camera.position.x) * 0.06;
+    camera.position.z += (player.position.z + 10 - camera.position.z) * 0.06;
+    camera.position.y = 3.5;
 
     camera.lookAt(player.position);
 }
@@ -210,8 +260,13 @@ function animate(){
 
     requestAnimationFrame(animate);
 
-    movePlayer();
-    updateCamera();
+    move();
+    updateParticles();
+    cameraFollow();
+
+    // aura pulse
+    player.aura.scale.x = player.aura.scale.y = player.aura.scale.z =
+        1 + Math.sin(Date.now()*0.002)*0.2;
 
     buildings.forEach(b=>{
         b.rotation.y += 0.002;
@@ -221,9 +276,9 @@ function animate(){
 }
 
 function onResize(){
-    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.aspect = innerWidth/innerHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(innerWidth, innerHeight);
 }
 </script>
 
