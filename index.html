@@ -1,22 +1,119 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>DRAVYA CV WORLD</title>
-  <link rel="stylesheet" href="style.css">
+  <title>DRAVYA PIXEL WORLD</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: black; }
+    canvas { display: block; }
+  </style>
 </head>
-<body class="center">
 
-  <div class="menu">
-    <h1>🌌 DRAVYA UNIVERSE</h1>
-    <p>Interactive Physics CV World</p>
+<body>
 
-    <button onclick="enterWorld()">ENTER WORLD</button>
-  </div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
 <script>
-function enterWorld() {
-  window.location.href = "world.html";
+// ================= SCENE =================
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0b1020);
+scene.fog = new THREE.Fog(0x0b1020, 10, 80);
+
+// ================= CAMERA =================
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+
+// ================= RENDERER =================
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// ================= LIGHT =================
+scene.add(new THREE.AmbientLight(0x555555));
+
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(10, 20, 10);
+scene.add(light);
+
+// ================= PIXEL GROUND (VOXEL STYLE) =================
+const blocks = [];
+
+const groundGeo = new THREE.BoxGeometry(1,1,1);
+const groundMat = new THREE.MeshLambertMaterial({ color: 0x1c2d1c });
+
+for (let x = -20; x < 20; x++) {
+  for (let z = -20; z < 20; z++) {
+
+    const block = new THREE.Mesh(groundGeo, groundMat);
+    block.position.set(x, 0, z);
+    scene.add(block);
+    blocks.push(block);
+
+  }
 }
+
+// ================= PLAYER (PIXEL CRYSTAL) =================
+const crystal = new THREE.Mesh(
+  new THREE.OctahedronGeometry(0.6),
+  new THREE.MeshStandardMaterial({
+    color: 0x3aa0ff,
+    emissive: 0x1a4fff,
+    emissiveIntensity: 2
+  })
+);
+
+crystal.position.y = 2;
+scene.add(crystal);
+
+// glow point light (makes it alive 🔥)
+const glow = new THREE.PointLight(0x3aa0ff, 2, 20);
+scene.add(glow);
+
+// ================= KEY INPUT =================
+const keys = {};
+
+document.addEventListener("keydown", e => keys[e.key.toLowerCase()] = true);
+document.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
+
+// ================= CAMERA =================
+camera.position.set(5, 8, 10);
+
+// ================= ANIMATION =================
+function animate() {
+  requestAnimationFrame(animate);
+
+  // ================= MOVEMENT =================
+  if (keys["w"]) crystal.position.z -= 0.15;
+  if (keys["s"]) crystal.position.z += 0.15;
+  if (keys["a"]) crystal.position.x -= 0.15;
+  if (keys["d"]) crystal.position.x += 0.15;
+
+  // smooth camera follow
+  camera.position.x += (crystal.position.x - camera.position.x) * 0.1;
+  camera.position.z += (crystal.position.z + 8 - camera.position.z) * 0.1;
+  camera.lookAt(crystal.position);
+
+  // ================= GLOW FOLLOW =================
+  glow.position.copy(crystal.position);
+
+  // ================= CRYSTAL LIFE EFFECT =================
+  crystal.rotation.y += 0.02;
+  crystal.position.y = 2 + Math.sin(Date.now() * 0.003) * 0.5;
+
+  renderer.render(scene, camera);
+}
+
+animate();
+
+// ================= RESIZE =================
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
 </script>
 
 </body>
