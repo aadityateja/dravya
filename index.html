@@ -1,171 +1,30 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>DRAVYA PIXEL WORLD V2</title>
-  <style>
-    body { margin: 0; overflow: hidden; background: black; }
-    canvas { display: block; }
-  </style>
-</head>
+<script type="module">
+import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+import { GLTFLoader } from "https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
+const loader = new GLTFLoader();
 
-<body>
+let dravyaModel;
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+loader.load(
+  "./models/dravya.glb",
 
-<script>
-// ================= SCENE =================
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x87b5ff);
-scene.fog = new THREE.Fog(0x87b5ff, 10, 80);
+  (gltf) => {
 
-// ================= CAMERA =================
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
+    dravyaModel = gltf.scene;
 
-// ================= RENDERER =================
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+    dravyaModel.position.set(0, 5, -10);
 
-// ================= LIGHT =================
-scene.add(new THREE.AmbientLight(0x666666));
+    dravyaModel.scale.set(1, 1, 1);
 
-const sun = new THREE.DirectionalLight(0xffffff, 1);
-sun.position.set(20, 30, 10);
-scene.add(sun);
+    scene.add(dravyaModel);
 
-// ================= VOXEL GROUND =================
-const groundGeo = new THREE.BoxGeometry(1,1,1);
-const grass = new THREE.MeshLambertMaterial({ color: 0x2ecc71 });
-const dirt = new THREE.MeshLambertMaterial({ color: 0x8b5a2b });
+  },
 
-const world = [];
+  undefined,
 
-for (let x = -25; x < 25; x++) {
-  for (let z = -25; z < 25; z++) {
-
-    const block = new THREE.Mesh(groundGeo, grass);
-    block.position.set(x, 0, z);
-    scene.add(block);
-    world.push(block);
+  (error) => {
+    console.error(error);
   }
-}
-
-// ================= PIXEL TREES =================
-function createTree(x, z) {
-
-  const trunk = new THREE.Mesh(
-    new THREE.BoxGeometry(1,3,1),
-    new THREE.MeshLambertMaterial({ color: 0x8b5a2b })
-  );
-
-  const leaves = new THREE.Mesh(
-    new THREE.BoxGeometry(3,3,3),
-    new THREE.MeshLambertMaterial({ color: 0x1f8b4c })
-  );
-
-  trunk.position.set(x, 1.5, z);
-  leaves.position.set(x, 4, z);
-
-  scene.add(trunk);
-  scene.add(leaves);
-}
-
-// forest zone 🌲
-for (let i = 0; i < 40; i++) {
-  createTree(
-    (Math.random() - 0.5) * 40,
-    (Math.random() - 0.5) * 40
-  );
-}
-
-// ================= RIVER =================
-const river = new THREE.Mesh(
-  new THREE.PlaneGeometry(5, 50),
-  new THREE.MeshLambertMaterial({ color: 0x3498db })
-);
-river.rotation.x = -Math.PI / 2;
-river.position.set(10, 0.01, 0);
-scene.add(river);
-
-// ================= CASTLE (CV HUB) =================
-const castle = new THREE.Mesh(
-  new THREE.BoxGeometry(8, 6, 8),
-  new THREE.MeshLambertMaterial({ color: 0x888888 })
-);
-castle.position.set(-15, 3, -15);
-scene.add(castle);
-
-// ================= PLAYER (GLOWING CRYSTAL) =================
-const crystal = new THREE.Mesh(
-  new THREE.OctahedronGeometry(0.7),
-  new THREE.MeshStandardMaterial({
-    color: 0x3aa0ff,
-    emissive: 0x1a4fff,
-    emissiveIntensity: 2
-  })
 );
 
-crystal.position.y = 2;
-scene.add(crystal);
-
-// glow light 💎
-const glow = new THREE.PointLight(0x3aa0ff, 2, 25);
-scene.add(glow);
-
-// ================= INPUT =================
-const keys = {};
-document.addEventListener("keydown", e => keys[e.key.toLowerCase()] = true);
-document.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
-
-// ================= CAMERA =================
-camera.position.set(0, 10, 12);
-
-// ================= UPDATE =================
-function animate() {
-  requestAnimationFrame(animate);
-
-  // ================= MOVEMENT =================
-  if (keys["w"]) crystal.position.z -= 0.2;
-  if (keys["s"]) crystal.position.z += 0.2;
-  if (keys["a"]) crystal.position.x -= 0.2;
-  if (keys["d"]) crystal.position.x += 0.2;
-
-  // camera follow
-  camera.position.x += (crystal.position.x - camera.position.x) * 0.08;
-  camera.position.z += (crystal.position.z + 10 - camera.position.z) * 0.08;
-  camera.lookAt(crystal.position);
-
-  // glow follows player
-  glow.position.copy(crystal.position);
-
-  // floating crystal effect ✨
-  crystal.rotation.y += 0.03;
-  crystal.position.y = 2 + Math.sin(Date.now() * 0.003) * 0.4;
-
-  // ================= INTERACTION ZONES =================
-  const dCastle = crystal.position.distanceTo(castle.position);
-
-  if (dCastle < 4) {
-    console.log("🏰 Entering CV Castle: Projects / Physics / AI");
-  }
-
-  renderer.render(scene, camera);
-}
-
-animate();
-
-// ================= RESIZE =================
-window.addEventListener("resize", () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
 </script>
-
-</body>
-</html>
