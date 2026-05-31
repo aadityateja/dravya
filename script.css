@@ -1,0 +1,21 @@
+let player = document.getElementById("player");
+let world = document.getElementById("world");
+
+let x = 100;
+let speed = 10;
+
+document.addEventListener("keydown", (e) => {
+
+  if (e.key === "ArrowRight") {
+    x += speed;
+  }
+
+  if (e.key === "ArrowLeft") {
+    x -= speed;
+  }
+
+  player.style.left = x + "px";
+
+  // camera follows player
+  world.style.transform = `translateX(${-x + 200}px)`;
+});
