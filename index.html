@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>DRAVYA PIXEL WORLD</title>
+  <title>DRAVYA PIXEL WORLD V2</title>
   <style>
     body { margin: 0; overflow: hidden; background: black; }
     canvas { display: block; }
@@ -15,8 +15,8 @@
 <script>
 // ================= SCENE =================
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0b1020);
-scene.fog = new THREE.Fog(0x0b1020, 10, 80);
+scene.background = new THREE.Color(0x87b5ff);
+scene.fog = new THREE.Fog(0x87b5ff, 10, 80);
 
 // ================= CAMERA =================
 const camera = new THREE.PerspectiveCamera(
@@ -32,32 +32,77 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 // ================= LIGHT =================
-scene.add(new THREE.AmbientLight(0x555555));
+scene.add(new THREE.AmbientLight(0x666666));
 
-const light = new THREE.DirectionalLight(0xffffff, 1);
-light.position.set(10, 20, 10);
-scene.add(light);
+const sun = new THREE.DirectionalLight(0xffffff, 1);
+sun.position.set(20, 30, 10);
+scene.add(sun);
 
-// ================= PIXEL GROUND (VOXEL STYLE) =================
-const blocks = [];
-
+// ================= VOXEL GROUND =================
 const groundGeo = new THREE.BoxGeometry(1,1,1);
-const groundMat = new THREE.MeshLambertMaterial({ color: 0x1c2d1c });
+const grass = new THREE.MeshLambertMaterial({ color: 0x2ecc71 });
+const dirt = new THREE.MeshLambertMaterial({ color: 0x8b5a2b });
 
-for (let x = -20; x < 20; x++) {
-  for (let z = -20; z < 20; z++) {
+const world = [];
 
-    const block = new THREE.Mesh(groundGeo, groundMat);
+for (let x = -25; x < 25; x++) {
+  for (let z = -25; z < 25; z++) {
+
+    const block = new THREE.Mesh(groundGeo, grass);
     block.position.set(x, 0, z);
     scene.add(block);
-    blocks.push(block);
-
+    world.push(block);
   }
 }
 
-// ================= PLAYER (PIXEL CRYSTAL) =================
+// ================= PIXEL TREES =================
+function createTree(x, z) {
+
+  const trunk = new THREE.Mesh(
+    new THREE.BoxGeometry(1,3,1),
+    new THREE.MeshLambertMaterial({ color: 0x8b5a2b })
+  );
+
+  const leaves = new THREE.Mesh(
+    new THREE.BoxGeometry(3,3,3),
+    new THREE.MeshLambertMaterial({ color: 0x1f8b4c })
+  );
+
+  trunk.position.set(x, 1.5, z);
+  leaves.position.set(x, 4, z);
+
+  scene.add(trunk);
+  scene.add(leaves);
+}
+
+// forest zone 🌲
+for (let i = 0; i < 40; i++) {
+  createTree(
+    (Math.random() - 0.5) * 40,
+    (Math.random() - 0.5) * 40
+  );
+}
+
+// ================= RIVER =================
+const river = new THREE.Mesh(
+  new THREE.PlaneGeometry(5, 50),
+  new THREE.MeshLambertMaterial({ color: 0x3498db })
+);
+river.rotation.x = -Math.PI / 2;
+river.position.set(10, 0.01, 0);
+scene.add(river);
+
+// ================= CASTLE (CV HUB) =================
+const castle = new THREE.Mesh(
+  new THREE.BoxGeometry(8, 6, 8),
+  new THREE.MeshLambertMaterial({ color: 0x888888 })
+);
+castle.position.set(-15, 3, -15);
+scene.add(castle);
+
+// ================= PLAYER (GLOWING CRYSTAL) =================
 const crystal = new THREE.Mesh(
-  new THREE.OctahedronGeometry(0.6),
+  new THREE.OctahedronGeometry(0.7),
   new THREE.MeshStandardMaterial({
     color: 0x3aa0ff,
     emissive: 0x1a4fff,
@@ -68,40 +113,46 @@ const crystal = new THREE.Mesh(
 crystal.position.y = 2;
 scene.add(crystal);
 
-// glow point light (makes it alive 🔥)
-const glow = new THREE.PointLight(0x3aa0ff, 2, 20);
+// glow light 💎
+const glow = new THREE.PointLight(0x3aa0ff, 2, 25);
 scene.add(glow);
 
-// ================= KEY INPUT =================
+// ================= INPUT =================
 const keys = {};
-
 document.addEventListener("keydown", e => keys[e.key.toLowerCase()] = true);
 document.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
 
 // ================= CAMERA =================
-camera.position.set(5, 8, 10);
+camera.position.set(0, 10, 12);
 
-// ================= ANIMATION =================
+// ================= UPDATE =================
 function animate() {
   requestAnimationFrame(animate);
 
   // ================= MOVEMENT =================
-  if (keys["w"]) crystal.position.z -= 0.15;
-  if (keys["s"]) crystal.position.z += 0.15;
-  if (keys["a"]) crystal.position.x -= 0.15;
-  if (keys["d"]) crystal.position.x += 0.15;
+  if (keys["w"]) crystal.position.z -= 0.2;
+  if (keys["s"]) crystal.position.z += 0.2;
+  if (keys["a"]) crystal.position.x -= 0.2;
+  if (keys["d"]) crystal.position.x += 0.2;
 
-  // smooth camera follow
-  camera.position.x += (crystal.position.x - camera.position.x) * 0.1;
-  camera.position.z += (crystal.position.z + 8 - camera.position.z) * 0.1;
+  // camera follow
+  camera.position.x += (crystal.position.x - camera.position.x) * 0.08;
+  camera.position.z += (crystal.position.z + 10 - camera.position.z) * 0.08;
   camera.lookAt(crystal.position);
 
-  // ================= GLOW FOLLOW =================
+  // glow follows player
   glow.position.copy(crystal.position);
 
-  // ================= CRYSTAL LIFE EFFECT =================
-  crystal.rotation.y += 0.02;
-  crystal.position.y = 2 + Math.sin(Date.now() * 0.003) * 0.5;
+  // floating crystal effect ✨
+  crystal.rotation.y += 0.03;
+  crystal.position.y = 2 + Math.sin(Date.now() * 0.003) * 0.4;
+
+  // ================= INTERACTION ZONES =================
+  const dCastle = crystal.position.distanceTo(castle.position);
+
+  if (dCastle < 4) {
+    console.log("🏰 Entering CV Castle: Projects / Physics / AI");
+  }
 
   renderer.render(scene, camera);
 }
