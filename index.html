@@ -2,284 +2,202 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Dark Physicist CV World v4</title>
-
+<title>DRAVYA Universe v1</title>
 <style>
-body {
-    margin: 0;
-    overflow: hidden;
-    background: black;
-    font-family: monospace;
+body { margin:0; overflow:hidden; background:#000; }
+#ui {
+    position:absolute;
+    top:10px;
+    left:10px;
+    z-index:10;
+    color:white;
+    font-family:Arial;
+    background:rgba(0,0,0,0.5);
+    padding:10px;
+    border-radius:10px;
 }
-
-#hud {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    color: #7df9ff;
-    font-size: 13px;
-    z-index: 10;
-    opacity: 0.85;
-}
-
-#panel {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    width: 360px;
-    padding: 12px;
-    background: rgba(0,0,0,0.65);
-    border: 1px solid #1ff0ff33;
-    color: #cfffff;
-    display: none;
-}
+button { margin:4px; padding:6px; }
 </style>
 </head>
-
 <body>
 
-<div id="hud">
-🧙 CV WORLD v4 — GOD MODE | WASD move | 1-4 spells
+<div id="ui">
+<button onclick="emitEM()">Emit EM Pulse</button>
+<button onclick="emitGW()">Trigger GW Event</button>
+<div id="readout">Detector: --</div>
 </div>
 
-<div id="panel"></div>
+<script type="module">
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160/build/three.module.js";
+import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.160/examples/jsm/controls/OrbitControls.js";
 
-<script>
-let scene, camera, renderer;
-let player;
-let buildings = [];
-let particles = [];
-let keys = {};
+// ---------------- SCENE ----------------
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x000010);
 
-const panel = document.getElementById("panel");
+const camera = new THREE.PerspectiveCamera(
+    60,
+    innerWidth/innerHeight,
+    0.1,
+    1000
+);
 
-init();
-animate();
+camera.position.set(0,20,40);
 
-function init(){
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(innerWidth,innerHeight);
+document.body.appendChild(renderer.domElement);
 
-    // 🌌 SCENE
-    scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(0x000000, 10, 90);
+const controls = new OrbitControls(camera, renderer.domElement);
 
-    // 🎥 CAMERA
-    camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
-    camera.position.set(0,3,10);
+// ---------------- LIGHT ----------------
+scene.add(new THREE.AmbientLight(0xffffff,0.4));
 
-    // 🎮 RENDERER
-    renderer = new THREE.WebGLRenderer({ antialias:true });
-    renderer.setSize(innerWidth, innerHeight);
-    document.body.appendChild(renderer.domElement);
+const sunLight = new THREE.PointLight(0xffaa33,2,200);
+scene.add(sunLight);
 
-    // 🌠 STAR FIELD (denser)
-    const geo = new THREE.BufferGeometry();
-    const arr = [];
+// ---------------- SUN ----------------
+const sunGeo = new THREE.SphereGeometry(2,32,32);
+const sunMat = new THREE.MeshBasicMaterial({color:0xffcc00});
+const sun = new THREE.Mesh(sunGeo,sunMat);
+scene.add(sun);
 
-    for(let i=0;i<3000;i++){
-        arr.push((Math.random()-0.5)*300);
-        arr.push((Math.random()-0.5)*300);
-        arr.push((Math.random()-0.5)*300);
-    }
+// ---------------- EARTH ----------------
+const earthGeo = new THREE.SphereGeometry(1,32,32);
+const earthMat = new THREE.MeshStandardMaterial({color:0x3399ff});
+const earth = new THREE.Mesh(earthGeo,earthMat);
+earth.position.set(15,0,0);
+scene.add(earth);
 
-    geo.setAttribute("position", new THREE.Float32BufferAttribute(arr,3));
+// ---------------- GRID (SPACETIME) ----------------
+const gridSize = 30;
+const divisions = 30;
 
-    const stars = new THREE.Points(
-        geo,
-        new THREE.PointsMaterial({ color: 0x88ffff, size: 0.12 })
-    );
+const grid = new THREE.GridHelper(gridSize, divisions, 0x4444ff, 0x222244);
+scene.add(grid);
 
-    scene.add(stars);
+// ---------------- WAVES ----------------
+let emWaves = [];
+let gwEvents = [];
 
-    // 🌍 GRID
-    const grid = new THREE.GridHelper(150, 70, 0x0ff0ff, 0x111111);
-    scene.add(grid);
-
-    // 🧙 PLAYER (wizard core form)
-    const geoP = new THREE.ConeGeometry(0.9, 2.2, 6);
-    const matP = new THREE.MeshBasicMaterial({
-        color: 0xffffff,
-        wireframe: true
-    });
-
-    player = new THREE.Mesh(geoP, matP);
-    player.position.set(0,1,6);
-    scene.add(player);
-
-    // ✨ AURA SYSTEM (fake glow field)
-    const auraGeo = new THREE.SphereGeometry(1.8, 16, 16);
-    const auraMat = new THREE.MeshBasicMaterial({
-        color: 0x00ffff,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.15
-    });
-
-    player.aura = new THREE.Mesh(auraGeo, auraMat);
-    player.add(player.aura);
-
-    // 🏛️ CV BUILDINGS
-    createBuilding("ABOUT", -14,0,0, "Identity of a physicist-builder.");
-    createBuilding("SKILLS", 14,0,0, "Python • ML • DL • Three.js • Physics systems.");
-    createBuilding("PROJECTS", 0,0,-20, "AI systems, simulations, quantum models.");
-    createBuilding("CONTACT", 0,0,20, "GitHub • Research • Collaboration portal");
-
-    window.addEventListener("keydown", onKeyDown);
-    window.addEventListener("keyup", onKeyUp);
-    window.addEventListener("resize", onResize);
-
-    // ⚡ intro pulse
-    intro();
+// ---------------- EM PULSE (rings in shader-like form) ----------------
+function emitEM(){
+    emWaves.push({t:performance.now()*0.001});
 }
 
-function intro(){
-
-    camera.position.set(0,25,50);
-
-    let t = 0;
-    const id = setInterval(()=>{
-
-        t += 0.03;
-
-        camera.position.y = 25 - t*15;
-        camera.position.z = 50 - t*35;
-
-        if(t>=1) clearInterval(id);
-
-    },16);
+// ---------------- GW EVENT ----------------
+function emitGW(){
+    gwEvents.push({t:performance.now()*0.001});
 }
 
-function createBuilding(name,x,y,z,desc){
+// ---------------- PHYSICS CONSTANTS ----------------
+const c = 1.0;
+const k = 2.0;
 
-    const geo = new THREE.BoxGeometry(3.5,8,3.5);
-    const mat = new THREE.MeshBasicMaterial({
-        color: 0x0ff0ff,
-        wireframe:true
-    });
-
-    const b = new THREE.Mesh(geo,mat);
-    b.position.set(x,y+4,z);
-    b.userData = { name, desc, active:false };
-
-    scene.add(b);
-    buildings.push(b);
+// EM FIELD
+function EM(r,t,t0){
+    let dt = t - t0;
+    return Math.sin(k*r - c*dt) / (1 + 0.1*r);
 }
 
-function spawnParticles(pos){
-
-    for(let i=0;i<20;i++){
-
-        const geo = new THREE.SphereGeometry(0.08,6,6);
-        const mat = new THREE.MeshBasicMaterial({ color: 0x7df9ff });
-
-        const p = new THREE.Mesh(geo,mat);
-
-        p.position.copy(pos);
-
-        p.velocity = new THREE.Vector3(
-            (Math.random()-0.5)*0.2,
-            (Math.random()-0.5)*0.2,
-            (Math.random()-0.5)*0.2
-        );
-
-        scene.add(p);
-        particles.push(p);
-    }
+// GW STRAIN
+function GW(r,t,t0){
+    let dt = t - t0;
+    return Math.sin(1.5*k*r - 0.7*c*dt) / (1 + 0.08*r);
 }
 
-function castSpell(id){
+// ---------------- RAYCAST DRAG ----------------
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
 
-    buildings.forEach(b=>{
+let dragging = false;
 
-        if(b.userData.name === id){
+window.addEventListener("mousedown",(e)=>{
+    mouse.x = (e.clientX/window.innerWidth)*2-1;
+    mouse.y = -(e.clientY/window.innerHeight)*2+1;
 
-            b.scale.set(1.5,1.5,1.5);
+    raycaster.setFromCamera(mouse,camera);
+    const hit = raycaster.intersectObject(earth);
 
-            panel.style.display = "block";
-            panel.innerHTML = `
-                <b style="color:#7df9ff">${b.userData.name}</b><br><br>
-                ${b.userData.desc}
-            `;
+    if(hit.length) dragging = true;
+});
 
-            spawnParticles(b.position);
-        }
-    });
-}
+window.addEventListener("mouseup",()=>dragging=false);
 
-function onKeyDown(e){
+window.addEventListener("mousemove",(e)=>{
+    if(!dragging) return;
 
-    keys[e.key.toLowerCase()] = true;
+    mouse.x = (e.clientX/window.innerWidth)*2-1;
+    mouse.y = -(e.clientY/window.innerHeight)*2+1;
 
-    switch(e.key){
-        case "1": castSpell("ABOUT"); break;
-        case "2": castSpell("SKILLS"); break;
-        case "3": castSpell("PROJECTS"); break;
-        case "4": castSpell("CONTACT"); break;
-    }
-}
+    raycaster.setFromCamera(mouse,camera);
 
-function onKeyUp(e){
-    keys[e.key.toLowerCase()] = false;
-}
+    const plane = new THREE.Plane(new THREE.Vector3(0,1,0),0);
+    const pos = new THREE.Vector3();
 
-function move(){
+    raycaster.ray.intersectPlane(plane,pos);
+    earth.position.copy(pos);
+});
 
-    const speed = 0.16;
+// ---------------- DETECTOR ----------------
+const readout = document.getElementById("readout");
 
-    if(keys["w"]) player.position.z -= speed;
-    if(keys["s"]) player.position.z += speed;
-    if(keys["a"]) player.position.x -= speed;
-    if(keys["d"]) player.position.x += speed;
-}
-
-function updateParticles(){
-
-    particles.forEach((p,i)=>{
-
-        p.position.add(p.velocity);
-        p.velocity.y -= 0.003;
-
-        if(p.position.length() > 50){
-            scene.remove(p);
-            particles.splice(i,1);
-        }
-    });
-}
-
-function cameraFollow(){
-
-    camera.position.x += (player.position.x - camera.position.x) * 0.06;
-    camera.position.z += (player.position.z + 10 - camera.position.z) * 0.06;
-    camera.position.y = 3.5;
-
-    camera.lookAt(player.position);
-}
-
+// ---------------- ANIMATION ----------------
 function animate(){
 
     requestAnimationFrame(animate);
 
-    move();
-    updateParticles();
-    cameraFollow();
+    let t = performance.now()*0.001;
 
-    // aura pulse
-    player.aura.scale.x = player.aura.scale.y = player.aura.scale.z =
-        1 + Math.sin(Date.now()*0.002)*0.2;
+    sun.rotation.y += 0.01;
 
-    buildings.forEach(b=>{
-        b.rotation.y += 0.002;
-    });
+    // EM effect visualization (scale sun glow)
+    sun.scale.setScalar(1 + 0.2*Math.sin(t*2));
 
+    // GRID DISTORTION (GW effect)
+    const pos = grid.geometry.attributes.position;
+
+    for(let i=0;i<pos.count;i++){
+
+        let x = pos.getX(i);
+        let z = pos.getZ(i);
+
+        let r = Math.sqrt(x*x + z*z);
+
+        let h = 0;
+
+        for(let g of gwEvents){
+            h += GW(r,t,g.t);
+        }
+
+        pos.setY(i, h*1.5);
+    }
+
+    pos.needsUpdate = true;
+
+    // DETECTOR SIGNAL AT EARTH
+    let signal = 0;
+
+    let r = earth.position.length();
+
+    for(let e of emWaves){
+        signal += EM(r,t,e.t);
+    }
+
+    for(let g of gwEvents){
+        signal += GW(r,t,g.t);
+    }
+
+    readout.innerHTML =
+        "Detector: " + signal.toFixed(4);
+
+    controls.update();
     renderer.render(scene,camera);
 }
 
-function onResize(){
-    camera.aspect = innerWidth/innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(innerWidth, innerHeight);
-}
+animate();
+
 </script>
 
 </body>
