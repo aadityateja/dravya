@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dravya Mountain Pixel World v1</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    background: #000;
+    font-family: monospace;
+}
+
+#ui {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #b6f7ff;
+    font-size: 13px;
+    z-index: 10;
+    opacity: 0.85;
+}
+
+canvas {
+    image-rendering: pixelated;
+}
+</style>
+</head>
+
+<body>
+
+<div id="ui">
+🧭 DRAVYA MOUNTAIN PIXEL WORLD<br>
+Move: Arrow Keys / WASD | Mouse Click Move
+</div>
+
+<script>
+const canvas = document.createElement("canvas");
+const ctx = canvas.getContext("2d");
+document.body.appendChild(canvas);
+
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+// 🧠 PLAYER
+let player = { x: 200, y: 300, speed: 2.2, tx: null, ty: null };
+
+// 🌲 WORLD OBJECTS
+const zones = [
+    { name:"🌊 Lake of Reflection", x:200, y:300, r:80, color:"#1e90ff" },
+    { name:"🌲 Forest Path", x:400, y:200, r:100, color:"#2ecc71" },
+    { name:"⛰️ Mountain Zone", x:700, y:150, r:120, color:"#95a5a6" },
+    { name:"🏰 Dravya Castle", x:950, y:180, r:130, color:"#7f8c8d" }
+];
+
+// 🎮 INPUT
+let keys = {};
+
+window.addEventListener("keydown", e=>keys[e.key.toLowerCase()] = true);
+window.addEventListener("keyup", e=>keys[e.key.toLowerCase()] = false);
+
+window.addEventListener("click", e=>{
+    player.tx = e.clientX;
+    player.ty = e.clientY;
+});
+
+// 🧭 MOVE SYSTEM
+function move(){
+
+    // keyboard
+    if(keys["arrowup"]||keys["w"]) player.y -= player.speed;
+    if(keys["arrowdown"]||keys["s"]) player.y += player.speed;
+    if(keys["arrowleft"]||keys["a"]) player.x -= player.speed;
+    if(keys["arrowright"]||keys["d"]) player.x += player.speed;
+
+    // mouse target
+    if(player.tx !== null){
+        let dx = player.tx - player.x;
+        let dy = player.ty - player.y;
+
+        player.x += dx * 0.03;
+        player.y += dy * 0.03;
+    }
+}
+
+// 🌌 DRAW WORLD
+function drawWorld(){
+
+    // sky gradient
+    const g = ctx.createLinearGradient(0,0,0,canvas.height);
+    g.addColorStop(0,"#02030a");
+    g.addColorStop(1,"#050816");
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    // zones
+    zones.forEach(z=>{
+
+        ctx.beginPath();
+        ctx.fillStyle = z.color + "33";
+        ctx.arc(z.x, z.y, z.r, 0, Math.PI*2);
+        ctx.fill();
+
+        ctx.fillStyle = "#b6f7ff";
+        ctx.fillText(z.name, z.x - 40, z.y - z.r - 10);
+    });
+
+    // lake shimmer effect
+    ctx.fillStyle = "rgba(0,150,255,0.1)";
+    ctx.beginPath();
+    ctx.arc(200,300,90 + Math.sin(Date.now()*0.002)*5,0,Math.PI*2);
+    ctx.fill();
+}
+
+// 🧍 PLAYER
+function drawPlayer(){
+
+    ctx.fillStyle = "#ffffff";
+    ctx.beginPath();
+    ctx.arc(player.x, player.y, 6, 0, Math.PI*2);
+    ctx.fill();
+
+    ctx.strokeStyle = "#7df9ff";
+    ctx.strokeRect(player.x-8, player.y-8, 16, 16);
+}
+
+// 🧠 DETECTION (CASTLE TRIGGER IDEA)
+function checkZones(){
+
+    zones.forEach(z=>{
+        let dx = player.x - z.x;
+        let dy = player.y - z.y;
+        let dist = Math.sqrt(dx*dx + dy*dy);
+
+        if(dist < z.r*0.5 && z.name.includes("Castle")){
+            ctx.fillStyle = "#ffffff";
+            ctx.fillText("🔥 DRAGON AWAKE (IMAGINED EVENT)", 50, 50);
+        }
+    });
+}
+
+// 🔁 LOOP
+function loop(){
+    move();
+    drawWorld();
+    drawPlayer();
+    checkZones();
+    requestAnimationFrame(loop);
+}
+
+loop();
+
+// resize
+window.addEventListener("resize", ()=>{
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+});
+</script>
+
+</body>
+</html>
