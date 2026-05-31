@@ -1,42 +1,18 @@
 body {
   margin: 0;
   overflow: hidden;
-  background: radial-gradient(circle at center, #050510, #000);
-  font-family: Arial;
+  background: #05060a;
+  font-family: monospace;
 }
 
-#world {
+#ui {
   position: absolute;
-  width: 3000px;
-  height: 100vh;
-}
-
-.zone {
-  position: absolute;
-  width: 400px;
-  height: 300px;
-  border: 2px solid rgba(0,255,255,0.3);
-  color: white;
-  padding: 20px;
-  font-size: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,255,255,0.05);
-  box-shadow: 0 0 20px rgba(0,255,255,0.2);
-}
-
-#start { left: 200px; top: 200px; }
-#about { left: 700px; top: 200px; }
-#education { left: 1200px; top: 200px; }
-#projects { left: 1700px; top: 200px; }
-#research { left: 2200px; top: 200px; }
-#skills { left: 2700px; top: 200px; }
-#contact { left: 3200px; top: 200px; }
-
-#player {
-  position: absolute;
-  left: 100px;
-  top: 300px;
-  font-size: 40px;
+  top: 10px;
+  left: 10px;
+  color: #d7c7ff;
+  background: rgba(0,0,0,0.4);
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  z-index: 10;
 }
