@@ -2,18 +2,228 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>DRAVYA: Echo of the Unseen</title>
-<link rel="stylesheet" href="style.css" />
+<title>DRAVYA World v1</title>
+<style>
+  body { margin: 0; overflow: hidden; background: black; }
+  canvas { display: block; }
+
+  #ui {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    font-family: monospace;
+    background: rgba(0,0,0,0.4);
+    padding: 10px;
+    border-radius: 8px;
+  }
+</style>
 </head>
 <body>
 
-<div id="ui">
-🏰 DRAVYA: ECHO OF THE UNSEEN<br/>
-WASD Move | Mouse Look | SPACE: Light Candle
-</div>
+<div id="ui">WASD to move</div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-<script src="world.js"></script>
+
+<script>
+// ================= SCENE =================
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x0b1020, 0.003);
+scene.background = new THREE.Color(0x87b5ff);
+
+// ================= CAMERA =================
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+
+// ================= RENDERER =================
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// ================= LIGHT =================
+scene.add(new THREE.AmbientLight(0x666666));
+
+const dir = new THREE.DirectionalLight(0xffffff, 1);
+dir.position.set(10, 20, 10);
+scene.add(dir);
+
+// ================= GROUND =================
+const ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(200, 200),
+  new THREE.MeshStandardMaterial({ color: 0x1c2d1c })
+);
+ground.rotation.x = -Math.PI / 2;
+scene.add(ground);
+
+// ================= PLAYER =================
+const player = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 2, 1),
+  new THREE.MeshStandardMaterial({ color: 0xffcc66 })
+);
+player.position.y = 1;
+scene.add(player);
+
+// ================= CASTLE =================
+const castle = new THREE.Mesh(
+  new THREE.BoxGeometry(8, 6, 8),
+  new THREE.MeshStandardMaterial({ color: 0x888888 })
+);
+castle.position.set(20, 3, -20);
+scene.add(castle);
+
+// ================= RIVER =================
+const river = new THREE.Mesh(
+  new THREE.PlaneGeometry(5, 80),
+  new THREE.MeshStandardMaterial({ color: 0x1e5eff })
+);
+river.rotation.x = -Math.PI / 2;
+river.position.set(-10, 0.01, 0);
+scene.add(river);
+
+// ================= FOREST =================
+for (let i = 0; i < 30; i++) {
+  const tree = new THREE.Mesh(
+    new THREE.ConeGeometry(0.8, 2, 6),
+    new THREE.MeshStandardMaterial({ color: 0x145a32 })
+  );
+  tree.position.set(
+    (Math.random() - 0.5) * 60,
+    1,
+    (Math.random() - 0.5) * 60
+  );
+  scene.add(tree);
+}
+
+// ================= CRYSTAL =================
+const crystal = new THREE.Mesh(
+  new THREE.OctahedronGeometry(1),
+  new THREE.MeshStandardMaterial({
+    color: 0x3aa0ff,
+    emissive: 0x1a4fff
+  })
+);
+crystal.position.set(-20, 1, -10);
+scene.add(crystal);
+
+// ================= STARS =================
+const starGeometry = new THREE.BufferGeometry();
+const starCount = 300;
+const starPositions = [];
+
+for (let i = 0; i < starCount; i++) {
+  starPositions.push(
+    (Math.random() - 0.5) * 400,
+    Math.random() * 200 + 50,
+    (Math.random() - 0.5) * 400
+  );
+}
+
+starGeometry.setAttribute(
+  "position",
+  new THREE.Float32BufferAttribute(starPositions, 3)
+);
+
+const stars = new THREE.Points(
+  starGeometry,
+  new THREE.PointsMaterial({ color: 0xffffff, size: 0.5 })
+);
+
+scene.add(stars);
+
+// ================= CLOUDS =================
+const clouds = [];
+
+for (let i = 0; i < 15; i++) {
+  const cloud = new THREE.Mesh(
+    new THREE.SphereGeometry(2 + Math.random() * 2, 6, 6),
+    new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.4
+    })
+  );
+
+  cloud.position.set(
+    (Math.random() - 0.5) * 200,
+    25 + Math.random() * 10,
+    (Math.random() - 0.5) * 200
+  );
+
+  scene.add(cloud);
+  clouds.push(cloud);
+}
+
+// ================= CONTROLS =================
+const keys = {};
+document.addEventListener("keydown", e => keys[e.key.toLowerCase()] = true);
+document.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
+
+// ================= UI =================
+const ui = document.getElementById("ui");
+
+function showUI(text) {
+  ui.innerHTML = text;
+}
+
+// ================= UPDATE =================
+function update() {
+
+  // movement
+  if (keys["w"]) player.position.z -= 0.2;
+  if (keys["s"]) player.position.z += 0.2;
+  if (keys["a"]) player.position.x -= 0.2;
+  if (keys["d"]) player.position.x += 0.2;
+
+  // camera follow
+  camera.position.x = player.position.x;
+  camera.position.z = player.position.z + 10;
+  camera.position.y = 8;
+  camera.lookAt(player.position);
+
+  // interactions
+  const dCastle = player.position.distanceTo(castle.position);
+  const dCrystal = player.position.distanceTo(crystal.position);
+
+  if (dCastle < 3) {
+    showUI("🏰 Castle: Research Hub / Physics / AI / Projects");
+  } else if (dCrystal < 2) {
+    showUI("💎 DRAVYA MODE: spacetime abstraction activated");
+  } else {
+    showUI("WASD to move | Explore the world 🌍");
+  }
+}
+
+// ================= LOOP =================
+function animate() {
+  requestAnimationFrame(animate);
+
+  update();
+
+  // cloud movement
+  clouds.forEach(c => {
+    c.position.x += 0.02;
+    if (c.position.x > 100) c.position.x = -100;
+  });
+
+  // star rotation
+  stars.rotation.y += 0.0003;
+
+  renderer.render(scene, camera);
+}
+
+animate();
+
+// ================= RESIZE =================
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
 
 </body>
 </html>
