@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZDC Geometry Lab</title>
+
+<style>
+html,body{
+    margin:0;
+    overflow:hidden;
+    background:black;
+    font-family:Arial,sans-serif;
+}
+
+canvas{
+    display:block;
+}
+
+#panel{
+    position:absolute;
+    top:20px;
+    left:20px;
+    color:white;
+    background:rgba(0,0,0,0.7);
+    padding:15px;
+    border-radius:10px;
+    min-width:260px;
+    z-index:10;
+}
+
+#panel h2{
+    margin-top:0;
+}
+
+.key{
+    color:#00ffff;
+}
+
+#footer{
+    position:absolute;
+    bottom:20px;
+    left:20px;
+    color:white;
+    background:rgba(0,0,0,0.6);
+    padding:10px;
+    border-radius:8px;
+}
+</style>
+</head>
+<body>
+
+<div id="panel">
+    <h2>⚛ ZDC Geometry Lab</h2>
+
+    <div>Theta θ: <span id="thetaVal">20</span>°</div>
+    <div>Phi φ: <span id="phiVal">0</span>°</div>
+    <div>Eta η: <span id="etaVal">0</span></div>
+
+    <hr>
+
+    <div>
+        ↑ ↓ : Theta<br>
+        ← → : Phi<br><br>
+
+        <span class="key">1</span> Central Detector<br>
+        <span class="key">2</span> Forward Region<br>
+        <span class="key">3</span> ZDC Region
+    </div>
+</div>
+
+<div id="footer">
+    Interaction Point ● → Beamline → ZDC
+</div>
+
+<script type="module">
+
+import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+import { OrbitControls }
+from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(
+60,
+window.innerWidth/window.innerHeight,
+0.1,
+2000
+);
+
+camera.position.set(80,50,120);
+
+const renderer = new THREE.WebGLRenderer({
+antialias:true
+});
+
+renderer.setSize(
+window.innerWidth,
+window.innerHeight
+);
+
+renderer.setPixelRatio(
+window.devicePixelRatio
+);
+
+document.body.appendChild(
+renderer.domElement
+);
+
+const controls =
+new OrbitControls(
+camera,
+renderer.domElement
+);
+
+controls.enableDamping = true;
+
+scene.add(
+new THREE.AmbientLight(
+0xffffff,
+1
+)
+);
+
+const light =
+new THREE.PointLight(
+0xffffff,
+3
+);
+
+light.position.set(
+100,
+100,
+100
+);
+
+scene.add(light);
+
+
+
+
+
+// STARFIELD
+
+const starGeo =
+new THREE.BufferGeometry();
+
+const starPositions=[];
+
+for(let i=0;i<8000;i++){
+
+starPositions.push(
+(Math.random()-0.5)*3000,
+(Math.random()-0.5)*3000,
+(Math.random()-0.5)*3000
+);
+
+}
+
+starGeo.setAttribute(
+"position",
+new THREE.Float32BufferAttribute(
+starPositions,
+3
+)
+);
+
+const stars =
+new THREE.Points(
+starGeo,
+new THREE.PointsMaterial({
+size:2,
+color:"white"
+})
+);
+
+scene.add(stars);
+
+
+
+
+// INTERACTION POINT
+
+const ip =
+new THREE.Mesh(
+new THREE.SphereGeometry(
+2,
+32,
+32
+),
+new THREE.MeshBasicMaterial({
+color:0xffffff
+})
+);
+
+scene.add(ip);
+
+
+
+
+// DETECTOR GROUP
+
+const detectorGroup =
+new THREE.Group();
+
+scene.add(detectorGroup);
+
+function addLayer(
+radius,
+length,
+color
+){
+
+const mesh =
+new THREE.Mesh(
+
+new THREE.CylinderGeometry(
+radius,
+radius,
+length,
+64,
+1,
+true
+),
+
+new THREE.MeshBasicMaterial({
+wireframe:true,
+transparent:true,
+opacity:0.3,
+color
+})
+
+);
+
+mesh.rotation.z =
+Math.PI/2;
+
+detectorGroup.add(mesh);
+
+}
+
+addLayer(8,120,0xffffff);
+addLayer(18,120,0x00ffff);
+addLayer(30,120,0xff00ff);
+
+
+
+
+// BEAMLINE
+
+const beamline =
+new THREE.Mesh(
+
+new THREE.CylinderGeometry(
+0.4,
+0.4,
+600,
+16
+),
+
+new THREE.MeshBasicMaterial({
+color:0xffff00
+})
+
+);
+
+beamline.rotation.z =
+Math.PI/2;
+
+scene.add(beamline);
+
+
+
+
+// ZDC
+
+const zdc =
+new THREE.Mesh(
+
+new THREE.BoxGeometry(
+10,
+10,
+10
+),
+
+new THREE.MeshBasicMaterial({
+color:0xff00ff
+})
+
+);
+
+zdc.position.set(
+0,
+0,
+250
+);
+
+scene.add(zdc);
+
+
+
+
+// THETA ARC
+
+const thetaRing =
+new THREE.Mesh(
+
+new THREE.TorusGeometry(
+25,
+0.15,
+12,
+100
+),
+
+new THREE.MeshBasicMaterial({
+color:0x00ff00
+})
+
+);
+
+thetaRing.rotation.y =
+Math.PI/2;
+
+scene.add(thetaRing);
+
+
+
+
+// TRACK
+
+const trackMaterial =
+new THREE.MeshBasicMaterial({
+color:0x00ffff
+});
+
+const track =
+new THREE.Mesh(
+
+new THREE.CylinderGeometry(
+0.3,
+0.3,
+100,
+12
+),
+
+trackMaterial
+
+);
+
+scene.add(track);
+
+
+
+
+// TRACK END
+
+const endpoint =
+new THREE.Mesh(
+
+new THREE.SphereGeometry(
+1.5,
+16,
+16
+),
+
+new THREE.MeshBasicMaterial({
+color:0x00ffff
+})
+
+);
+
+scene.add(endpoint);
+
+
+
+
+// PHYSICS
+
+let thetaDeg = 20;
+let phiDeg = 0;
+
+function thetaToEta(thetaDeg){
+
+const theta =
+thetaDeg *
+Math.PI /
+180;
+
+return -Math.log(
+Math.tan(
+theta/2
+)
+);
+
+}
+
+function updateTrack(){
+
+const theta =
+THREE.MathUtils.degToRad(
+thetaDeg
+);
+
+const phi =
+THREE.MathUtils.degToRad(
+phiDeg
+);
+
+const dir =
+new THREE.Vector3(
+
+Math.sin(theta) *
+Math.cos(phi),
+
+Math.sin(theta) *
+Math.sin(phi),
+
+Math.cos(theta)
+
+);
+
+const end =
+dir.clone()
+.multiplyScalar(
+80
+);
+
+endpoint.position.copy(end);
+
+track.position.copy(
+end.clone()
+.multiplyScalar(0.5)
+);
+
+track.quaternion.setFromUnitVectors(
+new THREE.Vector3(
+0,
+1,
+0
+),
+dir
+);
+
+document.getElementById(
+"thetaVal"
+).innerText =
+thetaDeg.toFixed(1);
+
+document.getElementById(
+"phiVal"
+).innerText =
+phiDeg.toFixed(1);
+
+document.getElementById(
+"etaVal"
+).innerText =
+thetaToEta(
+thetaDeg
+).toFixed(3);
+
+}
+
+updateTrack();
+
+
+
+
+// CONTROLS
+
+window.addEventListener(
+"keydown",
+(e)=>{
+
+if(e.key==="ArrowUp"){
+thetaDeg =
+Math.max(
+0.5,
+thetaDeg-1
+);
+}
+
+if(e.key==="ArrowDown"){
+thetaDeg =
+Math.min(
+179,
+thetaDeg+1
+);
+}
+
+if(e.key==="ArrowLeft"){
+phiDeg -= 5;
+}
+
+if(e.key==="ArrowRight"){
+phiDeg += 5;
+}
+
+if(e.key==="1"){
+thetaDeg = 90;
+}
+
+if(e.key==="2"){
+thetaDeg = 10;
+}
+
+if(e.key==="3"){
+thetaDeg = 1;
+}
+
+updateTrack();
+
+}
+);
+
+
+
+
+// ANIMATION
+
+const clock =
+new THREE.Clock();
+
+function animate(){
+
+requestAnimationFrame(
+animate
+);
+
+const t =
+clock.getElapsedTime();
+
+detectorGroup.rotation.y =
+t*0.2;
+
+ip.scale.setScalar(
+1 +
+Math.sin(t*4)*0.2
+);
+
+controls.update();
+
+renderer.render(
+scene,
+camera
+);
+
+}
+
+animate();
+
+window.addEventListener(
+"resize",
+()=>{
+
+camera.aspect =
+window.innerWidth/
+window.innerHeight;
+
+camera.updateProjectionMatrix();
+
+renderer.setSize(
+window.innerWidth,
+window.innerHeight
+);
+
+}
+);
+
+</script>
+
+</body>
+</html>
