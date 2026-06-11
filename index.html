@@ -1,355 +1,145 @@
-import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
-import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js?module";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ZDC Theta-Azimuth Visualizer</title>
 
-/* ================= SCENE ================= */
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0b0f1a;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x000000);
+    h2 {
+        margin: 10px;
+        color: #00d4ff;
+    }
 
-const camera = new THREE.PerspectiveCamera(
-  60,
-  window.innerWidth/window.innerHeight,
-  0.1,
-  1000
-);
+    canvas {
+        background: radial-gradient(circle, #111 0%, #05070d 100%);
+        border: 1px solid #1f2a44;
+        margin-top: 10px;
+    }
 
-camera.position.set(0,8,25);
+    .info {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #aaa;
+    }
 
-const renderer = new THREE.WebGLRenderer({
-  antialias:true
-});
+    button {
+        margin-top: 10px;
+        padding: 8px 14px;
+        border: none;
+        background: #00d4ff;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 5px;
+    }
 
-renderer.setSize(window.innerWidth,window.innerHeight);
-document.body.appendChild(renderer.domElement);
+    button:hover {
+        background: #00aacc;
+    }
+</style>
+</head>
 
-const controls = new OrbitControls(
-  camera,
-  renderer.domElement
-);
+<body>
 
-controls.enableDamping = true;
+<h2>ZDC θ–φ Event Display</h2>
 
-/* ================= LIGHTS ================= */
+<canvas id="detector" width="600" height="600"></canvas>
 
-scene.add(
-  new THREE.AmbientLight(0xffffff,0.7)
-);
+<button onclick="generateEvent()">Generate Event</button>
 
-const sun = new THREE.DirectionalLight(
-  0xffffff,
-  1
-);
+<div class="info" id="info">Click generate to simulate hits</div>
 
-sun.position.set(10,20,10);
-scene.add(sun);
+<script>
+const canvas = document.getElementById("detector");
+const ctx = canvas.getContext("2d");
 
-/* ================= AXES ================= */
+const W = canvas.width;
+const H = canvas.height;
+const centerX = W / 2;
+const centerY = H / 2;
+const radius = 250;
 
-scene.add(new THREE.AxesHelper(10));
-
-/* ================= ORIGIN ================= */
-
-const origin = new THREE.Mesh(
-  new THREE.SphereGeometry(0.25,16,16),
-  new THREE.MeshBasicMaterial({
-    color:0xffffff
-  })
-);
-
-scene.add(origin);
-
-/* ================= DETECTOR CYLINDER ================= */
-
-const detector = new THREE.Mesh(
-  new THREE.CylinderGeometry(
-    8,
-    8,
-    30,
-    64,
-    1,
-    true
-  ),
-  new THREE.MeshPhongMaterial({
-    color:0x555555,
-    transparent:true,
-    opacity:0.15,
-    side:THREE.DoubleSide
-  })
-);
-
-detector.rotation.x = Math.PI/2;
-scene.add(detector);
-
-/* ================= HELPERS ================= */
-
-function thetaFromEta(eta){
-  return 2*Math.atan(Math.exp(-eta));
+// convert theta, phi → 2D projection (simple physics-inspired mapping)
+function project(theta, phi) {
+    // theta: 0 → forward beam, small angles typical in ZDC
+    const r = (theta / 0.3) * radius; // scale factor
+    const x = centerX + r * Math.cos(phi);
+    const y = centerY + r * Math.sin(phi);
+    return {x, y};
 }
 
-let activeObject = null;
-let activeTrack = null;
-let activeHit = null;
+function drawGrid() {
+    ctx.clearRect(0, 0, W, H);
 
-function clearObjects(){
+    // circles
+    for (let i = 1; i <= 4; i++) {
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, (radius * i) / 4, 0, Math.PI * 2);
+        ctx.strokeStyle = "#1f2a44";
+        ctx.stroke();
+    }
 
-  if(activeObject){
-    scene.remove(activeObject);
-    activeObject.geometry.dispose();
-  }
-
-  if(activeTrack){
-    scene.remove(activeTrack);
-  }
-
-  if(activeHit){
-    scene.remove(activeHit);
-  }
+    // cross lines
+    ctx.strokeStyle = "#1f2a44";
+    ctx.beginPath();
+    ctx.moveTo(centerX, 0);
+    ctx.lineTo(centerX, H);
+    ctx.moveTo(0, centerY);
+    ctx.lineTo(W, centerY);
+    ctx.stroke();
 }
 
-/* ================= ETA CONE ================= */
+// fake ZDC hit generator (replace with your parquet later)
+function generateHits() {
+    let hits = [];
+    let n = 30;
 
-function createEtaCone(eta){
+    for (let i = 0; i < n; i++) {
+        let theta = Math.random() * 0.25; // small-angle ZDC region
+        let phi = Math.random() * Math.PI * 2;
+        let energy = Math.random() * 10;
 
-  const theta = thetaFromEta(eta);
-
-  const geo = new THREE.ConeGeometry(
-    15*Math.tan(theta),
-    15,
-    64,
-    1,
-    true
-  );
-
-  const mat = new THREE.MeshBasicMaterial({
-    color:0x00ffff,
-    wireframe:true
-  });
-
-  const cone = new THREE.Mesh(geo,mat);
-
-  cone.rotation.x = Math.PI/2;
-  cone.position.z = 7.5;
-
-  return cone;
+        hits.push({theta, phi, energy});
+    }
+    return hits;
 }
 
-/* ================= THETA CONE ================= */
+function drawHits(hits) {
+    hits.forEach(h => {
+        const p = project(h.theta, h.phi);
 
-function createThetaCone(thetaDeg){
+        const intensity = Math.min(255, h.energy * 25);
+        const color = `rgb(${intensity}, ${255 - intensity}, 255)`;
 
-  const theta =
-    THREE.MathUtils.degToRad(thetaDeg);
-
-  const geo = new THREE.ConeGeometry(
-    15*Math.tan(theta),
-    15,
-    64,
-    1,
-    true
-  );
-
-  const mat = new THREE.MeshBasicMaterial({
-    color:0xffaa00,
-    wireframe:true
-  });
-
-  const cone = new THREE.Mesh(geo,mat);
-
-  cone.rotation.x = Math.PI/2;
-  cone.position.z = 7.5;
-
-  return cone;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 4 + h.energy * 0.3, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+    });
 }
 
-/* ================= PHI PLANE ================= */
+function generateEvent() {
+    drawGrid();
+    const hits = generateHits();
+    drawHits(hits);
 
-function createPhiPlane(phiDeg){
-
-  const phi =
-    THREE.MathUtils.degToRad(phiDeg);
-
-  const plane = new THREE.Mesh(
-
-    new THREE.PlaneGeometry(
-      25,
-      25
-    ),
-
-    new THREE.MeshBasicMaterial({
-      color:0xff00ff,
-      transparent:true,
-      opacity:0.25,
-      side:THREE.DoubleSide
-    })
-  );
-
-  plane.rotation.z = phi;
-
-  return plane;
+    document.getElementById("info").innerText =
+        `Hits: ${hits.length} | Theta range: ZDC forward region | Energy scaled display`;
 }
 
-/* ================= TRACK ================= */
+// initial draw
+drawGrid();
+</script>
 
-function drawTrack(theta,phi){
-
-  const dir = new THREE.Vector3(
-
-    Math.sin(theta)*Math.cos(phi),
-
-    Math.sin(theta)*Math.sin(phi),
-
-    Math.cos(theta)
-
-  );
-
-  activeTrack = new THREE.ArrowHelper(
-    dir,
-    new THREE.Vector3(0,0,0),
-    20,
-    0xffffff
-  );
-
-  scene.add(activeTrack);
-
-  const t = 8 / Math.sqrt(
-    dir.x*dir.x + dir.y*dir.y
-  );
-
-  const hitPos = dir.clone()
-    .multiplyScalar(t);
-
-  activeHit = new THREE.Mesh(
-
-    new THREE.SphereGeometry(
-      0.4,
-      20,
-      20
-    ),
-
-    new THREE.MeshBasicMaterial({
-      color:0xffff00
-    })
-
-  );
-
-  activeHit.position.copy(hitPos);
-
-  scene.add(activeHit);
-}
-
-/* ================= UI ================= */
-
-let mode = "eta";
-
-document.getElementById("etaBtn")
-.onclick=()=>mode="eta";
-
-document.getElementById("thetaBtn")
-.onclick=()=>mode="theta";
-
-document.getElementById("phiBtn")
-.onclick=()=>mode="phi";
-
-document.getElementById("showBtn")
-.onclick=()=>{
-
-  clearObjects();
-
-  const value =
-    parseFloat(
-      document.getElementById(
-        "valueInput"
-      ).value
-    );
-
-  if(mode==="eta"){
-
-    activeObject =
-      createEtaCone(value);
-
-    scene.add(activeObject);
-
-    const theta =
-      thetaFromEta(value);
-
-    drawTrack(theta,0);
-  }
-
-  if(mode==="theta"){
-
-    activeObject =
-      createThetaCone(value);
-
-    scene.add(activeObject);
-
-    drawTrack(
-      THREE.MathUtils.degToRad(value),
-      0
-    );
-  }
-
-  if(mode==="phi"){
-
-    activeObject =
-      createPhiPlane(value);
-
-    scene.add(activeObject);
-
-    drawTrack(
-      THREE.MathUtils.degToRad(45),
-      THREE.MathUtils.degToRad(value)
-    );
-  }
-};
-
-/* ================= ANIMATE ================= */
-
-function animate(){
-
-  requestAnimationFrame(
-    animate
-  );
-
-  controls.update();
-
-  if(activeHit){
-
-    const scale =
-      1 +
-      0.25 *
-      Math.sin(
-        performance.now()*0.01
-      );
-
-    activeHit.scale.setScalar(
-      scale
-    );
-  }
-
-  renderer.render(
-    scene,
-    camera
-  );
-}
-
-animate();
-
-/* ================= RESIZE ================= */
-
-window.addEventListener(
-  "resize",
-  ()=>{
-
-    camera.aspect =
-      window.innerWidth/
-      window.innerHeight;
-
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(
-      window.innerWidth,
-      window.innerHeight
-    );
-
-  }
-);
+</body>
+</html>
