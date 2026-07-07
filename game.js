@@ -1,19 +1,20 @@
-// =============================
+// =====================================
 // XPLORIUM
-// Basic Space Flight Prototype
-// =============================
+// Pseudo 3D Space Flight Engine
+// =====================================
 
 
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
+const canvas=document.getElementById("game");
+
+const ctx=canvas.getContext("2d");
 
 
-// Screen size
 
 function resize(){
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+canvas.width=window.innerWidth;
+
+canvas.height=window.innerHeight;
 
 }
 
@@ -23,137 +24,220 @@ window.addEventListener("resize",resize);
 
 
 
-// =============================
-// Keyboard Controls
-// =============================
 
-let keys = {};
-
-window.addEventListener("keydown", function(e){
-
-    keys[e.key] = true;
-
-});
+// =====================================
+// INPUT
+// =====================================
 
 
-window.addEventListener("keyup", function(e){
+let keys={};
 
-    keys[e.key] = false;
+
+window.addEventListener("keydown",e=>{
+
+keys[e.key]=true;
 
 });
 
 
+window.addEventListener("keyup",e=>{
 
-// =============================
-// Spaceship
-// =============================
+keys[e.key]=false;
 
-let ship = {
+});
 
-    x: canvas.width/2,
-    y: canvas.height-150,
 
-    speed:6
+
+
+// =====================================
+// PLAYER
+// =====================================
+
+
+let ship={
+
+x:0,
+
+y:0,
+
+speed:0,
+
+maxSpeed:20,
+
+acceleration:0.15,
+
+};
+
+
+let camera={
+
+z:0
 
 };
 
 
 
-// =============================
-// Stars
-// =============================
+
+// =====================================
+// STAR FIELD
+// =====================================
+
 
 let stars=[];
 
 
-for(let i=0;i<200;i++){
+function createStars(){
 
-    stars.push({
+stars=[];
 
-        x:Math.random()*canvas.width,
 
-        y:Math.random()*canvas.height,
+for(let i=0;i<500;i++){
 
-        speed:Math.random()*4+1
+stars.push({
 
-    });
+x:(Math.random()-0.5)*2000,
+
+y:(Math.random()-0.5)*2000,
+
+z:Math.random()*2000+50
+
+});
+
+
+}
+
+}
+
+
+createStars();
+
+
+
+
+
+// =====================================
+// 3D PROJECTION
+// =====================================
+
+
+function project(object){
+
+
+
+let scale=500/object.z;
+
+
+
+return{
+
+x:
+canvas.width/2
++
+object.x*scale,
+
+
+y:
+canvas.height/2
++
+object.y*scale,
+
+
+size:
+scale*3
+
+};
+
 
 }
 
 
 
-// =============================
-// Update
-// =============================
+
+
+// =====================================
+// UPDATE
+// =====================================
+
 
 function update(){
 
 
-    // Ship movement
 
-    if(keys["ArrowLeft"]){
+// accelerate forward
 
-        ship.x -= ship.speed;
+if(keys["ArrowUp"] || keys["w"]){
 
-    }
+ship.speed+=ship.acceleration;
 
-
-    if(keys["ArrowRight"]){
-
-        ship.x += ship.speed;
-
-    }
+}
 
 
-    if(keys["ArrowUp"]){
+// brake
 
-        ship.y -= ship.speed;
+if(keys["ArrowDown"] || keys["s"]){
 
-    }
+ship.speed-=ship.acceleration;
 
-
-    if(keys["ArrowDown"]){
-
-        ship.y += ship.speed;
-
-    }
+}
 
 
 
-    // Keep ship inside screen
+ship.speed=Math.max(
 
-    ship.x=Math.max(
-        20,
-        Math.min(canvas.width-20,ship.x)
-    );
+0,
 
+Math.min(ship.maxSpeed,ship.speed)
 
-    ship.y=Math.max(
-        20,
-        Math.min(canvas.height-20,ship.y)
-    );
+);
 
 
 
-    // Star movement
 
-    stars.forEach(function(star){
-
-
-        star.y += star.speed;
+// left right movement
 
 
+if(keys["ArrowLeft"] || keys["a"]){
 
-        if(star.y > canvas.height){
+ship.x-=8;
 
-            star.y=0;
-
-            star.x=Math.random()*canvas.width;
-
-        }
+}
 
 
-    });
+
+if(keys["ArrowRight"] || keys["d"]){
+
+ship.x+=8;
+
+}
+
+
+
+
+
+// move universe toward us
+
+
+stars.forEach(star=>{
+
+
+star.z-=ship.speed;
+
+
+
+// passed camera
+
+if(star.z<1){
+
+star.z=2000;
+
+star.x=(Math.random()-0.5)*2000;
+
+star.y=(Math.random()-0.5)*2000;
+
+}
+
+
+});
 
 
 
@@ -161,92 +245,140 @@ function update(){
 
 
 
-// =============================
-// Draw
-// =============================
+
+
+// =====================================
+// DRAW
+// =====================================
+
 
 function draw(){
 
 
-    // Background
 
-    ctx.fillStyle="black";
+ctx.fillStyle="black";
 
-    ctx.fillRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
+ctx.fillRect(
 
+0,
 
+0,
 
-    // Stars
+canvas.width,
 
-    ctx.fillStyle="white";
+canvas.height
 
-
-    stars.forEach(function(star){
-
-        ctx.beginPath();
-
-        ctx.arc(
-            star.x,
-            star.y,
-            2,
-            0,
-            Math.PI*2
-        );
-
-        ctx.fill();
-
-    });
+);
 
 
 
-    // Ship
 
-    ctx.save();
-
-
-    ctx.translate(
-        ship.x,
-        ship.y
-    );
+// draw stars
 
 
+stars.forEach(star=>{
 
-    // glow
 
-    ctx.shadowColor="#00ffff";
-
-    ctx.shadowBlur=20;
+let p=project(star);
 
 
 
-    ctx.fillStyle="#00ffff";
+ctx.beginPath();
 
 
-    ctx.beginPath();
+ctx.fillStyle="white";
 
 
-    ctx.moveTo(0,-40);
+ctx.arc(
 
-    ctx.lineTo(25,30);
+p.x,
 
-    ctx.lineTo(0,15);
+p.y,
 
-    ctx.lineTo(-25,30);
+p.size,
+
+0,
+
+Math.PI*2
+
+);
 
 
-    ctx.closePath();
-
-
-    ctx.fill();
+ctx.fill();
 
 
 
-    ctx.restore();
+});
+
+
+
+
+// draw ship
+
+
+ctx.save();
+
+
+ctx.translate(
+
+canvas.width/2,
+
+canvas.height-120
+
+);
+
+
+
+ctx.shadowColor="#00ffff";
+
+ctx.shadowBlur=30;
+
+
+ctx.fillStyle="#00ffff";
+
+
+
+ctx.beginPath();
+
+
+ctx.moveTo(0,-40);
+
+ctx.lineTo(30,40);
+
+ctx.lineTo(0,20);
+
+ctx.lineTo(-30,40);
+
+
+ctx.closePath();
+
+
+ctx.fill();
+
+
+
+ctx.restore();
+
+
+
+
+// HUD
+
+
+ctx.fillStyle="white";
+
+ctx.font="22px Arial";
+
+
+ctx.fillText(
+
+"SPEED : "+ship.speed.toFixed(1),
+
+30,
+
+40
+
+);
 
 
 
@@ -254,23 +386,26 @@ function draw(){
 
 
 
-// =============================
-// Game Loop
-// =============================
 
 
-function gameLoop(){
+
+// =====================================
+// LOOP
+// =====================================
 
 
-    update();
-
-    draw();
+function loop(){
 
 
-    requestAnimationFrame(gameLoop);
+update();
+
+draw();
+
+
+requestAnimationFrame(loop);
 
 
 }
 
 
-gameLoop();
+loop();
