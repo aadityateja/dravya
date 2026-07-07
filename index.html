@@ -1,145 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>ZDC Theta-Azimuth Visualizer</title>
 
-<style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #0b0f1a;
-        color: white;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+    <title>Xplorium</title>
 
-    h2 {
-        margin: 10px;
-        color: #00d4ff;
-    }
+    <link rel="stylesheet" href="style.css">
 
-    canvas {
-        background: radial-gradient(circle, #111 0%, #05070d 100%);
-        border: 1px solid #1f2a44;
-        margin-top: 10px;
-    }
-
-    .info {
-        margin-top: 10px;
-        font-size: 14px;
-        color: #aaa;
-    }
-
-    button {
-        margin-top: 10px;
-        padding: 8px 14px;
-        border: none;
-        background: #00d4ff;
-        color: black;
-        font-weight: bold;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-
-    button:hover {
-        background: #00aacc;
-    }
-</style>
 </head>
 
 <body>
 
-<h2>ZDC θ–φ Event Display</h2>
+<canvas id="gameCanvas"></canvas>
 
-<canvas id="detector" width="600" height="600"></canvas>
 
-<button onclick="generateEvent()">Generate Event</button>
-
-<div class="info" id="info">Click generate to simulate hits</div>
-
-<script>
-const canvas = document.getElementById("detector");
-const ctx = canvas.getContext("2d");
-
-const W = canvas.width;
-const H = canvas.height;
-const centerX = W / 2;
-const centerY = H / 2;
-const radius = 250;
-
-// convert theta, phi → 2D projection (simple physics-inspired mapping)
-function project(theta, phi) {
-    // theta: 0 → forward beam, small angles typical in ZDC
-    const r = (theta / 0.3) * radius; // scale factor
-    const x = centerX + r * Math.cos(phi);
-    const y = centerY + r * Math.sin(phi);
-    return {x, y};
-}
-
-function drawGrid() {
-    ctx.clearRect(0, 0, W, H);
-
-    // circles
-    for (let i = 1; i <= 4; i++) {
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, (radius * i) / 4, 0, Math.PI * 2);
-        ctx.strokeStyle = "#1f2a44";
-        ctx.stroke();
-    }
-
-    // cross lines
-    ctx.strokeStyle = "#1f2a44";
-    ctx.beginPath();
-    ctx.moveTo(centerX, 0);
-    ctx.lineTo(centerX, H);
-    ctx.moveTo(0, centerY);
-    ctx.lineTo(W, centerY);
-    ctx.stroke();
-}
-
-// fake ZDC hit generator (replace with your parquet later)
-function generateHits() {
-    let hits = [];
-    let n = 30;
-
-    for (let i = 0; i < n; i++) {
-        let theta = Math.random() * 0.25; // small-angle ZDC region
-        let phi = Math.random() * Math.PI * 2;
-        let energy = Math.random() * 10;
-
-        hits.push({theta, phi, energy});
-    }
-    return hits;
-}
-
-function drawHits(hits) {
-    hits.forEach(h => {
-        const p = project(h.theta, h.phi);
-
-        const intensity = Math.min(255, h.energy * 25);
-        const color = `rgb(${intensity}, ${255 - intensity}, 255)`;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 4 + h.energy * 0.3, 0, Math.PI * 2);
-        ctx.fillStyle = color;
-        ctx.fill();
-    });
-}
-
-function generateEvent() {
-    drawGrid();
-    const hits = generateHits();
-    drawHits(hits);
-
-    document.getElementById("info").innerText =
-        `Hits: ${hits.length} | Theta range: ZDC forward region | Energy scaled display`;
-}
-
-// initial draw
-drawGrid();
-</script>
+<script src="game.js"></script>
 
 </body>
+
 </html>
