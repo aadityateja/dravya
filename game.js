@@ -54,27 +54,22 @@ keys[e.key]=false;
 // =====================================
 
 
-let ship={
+let ship = {
 
-x:0,
+    x: 0,
+    y: 0,
 
-y:0,
+    speed: 2,              // Start with a little forward motion
+    maxSpeed: 20,
+    acceleration: 0.15,
 
-speed:0,
+    roll: 0,
+    floatTime: 0,
 
-maxSpeed:20,
-
-acceleration:0.15,
-
-};
-
-
-let camera={
-
-z:0
+    floatX: 0,
+    floatY: 0
 
 };
-
 
 
 
@@ -150,7 +145,12 @@ scale*3
 
 }
 
+let camera = {
 
+    x:0,
+    y:0
+
+};
 
 
 
@@ -170,7 +170,13 @@ if(keys["ArrowUp"] || keys["w"]){
 ship.speed+=ship.acceleration;
 
 }
+// Floating animation
 
+ship.floatTime += 0.05;
+
+ship.floatY = Math.sin(ship.floatTime) * 4;
+
+ship.floatX = Math.cos(ship.floatTime * 0.7) * 2;
 
 // brake
 
@@ -192,26 +198,23 @@ Math.min(ship.maxSpeed,ship.speed)
 
 
 
-
-// left right movement
-
-
 if(keys["ArrowLeft"] || keys["a"]){
 
-ship.x-=8;
+    ship.x -= 8;
+
+    ship.roll -= 0.03;
 
 }
-
-
 
 if(keys["ArrowRight"] || keys["d"]){
 
-ship.x+=8;
+    ship.x += 8;
+
+    ship.roll += 0.03;
 
 }
 
-
-
+camera.x += (ship.x * 0.05 - camera.x) * 0.05;
 
 
 // move universe toward us
@@ -289,23 +292,31 @@ ctx.beginPath();
 ctx.fillStyle="white";
 
 
-ctx.arc(
+let length = ship.speed * 2;
+
+ctx.strokeStyle="white";
+
+ctx.lineWidth=p.size;
+
+ctx.beginPath();
+
+ctx.moveTo(
 
 p.x,
 
-p.y,
-
-p.size,
-
-0,
-
-Math.PI*2
+p.y
 
 );
 
+ctx.lineTo(
 
-ctx.fill();
+p.x,
 
+p.y + length
+
+);
+
+ctx.stroke();
 
 
 });
@@ -313,54 +324,69 @@ ctx.fill();
 
 
 
-// draw ship
-
-
 ctx.save();
-
 
 ctx.translate(
 
-canvas.width/2,
+canvas.width/2 + ship.floatX - camera.x,
 
-canvas.height-120
+canvas.height-170 + ship.floatY
 
 );
 
-
+ctx.rotate(ship.roll);
 
 ctx.shadowColor="#00ffff";
-
-ctx.shadowBlur=30;
-
-
-ctx.fillStyle="#00ffff";
+ctx.shadowBlur=25;
 
 
+// ENGINE FLAME
+
+let flame = 25 + ship.speed * 2 + Math.random()*6;
+
+ctx.fillStyle="orange";
 
 ctx.beginPath();
 
-
-ctx.moveTo(0,-40);
-
-ctx.lineTo(30,40);
-
-ctx.lineTo(0,20);
-
-ctx.lineTo(-30,40);
-
+ctx.moveTo(-10,28);
+ctx.lineTo(0,flame);
+ctx.lineTo(10,28);
 
 ctx.closePath();
-
 
 ctx.fill();
 
 
+// SHIP BODY
+
+ctx.fillStyle="#00ffff";
+
+ctx.beginPath();
+
+ctx.moveTo(0,-40);
+
+ctx.lineTo(25,35);
+
+ctx.lineTo(0,18);
+
+ctx.lineTo(-25,35);
+
+ctx.closePath();
+
+ctx.fill();
+
+
+// Cockpit
+
+ctx.fillStyle="white";
+
+ctx.beginPath();
+
+ctx.arc(0,-8,6,0,Math.PI*2);
+
+ctx.fill();
 
 ctx.restore();
-
-
-
 
 // HUD
 
@@ -395,7 +421,12 @@ ctx.fillText(
 
 
 function loop(){
+let camera = {
 
+    x:0,
+    y:0
+
+};
 
 update();
 
