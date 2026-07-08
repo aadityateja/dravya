@@ -1,20 +1,17 @@
 // =====================================
-// XPLORIUM
-// Pseudo 3D Space Flight Engine
+// XPLORIUM v0.1
+// Pseudo 3D Space Flight
 // =====================================
 
 
-const canvas=document.getElementById("game");
-
-const ctx=canvas.getContext("2d");
-
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
 
 
 function resize(){
 
-canvas.width=window.innerWidth;
-
-canvas.height=window.innerHeight;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
 }
 
@@ -24,381 +21,356 @@ window.addEventListener("resize",resize);
 
 
 
-
-// =====================================
+// ===============================
 // INPUT
-// =====================================
+// ===============================
 
 
 let keys={};
 
 
 window.addEventListener("keydown",e=>{
-
-keys[e.key]=true;
-
+    keys[e.key]=true;
 });
 
 
 window.addEventListener("keyup",e=>{
-
-keys[e.key]=false;
-
+    keys[e.key]=false;
 });
 
 
 
-
-// =====================================
-// PLAYER
-// =====================================
-
-
-let ship = {
-
-    x: 0,
-    y: 0,
-
-    speed: 2,              // Start with a little forward motion
-    maxSpeed: 20,
-    acceleration: 0.15,
-
-    roll: 0,
-    floatTime: 0,
-
-    floatX: 0,
-    floatY: 0
-
-};
+// ===============================
+// PLAYER SHIP
+// ===============================
 
 
-
-// =====================================
-// STAR FIELD
-// =====================================
-
-
-let stars=[];
-
-
-function createStars(){
-
-stars=[];
-
-
-for(let i=0;i<500;i++){
-
-stars.push({
-
-x:(Math.random()-0.5)*2000,
-
-y:(Math.random()-0.5)*2000,
-
-z:Math.random()*2000+50
-
-});
-
-
-}
-
-}
-
-
-createStars();
-
-
-
-
-
-// =====================================
-// 3D PROJECTION
-// =====================================
-
-
-function project(object){
-
-
-
-let scale=500/object.z;
-
-
-
-return{
-
-x:
-canvas.width/2
-+
-object.x*scale,
-
-
-y:
-canvas.height/2
-+
-object.y*scale,
-
-
-size:
-scale*3
-
-};
-
-
-}
-
-let camera = {
+let ship={
 
     x:0,
-    y:0
+
+    speed:8,
+
+    maxSpeed:40,
+
+    acceleration:0.2,
+
+    width:40,
+
+    alive:true
 
 };
 
 
 
-// =====================================
+// ===============================
+// OBJECTS
+// ===============================
+
+
+let objects=[];
+
+
+
+function createObject(){
+
+
+    objects.push({
+
+        x:(Math.random()-0.5)*800,
+
+        y:(Math.random()-0.5)*500,
+
+        z:1500,
+
+        size:20+Math.random()*40
+
+    });
+
+
+}
+
+
+
+// ===============================
+// CREATE INITIAL SPACE
+// ===============================
+
+
+for(let i=0;i<20;i++){
+
+    createObject();
+
+}
+
+
+
+// ===============================
+// PROJECT 3D TO SCREEN
+// ===============================
+
+
+function project(obj){
+
+
+    let scale=600/obj.z;
+
+
+    return{
+
+        x:canvas.width/2 + obj.x*scale,
+
+        y:canvas.height/2 + obj.y*scale,
+
+        size:obj.size*scale
+
+    };
+
+
+}
+
+
+
+// ===============================
 // UPDATE
-// =====================================
+// ===============================
 
 
 function update(){
 
 
+if(!ship.alive)
+    return;
 
-// accelerate forward
+
+
+// CONSTANT FORWARD MOTION
+
+ship.speed += 0.02;
+
+
+// ACCELERATION
 
 if(keys["ArrowUp"] || keys["w"]){
 
-ship.speed+=ship.acceleration;
-
-}
-// Floating animation
-
-ship.floatTime += 0.05;
-
-ship.floatY = Math.sin(ship.floatTime) * 4;
-
-ship.floatX = Math.cos(ship.floatTime * 0.7) * 2;
-
-// brake
-
-if(keys["ArrowDown"] || keys["s"]){
-
-ship.speed-=ship.acceleration;
+    ship.speed += ship.acceleration;
 
 }
 
 
 
-ship.speed=Math.max(
+// LIMIT SPEED
 
-0,
-
-Math.min(ship.maxSpeed,ship.speed)
-
+ship.speed=Math.min(
+    ship.speed,
+    ship.maxSpeed
 );
 
 
 
+// STEERING
+
 if(keys["ArrowLeft"] || keys["a"]){
 
-    ship.x -= 8;
-
-    ship.roll -= 0.03;
+    ship.x-=8;
 
 }
+
 
 if(keys["ArrowRight"] || keys["d"]){
 
-    ship.x += 8;
-
-    ship.roll += 0.03;
+    ship.x+=8;
 
 }
 
-camera.x += (ship.x * 0.05 - camera.x) * 0.05;
 
 
-// move universe toward us
+// move space toward player
 
 
-stars.forEach(star=>{
+objects.forEach(obj=>{
 
 
-star.z-=ship.speed;
+    obj.z-=ship.speed;
 
 
 
-// passed camera
+    // collision zone
 
-if(star.z<1){
+    if(obj.z<30){
 
-star.z=2000;
 
-star.x=(Math.random()-0.5)*2000;
+        let distance=Math.abs(obj.x-ship.x);
 
-star.y=(Math.random()-0.5)*2000;
 
-}
+        if(distance < obj.size){
+
+            ship.alive=false;
+
+        }
+
+    }
+
 
 
 });
 
 
 
+// remove passed objects
+
+objects=objects.filter(o=>o.z>5);
+
+
+
+// spawn new asteroid
+
+if(objects.length<25){
+
+    createObject();
+
+}
+
+
+
 }
 
 
 
 
-
-// =====================================
+// ===============================
 // DRAW
-// =====================================
+// ===============================
 
 
 function draw(){
 
 
-
 ctx.fillStyle="black";
 
 ctx.fillRect(
-
 0,
-
 0,
-
 canvas.width,
-
 canvas.height
-
 );
 
 
 
-
-// draw stars
-
-
-stars.forEach(star=>{
+// draw asteroids
 
 
-let p=project(star);
+objects.forEach(obj=>{
+
+
+let p=project(obj);
 
 
 
 ctx.beginPath();
 
+ctx.fillStyle="#888";
 
-ctx.fillStyle="white";
 
-
-let length = ship.speed * 2;
-
-ctx.strokeStyle="white";
-
-ctx.lineWidth=p.size;
-
-ctx.beginPath();
-
-ctx.moveTo(
+ctx.arc(
 
 p.x,
 
-p.y
+p.y,
+
+p.size,
+
+0,
+
+Math.PI*2
 
 );
 
-ctx.lineTo(
 
-p.x,
+ctx.fill();
 
-p.y + length
-
-);
-
-ctx.stroke();
 
 
 });
 
 
 
+// draw ship
+
 
 ctx.save();
 
+
 ctx.translate(
 
-canvas.width/2 + ship.floatX - camera.x,
+canvas.width/2 + ship.x,
 
-canvas.height-170 + ship.floatY
+canvas.height-150
 
 );
 
-ctx.rotate(ship.roll);
+
 
 ctx.shadowColor="#00ffff";
-ctx.shadowBlur=25;
+
+ctx.shadowBlur=30;
 
 
-// ENGINE FLAME
-
-let flame = 25 + ship.speed * 2 + Math.random()*6;
-
-ctx.fillStyle="orange";
-
-ctx.beginPath();
-
-ctx.moveTo(-10,28);
-ctx.lineTo(0,flame);
-ctx.lineTo(10,28);
-
-ctx.closePath();
-
-ctx.fill();
-
-
-// SHIP BODY
 
 ctx.fillStyle="#00ffff";
 
+
 ctx.beginPath();
 
-ctx.moveTo(0,-40);
 
-ctx.lineTo(25,35);
+ctx.moveTo(0,-50);
 
-ctx.lineTo(0,18);
+ctx.lineTo(30,40);
 
-ctx.lineTo(-25,35);
+ctx.lineTo(0,20);
+
+ctx.lineTo(-30,40);
+
 
 ctx.closePath();
 
 ctx.fill();
 
 
-// Cockpit
 
-ctx.fillStyle="white";
+// engine
+
+ctx.fillStyle="orange";
+
 
 ctx.beginPath();
 
-ctx.arc(0,-8,6,0,Math.PI*2);
+ctx.moveTo(-10,40);
+
+ctx.lineTo(0,80);
+
+ctx.lineTo(10,40);
 
 ctx.fill();
 
+
+
 ctx.restore();
+
+
+
 
 // HUD
 
 
 ctx.fillStyle="white";
 
-ctx.font="22px Arial";
+ctx.font="24px Arial";
 
 
 ctx.fillText(
 
-"SPEED : "+ship.speed.toFixed(1),
+"SPEED : "+Math.floor(ship.speed),
 
 30,
 
@@ -408,25 +380,92 @@ ctx.fillText(
 
 
 
+// GAME OVER
+
+
+if(!ship.alive){
+
+
+ctx.fillStyle="red";
+
+ctx.font="60px Arial";
+
+
+ctx.fillText(
+
+"SHIP CRASHED",
+
+canvas.width/2-200,
+
+canvas.height/2
+
+);
+
+
+ctx.font="25px Arial";
+
+ctx.fillStyle="white";
+
+
+ctx.fillText(
+
+"Press R to restart",
+
+canvas.width/2-100,
+
+canvas.height/2+50
+
+);
+
+
 }
 
 
 
+}
 
 
 
-// =====================================
-// LOOP
-// =====================================
+// ===============================
+// RESTART
+// ===============================
+
+
+window.addEventListener("keydown",e=>{
+
+
+if(e.key==="r" && !ship.alive){
+
+
+ship.alive=true;
+
+ship.speed=8;
+
+ship.x=0;
+
+objects=[];
+
+
+for(let i=0;i<20;i++)
+createObject();
+
+
+}
+
+
+
+});
+
+
+
+
+// ===============================
+// GAME LOOP
+// ===============================
 
 
 function loop(){
-let camera = {
 
-    x:0,
-    y:0
-
-};
 
 update();
 
