@@ -1,25 +1,18 @@
-```css
-/* ==========================================================
-   DRAVYA — DIGITAL FIELD
-   MASTER STYLE
-   ========================================================== */
+@font-face {
+    font-family: "DRAVYA-DARK";
+    src: url("assets/fonts/Dark.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
+:root {
+    --dravya-font: "DRAVYA-DARK";
+}
 
-/* ==========================================================
-   01 — DRAVYA FONT
-   ==========================================================
-
-   CHANGE ONLY THESE TWO LINES when changing fonts.
-
-   FONT NAME:
-   --dravya-font: "DRAVYA FONT";
-
-   FONT FILE:
-   src: url("assets/fonts/YOUR-FONT.ttf");
-
-   CURRENT:
-   Dark.ttf
-   ========================================================== */
+* {
+    font-family: var(--dravya-font) !important;
+}
 
 :root {
 
