@@ -1,6 +1,7 @@
 ```css
 /* ==========================================================
-   DRAVYA — MASTER STYLE
+   DRAVYA — DIGITAL FIELD
+   MASTER STYLE
    ========================================================== */
 
 
@@ -8,30 +9,34 @@
    01 — DRAVYA FONT
    ==========================================================
 
-   CHANGE ONLY THIS NAME WHEN YOU WANT A DIFFERENT FONT.
+   CHANGE ONLY THESE TWO LINES when changing fonts.
 
-   Example:
+   FONT NAME:
+   --dravya-font: "DRAVYA FONT";
 
-   --dravya-font: "SF Ironsides";
-   --dravya-font: "Pixel Gamer";
-   --dravya-font: "Another Font";
+   FONT FILE:
+   src: url("assets/fonts/YOUR-FONT.ttf");
 
+   CURRENT:
+   Dark.ttf
    ========================================================== */
 
 :root {
-    --dravya-font: "Pixel Gamer";
+
+    --dravya-font: "Dark";
+
 }
 
 
 /* ==========================================================
-   02 — LOAD FONT
+   02 — FONT LOADING
    ========================================================== */
 
 @font-face {
 
-    font-family: "Pixel Gamer";
+    font-family: "Dark";
 
-    src: url("assets/fonts/pixel_gamer.ttf")
+    src: url("assets/fonts/Dark.ttf")
          format("truetype");
 
     font-style: normal;
@@ -48,10 +53,19 @@
 
 :root {
 
-    --font-main: var(--dravya-font);
+    /* Typography */
+
+    --font-main:
+        var(--dravya-font);
+
+
+    /* Background */
 
     --background:
         #020817;
+
+
+    /* Text */
 
     --white:
         #ffffff;
@@ -65,36 +79,52 @@
     --text-muted:
         rgba(232, 241, 255, 0.50);
 
+
+    /* Lines */
+
     --line:
         rgba(255, 255, 255, 0.18);
 
     --line-soft:
         rgba(255, 255, 255, 0.12);
 
+
+    /* Hover */
+
     --hover:
         rgba(20, 70, 150, 0.18);
+
+
+    /* Layout */
 
     --page-padding:
         42px;
 
     --content-width:
         1200px;
+
 }
 
 
 /* ==========================================================
-   04 — RESET
+   04 — GLOBAL RESET
    ========================================================== */
 
 * {
+
     margin: 0;
+
     padding: 0;
+
     box-sizing: border-box;
+
 }
 
 
 html {
+
     scroll-behavior: smooth;
+
 }
 
 
@@ -118,11 +148,12 @@ body {
 
     -moz-osx-font-smoothing:
         grayscale;
+
 }
 
 
 /* ==========================================================
-   05 — FORCE DRAVYA FONT EVERYWHERE
+   05 — FORCE FONT EVERYWHERE
    ========================================================== */
 
 *,
@@ -131,6 +162,7 @@ body {
 
     font-family:
         var(--font-main) !important;
+
 }
 
 
@@ -145,6 +177,7 @@ body {
     inset: 0;
 
     width: 100%;
+
     height: 100%;
 
     z-index: -10;
@@ -153,6 +186,7 @@ body {
 
     background:
         var(--background);
+
 }
 
 
@@ -161,9 +195,11 @@ body {
     position: absolute;
 
     top: 50%;
+
     left: 50%;
 
     width: 100%;
+
     height: 100%;
 
     transform:
@@ -176,6 +212,7 @@ body {
     filter:
         brightness(0.72)
         contrast(1.08);
+
 }
 
 
@@ -198,6 +235,7 @@ body {
         );
 
     pointer-events: none;
+
 }
 
 
@@ -210,6 +248,7 @@ body {
     position: fixed;
 
     top: 0;
+
     left: 0;
 
     width: 100%;
@@ -227,6 +266,7 @@ body {
 
     backdrop-filter:
         blur(4px);
+
 }
 
 
@@ -242,6 +282,7 @@ body {
     font-weight: 700;
 
     letter-spacing: 0.18em;
+
 }
 
 
@@ -252,6 +293,7 @@ body {
     align-items: center;
 
     gap: 28px;
+
 }
 
 
@@ -268,6 +310,7 @@ body {
 
     transition:
         color 0.3s ease;
+
 }
 
 
@@ -275,6 +318,7 @@ body {
 
     color:
         var(--white);
+
 }
 
 
@@ -297,6 +341,7 @@ body {
     flex-direction: column;
 
     justify-content: center;
+
 }
 
 
@@ -304,6 +349,7 @@ body {
 
     max-width:
         var(--content-width);
+
 }
 
 
@@ -316,6 +362,7 @@ body {
     opacity: 0.55;
 
     margin-bottom: 24px;
+
 }
 
 
@@ -336,6 +383,7 @@ body {
 
     color:
         var(--white);
+
 }
 
 
@@ -355,6 +403,7 @@ body {
     letter-spacing: 0.02em;
 
     opacity: 0.75;
+
 }
 
 
@@ -383,11 +432,14 @@ body {
     letter-spacing: 0.18em;
 
     opacity: 0.5;
+
 }
 
 
 .scroll {
+
     white-space: nowrap;
+
 }
 
 
@@ -408,6 +460,7 @@ body {
 
     padding:
         150px 0;
+
 }
 
 
@@ -432,6 +485,7 @@ body {
     letter-spacing: 0.2em;
 
     opacity: 0.55;
+
 }
 
 
@@ -447,6 +501,7 @@ body {
         1fr 2fr;
 
     gap: 60px;
+
 }
 
 
@@ -457,12 +512,14 @@ body {
     letter-spacing: 0.15em;
 
     opacity: 0.5;
+
 }
 
 
 .release-info {
 
     max-width: 850px;
+
 }
 
 
@@ -475,6 +532,7 @@ body {
     opacity: 0.55;
 
     margin-bottom: 20px;
+
 }
 
 
@@ -495,6 +553,7 @@ body {
 
     color:
         var(--white);
+
 }
 
 
@@ -509,11 +568,12 @@ body {
     letter-spacing: 0.01em;
 
     opacity: 0.72;
+
 }
 
 
 /* ==========================================================
-   13 — LINKS
+   13 — TEXT LINKS
    ========================================================== */
 
 .text-link {
@@ -540,6 +600,7 @@ body {
     transition:
         opacity 0.3s ease,
         border-color 0.3s ease;
+
 }
 
 
@@ -549,6 +610,7 @@ body {
 
     border-color:
         rgba(255,255,255,0.8);
+
 }
 
 
@@ -570,6 +632,7 @@ body {
     border-left:
         1px solid
         var(--line-soft);
+
 }
 
 
@@ -594,6 +657,7 @@ body {
 
     transition:
         background 0.4s ease;
+
 }
 
 
@@ -601,6 +665,7 @@ body {
 
     background:
         var(--hover);
+
 }
 
 
@@ -613,6 +678,7 @@ body {
     letter-spacing: 0.15em;
 
     opacity: 0.4;
+
 }
 
 
@@ -627,6 +693,7 @@ body {
     font-weight: 700;
 
     letter-spacing: -0.03em;
+
 }
 
 
@@ -643,6 +710,7 @@ body {
     letter-spacing: 0.02em;
 
     opacity: 0.55;
+
 }
 
 
@@ -663,6 +731,7 @@ body {
     align-items: center;
 
     text-align: center;
+
 }
 
 
@@ -673,6 +742,7 @@ body {
     opacity: 0.4;
 
     margin-bottom: 45px;
+
 }
 
 
@@ -692,6 +762,7 @@ body {
     letter-spacing: -0.02em;
 
     font-weight: 400;
+
 }
 
 
@@ -704,6 +775,7 @@ body {
     border-top:
         1px solid
         var(--line-soft);
+
 }
 
 
@@ -732,12 +804,14 @@ body {
 
     transition:
         opacity 0.3s ease;
+
 }
 
 
 .note:hover {
 
     opacity: 0.65;
+
 }
 
 
@@ -749,6 +823,7 @@ body {
     letter-spacing: 0.15em;
 
     opacity: 0.45;
+
 }
 
 
@@ -759,6 +834,7 @@ body {
     line-height: 1.3;
 
     font-weight: 400;
+
 }
 
 
@@ -778,6 +854,7 @@ body {
 
     padding:
         100px var(--page-padding);
+
 }
 
 
@@ -798,6 +875,7 @@ body {
 
     color:
         var(--white);
+
 }
 
 
@@ -812,6 +890,7 @@ body {
     letter-spacing: 0.02em;
 
     opacity: 0.6;
+
 }
 
 
@@ -828,6 +907,7 @@ footer {
     border-top:
         1px solid
         var(--line-soft);
+
 }
 
 
@@ -838,6 +918,7 @@ footer {
     font-weight: 700;
 
     letter-spacing: 0.15em;
+
 }
 
 
@@ -850,6 +931,7 @@ footer {
     letter-spacing: 0.04em;
 
     opacity: 0.5;
+
 }
 
 
@@ -860,6 +942,7 @@ footer {
     gap: 25px;
 
     margin-top: 50px;
+
 }
 
 
@@ -878,12 +961,14 @@ footer {
 
     transition:
         opacity 0.3s ease;
+
 }
 
 
 .footer-links a:hover {
 
     opacity: 1;
+
 }
 
 
@@ -896,6 +981,7 @@ footer {
     letter-spacing: 0.15em;
 
     opacity: 0.3;
+
 }
 
 
