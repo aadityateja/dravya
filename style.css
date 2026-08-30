@@ -1,6 +1,6 @@
 @font-face {
     font-family: "DRAVYA-DARK";
-    src: url("assets/fonts/PRIMD___.TTF") format("truetype");
+    src: url("assets/fonts/HIGHLA2.TTF") format("truetype");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -29,7 +29,7 @@
 
     font-family: "Dark";
 
-    src: url("assets/fonts/PRIMD___.TTF")
+    src: url("assets/fonts/HIGHLA2.TTF")
          format("truetype");
 
     font-style: normal;
