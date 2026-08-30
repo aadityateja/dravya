@@ -1,62 +1,164 @@
 ```css
 /* ==========================================================
    DRAVYA
-   SF IRONSIDES — GLOBAL TYPOGRAPHY
+   DIGITAL FIELD
    ========================================================== */
 
 
 /* ==========================================================
-   FONT
+   01 — FONT SYSTEM
+   ==========================================================
+
+   CHANGE ONLY THESE TWO VALUES when you want a new font.
+
+   Example:
+
+   --dravya-font-name: "Pixel Gamer";
+   --dravya-font-file: "pixel_gamer.ttf";
+
+   Everything else on the website automatically uses it.
    ========================================================== */
 
-@font-face {
-    font-family: "SF Ironsides";
+:root {
 
-    src: url("assets/fonts/SF Ironsides.ttf")
-         format("truetype");
+    --dravya-font-name: "Pixel Gamer";
 
-    font-weight: 100 900;
-    font-style: normal;
+    --dravya-font-file: "pixel_gamer.otf";
 
-    font-display: swap;
 }
 
 
 /* ==========================================================
-   GLOBAL RESET
+   FONT LOADING
+   ========================================================== */
+
+@font-face {
+
+    font-family: var(--dravya-font-name);
+
+    src:
+        url("assets/fonts/pixel_gamer.otf")
+        format("truetype");
+
+    font-style: normal;
+
+    font-weight: 100 900;
+
+    font-display: swap;
+
+}
+
+
+/* ==========================================================
+   02 — DESIGN VARIABLES
+   ========================================================== */
+
+:root {
+
+    /* Typography */
+
+    --font-main:
+        var(--dravya-font-name),
+        sans-serif;
+
+
+    /* Background */
+
+    --field-background:
+        #020817;
+
+
+    /* Text */
+
+    --text-primary:
+        #ffffff;
+
+    --text-secondary:
+        rgba(232, 241, 255, 0.72);
+
+    --text-muted:
+        rgba(232, 241, 255, 0.50);
+
+
+    /* Lines */
+
+    --line-light:
+        rgba(255, 255, 255, 0.18);
+
+    --line-medium:
+        rgba(255, 255, 255, 0.15);
+
+    --line-dark:
+        rgba(255, 255, 255, 0.12);
+
+
+    /* Interaction */
+
+    --hover-field:
+        rgba(20, 70, 150, 0.18);
+
+
+    /* Layout */
+
+    --page-padding:
+        42px;
+
+    --content-width:
+        1200px;
+
+}
+
+
+/* ==========================================================
+   03 — GLOBAL RESET
    ========================================================== */
 
 * {
+
     margin: 0;
+
     padding: 0;
+
     box-sizing: border-box;
 
-    font-family: "SF Ironsides", sans-serif;
 }
 
 
 html {
+
     scroll-behavior: smooth;
+
 }
 
 
 body {
 
-    background: #020817;
+    background:
+        var(--field-background);
 
-    color: #e8f1ff;
+    color:
+        var(--text-primary);
 
     overflow-x: hidden;
 
-    font-family: "SF Ironsides", sans-serif;
+    font-family:
+        var(--font-main);
 
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing:
+        antialiased;
+
+    -moz-osx-font-smoothing:
+        grayscale;
+
 }
 
 
-/* Make sure EVERY text-based element inherits
-   SF Ironsides */
+/*
+   Force the DRAVYA font onto EVERYTHING.
+
+   This means you will NEVER need to hunt through the CSS
+   looking for individual font declarations.
+*/
 
 body,
 button,
@@ -66,21 +168,24 @@ select,
 a,
 p,
 span,
+div,
 h1,
 h2,
 h3,
 h4,
 h5,
 h6,
-time {
+time,
+label {
 
-    font-family: "SF Ironsides", sans-serif;
+    font-family:
+        var(--font-main);
 
 }
 
 
 /* ==========================================================
-   BACKGROUND FIELD
+   04 — BACKGROUND FIELD
    ========================================================== */
 
 .field {
@@ -90,13 +195,16 @@ time {
     inset: 0;
 
     width: 100%;
+
     height: 100%;
 
     z-index: -10;
 
     overflow: hidden;
 
-    background: #020817;
+    background:
+        var(--field-background);
+
 }
 
 
@@ -105,12 +213,15 @@ time {
     position: absolute;
 
     top: 50%;
+
     left: 50%;
 
     width: 100%;
+
     height: 100%;
 
-    transform: translate(-50%, -50%);
+    transform:
+        translate(-50%, -50%);
 
     object-fit: cover;
 
@@ -124,7 +235,7 @@ time {
 
 
 /* ==========================================================
-   BACKGROUND OVERLAY
+   05 — FIELD OVERLAY
    ========================================================== */
 
 .field-overlay {
@@ -148,7 +259,7 @@ time {
 
 
 /* ==========================================================
-   NAVIGATION
+   06 — NAVIGATION
    ========================================================== */
 
 .navbar {
@@ -156,6 +267,7 @@ time {
     position: fixed;
 
     top: 0;
+
     left: 0;
 
     width: 100%;
@@ -166,18 +278,21 @@ time {
 
     align-items: center;
 
-    padding: 28px 42px;
+    padding:
+        28px var(--page-padding);
 
     z-index: 100;
 
-    backdrop-filter: blur(4px);
+    backdrop-filter:
+        blur(4px);
 
 }
 
 
 .logo {
 
-    color: #ffffff;
+    color:
+        var(--text-primary);
 
     text-decoration: none;
 
@@ -204,7 +319,7 @@ time {
 .navigation a {
 
     color:
-        rgba(232, 241, 255, 0.72);
+        var(--text-secondary);
 
     text-decoration: none;
 
@@ -220,13 +335,14 @@ time {
 
 .navigation a:hover {
 
-    color: #ffffff;
+    color:
+        var(--text-primary);
 
 }
 
 
 /* ==========================================================
-   HERO
+   07 — HERO
    ========================================================== */
 
 .hero {
@@ -236,8 +352,8 @@ time {
     min-height: 100vh;
 
     padding:
-        120px 42px
-        40px 42px;
+        120px var(--page-padding)
+        40px var(--page-padding);
 
     display: flex;
 
@@ -250,7 +366,8 @@ time {
 
 .hero-content {
 
-    max-width: 1200px;
+    max-width:
+        var(--content-width);
 
 }
 
@@ -271,7 +388,11 @@ time {
 .hero h1 {
 
     font-size:
-        clamp(90px, 17vw, 280px);
+        clamp(
+            90px,
+            17vw,
+            280px
+        );
 
     line-height: 0.78;
 
@@ -279,7 +400,8 @@ time {
 
     letter-spacing: -0.07em;
 
-    color: #ffffff;
+    color:
+        var(--text-primary);
 
 }
 
@@ -289,7 +411,11 @@ time {
     margin-top: 35px;
 
     font-size:
-        clamp(20px, 2vw, 30px);
+        clamp(
+            20px,
+            2vw,
+            30px
+        );
 
     line-height: 1.2;
 
@@ -301,7 +427,7 @@ time {
 
 
 /* ==========================================================
-   HERO BOTTOM
+   08 — HERO BOTTOM
    ========================================================== */
 
 .hero-bottom {
@@ -310,8 +436,9 @@ time {
 
     bottom: 32px;
 
-    left: 42px;
-    right: 42px;
+    left: var(--page-padding);
+
+    right: var(--page-padding);
 
     display: flex;
 
@@ -336,18 +463,19 @@ time {
 
 
 /* ==========================================================
-   GENERAL SECTIONS
+   09 — GENERAL SECTIONS
    ========================================================== */
 
 .section {
 
     width:
         min(
-            1200px,
+            var(--content-width),
             calc(100% - 84px)
         );
 
-    margin: 0 auto;
+    margin:
+        0 auto;
 
     padding:
         150px 0;
@@ -365,7 +493,7 @@ time {
 
     border-top:
         1px solid
-        rgba(255,255,255,0.18);
+        var(--line-light);
 
     padding-top: 12px;
 
@@ -381,7 +509,7 @@ time {
 
 
 /* ==========================================================
-   LATEST DISTURBANCE
+   10 — LATEST DISTURBANCE
    ========================================================== */
 
 .release {
@@ -430,7 +558,11 @@ time {
 .release h2 {
 
     font-size:
-        clamp(55px, 9vw, 130px);
+        clamp(
+            55px,
+            9vw,
+            130px
+        );
 
     line-height: 0.88;
 
@@ -438,7 +570,8 @@ time {
 
     letter-spacing: -0.05em;
 
-    color: #ffffff;
+    color:
+        var(--text-primary);
 
 }
 
@@ -459,7 +592,7 @@ time {
 
 
 /* ==========================================================
-   TEXT LINKS
+   11 — TEXT LINKS
    ========================================================== */
 
 .text-link {
@@ -468,7 +601,8 @@ time {
 
     margin-top: 35px;
 
-    color: #ffffff;
+    color:
+        var(--text-primary);
 
     text-decoration: none;
 
@@ -500,7 +634,7 @@ time {
 
 
 /* ==========================================================
-   EXPLORE GRID
+   12 — EXPLORE GRID
    ========================================================== */
 
 .explore-grid {
@@ -512,11 +646,11 @@ time {
 
     border-top:
         1px solid
-        rgba(255,255,255,0.15);
+        var(--line-medium);
 
     border-left:
         1px solid
-        rgba(255,255,255,0.15);
+        var(--line-medium);
 
 }
 
@@ -527,17 +661,18 @@ time {
 
     padding: 32px;
 
-    color: #ffffff;
+    color:
+        var(--text-primary);
 
     text-decoration: none;
 
     border-right:
         1px solid
-        rgba(255,255,255,0.15);
+        var(--line-medium);
 
     border-bottom:
         1px solid
-        rgba(255,255,255,0.15);
+        var(--line-medium);
 
     transition:
         background 0.4s ease,
@@ -549,7 +684,7 @@ time {
 .field-card:hover {
 
     background:
-        rgba(20, 70, 150, 0.18);
+        var(--hover-field);
 
 }
 
@@ -600,7 +735,7 @@ time {
 
 
 /* ==========================================================
-   STATEMENT
+   13 — STATEMENT
    ========================================================== */
 
 .statement {
@@ -636,7 +771,11 @@ time {
     max-width: 900px;
 
     font-size:
-        clamp(28px, 4vw, 55px);
+        clamp(
+            28px,
+            4vw,
+            55px
+        );
 
     line-height: 1.18;
 
@@ -648,14 +787,14 @@ time {
 
 
 /* ==========================================================
-   FIELD NOTES
+   14 — FIELD NOTES
    ========================================================== */
 
 .notes-list {
 
     border-top:
         1px solid
-        rgba(255,255,255,0.15);
+        var(--line-medium);
 
 }
 
@@ -671,15 +810,17 @@ time {
 
     gap: 30px;
 
-    padding: 28px 0;
+    padding:
+        28px 0;
 
-    color: #ffffff;
+    color:
+        var(--text-primary);
 
     text-decoration: none;
 
     border-bottom:
         1px solid
-        rgba(255,255,255,0.12);
+        var(--line-dark);
 
     transition:
         opacity 0.3s ease;
@@ -718,7 +859,7 @@ time {
 
 
 /* ==========================================================
-   CLOSING
+   15 — CLOSING
    ========================================================== */
 
 .closing {
@@ -732,7 +873,7 @@ time {
     justify-content: center;
 
     padding:
-        100px 42px;
+        100px var(--page-padding);
 
 }
 
@@ -740,7 +881,11 @@ time {
 .closing h2 {
 
     font-size:
-        clamp(50px, 9vw, 140px);
+        clamp(
+            50px,
+            9vw,
+            140px
+        );
 
     line-height: 0.9;
 
@@ -748,7 +893,8 @@ time {
 
     letter-spacing: -0.06em;
 
-    color: #ffffff;
+    color:
+        var(--text-primary);
 
 }
 
@@ -769,17 +915,18 @@ time {
 
 
 /* ==========================================================
-   FOOTER
+   16 — FOOTER
    ========================================================== */
 
 footer {
 
     padding:
-        80px 42px 35px;
+        80px var(--page-padding)
+        35px;
 
     border-top:
         1px solid
-        rgba(255,255,255,0.15);
+        var(--line-medium);
 
 }
 
@@ -821,7 +968,8 @@ footer {
 
 .footer-links a {
 
-    color: #ffffff;
+    color:
+        var(--text-primary);
 
     text-decoration: none;
 
@@ -858,15 +1006,11 @@ footer {
 
 
 /* ==========================================================
-   MOBILE
+   17 — MOBILE
    ========================================================== */
 
 @media (max-width: 800px) {
 
-
-    /* ------------------------------------------------------
-       NAVIGATION
-       ------------------------------------------------------ */
 
     .navbar {
 
@@ -882,10 +1026,6 @@ footer {
 
     }
 
-
-    /* ------------------------------------------------------
-       HERO
-       ------------------------------------------------------ */
 
     .hero {
 
@@ -911,6 +1051,7 @@ footer {
     .hero-bottom {
 
         left: 22px;
+
         right: 22px;
 
     }
@@ -923,10 +1064,6 @@ footer {
     }
 
 
-    /* ------------------------------------------------------
-       SECTIONS
-       ------------------------------------------------------ */
-
     .section {
 
         width:
@@ -938,13 +1075,10 @@ footer {
     }
 
 
-    /* ------------------------------------------------------
-       RELEASE
-       ------------------------------------------------------ */
-
     .release {
 
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
 
         gap: 25px;
 
@@ -963,13 +1097,10 @@ footer {
     }
 
 
-    /* ------------------------------------------------------
-       EXPLORE
-       ------------------------------------------------------ */
-
     .explore-grid {
 
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
 
     }
 
@@ -988,10 +1119,6 @@ footer {
     }
 
 
-    /* ------------------------------------------------------
-       FIELD NOTES
-       ------------------------------------------------------ */
-
     .note {
 
         grid-template-columns:
@@ -1008,10 +1135,6 @@ footer {
 
     }
 
-
-    /* ------------------------------------------------------
-       CLOSING
-       ------------------------------------------------------ */
 
     .closing {
 
@@ -1033,14 +1156,11 @@ footer {
     }
 
 
-    /* ------------------------------------------------------
-       FOOTER
-       ------------------------------------------------------ */
-
     footer {
 
         padding:
-            60px 22px 30px;
+            60px 22px
+            30px;
 
     }
 
@@ -1048,17 +1168,24 @@ footer {
 
 
 /* ==========================================================
-   REDUCED MOTION
+   18 — REDUCED MOTION
    ========================================================== */
 
 @media (prefers-reduced-motion: reduce) {
 
     html {
-        scroll-behavior: auto;
+
+        scroll-behavior:
+            auto;
+
     }
 
+
     .field-video {
-        display: none;
+
+        display:
+            none;
+
     }
 
 }
