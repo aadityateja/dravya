@@ -1,191 +1,141 @@
 ```css
 /* ==========================================================
-   DRAVYA
-   DIGITAL FIELD
+   DRAVYA — MASTER STYLE
    ========================================================== */
 
 
 /* ==========================================================
-   01 — FONT SYSTEM
+   01 — DRAVYA FONT
    ==========================================================
 
-   CHANGE ONLY THESE TWO VALUES when you want a new font.
+   CHANGE ONLY THIS NAME WHEN YOU WANT A DIFFERENT FONT.
 
    Example:
 
-   --dravya-font-name: "Pixel Gamer";
-   --dravya-font-file: "pixel_gamer.ttf";
+   --dravya-font: "SF Ironsides";
+   --dravya-font: "Pixel Gamer";
+   --dravya-font: "Another Font";
 
-   Everything else on the website automatically uses it.
    ========================================================== */
 
 :root {
-
-    --dravya-font-name: "Minecraft";
-
-    --dravya-font-file: "Minecraft.ttf";
-
+    --dravya-font: "Pixel Gamer";
 }
 
 
 /* ==========================================================
-   FONT LOADING
+   02 — LOAD FONT
    ========================================================== */
 
 @font-face {
 
-    font-family: var(--dravya-font-name);
+    font-family: "Pixel Gamer";
 
-    src:
-        url("assets/fonts/Minecraft.ttf")
-        format("truetype");
+    src: url("assets/fonts/pixel_gamer.ttf")
+         format("truetype");
 
     font-style: normal;
 
     font-weight: 100 900;
 
     font-display: swap;
-
 }
 
 
 /* ==========================================================
-   02 — DESIGN VARIABLES
+   03 — DESIGN VARIABLES
    ========================================================== */
 
 :root {
 
-    /* Typography */
+    --font-main: var(--dravya-font);
 
-    --font-main:
-        var(--dravya-font-name),
-        sans-serif;
-
-
-    /* Background */
-
-    --field-background:
+    --background:
         #020817;
 
-
-    /* Text */
-
-    --text-primary:
+    --white:
         #ffffff;
 
-    --text-secondary:
+    --text:
+        #e8f1ff;
+
+    --text-soft:
         rgba(232, 241, 255, 0.72);
 
     --text-muted:
         rgba(232, 241, 255, 0.50);
 
-
-    /* Lines */
-
-    --line-light:
+    --line:
         rgba(255, 255, 255, 0.18);
 
-    --line-medium:
-        rgba(255, 255, 255, 0.15);
-
-    --line-dark:
+    --line-soft:
         rgba(255, 255, 255, 0.12);
 
-
-    /* Interaction */
-
-    --hover-field:
+    --hover:
         rgba(20, 70, 150, 0.18);
-
-
-    /* Layout */
 
     --page-padding:
         42px;
 
     --content-width:
         1200px;
-
 }
 
 
 /* ==========================================================
-   03 — GLOBAL RESET
+   04 — RESET
    ========================================================== */
 
 * {
-
     margin: 0;
-
     padding: 0;
-
     box-sizing: border-box;
-
 }
 
 
 html {
-
     scroll-behavior: smooth;
-
 }
 
 
 body {
 
+    margin: 0;
+
     background:
-        var(--field-background);
+        var(--background);
 
     color:
-        var(--text-primary);
+        var(--text);
 
     overflow-x: hidden;
 
     font-family:
-        var(--font-main);
+        var(--font-main) !important;
 
     -webkit-font-smoothing:
         antialiased;
 
     -moz-osx-font-smoothing:
         grayscale;
-
-}
-
-
-/*
-   Force the DRAVYA font onto EVERYTHING.
-
-   This means you will NEVER need to hunt through the CSS
-   looking for individual font declarations.
-*/
-
-body,
-button,
-input,
-textarea,
-select,
-a,
-p,
-span,
-div,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-time,
-label {
-
-    font-family:
-        var(--font-main);
-
 }
 
 
 /* ==========================================================
-   04 — BACKGROUND FIELD
+   05 — FORCE DRAVYA FONT EVERYWHERE
+   ========================================================== */
+
+*,
+*::before,
+*::after {
+
+    font-family:
+        var(--font-main) !important;
+}
+
+
+/* ==========================================================
+   06 — BACKGROUND FIELD
    ========================================================== */
 
 .field {
@@ -195,7 +145,6 @@ label {
     inset: 0;
 
     width: 100%;
-
     height: 100%;
 
     z-index: -10;
@@ -203,8 +152,7 @@ label {
     overflow: hidden;
 
     background:
-        var(--field-background);
-
+        var(--background);
 }
 
 
@@ -213,11 +161,9 @@ label {
     position: absolute;
 
     top: 50%;
-
     left: 50%;
 
     width: 100%;
-
     height: 100%;
 
     transform:
@@ -230,12 +176,11 @@ label {
     filter:
         brightness(0.72)
         contrast(1.08);
-
 }
 
 
 /* ==========================================================
-   05 — FIELD OVERLAY
+   07 — FIELD OVERLAY
    ========================================================== */
 
 .field-overlay {
@@ -245,7 +190,6 @@ label {
     inset: 0;
 
     background:
-
         linear-gradient(
             to bottom,
             rgba(2, 8, 23, 0.38),
@@ -254,12 +198,11 @@ label {
         );
 
     pointer-events: none;
-
 }
 
 
 /* ==========================================================
-   06 — NAVIGATION
+   08 — NAVIGATION
    ========================================================== */
 
 .navbar {
@@ -267,7 +210,6 @@ label {
     position: fixed;
 
     top: 0;
-
     left: 0;
 
     width: 100%;
@@ -285,14 +227,13 @@ label {
 
     backdrop-filter:
         blur(4px);
-
 }
 
 
 .logo {
 
     color:
-        var(--text-primary);
+        var(--white);
 
     text-decoration: none;
 
@@ -301,7 +242,6 @@ label {
     font-weight: 700;
 
     letter-spacing: 0.18em;
-
 }
 
 
@@ -312,14 +252,13 @@ label {
     align-items: center;
 
     gap: 28px;
-
 }
 
 
 .navigation a {
 
     color:
-        var(--text-secondary);
+        var(--text-soft);
 
     text-decoration: none;
 
@@ -329,20 +268,18 @@ label {
 
     transition:
         color 0.3s ease;
-
 }
 
 
 .navigation a:hover {
 
     color:
-        var(--text-primary);
-
+        var(--white);
 }
 
 
 /* ==========================================================
-   07 — HERO
+   09 — HERO
    ========================================================== */
 
 .hero {
@@ -360,7 +297,6 @@ label {
     flex-direction: column;
 
     justify-content: center;
-
 }
 
 
@@ -368,7 +304,6 @@ label {
 
     max-width:
         var(--content-width);
-
 }
 
 
@@ -381,7 +316,6 @@ label {
     opacity: 0.55;
 
     margin-bottom: 24px;
-
 }
 
 
@@ -401,8 +335,7 @@ label {
     letter-spacing: -0.07em;
 
     color:
-        var(--text-primary);
-
+        var(--white);
 }
 
 
@@ -422,12 +355,11 @@ label {
     letter-spacing: 0.02em;
 
     opacity: 0.75;
-
 }
 
 
 /* ==========================================================
-   08 — HERO BOTTOM
+   10 — HERO BOTTOM
    ========================================================== */
 
 .hero-bottom {
@@ -451,19 +383,16 @@ label {
     letter-spacing: 0.18em;
 
     opacity: 0.5;
-
 }
 
 
 .scroll {
-
     white-space: nowrap;
-
 }
 
 
 /* ==========================================================
-   09 — GENERAL SECTIONS
+   11 — GENERAL SECTIONS
    ========================================================== */
 
 .section {
@@ -479,7 +408,6 @@ label {
 
     padding:
         150px 0;
-
 }
 
 
@@ -493,7 +421,7 @@ label {
 
     border-top:
         1px solid
-        var(--line-light);
+        var(--line);
 
     padding-top: 12px;
 
@@ -504,12 +432,11 @@ label {
     letter-spacing: 0.2em;
 
     opacity: 0.55;
-
 }
 
 
 /* ==========================================================
-   10 — LATEST DISTURBANCE
+   12 — LATEST DISTURBANCE
    ========================================================== */
 
 .release {
@@ -520,7 +447,6 @@ label {
         1fr 2fr;
 
     gap: 60px;
-
 }
 
 
@@ -531,14 +457,12 @@ label {
     letter-spacing: 0.15em;
 
     opacity: 0.5;
-
 }
 
 
 .release-info {
 
     max-width: 850px;
-
 }
 
 
@@ -551,7 +475,6 @@ label {
     opacity: 0.55;
 
     margin-bottom: 20px;
-
 }
 
 
@@ -571,8 +494,7 @@ label {
     letter-spacing: -0.05em;
 
     color:
-        var(--text-primary);
-
+        var(--white);
 }
 
 
@@ -587,12 +509,11 @@ label {
     letter-spacing: 0.01em;
 
     opacity: 0.72;
-
 }
 
 
 /* ==========================================================
-   11 — TEXT LINKS
+   13 — LINKS
    ========================================================== */
 
 .text-link {
@@ -602,7 +523,7 @@ label {
     margin-top: 35px;
 
     color:
-        var(--text-primary);
+        var(--white);
 
     text-decoration: none;
 
@@ -619,7 +540,6 @@ label {
     transition:
         opacity 0.3s ease,
         border-color 0.3s ease;
-
 }
 
 
@@ -629,12 +549,11 @@ label {
 
     border-color:
         rgba(255,255,255,0.8);
-
 }
 
 
 /* ==========================================================
-   12 — EXPLORE GRID
+   14 — EXPLORE GRID
    ========================================================== */
 
 .explore-grid {
@@ -646,12 +565,11 @@ label {
 
     border-top:
         1px solid
-        var(--line-medium);
+        var(--line-soft);
 
     border-left:
         1px solid
-        var(--line-medium);
-
+        var(--line-soft);
 }
 
 
@@ -662,30 +580,27 @@ label {
     padding: 32px;
 
     color:
-        var(--text-primary);
+        var(--white);
 
     text-decoration: none;
 
     border-right:
         1px solid
-        var(--line-medium);
+        var(--line-soft);
 
     border-bottom:
         1px solid
-        var(--line-medium);
+        var(--line-soft);
 
     transition:
-        background 0.4s ease,
-        transform 0.4s ease;
-
+        background 0.4s ease;
 }
 
 
 .field-card:hover {
 
     background:
-        var(--hover-field);
-
+        var(--hover);
 }
 
 
@@ -698,7 +613,6 @@ label {
     letter-spacing: 0.15em;
 
     opacity: 0.4;
-
 }
 
 
@@ -713,7 +627,6 @@ label {
     font-weight: 700;
 
     letter-spacing: -0.03em;
-
 }
 
 
@@ -730,12 +643,11 @@ label {
     letter-spacing: 0.02em;
 
     opacity: 0.55;
-
 }
 
 
 /* ==========================================================
-   13 — STATEMENT
+   15 — STATEMENT
    ========================================================== */
 
 .statement {
@@ -751,7 +663,6 @@ label {
     align-items: center;
 
     text-align: center;
-
 }
 
 
@@ -762,7 +673,6 @@ label {
     opacity: 0.4;
 
     margin-bottom: 45px;
-
 }
 
 
@@ -782,20 +692,18 @@ label {
     letter-spacing: -0.02em;
 
     font-weight: 400;
-
 }
 
 
 /* ==========================================================
-   14 — FIELD NOTES
+   16 — FIELD NOTES
    ========================================================== */
 
 .notes-list {
 
     border-top:
         1px solid
-        var(--line-medium);
-
+        var(--line-soft);
 }
 
 
@@ -814,24 +722,22 @@ label {
         28px 0;
 
     color:
-        var(--text-primary);
+        var(--white);
 
     text-decoration: none;
 
     border-bottom:
         1px solid
-        var(--line-dark);
+        var(--line-soft);
 
     transition:
         opacity 0.3s ease;
-
 }
 
 
 .note:hover {
 
     opacity: 0.65;
-
 }
 
 
@@ -843,7 +749,6 @@ label {
     letter-spacing: 0.15em;
 
     opacity: 0.45;
-
 }
 
 
@@ -854,12 +759,11 @@ label {
     line-height: 1.3;
 
     font-weight: 400;
-
 }
 
 
 /* ==========================================================
-   15 — CLOSING
+   17 — CLOSING
    ========================================================== */
 
 .closing {
@@ -874,7 +778,6 @@ label {
 
     padding:
         100px var(--page-padding);
-
 }
 
 
@@ -894,8 +797,7 @@ label {
     letter-spacing: -0.06em;
 
     color:
-        var(--text-primary);
-
+        var(--white);
 }
 
 
@@ -910,12 +812,11 @@ label {
     letter-spacing: 0.02em;
 
     opacity: 0.6;
-
 }
 
 
 /* ==========================================================
-   16 — FOOTER
+   18 — FOOTER
    ========================================================== */
 
 footer {
@@ -926,8 +827,7 @@ footer {
 
     border-top:
         1px solid
-        var(--line-medium);
-
+        var(--line-soft);
 }
 
 
@@ -938,7 +838,6 @@ footer {
     font-weight: 700;
 
     letter-spacing: 0.15em;
-
 }
 
 
@@ -951,7 +850,6 @@ footer {
     letter-spacing: 0.04em;
 
     opacity: 0.5;
-
 }
 
 
@@ -962,14 +860,13 @@ footer {
     gap: 25px;
 
     margin-top: 50px;
-
 }
 
 
 .footer-links a {
 
     color:
-        var(--text-primary);
+        var(--white);
 
     text-decoration: none;
 
@@ -981,14 +878,12 @@ footer {
 
     transition:
         opacity 0.3s ease;
-
 }
 
 
 .footer-links a:hover {
 
     opacity: 1;
-
 }
 
 
@@ -1001,15 +896,21 @@ footer {
     letter-spacing: 0.15em;
 
     opacity: 0.3;
-
 }
 
 
 /* ==========================================================
-   17 — MOBILE
+   19 — MOBILE
    ========================================================== */
 
 @media (max-width: 800px) {
+
+    :root {
+
+        --page-padding:
+            22px;
+
+    }
 
 
     .navbar {
@@ -1107,14 +1008,16 @@ footer {
 
     .field-card {
 
-        min-height: 230px;
+        min-height:
+            230px;
 
     }
 
 
     .field-card h3 {
 
-        margin-top: 60px;
+        margin-top:
+            60px;
 
     }
 
@@ -1124,14 +1027,16 @@ footer {
         grid-template-columns:
             80px 1fr;
 
-        gap: 15px;
+        gap:
+            15px;
 
     }
 
 
     .note time {
 
-        display: none;
+        display:
+            none;
 
     }
 
@@ -1168,7 +1073,7 @@ footer {
 
 
 /* ==========================================================
-   18 — REDUCED MOTION
+   20 — REDUCED MOTION
    ========================================================== */
 
 @media (prefers-reduced-motion: reduce) {
