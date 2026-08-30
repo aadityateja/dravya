@@ -23,7 +23,7 @@
 
     --dravya-font-name: "Pixel Gamer";
 
-    --dravya-font-file: "PixelGamer-Regular.otf";
+    --dravya-font-file: "PRIMD___.TTF";
 
 }
 
@@ -37,7 +37,7 @@
     font-family: var(--dravya-font-name);
 
     src:
-        url("assets/fonts/PixelGamer-Regular.otf")
+        url("assets/fonts/PRIMD___.TTF")
         format("truetype");
 
     font-style: normal;
