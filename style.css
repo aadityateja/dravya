@@ -23,7 +23,7 @@
 
     --dravya-font-name: "Pixel Gamer";
 
-    --dravya-font-file: "PRIMD___.TTF";
+    --dravya-font-file: "Minecraft.ttf";
 
 }
 
@@ -37,7 +37,7 @@
     font-family: var(--dravya-font-name);
 
     src:
-        url("assets/fonts/PRIMD___.TTF")
+        url("assets/fonts/Minecraft.ttf")
         format("truetype");
 
     font-style: normal;
