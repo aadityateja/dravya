@@ -1,14 +1,820 @@
-body {
+/* ==========================================================
+   DRAVYA
+   GLOBAL
+   ========================================================== */
 
-    margin:0;
-    overflow:hidden;
-    background:black;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #020817;
+    color: #e8f1ff;
+
+    font-family:
+        Inter,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    overflow-x: hidden;
+}
+
+
+/* ==========================================================
+   BACKGROUND FIELD
+   ========================================================== */
+
+.field {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: -10;
+
+    overflow: hidden;
+
+    background: #020817;
+}
+
+
+.field-video {
+
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    opacity: 0.72;
+
+    filter:
+        brightness(0.72)
+        contrast(1.08);
 
 }
 
 
-canvas {
+.field-overlay {
 
-    display:block;
+    position: absolute;
+
+    inset: 0;
+
+    background:
+
+        linear-gradient(
+            to bottom,
+            rgba(2, 8, 23, 0.35),
+            rgba(2, 8, 23, 0.15) 40%,
+            rgba(2, 8, 23, 0.55)
+        );
+
+    pointer-events: none;
+
+}
+
+
+/* ==========================================================
+   NAVIGATION
+   ========================================================== */
+
+.navbar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 28px 42px;
+
+    z-index: 100;
+
+    backdrop-filter: blur(4px);
+
+}
+
+
+.logo {
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.18em;
+
+}
+
+
+.navigation {
+
+    display: flex;
+
+    gap: 28px;
+
+}
+
+
+.navigation a {
+
+    color: rgba(232, 241, 255, 0.72);
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    letter-spacing: 0.15em;
+
+    transition: 0.3s ease;
+
+}
+
+
+.navigation a:hover {
+
+    color: white;
+
+}
+
+
+/* ==========================================================
+   HERO
+   ========================================================== */
+
+.hero {
+
+    min-height: 100vh;
+
+    padding:
+        120px 42px
+        40px 42px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+}
+
+
+.hero-content {
+
+    max-width: 1100px;
+
+}
+
+
+.eyebrow {
+
+    font-size: 10px;
+
+    letter-spacing: 0.28em;
+
+    opacity: 0.55;
+
+    margin-bottom: 22px;
+
+}
+
+
+.hero h1 {
+
+    font-size:
+        clamp(90px, 17vw, 280px);
+
+    line-height: 0.78;
+
+    font-weight: 700;
+
+    letter-spacing: -0.07em;
+
+}
+
+
+.tagline {
+
+    margin-top: 32px;
+
+    font-family:
+        Georgia,
+        serif;
+
+    font-style: italic;
+
+    font-size:
+        clamp(20px, 2vw, 30px);
+
+    opacity: 0.8;
+
+}
+
+
+.hero-bottom {
+
+    position: absolute;
+
+    bottom: 32px;
+
+    left: 42px;
+    right: 42px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    font-size: 9px;
+
+    letter-spacing: 0.18em;
+
+    opacity: 0.5;
+
+}
+
+
+/* ==========================================================
+   GENERAL SECTIONS
+   ========================================================== */
+
+.section {
+
+    width: min(
+        1200px,
+        calc(100% - 84px)
+    );
+
+    margin: 0 auto;
+
+    padding:
+        150px 0;
+
+}
+
+
+.section-label {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    border-top: 1px solid
+        rgba(255,255,255,0.18);
+
+    padding-top: 12px;
+
+    margin-bottom: 70px;
+
+    font-size: 9px;
+
+    letter-spacing: 0.2em;
+
+    opacity: 0.55;
+
+}
+
+
+/* ==========================================================
+   LATEST RELEASE
+   ========================================================== */
+
+.release {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 2fr;
+
+    gap: 60px;
+
+}
+
+
+.release-date {
+
+    font-size: 11px;
+
+    letter-spacing: 0.15em;
+
+    opacity: 0.5;
+
+}
+
+
+.release-type {
+
+    font-size: 10px;
+
+    letter-spacing: 0.2em;
+
+    opacity: 0.55;
+
+    margin-bottom: 20px;
+
+}
+
+
+.release h2 {
+
+    font-size:
+        clamp(55px, 9vw, 130px);
+
+    line-height: 0.9;
+
+    letter-spacing: -0.05em;
+
+}
+
+
+.release-description {
+
+    margin-top: 35px;
+
+    font-family:
+        Georgia,
+        serif;
+
+    font-size: 20px;
+
+    opacity: 0.75;
+
+}
+
+
+.text-link {
+
+    display: inline-block;
+
+    margin-top: 35px;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    letter-spacing: 0.18em;
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.4);
+
+    padding-bottom: 7px;
+
+}
+
+
+/* ==========================================================
+   EXPLORE GRID
+   ========================================================== */
+
+.explore-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    border-top:
+        1px solid rgba(255,255,255,0.15);
+
+    border-left:
+        1px solid rgba(255,255,255,0.15);
+
+}
+
+
+.field-card {
+
+    min-height: 280px;
+
+    padding: 32px;
+
+    color: white;
+
+    text-decoration: none;
+
+    border-right:
+        1px solid rgba(255,255,255,0.15);
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.15);
+
+    transition:
+        background 0.4s ease,
+        transform 0.4s ease;
+
+}
+
+
+.field-card:hover {
+
+    background:
+        rgba(20, 70, 150, 0.18);
+
+}
+
+
+.card-number {
+
+    font-size: 9px;
+
+    letter-spacing: 0.15em;
+
+    opacity: 0.4;
+
+}
+
+
+.field-card h3 {
+
+    margin-top: 90px;
+
+    font-size: 30px;
+
+    letter-spacing: -0.03em;
+
+}
+
+
+.field-card p {
+
+    margin-top: 12px;
+
+    max-width: 260px;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+
+    opacity: 0.55;
+
+}
+
+
+/* ==========================================================
+   STATEMENT
+   ========================================================== */
+
+.statement {
+
+    min-height: 80vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+}
+
+
+.statement-mark {
+
+    font-size: 30px;
+
+    opacity: 0.4;
+
+    margin-bottom: 45px;
+
+}
+
+
+.statement-text {
+
+    max-width: 850px;
+
+    font-family:
+        Georgia,
+        serif;
+
+    font-size:
+        clamp(28px, 4vw, 55px);
+
+    line-height: 1.2;
+
+    letter-spacing: -0.02em;
+
+}
+
+
+/* ==========================================================
+   FIELD NOTES
+   ========================================================== */
+
+.notes-list {
+
+    border-top:
+        1px solid rgba(255,255,255,0.15);
+
+}
+
+
+.note {
+
+    display: grid;
+
+    grid-template-columns:
+        120px 1fr 100px;
+
+    align-items: center;
+
+    gap: 30px;
+
+    padding: 28px 0;
+
+    color: white;
+
+    text-decoration: none;
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.12);
+
+}
+
+
+.note span,
+.note time {
+
+    font-size: 9px;
+
+    letter-spacing: 0.15em;
+
+    opacity: 0.45;
+
+}
+
+
+.note h3 {
+
+    font-size: 18px;
+
+    font-weight: 400;
+
+}
+
+
+/* ==========================================================
+   CLOSING
+   ========================================================== */
+
+.closing {
+
+    min-height: 70vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    padding: 100px 42px;
+
+}
+
+
+.closing h2 {
+
+    font-size:
+        clamp(50px, 9vw, 140px);
+
+    line-height: 0.9;
+
+    letter-spacing: -0.06em;
+
+}
+
+
+.closing p {
+
+    margin-top: 35px;
+
+    font-family: Georgia, serif;
+
+    font-size: 20px;
+
+    opacity: 0.6;
+
+}
+
+
+/* ==========================================================
+   FOOTER
+   ========================================================== */
+
+footer {
+
+    padding:
+        80px 42px 35px;
+
+    border-top:
+        1px solid rgba(255,255,255,0.15);
+
+}
+
+
+.footer-logo {
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.15em;
+
+}
+
+
+.footer-tagline {
+
+    margin-top: 10px;
+
+    font-family: Georgia, serif;
+
+    font-style: italic;
+
+    opacity: 0.5;
+
+}
+
+
+.footer-links {
+
+    display: flex;
+
+    gap: 25px;
+
+    margin-top: 50px;
+
+}
+
+
+.footer-links a {
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 9px;
+
+    letter-spacing: 0.15em;
+
+    opacity: 0.55;
+
+}
+
+
+.copyright {
+
+    margin-top: 70px;
+
+    font-size: 8px;
+
+    letter-spacing: 0.15em;
+
+    opacity: 0.3;
+
+}
+
+
+/* ==========================================================
+   MOBILE
+   ========================================================== */
+
+@media (max-width: 800px) {
+
+
+    .navbar {
+
+        padding: 22px;
+
+    }
+
+
+    .navigation {
+
+        display: none;
+
+    }
+
+
+    .hero {
+
+        padding:
+            100px 22px
+            40px;
+
+    }
+
+
+    .hero-bottom {
+
+        left: 22px;
+        right: 22px;
+
+    }
+
+
+    .hero-bottom span:first-child {
+
+        display: none;
+
+    }
+
+
+    .section {
+
+        width:
+            calc(100% - 44px);
+
+        padding:
+            100px 0;
+
+    }
+
+
+    .release {
+
+        grid-template-columns: 1fr;
+
+        gap: 25px;
+
+    }
+
+
+    .explore-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .field-card {
+
+        min-height: 230px;
+
+    }
+
+
+    .field-card h3 {
+
+        margin-top: 60px;
+
+    }
+
+
+    .note {
+
+        grid-template-columns:
+            80px 1fr;
+
+        gap: 15px;
+
+    }
+
+
+    .note time {
+
+        display: none;
+
+    }
+
+
+    .closing {
+
+        padding:
+            80px 22px;
+
+    }
+
+
+    footer {
+
+        padding:
+            60px 22px 30px;
+
+    }
 
 }
