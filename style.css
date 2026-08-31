@@ -1,5 +1,11 @@
+```css
 /* ==========================================================
-   01 — FONT LOADING
+   DRAVYA — ONE PAGE
+   ========================================================== */
+
+
+/* ==========================================================
+   01 — FONT
    ========================================================== */
 
 @font-face {
@@ -11,77 +17,23 @@
 
     font-style: normal;
 
-    font-weight: 100 900;
+    font-weight: normal;
 
     font-display: swap;
 
 }
 
 
-/* ==========================================================
-   02 — DESIGN VARIABLES
-   ========================================================== */
-
 :root {
-
-    /* Typography */
 
     --dravya-font:
         "DRAVYA-DARK";
-
-    --font-main:
-        var(--dravya-font);
-
-
-    /* Background */
-
-    --background:
-        #020817;
-
-
-    /* Text */
-
-    --white:
-        #ffffff;
-
-    --text:
-        #e8f1ff;
-
-    --text-soft:
-        rgba(232, 241, 255, 0.72);
-
-    --text-muted:
-        rgba(232, 241, 255, 0.50);
-
-
-    /* Lines */
-
-    --line:
-        rgba(255, 255, 255, 0.18);
-
-    --line-soft:
-        rgba(255, 255, 255, 0.12);
-
-
-    /* Hover */
-
-    --hover:
-        rgba(20, 70, 150, 0.18);
-
-
-    /* Layout */
-
-    --page-padding:
-        42px;
-
-    --content-width:
-        1200px;
 
 }
 
 
 /* ==========================================================
-   03 — GLOBAL RESET
+   02 — RESET
    ========================================================== */
 
 * {
@@ -92,121 +44,54 @@
 
     box-sizing: border-box;
 
-}
-
-
-html {
-
-    scroll-behavior: smooth;
+    font-family:
+        var(--dravya-font) !important;
 
 }
 
 
+html,
 body {
+
+    width: 100%;
+
+    height: 100%;
 
     margin: 0;
 
-    background:
-        var(--background);
-
-    color:
-        var(--text);
-
-    overflow-x: hidden;
-
-    font-family:
-        var(--font-main) !important;
-
-    -webkit-font-smoothing:
-        antialiased;
-
-    -moz-osx-font-smoothing:
-        grayscale;
-
-}
-
-
-/* ==========================================================
-   04 — FORCE FONT EVERYWHERE
-   ========================================================== */
-
-*,
-*::before,
-*::after {
-
-    font-family:
-        var(--font-main) !important;
-
-}
-
-
-/* ==========================================================
-   05 — BACKGROUND FIELD
-   ========================================================== */
-
-.field {
-
-    position: fixed;
-
-    inset: 0;
-
-    width: 100%;
-
-    height: 100%;
-
-    z-index: -10;
+    padding: 0;
 
     overflow: hidden;
 
-    background:
-        var(--background);
-
-}
-
-
-.field-video {
-
-    position: absolute;
-
-    top: 50%;
-
-    left: 50%;
-
-    width: 100%;
-
-    height: 100%;
-
-    transform:
-        translate(-50%, -50%);
-
-    object-fit: cover;
-
-    opacity: 0.72;
-
-    filter:
-        brightness(0.72)
-        contrast(1.08);
-
 }
 
 
 /* ==========================================================
-   06 — FIELD OVERLAY
+   03 — BACKGROUND VIDEO
    ========================================================== */
 
-.field-overlay {
+/*
+   THIS IS THE ACTUAL DRAVYA BACKGROUND.
 
-    position: absolute;
+   File:
+   assets/dravya_vacuum_fluctuation_10s.mp4
 
-    inset: 0;
+   Nothing is added over it.
+*/
 
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(2, 8, 23, 0.38),
-            rgba(2, 8, 23, 0.12) 40%,
-            rgba(2, 8, 23, 0.58)
-        );
+.background-video {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    object-fit: cover;
+
+    z-index: 0;
 
     pointer-events: none;
 
@@ -214,567 +99,194 @@ body {
 
 
 /* ==========================================================
-   07 — NAVIGATION
+   04 — BACKGROUND OVERLAY
    ========================================================== */
 
-.navbar {
+/*
+   No overlay.
+   The MP4 is shown directly.
+*/
+
+.background-overlay {
 
     position: fixed;
 
-    top: 0;
-
-    left: 0;
+    inset: 0;
 
     width: 100%;
+    height: 100%;
 
-    display: flex;
+    background: transparent;
 
-    justify-content: space-between;
+    z-index: 1;
 
-    align-items: center;
-
-    padding:
-        28px var(--page-padding);
-
-    z-index: 100;
-
-    backdrop-filter:
-        blur(4px);
-
-}
-
-
-.logo {
-
-    color:
-        var(--white);
-
-    text-decoration: none;
-
-    font-size: 15px;
-
-    font-weight: 700;
-
-    letter-spacing: 0.18em;
-
-}
-
-
-.navigation {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 28px;
-
-}
-
-
-.navigation a {
-
-    color:
-        var(--text-soft);
-
-    text-decoration: none;
-
-    font-size: 10px;
-
-    letter-spacing: 0.15em;
-
-    transition:
-        color 0.3s ease;
-
-}
-
-
-.navigation a:hover {
-
-    color:
-        var(--white);
+    pointer-events: none;
 
 }
 
 
 /* ==========================================================
-   08 — HERO
+   05 — MAIN PAGE
    ========================================================== */
 
-.hero {
+.dravyafield {
 
     position: relative;
 
-    min-height: 100vh;
+    z-index: 2;
 
-    padding:
-        120px var(--page-padding)
-        40px var(--page-padding);
+    width: 100vw;
+
+    height: 100vh;
 
     display: flex;
 
-    flex-direction: column;
+    align-items: center;
 
     justify-content: center;
 
-}
+    padding: 40px;
 
-
-.hero-content {
-
-    max-width:
-        var(--content-width);
-
-}
-
-
-.eyebrow {
-
-    font-size: 10px;
-
-    letter-spacing: 0.28em;
-
-    opacity: 0.55;
-
-    margin-bottom: 24px;
-
-}
-
-
-.hero h1 {
-
-    font-size:
-        clamp(
-            90px,
-            17vw,
-            280px
-        );
-
-    line-height: 0.78;
-
-    font-weight: 700;
-
-    letter-spacing: -0.07em;
-
-    color:
-        var(--white);
-
-}
-
-
-.tagline {
-
-    margin-top: 35px;
-
-    font-size:
-        clamp(
-            20px,
-            2vw,
-            30px
-        );
-
-    line-height: 1.2;
-
-    letter-spacing: 0.02em;
-
-    opacity: 0.75;
+    overflow: hidden;
 
 }
 
 
 /* ==========================================================
-   09 — HERO BOTTOM
+   06 — CONTENT
    ========================================================== */
 
-.hero-bottom {
+.content {
 
-    position: absolute;
+    width: 100%;
 
-    bottom: 32px;
-
-    left: var(--page-padding);
-
-    right: var(--page-padding);
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    font-size: 9px;
-
-    letter-spacing: 0.18em;
-
-    opacity: 0.5;
-
-}
-
-
-.scroll {
-
-    white-space: nowrap;
-
-}
-
-
-/* ==========================================================
-   10 — GENERAL SECTIONS
-   ========================================================== */
-
-.section {
-
-    width:
-        min(
-            var(--content-width),
-            calc(100% - 84px)
-        );
-
-    margin:
-        0 auto;
-
-    padding:
-        150px 0;
-
-}
-
-
-.section-label {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    border-top:
-        1px solid
-        var(--line);
-
-    padding-top: 12px;
-
-    margin-bottom: 70px;
-
-    font-size: 9px;
-
-    letter-spacing: 0.2em;
-
-    opacity: 0.55;
-
-}
-
-
-/* ==========================================================
-   11 — LATEST DISTURBANCE
-   ========================================================== */
-
-.release {
-
-    display: grid;
-
-    grid-template-columns:
-        1fr 2fr;
-
-    gap: 60px;
-
-}
-
-
-.release-date {
-
-    font-size: 11px;
-
-    letter-spacing: 0.15em;
-
-    opacity: 0.5;
-
-}
-
-
-.release-info {
-
-    max-width: 850px;
-
-}
-
-
-.release-type {
-
-    font-size: 10px;
-
-    letter-spacing: 0.2em;
-
-    opacity: 0.55;
-
-    margin-bottom: 20px;
-
-}
-
-
-.release h2 {
-
-    font-size:
-        clamp(
-            55px,
-            9vw,
-            130px
-        );
-
-    line-height: 0.88;
-
-    font-weight: 700;
-
-    letter-spacing: -0.05em;
-
-    color:
-        var(--white);
-
-}
-
-
-.release-description {
-
-    margin-top: 35px;
-
-    font-size: 18px;
-
-    line-height: 1.5;
-
-    letter-spacing: 0.01em;
-
-    opacity: 0.72;
-
-}
-
-
-/* ==========================================================
-   12 — TEXT LINKS
-   ========================================================== */
-
-.text-link {
-
-    display: inline-block;
-
-    margin-top: 35px;
-
-    color:
-        var(--white);
-
-    text-decoration: none;
-
-    font-size: 10px;
-
-    letter-spacing: 0.18em;
-
-    border-bottom:
-        1px solid
-        rgba(255,255,255,0.4);
-
-    padding-bottom: 7px;
-
-    transition:
-        opacity 0.3s ease,
-        border-color 0.3s ease;
-
-}
-
-
-.text-link:hover {
-
-    opacity: 0.65;
-
-    border-color:
-        rgba(255,255,255,0.8);
-
-}
-
-
-/* ==========================================================
-   13 — EXPLORE GRID
-   ========================================================== */
-
-.explore-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    border-top:
-        1px solid
-        var(--line-soft);
-
-    border-left:
-        1px solid
-        var(--line-soft);
-
-}
-
-
-.field-card {
-
-    min-height: 280px;
-
-    padding: 32px;
-
-    color:
-        var(--white);
-
-    text-decoration: none;
-
-    border-right:
-        1px solid
-        var(--line-soft);
-
-    border-bottom:
-        1px solid
-        var(--line-soft);
-
-    transition:
-        background 0.4s ease;
-
-}
-
-
-.field-card:hover {
-
-    background:
-        var(--hover);
-
-}
-
-
-.card-number {
-
-    display: block;
-
-    font-size: 9px;
-
-    letter-spacing: 0.15em;
-
-    opacity: 0.4;
-
-}
-
-
-.field-card h3 {
-
-    margin-top: 90px;
-
-    font-size: 30px;
-
-    line-height: 1;
-
-    font-weight: 700;
-
-    letter-spacing: -0.03em;
-
-}
-
-
-.field-card p {
-
-    margin-top: 14px;
-
-    max-width: 280px;
-
-    font-size: 11px;
-
-    line-height: 1.6;
-
-    letter-spacing: 0.02em;
-
-    opacity: 0.55;
-
-}
-
-
-/* ==========================================================
-   14 — STATEMENT
-   ========================================================== */
-
-.statement {
-
-    min-height: 80vh;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    align-items: center;
+    max-width: 1050px;
 
     text-align: center;
 
 }
 
 
-.statement-mark {
+/* ==========================================================
+   07 — DRAVYA
+   ========================================================== */
 
-    font-size: 30px;
+.title {
 
-    opacity: 0.4;
+    margin: 0;
 
-    margin-bottom: 45px;
-
-}
-
-
-.statement-text {
-
-    max-width: 900px;
+    color: #ffffff;
 
     font-size:
         clamp(
-            28px,
-            4vw,
-            55px
+            8rem,
+            18vw,
+            15rem
         );
 
-    line-height: 1.18;
+    line-height: 0.8;
 
-    letter-spacing: -0.02em;
+    font-weight: normal;
 
-    font-weight: 400;
+    letter-spacing:
+        0.02em;
 
 }
 
 
 /* ==========================================================
-   15 — FIELD NOTES
+   08 — OBSERVE. DISTURB. CREATE.
    ========================================================== */
 
-.notes-list {
+.tagline {
 
-    border-top:
-        1px solid
-        var(--line-soft);
+    margin-top: 35px;
+
+    margin-bottom: 60px;
+
+    color: #ffffff;
+
+    font-size:
+        clamp(
+            1.3rem,
+            2vw,
+            1.8rem
+        );
+
+    line-height: 1.2;
+
+    letter-spacing:
+        0.12em;
+
+    opacity: 0.9;
 
 }
 
 
-.note {
+/* ==========================================================
+   09 — DESCRIPTION
+   ========================================================== */
 
-    display: grid;
+.description {
 
-    grid-template-columns:
-        120px 1fr 100px;
+    width: 100%;
+
+    max-width: 850px;
+
+    margin:
+        0 auto 60px auto;
+
+    color: #ffffff;
+
+    font-size:
+        clamp(
+            1.05rem,
+            1.5vw,
+            1.3rem
+        );
+
+    line-height: 1.65;
+
+    letter-spacing:
+        0.025em;
+
+    opacity: 0.82;
+
+}
+
+
+/* ==========================================================
+   10 — SOUNDS / ART / SHORT FICTION
+   ========================================================== */
+
+.creative-links {
+
+    display: flex;
 
     align-items: center;
 
-    gap: 30px;
+    justify-content: center;
 
-    padding:
-        28px 0;
+    gap: 55px;
 
-    color:
-        var(--white);
+    margin-bottom: 48px;
+
+}
+
+
+.creative-links a {
+
+    color: #ffffff;
 
     text-decoration: none;
 
-    border-bottom:
-        1px solid
-        var(--line-soft);
+    font-size:
+        1.05rem;
+
+    letter-spacing:
+        0.16em;
+
+    opacity: 0.9;
 
     transition:
         opacity 0.3s ease;
@@ -782,156 +294,43 @@ body {
 }
 
 
-.note:hover {
-
-    opacity: 0.65;
-
-}
-
-
-.note span,
-.note time {
-
-    font-size: 9px;
-
-    letter-spacing: 0.15em;
-
-    opacity: 0.45;
-
-}
-
-
-.note h3 {
-
-    font-size: 18px;
-
-    line-height: 1.3;
-
-    font-weight: 400;
-
-}
-
-
-/* ==========================================================
-   16 — CLOSING
-   ========================================================== */
-
-.closing {
-
-    min-height: 70vh;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    padding:
-        100px var(--page-padding);
-
-}
-
-
-.closing h2 {
-
-    font-size:
-        clamp(
-            50px,
-            9vw,
-            140px
-        );
-
-    line-height: 0.9;
-
-    font-weight: 700;
-
-    letter-spacing: -0.06em;
-
-    color:
-        var(--white);
-
-}
-
-
-.closing p {
-
-    margin-top: 35px;
-
-    font-size: 18px;
-
-    line-height: 1.4;
-
-    letter-spacing: 0.02em;
-
-    opacity: 0.6;
-
-}
-
-
-/* ==========================================================
-   17 — FOOTER
-   ========================================================== */
-
-footer {
-
-    padding:
-        80px var(--page-padding)
-        35px;
-
-    border-top:
-        1px solid
-        var(--line-soft);
-
-}
-
-
-.footer-logo {
-
-    font-size: 22px;
-
-    font-weight: 700;
-
-    letter-spacing: 0.15em;
-
-}
-
-
-.footer-tagline {
-
-    margin-top: 10px;
-
-    font-size: 13px;
-
-    letter-spacing: 0.04em;
+.creative-links a:hover {
 
     opacity: 0.5;
 
 }
 
 
-.footer-links {
+/* ==========================================================
+   11 — INSTAGRAM / YOUTUBE
+   ========================================================== */
+
+.social-links {
 
     display: flex;
 
-    gap: 25px;
+    align-items: center;
 
-    margin-top: 50px;
+    justify-content: center;
+
+    gap: 40px;
 
 }
 
 
-.footer-links a {
+.social-links a {
 
-    color:
-        var(--white);
+    color: #ffffff;
 
     text-decoration: none;
 
-    font-size: 9px;
+    font-size:
+        0.9rem;
 
-    letter-spacing: 0.15em;
+    letter-spacing:
+        0.16em;
 
-    opacity: 0.55;
+    opacity: 0.7;
 
     transition:
         opacity 0.3s ease;
@@ -939,499 +338,108 @@ footer {
 }
 
 
-.footer-links a:hover {
+.social-links a:hover {
 
     opacity: 1;
 
 }
 
 
-.copyright {
-
-    margin-top: 70px;
-
-    font-size: 8px;
-
-    letter-spacing: 0.15em;
-
-    opacity: 0.3;
-
-}
-
-
 /* ==========================================================
-   18 — ORIGINAL MOBILE
-   ========================================================== */
-
-@media (max-width: 800px) {
-
-    :root {
-
-        --page-padding:
-            22px;
-
-    }
-
-
-    .navbar {
-
-        padding:
-            22px;
-
-    }
-
-
-    .navigation {
-
-        display: none;
-
-    }
-
-
-    .hero {
-
-        padding:
-            100px 22px
-            40px;
-
-    }
-
-
-    .hero h1 {
-
-        font-size:
-            clamp(
-                70px,
-                22vw,
-                150px
-            );
-
-    }
-
-
-    .hero-bottom {
-
-        left: 22px;
-
-        right: 22px;
-
-    }
-
-
-    .hero-bottom span:first-child {
-
-        display: none;
-
-    }
-
-
-    .section {
-
-        width:
-            calc(100% - 44px);
-
-        padding:
-            100px 0;
-
-    }
-
-
-    .release {
-
-        grid-template-columns:
-            1fr;
-
-        gap: 25px;
-
-    }
-
-
-    .release h2 {
-
-        font-size:
-            clamp(
-                50px,
-                15vw,
-                90px
-            );
-
-    }
-
-
-    .explore-grid {
-
-        grid-template-columns:
-            1fr;
-
-    }
-
-
-    .field-card {
-
-        min-height:
-            230px;
-
-    }
-
-
-    .field-card h3 {
-
-        margin-top:
-            60px;
-
-    }
-
-
-    .note {
-
-        grid-template-columns:
-            80px 1fr;
-
-        gap:
-            15px;
-
-    }
-
-
-    .note time {
-
-        display:
-            none;
-
-    }
-
-
-    .closing {
-
-        padding:
-            80px 22px;
-
-    }
-
-
-    .closing h2 {
-
-        font-size:
-            clamp(
-                48px,
-                13vw,
-                90px
-            );
-
-    }
-
-
-    footer {
-
-        padding:
-            60px 22px
-            30px;
-
-    }
-
-}
-
-
-/* ==========================================================
-   19 — DRAVYA SINGLE-SCREEN PAGE
-   ========================================================== */
-
-.single-page {
-
-    position:
-        relative;
-
-    width:
-        100vw;
-
-    height:
-        100vh;
-
-    min-height:
-        100vh;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    overflow:
-        hidden;
-
-}
-
-
-.single-content {
-
-    width:
-        min(
-            1000px,
-            90vw
-        );
-
-    text-align:
-        center;
-
-}
-
-
-/* ==========================================================
-   20 — DRAVYA TITLE
-   ========================================================== */
-
-.single-title {
-
-    font-size:
-        clamp(
-            110px,
-            18vw,
-            260px
-        );
-
-    line-height:
-        0.8;
-
-    font-weight:
-        700;
-
-    letter-spacing:
-        -0.07em;
-
-    color:
-        var(--white);
-
-}
-
-
-/* ==========================================================
-   21 — TAGLINE
-   ========================================================== */
-
-.single-tagline {
-
-    margin-top:
-        38px;
-
-    font-size:
-        clamp(
-            20px,
-            2vw,
-            30px
-        );
-
-    line-height:
-        1.2;
-
-    letter-spacing:
-        0.02em;
-
-    color:
-        var(--text-soft);
-
-}
-
-
-/* ==========================================================
-   22 — DESCRIPTION
-   ========================================================== */
-
-.single-description {
-
-    max-width:
-        850px;
-
-    margin:
-        55px auto 55px;
-
-    font-size:
-        clamp(
-            16px,
-            1.5vw,
-            21px
-        );
-
-    line-height:
-        1.55;
-
-    color:
-        var(--text-soft);
-
-}
-
-
-/* ==========================================================
-   23 — CREATIVE LINKS
-   ========================================================== */
-
-.single-links {
-
-    display:
-        flex;
-
-    justify-content:
-        center;
-
-    align-items:
-        center;
-
-    gap:
-        50px;
-
-}
-
-
-.single-links a {
-
-    color:
-        var(--white);
-
-    text-decoration:
-        none;
-
-    font-size:
-        15px;
-
-    letter-spacing:
-        0.15em;
-
-    opacity:
-        0.8;
-
-    transition:
-        opacity 0.3s ease,
-        letter-spacing 0.3s ease;
-
-}
-
-
-.single-links a:hover {
-
-    opacity:
-        1;
-
-    letter-spacing:
-        0.2em;
-
-}
-
-
-/* ==========================================================
-   24 — SOCIAL LINKS
-   ========================================================== */
-
-.single-social {
-
-    margin-top:
-        45px;
-
-    display:
-        flex;
-
-    justify-content:
-        center;
-
-    gap:
-        35px;
-
-}
-
-
-.single-social a {
-
-    color:
-        var(--text-soft);
-
-    text-decoration:
-        none;
-
-    font-size:
-        12px;
-
-    letter-spacing:
-        0.15em;
-
-    transition:
-        opacity 0.3s ease;
-
-}
-
-
-.single-social a:hover {
-
-    opacity:
-        1;
-
-}
-
-
-/* ==========================================================
-   25 — SINGLE PAGE MOBILE
+   12 — MOBILE
    ========================================================== */
 
 @media (max-width: 700px) {
 
+    .dravyafield {
 
-    .single-title {
+        padding: 25px;
+
+    }
+
+
+    .content {
+
+        max-width: 100%;
+
+    }
+
+
+    .title {
 
         font-size:
             clamp(
-                75px,
+                5rem,
                 23vw,
-                150px
+                9rem
             );
 
+        letter-spacing:
+            0.02em;
+
     }
 
 
-    .single-tagline {
+    .tagline {
+
+        margin-top: 28px;
+
+        margin-bottom: 42px;
 
         font-size:
-            17px;
+            1.05rem;
 
-        margin-top:
-            30px;
+        letter-spacing:
+            0.09em;
 
     }
 
 
-    .single-description {
+    .description {
+
+        max-width: 92%;
+
+        margin-bottom: 42px;
 
         font-size:
-            15px;
+            0.95rem;
 
-        line-height:
-            1.6;
-
-        margin:
-            42px auto;
+        line-height: 1.65;
 
     }
 
 
-    .single-links {
+    .creative-links {
 
-        gap:
-            25px;
+        gap: 25px;
+
+        margin-bottom: 38px;
 
     }
 
 
-    .single-links a {
+    .creative-links a {
 
         font-size:
-            11px;
+            0.85rem;
+
+        letter-spacing:
+            0.11em;
 
     }
 
 
-    .single-social {
+    .social-links {
 
-        margin-top:
-            35px;
+        gap: 28px;
+
+    }
+
+
+    .social-links a {
+
+        font-size:
+            0.75rem;
 
     }
 
@@ -1439,23 +447,82 @@ footer {
 
 
 /* ==========================================================
-   26 — REDUCED MOTION
+   13 — SMALL PHONES
    ========================================================== */
 
-@media (prefers-reduced-motion: reduce) {
+@media (max-width: 420px) {
 
-    html {
+    .dravyafield {
 
-        scroll-behavior:
-            auto;
+        padding: 20px;
 
     }
 
 
-    .field-video {
+    .title {
 
-        display:
-            none;
+        font-size:
+            4.5rem;
+
+    }
+
+
+    .tagline {
+
+        font-size:
+            0.85rem;
+
+        margin-top:
+            25px;
+
+        margin-bottom:
+            32px;
+
+    }
+
+
+    .description {
+
+        font-size:
+            0.82rem;
+
+        margin-bottom:
+            32px;
+
+    }
+
+
+    .creative-links {
+
+        gap:
+            17px;
+
+        margin-bottom:
+            30px;
+
+    }
+
+
+    .creative-links a {
+
+        font-size:
+            0.7rem;
+
+    }
+
+
+    .social-links {
+
+        gap:
+            22px;
+
+    }
+
+
+    .social-links a {
+
+        font-size:
+            0.65rem;
 
     }
 
