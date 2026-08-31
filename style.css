@@ -1,36 +1,25 @@
-```css
-/* ==========================================================
-   DRAVYA — ONE PAGE
-   ========================================================== */
-
-
-/* ==========================================================
-   01 — FONT
-   ========================================================== */
-
 @font-face {
-
     font-family: "DRAVYA-DARK";
-
-    src: url("assets/fonts/HIGHLA2.TTF")
-         format("truetype");
-
-    font-style: normal;
-
+    src: url("assets/fonts/HIGHLA2.TTF") format("truetype");
     font-weight: normal;
-
+    font-style: normal;
     font-display: swap;
-
 }
-
 
 :root {
-
-    --dravya-font:
-        "DRAVYA-DARK";
-
+    --dravya-font: "DRAVYA-DARK";
 }
 
+html,
+body {
+    font-family: "DRAVYA-DARK", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    font-family: "DRAVYA-DARK", sans-serif;
+}
 
 /* ==========================================================
    02 — RESET
