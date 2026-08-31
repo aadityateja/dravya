@@ -1,509 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <title>DRAVYA</title>
 
-    <meta name="theme-color" content="#020817">
+    <!-- KEEP YOUR EXISTING FONT / FONT IMPORTS HERE -->
+    <!-- <link rel="stylesheet" href="your-font.css"> -->
 
-    <title>DRAVYA — Observe. Disturb. Create.</title>
+    <style>
+        /* =========================
+           DRAVYA — ONE PAGE
+           ========================= */
 
-    <meta name="description"
-          content="DRAVYA — an interdisciplinary digital space for sound, art, science, stories and thought.">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <link rel="stylesheet" href="style.css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
 
+        body {
+            background: #05070c;
+            color: #f2f4f7;
+
+            /* KEEP / REPLACE WITH YOUR FONT */
+            font-family: sans-serif;
+
+            overflow: hidden;
+        }
+
+        /* =========================
+           MAIN FIELD
+           ========================= */
+
+        .dravyafield {
+            width: 100vw;
+            height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 40px;
+        }
+
+        .content {
+            width: 100%;
+            max-width: 900px;
+
+            text-align: center;
+        }
+
+        /* =========================
+           TITLE
+           ========================= */
+
+        .title {
+            font-size: clamp(4rem, 9vw, 8rem);
+            font-weight: 500;
+            letter-spacing: 0.08em;
+
+            margin-bottom: 18px;
+        }
+
+        /* =========================
+           TAGLINE
+           ========================= */
+
+        .tagline {
+            font-size: clamp(1rem, 1.5vw, 1.35rem);
+            letter-spacing: 0.18em;
+
+            margin-bottom: 65px;
+
+            opacity: 0.8;
+        }
+
+        /* =========================
+           DESCRIPTION
+           ========================= */
+
+        .description {
+            max-width: 720px;
+
+            margin: 0 auto 65px auto;
+
+            font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+            line-height: 1.8;
+
+            letter-spacing: 0.02em;
+
+            opacity: 0.75;
+        }
+
+        /* =========================
+           CREATIVE LINKS
+           ========================= */
+
+        .creative-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            gap: 45px;
+
+            margin-bottom: 55px;
+        }
+
+        .creative-links a,
+        .social-links a {
+            color: #f2f4f7;
+            text-decoration: none;
+
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+
+            transition: opacity 0.3s ease,
+                        letter-spacing 0.3s ease;
+        }
+
+        .creative-links a:hover,
+        .social-links a:hover {
+            opacity: 0.5;
+            letter-spacing: 0.2em;
+        }
+
+        /* =========================
+           SOCIAL LINKS
+           ========================= */
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+
+            gap: 35px;
+        }
+
+        .social-links a {
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        /* =========================
+           MOBILE
+           ========================= */
+
+        @media (max-width: 600px) {
+
+            body {
+                overflow: hidden;
+            }
+
+            .dravyafield {
+                padding: 25px;
+            }
+
+            .title {
+                letter-spacing: 0.06em;
+                margin-bottom: 15px;
+            }
+
+            .tagline {
+                letter-spacing: 0.12em;
+                margin-bottom: 50px;
+            }
+
+            .description {
+                line-height: 1.7;
+                margin-bottom: 50px;
+            }
+
+            .creative-links {
+                flex-direction: column;
+                gap: 22px;
+                margin-bottom: 45px;
+            }
+
+            .social-links {
+                gap: 25px;
+            }
+        }
+    </style>
 </head>
 
 
 <body>
 
-    <!-- =====================================================
-         BACKGROUND FIELD
-         ===================================================== -->
+    <main class="dravyafield">
 
-    <div class="field">
+        <div class="content">
 
-        <video
-            class="field-video"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="auto">
+            <!-- =========================
+                 DRAVYA
+                 ========================= -->
 
-            <source
-                src="assets/dravya_vacuum_fluctuation_10s.mp4"
-                type="video/mp4">
-
-        </video>
-
-        <div class="field-overlay"></div>
-
-    </div>
+            <h1 class="title">
+                DRAVYA
+            </h1>
 
 
+            <!-- =========================
+                 TAGLINE
+                 ========================= -->
 
-    <!-- =====================================================
-         NAVIGATION
-         ===================================================== -->
-
-    <header class="navbar">
-
-        <a href="index.html" class="logo">
-            DRAVYA
-        </a>
-
-        <nav class="navigation">
-
-            <a href="sound.html">SOUND</a>
-
-            <a href="art.html">ART</a>
-
-            <a href="stories.html">STORIES</a>
-
-            <a href="science.html">SCIENCE</a>
-
-            <a href="thoughts.html">THOUGHTS</a>
-
-            <a href="field-notes.html">FIELD NOTES</a>
-
-        </nav>
-
-    </header>
-
-
-
-    <!-- =====================================================
-         MAIN
-         ===================================================== -->
-
-    <main>
-
-
-        <!-- =================================================
-             HERO
-             ================================================= -->
-
-        <section class="hero">
-
-            <div class="hero-content">
-
-                <p class="eyebrow">
-                    AN ONGOING EXPERIMENT
-                </p>
-
-                <h1>
-                    DRAVYA
-                </h1>
-
-                <p class="tagline">
-                    Observe. Disturb. Create.
-                </p>
-
+            <div class="tagline">
+                Observe. Disturb. Create.
             </div>
 
 
-            <div class="hero-bottom">
-
-                <span>
-                    SOUND · ART · SCIENCE · STORIES · THOUGHT
-                </span>
-
-                <span class="scroll">
-                    SCROLL ↓
-                </span>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             LATEST DISTURBANCE
-             ================================================= -->
-
-        <section class="section latest">
-
-            <div class="section-label">
-
-                <span>
-                    01
-                </span>
-
-                <span>
-                    LATEST DISTURBANCE
-                </span>
-
-            </div>
-
-
-            <div class="release">
-
-                <div class="release-date">
-                    02.09.2026
-                </div>
-
-
-                <div class="release-info">
-
-                    <p class="release-type">
-                        DRAVYA — EP
-                    </p>
-
-                    <h2>
-                        PERTURBATION
-                    </h2>
-
-                    <p class="release-description">
-                        Four tracks. Four states.
-                        One perturbation.
-                    </p>
-
-                    <a href="sound.html"
-                       class="text-link">
-
-                        ENTER SOUND →
-
-                    </a>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             EXPLORE
-             ================================================= -->
-
-        <section class="section explore">
-
-            <div class="section-label">
-
-                <span>
-                    02
-                </span>
-
-                <span>
-                    EXPLORE THE FIELD
-                </span>
-
-            </div>
-
-
-            <div class="explore-grid">
-
-
-                <a href="sound.html"
-                   class="field-card">
-
-                    <span class="card-number">
-                        01
-                    </span>
-
-                    <h3>
-                        SOUND
-                    </h3>
-
-                    <p>
-                        Music, releases
-                        & sonic experiments.
-                    </p>
-
-                </a>
-
-
-
-                <a href="art.html"
-                   class="field-card">
-
-                    <span class="card-number">
-                        02
-                    </span>
-
-                    <h3>
-                        ART
-                    </h3>
-
-                    <p>
-                        Images, films,
-                        visuals & design.
-                    </p>
-
-                </a>
-
-
-
-                <a href="stories.html"
-                   class="field-card">
-
-                    <span class="card-number">
-                        03
-                    </span>
-
-                    <h3>
-                        STORIES
-                    </h3>
-
-                    <p>
-                        Fiction, narratives
-                        & imagined worlds.
-                    </p>
-
-                </a>
-
-
-
-                <a href="science.html"
-                   class="field-card">
-
-                    <span class="card-number">
-                        04
-                    </span>
-
-                    <h3>
-                        SCIENCE
-                    </h3>
-
-                    <p>
-                        Physics, research
-                        & science communication.
-                    </p>
-
-                </a>
-
-
-
-                <a href="thoughts.html"
-                   class="field-card">
-
-                    <span class="card-number">
-                        05
-                    </span>
-
-                    <h3>
-                        THOUGHTS
-                    </h3>
-
-                    <p>
-                        Questions, ideas
-                        & observations.
-                    </p>
-
-                </a>
-
-
-
-                <a href="field-notes.html"
-                   class="field-card">
-
-                    <span class="card-number">
-                        06
-                    </span>
-
-                    <h3>
-                        FIELD NOTES
-                    </h3>
-
-                    <p>
-                        Experiments,
-                        process & fragments.
-                    </p>
-
-                </a>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             FIELD STATEMENT
-             ================================================= -->
-
-        <section class="section statement">
-
-            <div class="statement-mark">
-                ∴
-            </div>
-
-            <p class="statement-text">
-
-                DRAVYA is an interdisciplinary
-                creative space where sound,
-                art, science, stories and human
-                experience exist as different
-                expressions of the same field.
-
+            <!-- =========================
+                 DESCRIPTION
+                 ========================= -->
+
+            <p class="description">
+                DRAVYA is an interdisciplinary creative space where
+                sound, art, science, stories and human experience
+                exist as different expressions of the same field.
             </p>
 
-            <a href="about.html"
-               class="text-link">
 
-                ABOUT DRAVYA →
+            <!-- =========================
+                 CREATIVE WORLDS
+                 EDIT THESE LINKS
+                 ========================= -->
 
-            </a>
+            <nav class="creative-links">
 
-        </section>
-
-
-
-        <!-- =================================================
-             FIELD NOTES PREVIEW
-             ================================================= -->
-
-        <section class="section notes">
-
-            <div class="section-label">
-
-                <span>
-                    03
-                </span>
-
-                <span>
-                    FIELD NOTES
-                </span>
-
-            </div>
-
-
-            <div class="notes-list">
-
-
-                <a href="#"
-                   class="note">
-
-                    <span>
-                        SCIENCE
-                    </span>
-
-                    <h3>
-                        What exactly is a quantum field?
-                    </h3>
-
-                    <time>
-                        AUG 2026
-                    </time>
-
+                <a href="YOUR-SOUND-LINK">
+                    SOUNDS
                 </a>
 
-
-
-                <a href="#"
-                   class="note">
-
-                    <span>
-                        MUSIC
-                    </span>
-
-                    <h3>
-                        The idea behind PERTURBATION
-                    </h3>
-
-                    <time>
-                        SEP 2026
-                    </time>
-
+                <a href="YOUR-ART-LINK">
+                    ART
                 </a>
 
-
-
-                <a href="#"
-                   class="note">
-
-                    <span>
-                        THOUGHTS
-                    </span>
-
-                    <h3>
-                        Notes from an unfinished experiment
-                    </h3>
-
-                    <time>
-                        SOON
-                    </time>
-
+                <a href="YOUR-SHORT-FICTION-LINK">
+                    SHORT FICTION
                 </a>
 
-
-            </div>
-
-        </section>
+            </nav>
 
 
+            <!-- =========================
+                 SOCIAL
+                 EDIT THESE LINKS
+                 ========================= -->
 
-        <!-- =================================================
-             CLOSING
-             ================================================= -->
+            <nav class="social-links">
 
-        <section class="closing">
+                <a
+                    href="YOUR-INSTAGRAM-LINK"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    INSTAGRAM
+                </a>
 
-            <h2>
-                ONE FIELD.<br>
-                MANY EXPRESSIONS.
-            </h2>
+                <a
+                    href="YOUR-YOUTUBE-LINK"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    YOUTUBE
+                </a>
 
-            <p>
-                The experiment continues.
-            </p>
+            </nav>
 
-        </section>
-
+        </div>
 
     </main>
 
-
-
-    <!-- =====================================================
-         FOOTER
-         ===================================================== -->
-
-    <footer>
-
-        <div class="footer-logo">
-            DRAVYA
-        </div>
-
-        <div class="footer-tagline">
-            Observe. Disturb. Create.
-        </div>
-
-
-        <div class="footer-links">
-
-            <a href="#">
-                INSTAGRAM
-            </a>
-
-            <a href="#">
-                YOUTUBE
-            </a>
-
-            <a href="#">
-                GITHUB
-            </a>
-
-        </div>
-
-
-        <div class="copyright">
-
-            © 2026 DRAVYA
-
-        </div>
-
-    </footer>
-
-
 </body>
-
 </html>
