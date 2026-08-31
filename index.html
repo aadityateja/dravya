@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,13 +7,16 @@
 
     <title>DRAVYA</title>
 
-    <!-- KEEP YOUR EXISTING FONT / FONT IMPORTS HERE -->
-    <!-- <link rel="stylesheet" href="your-font.css"> -->
+    <!-- =========================
+         YOUR EXISTING FONT
+         KEEP YOUR FONT IMPORT HERE
+         ========================= -->
+
+    <!-- Example:
+    <link rel="stylesheet" href="YOUR-FONT.css">
+    -->
 
     <style>
-        /* =========================
-           DRAVYA — ONE PAGE
-           ========================= */
 
         * {
             margin: 0;
@@ -30,14 +34,53 @@
             background: #05070c;
             color: #f2f4f7;
 
-            /* KEEP / REPLACE WITH YOUR FONT */
+            /* KEEP YOUR EXISTING FONT HERE */
             font-family: sans-serif;
 
             overflow: hidden;
         }
 
+
         /* =========================
-           MAIN FIELD
+           BACKGROUND VIDEO
+           ========================= */
+
+        .background-video {
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 100vw;
+            height: 100vh;
+
+            object-fit: cover;
+
+            z-index: -2;
+
+            pointer-events: none;
+        }
+
+
+        /* =========================
+           DARK OVERLAY
+           ========================= */
+
+        .background-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.18);
+
+            z-index: -1;
+
+            pointer-events: none;
+        }
+
+
+        /* =========================
+           MAIN PAGE
            ========================= */
 
         .dravyafield {
@@ -45,11 +88,13 @@
             height: 100vh;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
             padding: 40px;
         }
+
 
         .content {
             width: 100%;
@@ -58,17 +103,21 @@
             text-align: center;
         }
 
+
         /* =========================
-           TITLE
+           DRAVYA
            ========================= */
 
         .title {
             font-size: clamp(4rem, 9vw, 8rem);
+
             font-weight: 500;
+
             letter-spacing: 0.08em;
 
             margin-bottom: 18px;
         }
+
 
         /* =========================
            TAGLINE
@@ -76,12 +125,14 @@
 
         .tagline {
             font-size: clamp(1rem, 1.5vw, 1.35rem);
+
             letter-spacing: 0.18em;
 
             margin-bottom: 65px;
 
-            opacity: 0.8;
+            opacity: 0.85;
         }
+
 
         /* =========================
            DESCRIPTION
@@ -93,12 +144,14 @@
             margin: 0 auto 65px auto;
 
             font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+
             line-height: 1.8;
 
             letter-spacing: 0.02em;
 
-            opacity: 0.75;
+            opacity: 0.8;
         }
+
 
         /* =========================
            CREATIVE LINKS
@@ -106,6 +159,7 @@
 
         .creative-links {
             display: flex;
+
             justify-content: center;
             align-items: center;
 
@@ -114,39 +168,54 @@
             margin-bottom: 55px;
         }
 
+
         .creative-links a,
         .social-links a {
+
             color: #f2f4f7;
+
             text-decoration: none;
 
             font-size: 1rem;
+
             letter-spacing: 0.15em;
 
-            transition: opacity 0.3s ease,
-                        letter-spacing 0.3s ease;
+            transition:
+                opacity 0.3s ease,
+                letter-spacing 0.3s ease;
         }
+
 
         .creative-links a:hover,
         .social-links a:hover {
+
             opacity: 0.5;
+
             letter-spacing: 0.2em;
         }
+
 
         /* =========================
            SOCIAL LINKS
            ========================= */
 
         .social-links {
+
             display: flex;
+
             justify-content: center;
 
             gap: 35px;
         }
 
+
         .social-links a {
+
             font-size: 0.85rem;
-            opacity: 0.6;
+
+            opacity: 0.7;
         }
+
 
         /* =========================
            MOBILE
@@ -154,82 +223,113 @@
 
         @media (max-width: 600px) {
 
-            body {
-                overflow: hidden;
-            }
-
             .dravyafield {
                 padding: 25px;
             }
 
             .title {
+
                 letter-spacing: 0.06em;
+
                 margin-bottom: 15px;
             }
 
             .tagline {
+
                 letter-spacing: 0.12em;
-                margin-bottom: 50px;
-            }
 
-            .description {
-                line-height: 1.7;
-                margin-bottom: 50px;
-            }
-
-            .creative-links {
-                flex-direction: column;
-                gap: 22px;
                 margin-bottom: 45px;
             }
 
+            .description {
+
+                line-height: 1.7;
+
+                margin-bottom: 45px;
+            }
+
+            .creative-links {
+
+                flex-direction: column;
+
+                gap: 22px;
+
+                margin-bottom: 40px;
+            }
+
             .social-links {
+
                 gap: 25px;
             }
         }
+
     </style>
 </head>
 
 
 <body>
 
+
+    <!-- =========================
+         DRAVYA VACUUM FLUCTUATION
+         BACKGROUND
+         ========================= -->
+
+    <video
+        class="background-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+    >
+
+        <source
+            src="assets/dravya_vacuum_fluctuation_10s.mp4"
+            type="video/mp4"
+        >
+
+    </video>
+
+
+    <div class="background-overlay"></div>
+
+
+    <!-- =========================
+         CONTENT
+         ========================= -->
+
     <main class="dravyafield">
 
         <div class="content">
 
-            <!-- =========================
-                 DRAVYA
-                 ========================= -->
+
+            <!-- DRAVYA -->
 
             <h1 class="title">
                 DRAVYA
             </h1>
 
 
-            <!-- =========================
-                 TAGLINE
-                 ========================= -->
+            <!-- TAGLINE -->
 
             <div class="tagline">
                 Observe. Disturb. Create.
             </div>
 
 
-            <!-- =========================
-                 DESCRIPTION
-                 ========================= -->
+            <!-- DESCRIPTION -->
 
             <p class="description">
+
                 DRAVYA is an interdisciplinary creative space where
                 sound, art, science, stories and human experience
                 exist as different expressions of the same field.
+
             </p>
 
 
-            <!-- =========================
-                 CREATIVE WORLDS
-                 EDIT THESE LINKS
-                 ========================= -->
+            <!-- CREATIVE WORK -->
 
             <nav class="creative-links">
 
@@ -248,10 +348,7 @@
             </nav>
 
 
-            <!-- =========================
-                 SOCIAL
-                 EDIT THESE LINKS
-                 ========================= -->
+            <!-- SOCIAL -->
 
             <nav class="social-links">
 
@@ -263,6 +360,7 @@
                     INSTAGRAM
                 </a>
 
+
                 <a
                     href="YOUR-YOUTUBE-LINK"
                     target="_blank"
@@ -273,9 +371,12 @@
 
             </nav>
 
+
         </div>
 
     </main>
 
+
 </body>
 </html>
+```
