@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DRAVYA — ART</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .art-page {
+            min-height: 100vh;
+            padding: 80px 6vw;
+        }
+
+        .art-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .art-title {
+            font-size: clamp(3rem, 8vw, 7rem);
+            letter-spacing: 0.08em;
+            margin: 0;
+        }
+
+        .back-link {
+            color: inherit;
+            text-decoration: none;
+            letter-spacing: 0.15em;
+            font-size: 0.8rem;
+        }
+
+        .art-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .art-item {
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .art-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .art-item:hover img {
+            transform: scale(1.03);
+        }
+
+        /* Fullscreen artwork */
+
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 30px;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 95vw;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 900px) {
+            .art-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .art-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .art-page {
+                padding: 50px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="art-page">
+
+        <header class="art-header">
+
+            <h1 class="art-title">ART</h1>
+
+            <a href="index.html" class="back-link">
+                ← DRAVYA
+            </a>
+
+        </header>
+
+        <section class="art-grid" id="artGrid"></section>
+
+    </main>
+
+
+    <!-- Fullscreen viewer -->
+
+    <div class="lightbox" id="lightbox">
+
+        <span class="close-lightbox" id="closeLightbox">
+            ×
+        </span>
+
+        <img id="lightboxImage" src="" alt="DRAVYA artwork">
+
+    </div>
+
+
+    <script>
+
+        const artGrid = document.getElementById("artGrid");
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImage = document.getElementById("lightboxImage");
+        const closeLightbox = document.getElementById("closeLightbox");
+
+        // a.jpg → u.jpg
+
+        for (let i = 97; i <= 117; i++) {
+
+            const letter = String.fromCharCode(i);
+
+            const item = document.createElement("div");
+            item.className = "art-item";
+
+            const image = document.createElement("img");
+
+            image.src = `assets/art/${letter}.jpg`;
+            image.alt = `DRAVYA artwork ${letter}`;
+
+            item.appendChild(image);
+            artGrid.appendChild(item);
+
+            // Open fullscreen
+
+            item.addEventListener("click", () => {
+
+                lightboxImage.src = image.src;
+                lightbox.classList.add("active");
+
+            });
+
+        }
+
+
+        // Close
+
+        closeLightbox.addEventListener("click", () => {
+
+            lightbox.classList.remove("active");
+
+        });
+
+
+        lightbox.addEventListener("click", (e) => {
+
+            if (e.target === lightbox) {
+
+                lightbox.classList.remove("active");
+
+            }
+
+        });
+
+
+        // ESC key
+
+        document.addEventListener("keydown", (e) => {
+
+            if (e.key === "Escape") {
+
+                lightbox.classList.remove("active");
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>
