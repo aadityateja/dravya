@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <!-- =====================================
+         CHANGE STORY TITLE HERE
+    ====================================== -->
+
+    <title>DRAVYA — STORY TITLE</title>
+
+
+    <!-- TAB LOGO -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="../assets/logo.png"
+    >
+
+
+    <!-- DRAVYA STYLE -->
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+
+    <style>
+
+        /* =====================================
+           ENABLE SCROLLING
+        ===================================== */
+
+        html,
+        body {
+
+            height: auto !important;
+
+            min-height: 100% !important;
+
+            overflow-y: auto !important;
+
+            overflow-x: hidden !important;
+
+        }
+
+
+        /* =====================================
+           VACUUM FLUCTUATION BACKGROUND
+        ===================================== */
+
+        .fluctuation-background {
+
+            position: fixed;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            z-index: -2;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================
+           BACKGROUND OVERLAY
+        ===================================== */
+
+        .background-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.30
+                );
+
+            z-index: -1;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================
+           STORY PAGE
+        ===================================== */
+
+        .story-page {
+
+            position: relative;
+
+            z-index: 1;
+
+            min-height: 100vh;
+
+            padding:
+                70px
+                20px
+                120px;
+
+        }
+
+
+        /* =====================================
+           TOP NAVIGATION
+        ===================================== */
+
+        .story-nav {
+
+            width: 100%;
+
+            max-width:
+                900px;
+
+            margin:
+                0 auto
+                70px;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+        }
+
+
+        .back-link {
+
+            color:
+                #ffffff;
+
+            text-decoration:
+                none;
+
+            font-size:
+                0.75rem;
+
+            letter-spacing:
+                0.15em;
+
+        }
+
+
+        .story-label {
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.55
+                );
+
+            font-size:
+                0.7rem;
+
+            letter-spacing:
+                0.2em;
+
+        }
+
+
+        /* =====================================
+           STORY HEADER
+        ===================================== */
+
+        .story-header {
+
+            width: 100%;
+
+            max-width:
+                900px;
+
+            margin:
+                0 auto
+                80px;
+
+        }
+
+
+        .story-number {
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.55
+                );
+
+            font-size:
+                0.75rem;
+
+            letter-spacing:
+                0.2em;
+
+            margin-bottom:
+                20px;
+
+        }
+
+
+        .story-title {
+
+            margin:
+                0;
+
+            color:
+                #ffffff;
+
+            font-size:
+                clamp(
+                    3rem,
+                    7vw,
+                    6rem
+                );
+
+            font-weight:
+                500;
+
+            line-height:
+                1.05;
+
+            letter-spacing:
+                0.02em;
+
+        }
+
+
+        /* =====================================
+           STORY TEXT
+        ===================================== */
+
+.story-content {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+
+    color: rgba(255, 255, 255, 0.92);
+
+    font-size: 1.5rem;
+    line-height: 1.9;
+
+    letter-spacing: 0.01em;
+}
+
+
+        /* =====================================
+           PARAGRAPHS
+        ===================================== */
+
+        .story-content p {
+
+            margin:
+                0 0 1.8em;
+
+        }
+
+
+        /* =====================================
+           END
+        ===================================== */
+
+        .story-end {
+
+            width: 100%;
+
+            max-width:
+                720px;
+
+            margin:
+                100px auto
+                0;
+
+            padding-top:
+                35px;
+
+            border-top:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.18
+                );
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.45
+                );
+
+            font-size:
+                0.7rem;
+
+            letter-spacing:
+                0.25em;
+
+            text-align:
+                center;
+
+        }
+
+
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (
+            max-width: 700px
+        ) {
+
+            .story-page {
+
+                padding:
+                    45px
+                    20px
+                    80px;
+
+            }
+
+
+            .story-nav {
+
+                margin-bottom:
+                    55px;
+
+            }
+
+
+            .story-header {
+
+                margin-bottom:
+                    55px;
+
+            }
+
+
+            .story-content {
+
+                font-size:
+                    1rem;
+
+                line-height:
+                    1.85;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================
+         DRAVYA VACUUM FLUCTUATION BACKGROUND
+    ===================================== -->
+
+    <video
+        class="fluctuation-background"
+        autoplay
+        muted
+        loop
+        playsinline
+    >
+
+        <source
+            src="../assets/dravya_vacuum_fluctuation_10s.mp4"
+            type="video/mp4"
+        >
+
+    </video>
+
+
+    <div
+        class="background-overlay"
+    ></div>
+
+
+    <!-- =====================================
+         STORY PAGE
+    ===================================== -->
+
+    <main
+        class="story-page"
+    >
+
+
+        <!-- =================================
+             NAVIGATION
+        ================================== -->
+
+        <nav
+            class="story-nav"
+        >
+
+            <a
+                href="../fiction.html"
+                class="back-link"
+            >
+                ← ATOMIC TALES
+            </a>
+
+
+            <span
+                class="story-label"
+            >
+                DRAVYA
+            </span>
+
+        </nav>
+
+
+        <!-- =================================
+             STORY HEADER
+        ================================== -->
+
+        <header
+            class="story-header"
+        >
+
+            <!-- CHANGE NUMBER -->
+
+            <div
+                class="story-number"
+            >
+                06
+            </div>
+
+
+            <!-- CHANGE TITLE -->
+
+            <h1
+                class="story-title"
+            >
+                DAIRY
+            </h1>
+
+        </header>
+
+
+        <!-- =================================
+             ✍️ PASTE YOUR STORY HERE
+             
+             IMPORTANT:
+             Separate paragraphs using
+             <p> ... </p>
+        ================================== -->
+
+        <article
+            class="story-content"
+        >
+
+
+            <!-- =============================
+                 YOUR STORY STARTS HERE
+            ============================== -->
+
+
+           <p>
+    <em>
+Just another 900 meters to the north, and we’ll reach the zone.
+
+We’ll rest there for a while before hiking towards the peak for a breathtaking view. As planned, we need to get there before sunset, meet our friends, light a candle, make a wish, and blow it out so that the flame transforms into fume and begins its journey toward the abandoned castle atop The Dravya Mountain. It would be cinematic if the castle lights up when the smoke reaches the senses of the dragon-like creature guarding it, prompting it to breathe fire, assuming a possible threat - triggering hidden fireworks. 
+
+Damn, that would be magical.
+
+I’m really grateful to be surrounded by such wonderful people who planned this trip, away from all the daily chaos, just to celebrate my birthday in these landscapes of woods and mountains. Two years ago, I knew none of them. In fact, I had no real friends with whom I could share my thoughts. I was always by myself, writing down every thought in my diary. Over time, I started role-playing as if my diary were my friend -because, in a way, it was. It carried all my thoughts in written form, and I would read them back, transforming myself into an imaginary companion who responded to my own questions. That phase of my life was my loneliest, yet my diary never left my side—it was my only friend.
+Right now, I’m sitting by the lake, watching how the towering trees block the clouds, which in turn block the sunlight, writing on the same dairy and I find myself smiling like a kid. Even though I have friends now and I’m having a great time, I still needed some time alone. So, I asked them to let me take my time and make my way to the peak by myself. By now, they’ve probably already reached the peak. They left only after I promised that I’ll meet them before the sun sets, because, according to a local legend, things get weird after the sunset here.
+
+The legend speaks of an abandoned castle atop The Dravya Mountain. An ancient Indian archer is said to have discovered it after finding a sapphire-blue jewel hidden beneath an idol of Goddess Saraswathi, while meditating in a cave visible from the zone. The story claims that when the jewel was touched by the hands of a pure-hearted person with a great purpose, it projected holographic information revealing the secrets of a lost civilization. It guided the archer to the castle, where a secret—something beyond the understanding of modern science—is hidden. A portal, said to connect to another realm, another plane of existence, opens only at a specific moment after sunset. They refer this spacetime as Dravya. Hence, the name of the mountain.
+
+But who are "they"? Is any of it true? What happened to the archer? I have no idea. My friends were discussing it as they walked ahead, but their voices faded as I fell behind. Enough storytelling for now. The sun is disappearing, the birds are flying home, and I still need to reach the zone and then the peak.
+    </em>
+</p>
+
+            <p>
+
+The next few pages were completely burnt, leaving no way for anyone to decipher their contents, except for a few lines on the last page. These words, written in poor handwriting, were all that remained. The pages seemed to belong to a diary, judging by the format. Perhaps it was the very diary the the supposed writer had mentioned.
+            </p>
+
+
+            <p>
+A team of researchers, led by Dr. Sahitya Tejas, Professor in the Department of Archaeology at Atomic University, was exploring every nook and cranny of the abandoned castle atop a great Mountain. Among them, a young researcher named Surya had discovered a few charred pages near the rusty pond, buried under dirt, sand, and small stones. As he walked around the castle, he carefully read whatever was still legible.
+            </p>
+
+          <p>
+Inside the castle, the team was fully engaged in their work. One of Surya’s colleagues, Kiran was already excitedly proposing the idea of transforming the castle into a museum, while others examined the construction materials. Some researchers focused on gathering data to determine the actual date of the castle’s construction.
+          </p>
+          
+          <p>
+Surya, however, was lost in thought. He was almost convinced that the pages belonged to someone who had come here for a birthday celebration with friends maybe a few decades ago. Questions swirled in his mind - what had happened to them? Did they reach their destination? Were they ever inside this castle? How had these pages ended up here?
+          </p>
+
+          <p>
+With a growing sense of unease, he wandered toward the massive castle gate. From there, he could see vast mountain ranges, towering trees, and a blend of green and golden hues stretching across the landscape. His eyes lingered on a distant cave.
+          </p>
+
+          <p>
+Re-reading the last burnt page, he felt a shiver run down his spine. Carefully, he placed the fragile pages inside a transparent plastic cover, then turned and called out, his voice echoing through the ruins.
+          </p>
+
+          <p>
+    "Kiran! I think I found some manuscripts for your museum!"
+
+The last remaining words on the page read:
+            
+          </p>
+      <p> 
+        <em>
+          "Some say the world waits to be seen - not to be understood, but to be witnessed."
+        </em>
+      </p>
+          
+
+            <!--
+                KEEP ADDING PARAGRAPHS:
+
+                <p>
+                    Your text...
+                </p>
+
+                <p>
+                    Your next paragraph...
+                </p>
+            -->
+
+
+            <!-- =============================
+                 YOUR STORY ENDS HERE
+            ============================== -->
+
+
+        </article>
+
+
+        <!-- =================================
+             END
+        ================================== -->
+
+        <div
+            class="story-end"
+        >
+            END
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>
