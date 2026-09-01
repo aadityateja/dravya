@@ -2,211 +2,534 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>DRAVYA — ART</title>
 
     <link rel="stylesheet" href="style.css">
 
     <style>
-        .art-page {
-            min-height: 100vh;
-            padding: 80px 6vw;
+
+        /* =========================================
+           VIDEO BACKGROUND
+        ========================================= */
+
+        .fluctuation-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            z-index: -2;
+
+            pointer-events: none;
         }
 
+        /* Dark overlay — keeps artwork readable
+           without changing the actual video */
+
+        .background-overlay {
+            position: fixed;
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.18);
+
+            z-index: -1;
+
+            pointer-events: none;
+        }
+
+
+        /* =========================================
+           ART PAGE
+        ========================================= */
+
+        .art-page {
+
+            min-height: 100vh;
+
+            padding:
+                70px
+                6vw
+                100px;
+
+            position: relative;
+
+            z-index: 1;
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
         .art-header {
+
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
             margin-bottom: 60px;
         }
 
+
         .art-title {
-            font-size: clamp(3rem, 8vw, 7rem);
-            letter-spacing: 0.08em;
+
             margin: 0;
+
+            font-size:
+                clamp(3rem, 7vw, 7rem);
+
+            letter-spacing:
+                0.08em;
         }
+
 
         .back-link {
+
             color: inherit;
+
             text-decoration: none;
-            letter-spacing: 0.15em;
-            font-size: 0.8rem;
+
+            letter-spacing:
+                0.15em;
+
+            font-size:
+                0.8rem;
         }
+
+
+        /* =========================================
+           ART GRID
+           EXACTLY 2 IMAGES PER ROW
+        ========================================= */
 
         .art-grid {
+
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 35px;
+
+            width: 100%;
         }
+
 
         .art-item {
-            overflow: hidden;
+
+            width: 100%;
+
             cursor: pointer;
+
+            overflow: hidden;
         }
+
 
         .art-item img {
-            width: 100%;
-            height: auto;
+
             display: block;
-            transition: transform 0.5s ease;
+
+            width: 100%;
+
+            height: auto;
+
+            object-fit: contain;
+
+            transition:
+                transform 0.45s ease;
         }
+
 
         .art-item:hover img {
-            transform: scale(1.03);
+
+            transform:
+                scale(1.015);
         }
 
-        /* Fullscreen artwork */
+
+        /* =========================================
+           FULLSCREEN VIEWER
+        ========================================= */
 
         .lightbox {
+
             position: fixed;
+
             inset: 0;
-            background: rgba(0, 0, 0, 0.92);
+
             display: none;
+
             align-items: center;
+
             justify-content: center;
-            z-index: 9999;
-            padding: 30px;
+
+            padding: 20px;
+
+            box-sizing: border-box;
+
+            background:
+                rgba(0, 0, 0, 0.96);
+
+            z-index: 99999;
+
+            cursor: zoom-out;
         }
 
+
         .lightbox.active {
+
             display: flex;
         }
 
+
         .lightbox img {
-            max-width: 95vw;
-            max-height: 90vh;
+
+            /*
+             * ORIGINAL ASPECT RATIO
+             * NO CROPPING
+             */
+
+            max-width: 100vw;
+
+            max-height: 100vh;
+
+            width: auto;
+
+            height: auto;
+
             object-fit: contain;
+
+            cursor: default;
         }
+
 
         .close-lightbox {
+
             position: absolute;
-            top: 25px;
-            right: 35px;
-            font-size: 2rem;
+
+            top: 22px;
+
+            right: 32px;
+
+            color: white;
+
+            font-size: 38px;
+
+            font-weight: 300;
+
             cursor: pointer;
+
+            z-index: 100000;
         }
 
-        @media (max-width: 900px) {
-            .art-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
 
-        @media (max-width: 600px) {
-            .art-grid {
-                grid-template-columns: 1fr;
-            }
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 700px) {
 
             .art-page {
-                padding: 50px 20px;
+
+                padding:
+                    45px
+                    20px
+                    70px;
             }
+
+            .art-grid {
+
+                grid-template-columns:
+                    1fr;
+
+                gap: 25px;
+            }
+
+            .art-header {
+
+                margin-bottom: 40px;
+            }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
+
+    <!-- =========================================
+         DRAVYA VACUUM FLUCTUATION BACKGROUND
+         ========================================= -->
+
+    <video
+        class="fluctuation-background"
+        autoplay
+        muted
+        loop
+        playsinline
+    >
+
+        <source
+            src="assets/dravya_vacuum_fluctuation_10s.mp4"
+            type="video/mp4"
+        >
+
+    </video>
+
+
+    <div class="background-overlay"></div>
+
+
+    <!-- =========================================
+         ART PAGE
+    ========================================= -->
+
     <main class="art-page">
+
 
         <header class="art-header">
 
-            <h1 class="art-title">ART</h1>
+            <h1 class="art-title">
+                ART
+            </h1>
 
-            <a href="index.html" class="back-link">
+
+            <a
+                href="index.html"
+                class="back-link"
+            >
                 ← DRAVYA
             </a>
 
         </header>
 
-        <section class="art-grid" id="artGrid"></section>
+
+        <!-- =====================================
+             ARTWORKS
+             a.jpg → u.jpg
+        ====================================== -->
+
+        <section
+            class="art-grid"
+            id="artGrid"
+        ></section>
+
 
     </main>
 
 
-    <!-- Fullscreen viewer -->
+    <!-- =========================================
+         FULLSCREEN ARTWORK
+    ========================================= -->
 
-    <div class="lightbox" id="lightbox">
+    <div
+        class="lightbox"
+        id="lightbox"
+    >
 
-        <span class="close-lightbox" id="closeLightbox">
+        <span
+            class="close-lightbox"
+            id="closeLightbox"
+        >
             ×
         </span>
 
-        <img id="lightboxImage" src="" alt="DRAVYA artwork">
+
+        <img
+            id="lightboxImage"
+            src=""
+            alt="DRAVYA artwork"
+        >
 
     </div>
 
 
     <script>
 
-        const artGrid = document.getElementById("artGrid");
-        const lightbox = document.getElementById("lightbox");
-        const lightboxImage = document.getElementById("lightboxImage");
-        const closeLightbox = document.getElementById("closeLightbox");
+        const artGrid =
+            document.getElementById(
+                "artGrid"
+            );
 
-        // a.jpg → u.jpg
 
-        for (let i = 97; i <= 117; i++) {
+        const lightbox =
+            document.getElementById(
+                "lightbox"
+            );
 
-            const letter = String.fromCharCode(i);
 
-            const item = document.createElement("div");
-            item.className = "art-item";
+        const lightboxImage =
+            document.getElementById(
+                "lightboxImage"
+            );
 
-            const image = document.createElement("img");
 
-            image.src = `assets/art/${letter}.jpg`;
-            image.alt = `DRAVYA artwork ${letter}`;
+        const closeLightbox =
+            document.getElementById(
+                "closeLightbox"
+            );
+
+
+        /* =====================================
+           LOAD:
+
+           a.jpg
+           b.jpg
+           c.jpg
+           ...
+           u.jpg
+        ===================================== */
+
+        for (
+            let i = 97;
+            i <= 117;
+            i++
+        ) {
+
+            const letter =
+                String.fromCharCode(i);
+
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "art-item";
+
+
+            const image =
+                document.createElement(
+                    "img"
+                );
+
+
+            image.src =
+                `assets/art/${letter}.jpg`;
+
+
+            /*
+             * IMPORTANT:
+             * No filename displayed.
+             */
+
+            image.alt =
+                "DRAVYA artwork";
+
 
             item.appendChild(image);
+
             artGrid.appendChild(item);
 
-            // Open fullscreen
 
-            item.addEventListener("click", () => {
+            /* =================================
+               CLICK → FULLSCREEN
+            ================================= */
 
-                lightboxImage.src = image.src;
-                lightbox.classList.add("active");
+            item.addEventListener(
+                "click",
+                () => {
 
-            });
+                    lightboxImage.src =
+                        image.src;
+
+                    lightbox.classList.add(
+                        "active"
+                    );
+
+
+                    document.body.style.overflow =
+                        "hidden";
+
+                }
+            );
 
         }
 
 
-        // Close
+        /* =====================================
+           CLOSE FULLSCREEN
+        ===================================== */
 
-        closeLightbox.addEventListener("click", () => {
+        function closeViewer() {
 
-            lightbox.classList.remove("active");
+            lightbox.classList.remove(
+                "active"
+            );
 
-        });
+
+            lightboxImage.src = "";
 
 
-        lightbox.addEventListener("click", (e) => {
+            document.body.style.overflow =
+                "";
 
-            if (e.target === lightbox) {
+        }
 
-                lightbox.classList.remove("active");
+
+        closeLightbox.addEventListener(
+            "click",
+            closeViewer
+        );
+
+
+        /* Click outside image */
+
+        lightbox.addEventListener(
+            "click",
+            (event) => {
+
+                if (
+                    event.target === lightbox
+                ) {
+
+                    closeViewer();
+
+                }
 
             }
+        );
 
-        });
 
+        /* ESC */
 
-        // ESC key
+        document.addEventListener(
+            "keydown",
+            (event) => {
 
-        document.addEventListener("keydown", (e) => {
+                if (
+                    event.key === "Escape"
+                ) {
 
-            if (e.key === "Escape") {
+                    closeViewer();
 
-                lightbox.classList.remove("active");
+                }
 
             }
-
-        });
+        );
 
     </script>
+
 
 </body>
 
