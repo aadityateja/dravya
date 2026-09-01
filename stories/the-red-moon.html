@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <!-- =====================================
+         CHANGE STORY TITLE HERE
+    ====================================== -->
+
+    <title>DRAVYA — STORY TITLE</title>
+
+
+    <!-- TAB LOGO -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="../assets/logo.png"
+    >
+
+
+    <!-- DRAVYA STYLE -->
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+
+    <style>
+
+        /* =====================================
+           ENABLE SCROLLING
+        ===================================== */
+
+        html,
+        body {
+
+            height: auto !important;
+
+            min-height: 100% !important;
+
+            overflow-y: auto !important;
+
+            overflow-x: hidden !important;
+
+        }
+
+
+        /* =====================================
+           VACUUM FLUCTUATION BACKGROUND
+        ===================================== */
+
+        .fluctuation-background {
+
+            position: fixed;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            z-index: -2;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================
+           BACKGROUND OVERLAY
+        ===================================== */
+
+        .background-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.30
+                );
+
+            z-index: -1;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================
+           STORY PAGE
+        ===================================== */
+
+        .story-page {
+
+            position: relative;
+
+            z-index: 1;
+
+            min-height: 100vh;
+
+            padding:
+                70px
+                20px
+                120px;
+
+        }
+
+
+        /* =====================================
+           TOP NAVIGATION
+        ===================================== */
+
+        .story-nav {
+
+            width: 100%;
+
+            max-width:
+                900px;
+
+            margin:
+                0 auto
+                70px;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+        }
+
+
+        .back-link {
+
+            color:
+                #ffffff;
+
+            text-decoration:
+                none;
+
+            font-size:
+                0.75rem;
+
+            letter-spacing:
+                0.15em;
+
+        }
+
+
+        .story-label {
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.55
+                );
+
+            font-size:
+                0.7rem;
+
+            letter-spacing:
+                0.2em;
+
+        }
+
+
+        /* =====================================
+           STORY HEADER
+        ===================================== */
+
+        .story-header {
+
+            width: 100%;
+
+            max-width:
+                900px;
+
+            margin:
+                0 auto
+                80px;
+
+        }
+
+
+        .story-number {
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.55
+                );
+
+            font-size:
+                0.75rem;
+
+            letter-spacing:
+                0.2em;
+
+            margin-bottom:
+                20px;
+
+        }
+
+
+        .story-title {
+
+            margin:
+                0;
+
+            color:
+                #ffffff;
+
+            font-size:
+                clamp(
+                    3rem,
+                    7vw,
+                    6rem
+                );
+
+            font-weight:
+                500;
+
+            line-height:
+                1.05;
+
+            letter-spacing:
+                0.02em;
+
+        }
+
+
+        /* =====================================
+           STORY TEXT
+        ===================================== */
+
+.story-content {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+
+    color: rgba(255, 255, 255, 0.92);
+
+    font-size: 1.5rem;
+    line-height: 1.9;
+
+    letter-spacing: 0.01em;
+}
+
+
+        /* =====================================
+           PARAGRAPHS
+        ===================================== */
+
+        .story-content p {
+
+            margin:
+                0 0 1.8em;
+
+        }
+
+
+        /* =====================================
+           END
+        ===================================== */
+
+        .story-end {
+
+            width: 100%;
+
+            max-width:
+                720px;
+
+            margin:
+                100px auto
+                0;
+
+            padding-top:
+                35px;
+
+            border-top:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.18
+                );
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.45
+                );
+
+            font-size:
+                0.7rem;
+
+            letter-spacing:
+                0.25em;
+
+            text-align:
+                center;
+
+        }
+
+
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (
+            max-width: 700px
+        ) {
+
+            .story-page {
+
+                padding:
+                    45px
+                    20px
+                    80px;
+
+            }
+
+
+            .story-nav {
+
+                margin-bottom:
+                    55px;
+
+            }
+
+
+            .story-header {
+
+                margin-bottom:
+                    55px;
+
+            }
+
+
+            .story-content {
+
+                font-size:
+                    1rem;
+
+                line-height:
+                    1.85;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================
+         DRAVYA VACUUM FLUCTUATION BACKGROUND
+    ===================================== -->
+
+    <video
+        class="fluctuation-background"
+        autoplay
+        muted
+        loop
+        playsinline
+    >
+
+        <source
+            src="../assets/dravya_vacuum_fluctuation_10s.mp4"
+            type="video/mp4"
+        >
+
+    </video>
+
+
+    <div
+        class="background-overlay"
+    ></div>
+
+
+    <!-- =====================================
+         STORY PAGE
+    ===================================== -->
+
+    <main
+        class="story-page"
+    >
+
+
+        <!-- =================================
+             NAVIGATION
+        ================================== -->
+
+        <nav
+            class="story-nav"
+        >
+
+            <a
+                href="../fiction.html"
+                class="back-link"
+            >
+                ← ATOMIC TALES
+            </a>
+
+
+            <span
+                class="story-label"
+            >
+                DRAVYA
+            </span>
+
+        </nav>
+
+
+        <!-- =================================
+             STORY HEADER
+        ================================== -->
+
+        <header
+            class="story-header"
+        >
+
+            <!-- CHANGE NUMBER -->
+
+            <div
+                class="story-number"
+            >
+                04
+            </div>
+
+
+            <!-- CHANGE TITLE -->
+
+            <h1
+                class="story-title"
+            >
+                THE RED MOON
+            </h1>
+
+        </header>
+
+
+        <!-- =================================
+             ✍️ PASTE YOUR STORY HERE
+             
+             IMPORTANT:
+             Separate paragraphs using
+             <p> ... </p>
+        ================================== -->
+
+        <article
+            class="story-content"
+        >
+
+
+            <!-- =============================
+                 YOUR STORY STARTS HERE
+            ============================== -->
+
+
+            <p>
+“What am I doing?”, Bhuvan thought while he searched for the lighter in his pockets. As usual, he was all by himself with the unlit cigarette between his lips, standing outside his office gate looking at the sky. It was 2 AM, the night was dark and silent just like his thoughts. He had neither an answer nor the lighter. As he kept looking for the stars, the questions and the sky grew darker. It seemed like his weird thoughts had transformed into sounds as one of the branches of the tree behind him cracked. He had no fear but he still had 5 minutes left for his lunch break to end. He closed his eyes for a moment and thought about the absurd lifestyle he was associated with. He slept all day and worked all night. No family, no friends, no passion and no motto. Nothing seemed to excite him anymore as he had nothing to lose. He opened his eyes with his head up to the sky, stood there staring at the dark thinking about where did it all go wrong.         
+            </p>
+
+
+            <p>
+Earlier, he often had vivid visuals from his past pop up in his dreams. It was a scene from his childhood and he still believes that it is the first ever memory he remembers from this lifetime. Sometimes the visuals seemed like it was on loop even after waking up and he could not get out of his head. The sounds and the visuals from that particular event from his childhood were deeply recorded in his body and undoubtedly disturbed him a lot. Each night just added up more frames and the nightmare got darker. As a result, he had decided not to sleep at night and had joined a night shift job believing that this change would avoid the disturbance in his life. He got no dreams while he slept in the morning and in fact he was getting good sleep of 8-9 hours every day. However, the fact that his whole lifestyle was altered just because of an event in his life always made him wonder about the power of perception. He recalled –
+            </p>
+
+
+            <p>
+It was a dark night and I think I was just four years old. I vividly remember that I was trying to draw the moon while I sat on the terrace. There was too much noise in the house so I had decided to walk up the stairs all by myself. The noise included the sounds of glasses shattering, abuse, a woman crying for help, rapid footsteps and a Kannada film song from the TV.  I could not see any stars or clouds that night. It was just the moon and nothing else. And then the woman started screaming, I got scared of the moon as it appeared as an eye watching me. I quickly ran downstairs to see what was happening. The song from the TV was still on and some soothing melody started to emerge through the speakers while I saw my father hitting my mother with a belt and I could see her tears on the floor but surprisingly the color was red. My head started spinning and I fell unconscious.
+</p>
+
+          <p>
+By the time he woke up, the moon had disappeared and there was sun but his heart suffered with darkness ever after. There was no light. He could not understand what was happening within his mind and the moon and the music invoked a certain amount of fear in him for a long time.
+          </p>
+          
+          <p>
+It’s been 20 years since and he has somehow managed to come out of the visual loop yet sometimes it still haunts him.
+          </p>
+
+          <p>
+He took a long breath after throwing the unlit cigarette into the dark. He then put his hands into the pockets and smiled sarcastically. 
+          </p>
+
+          <p>
+“Bhuvan! You’re already exceeding the break by two minutes! Hurry up, man!”, a voice travelled from the office gate to the tree. It was one of Bhuvan’s co-worker who had just finished his shift and was walking towards the tree for a smoke. As their paths crossed, he asked Bhuvan for the lighter. Bhuvan took off his hands from the pockets with the lighter, handed it with the same smile and walked towards the office gate.
+          </p>
+
+          <p>
+            He had the lighter all along with him but it seems like he ignored it just like the answers for the questions he often asked himself. Perception and ignorance are interconnected concepts that influence how we understand and interact with the world. I pity that Bhuvan had not yet realized this truth even after 20 years since the event. However, he still had to walk up the stairs to the second floor to reach his cubicle. As he walked through the lawn, he took out his phone to check the time. It was nearly 2:10 AM and the color of the moon on his wallpaper was red.
+          </p>
+          
+
+            <!--
+                KEEP ADDING PARAGRAPHS:
+
+                <p>
+                    Your text...
+                </p>
+
+                <p>
+                    Your next paragraph...
+                </p>
+            -->
+
+
+            <!-- =============================
+                 YOUR STORY ENDS HERE
+            ============================== -->
+
+
+        </article>
+
+
+        <!-- =================================
+             END
+        ================================== -->
+
+        <div
+            class="story-end"
+        >
+            END
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>
