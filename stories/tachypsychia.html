@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <!-- =====================================
+         CHANGE STORY TITLE HERE
+    ====================================== -->
+
+    <title>DRAVYA — STORY TITLE</title>
+
+
+    <!-- TAB LOGO -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="../assets/logo.png"
+    >
+
+
+    <!-- DRAVYA STYLE -->
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+
+    <style>
+
+        /* =====================================
+           ENABLE SCROLLING
+        ===================================== */
+
+        html,
+        body {
+
+            height: auto !important;
+
+            min-height: 100% !important;
+
+            overflow-y: auto !important;
+
+            overflow-x: hidden !important;
+
+        }
+
+
+        /* =====================================
+           VACUUM FLUCTUATION BACKGROUND
+        ===================================== */
+
+        .fluctuation-background {
+
+            position: fixed;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            z-index: -2;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================
+           BACKGROUND OVERLAY
+        ===================================== */
+
+        .background-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.30
+                );
+
+            z-index: -1;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================
+           STORY PAGE
+        ===================================== */
+
+        .story-page {
+
+            position: relative;
+
+            z-index: 1;
+
+            min-height: 100vh;
+
+            padding:
+                70px
+                20px
+                120px;
+
+        }
+
+
+        /* =====================================
+           TOP NAVIGATION
+        ===================================== */
+
+        .story-nav {
+
+            width: 100%;
+
+            max-width:
+                900px;
+
+            margin:
+                0 auto
+                70px;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+        }
+
+
+        .back-link {
+
+            color:
+                #ffffff;
+
+            text-decoration:
+                none;
+
+            font-size:
+                0.75rem;
+
+            letter-spacing:
+                0.15em;
+
+        }
+
+
+        .story-label {
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.55
+                );
+
+            font-size:
+                0.7rem;
+
+            letter-spacing:
+                0.2em;
+
+        }
+
+
+        /* =====================================
+           STORY HEADER
+        ===================================== */
+
+        .story-header {
+
+            width: 100%;
+
+            max-width:
+                900px;
+
+            margin:
+                0 auto
+                80px;
+
+        }
+
+
+        .story-number {
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.55
+                );
+
+            font-size:
+                0.75rem;
+
+            letter-spacing:
+                0.2em;
+
+            margin-bottom:
+                20px;
+
+        }
+
+
+        .story-title {
+
+            margin:
+                0;
+
+            color:
+                #ffffff;
+
+            font-size:
+                clamp(
+                    3rem,
+                    7vw,
+                    6rem
+                );
+
+            font-weight:
+                500;
+
+            line-height:
+                1.05;
+
+            letter-spacing:
+                0.02em;
+
+        }
+
+
+        /* =====================================
+           STORY TEXT
+        ===================================== */
+
+        .story-content {
+
+            width: 100%;
+
+            max-width:
+                720px;
+
+            margin:
+                0 auto;
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.92
+                );
+
+            font-size:
+                1.08rem;
+
+            line-height:
+                1.9;
+
+            letter-spacing:
+                0.01em;
+
+        }
+
+
+        /* =====================================
+           PARAGRAPHS
+        ===================================== */
+
+        .story-content p {
+
+            margin:
+                0 0 1.8em;
+
+        }
+
+
+        /* =====================================
+           END
+        ===================================== */
+
+        .story-end {
+
+            width: 100%;
+
+            max-width:
+                720px;
+
+            margin:
+                100px auto
+                0;
+
+            padding-top:
+                35px;
+
+            border-top:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.18
+                );
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.45
+                );
+
+            font-size:
+                0.7rem;
+
+            letter-spacing:
+                0.25em;
+
+            text-align:
+                center;
+
+        }
+
+
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (
+            max-width: 700px
+        ) {
+
+            .story-page {
+
+                padding:
+                    45px
+                    20px
+                    80px;
+
+            }
+
+
+            .story-nav {
+
+                margin-bottom:
+                    55px;
+
+            }
+
+
+            .story-header {
+
+                margin-bottom:
+                    55px;
+
+            }
+
+
+            .story-content {
+
+                font-size:
+                    1rem;
+
+                line-height:
+                    1.85;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================
+         DRAVYA VACUUM FLUCTUATION BACKGROUND
+    ===================================== -->
+
+    <video
+        class="fluctuation-background"
+        autoplay
+        muted
+        loop
+        playsinline
+    >
+
+        <source
+            src="../assets/dravya_vacuum_fluctuation_10s.mp4"
+            type="video/mp4"
+        >
+
+    </video>
+
+
+    <div
+        class="background-overlay"
+    ></div>
+
+
+    <!-- =====================================
+         STORY PAGE
+    ===================================== -->
+
+    <main
+        class="story-page"
+    >
+
+
+        <!-- =================================
+             NAVIGATION
+        ================================== -->
+
+        <nav
+            class="story-nav"
+        >
+
+            <a
+                href="../fiction.html"
+                class="back-link"
+            >
+                ← ATOMIC TALES
+            </a>
+
+
+            <span
+                class="story-label"
+            >
+                DRAVYA
+            </span>
+
+        </nav>
+
+
+        <!-- =================================
+             STORY HEADER
+        ================================== -->
+
+        <header
+            class="story-header"
+        >
+
+            <!-- CHANGE NUMBER -->
+
+            <div
+                class="story-number"
+            >
+                01
+            </div>
+
+
+            <!-- CHANGE TITLE -->
+
+            <h1
+                class="story-title"
+            >
+                TACHYPSYCHIA
+            </h1>
+
+        </header>
+
+
+        <!-- =================================
+             ✍️ PASTE YOUR STORY HERE
+             
+             IMPORTANT:
+             Separate paragraphs using
+             <p> ... </p>
+        ================================== -->
+
+        <article
+            class="story-content"
+        >
+
+
+            <!-- =============================
+                 YOUR STORY STARTS HERE
+            ============================== -->
+
+
+            <p>
+               It was six in the evening when Raag had no clue how he had ended up at his room, beaten up badly as he was slightly being brought back to a conscious experience that he was not familiar with. Everything seemed foggy and distorted. His vision was not clear but he was trying his best to recall what had just happened. He was lying on the floor, his head facing to the ceiling and his eyes could only see Blue.
+            </p>
+
+
+            <p>
+                The color of his life and the walls of his room. It was a small single room on a big five-storied building. Though the lights were switched off, the evening rays made their way into his space. He always talked to himself about how weird his life was. Even now, terms like why and how whispered within his mind. He had never been this confused in his entire lifetime. It was like a dream. He was just there but without any memory. He slowly tried to get up but he could not. He felt an intense pain near his throat region. He could not even utter a sound. He then started to feel a bit strange as he recalled that the color of his room's wall was never Blue but Green. He was definitely not in his room and it was completely empty. At this moment, his sense of perceiving any sound was almost at normal as he heard the second hand of the huge wall clock pass right above him. *TICK* He could not see the clock but it was the first sound he had experienced after a very long time, from the world outside of himself. All he remembered now was the term "protanopia". Maybe it meant something to him or he may have read it somewhere.
+            </p>
+
+
+            <p>
+                He then gradually started to gain access to other terms within his mind. It was a sign for his senses getting back into action. Sounds like help, kill, scream, *TICK* run, i, don't, know, chaos, please, law, doctor and few words ending with the letters "ia" were all over his eyes. Suddenly, his vision was crystal clear for less than a second and then it turned Blue.*TICK* He knew that he had brutally murdered his best friend and had threw him off from the fifth floor after stabbing him on a broad daylight. He also recalled the blues on his hands and clothes, while still lying on the floor. *TICK*
+            </p>
+
+          <p>
+            "What is happening to me?", he had asked the doctor after being arrested and shifted to a lunatic asylum.
+          </p>
+          
+          <p>
+            "Tachypsychia".
+          </p>
+
+          <p>
+            *TICK*
+          </p>
+
+          <p>
+            He had finally realized that it was only 5 seconds ago he had lost his senses after intaking DRAVYA, a drug to treat mental illness at the Central Head Asylum for Ordinary Species, also known as CHAOS, on the Planet-A, 8 million lightyears away from the Earth where human's perception of time is heavily altered and controlled by a different species of life called "The Laya and Tālas".
+          </p>
+          
+
+            <!--
+                KEEP ADDING PARAGRAPHS:
+
+                <p>
+                    Your text...
+                </p>
+
+                <p>
+                    Your next paragraph...
+                </p>
+            -->
+
+
+            <!-- =============================
+                 YOUR STORY ENDS HERE
+            ============================== -->
+
+
+        </article>
+
+
+        <!-- =================================
+             END
+        ================================== -->
+
+        <div
+            class="story-end"
+        >
+            END
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>
