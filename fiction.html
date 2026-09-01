@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>DRAVYA — FICTION</title>
+
+    <!-- TAB LOGO -->
+    <link
+        rel="icon"
+        type="image/png"
+        href="assets/logo.png"
+    >
+
+    <!-- DRAVYA STYLE -->
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+
+    <style>
+
+        /* =====================================
+           ENABLE SCROLLING
+        ===================================== */
+
+        html,
+        body {
+
+            height: auto !important;
+
+            min-height: 100% !important;
+
+            overflow-y: auto !important;
+
+            overflow-x: hidden !important;
+
+        }
+
+
+        /* =====================================
+           BACKGROUND VIDEO
+        ===================================== */
+
+        .fluctuation-background {
+
+            position: fixed;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            z-index: -2;
+
+            pointer-events: none;
+
+        }
+
+
+        .background-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.18
+                );
+
+            z-index: -1;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================
+           FICTION PAGE
+        ===================================== */
+
+        .fiction-page {
+
+            position: relative;
+
+            z-index: 1;
+
+            min-height: 100vh;
+
+            padding:
+                70px
+                6vw
+                120px;
+
+        }
+
+
+        /* =====================================
+           HEADER
+        ===================================== */
+
+        .fiction-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            margin-bottom:
+                80px;
+
+        }
+
+
+        .fiction-title {
+
+            margin: 0;
+
+            color: #ffffff;
+
+            font-size:
+                clamp(
+                    3.5rem,
+                    8vw,
+                    8rem
+                );
+
+            font-weight: 500;
+
+            letter-spacing:
+                0.08em;
+
+        }
+
+
+        .back-link {
+
+            color: #ffffff;
+
+            text-decoration: none;
+
+            font-size:
+                0.8rem;
+
+            letter-spacing:
+                0.15em;
+
+        }
+
+
+        /* =====================================
+           SECTION TITLE
+        ===================================== */
+
+        .fiction-subtitle {
+
+            margin-bottom:
+                35px;
+
+            color:
+                #ffffff;
+
+            font-size:
+                0.85rem;
+
+            letter-spacing:
+                0.25em;
+
+            font-weight:
+                400;
+
+        }
+
+
+        /* =====================================
+           STORY LIST
+        ===================================== */
+
+        .story-list {
+
+            width: 100%;
+
+            max-width:
+                1100px;
+
+        }
+
+
+        .story-link {
+
+            display: grid;
+
+            grid-template-columns:
+                70px
+                1fr
+                auto;
+
+            align-items:
+                center;
+
+            gap:
+                25px;
+
+            padding:
+                25px
+                0;
+
+            border-top:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.18
+                );
+
+            color:
+                #ffffff;
+
+            text-decoration:
+                none;
+
+            transition:
+                opacity 0.25s ease;
+
+        }
+
+
+        .story-link:last-child {
+
+            border-bottom:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.18
+                );
+
+        }
+
+
+        .story-link:hover {
+
+            opacity:
+                0.65;
+
+        }
+
+
+        /* NUMBER */
+
+        .story-number {
+
+            font-size:
+                0.75rem;
+
+            letter-spacing:
+                0.15em;
+
+            opacity:
+                0.55;
+
+        }
+
+
+        /* TITLE */
+
+        .story-name {
+
+            font-size:
+                clamp(
+                    1.3rem,
+                    2.4vw,
+                    2.2rem
+                );
+
+            letter-spacing:
+                0.03em;
+
+        }
+
+
+        /* READ */
+
+        .story-read {
+
+            font-size:
+                0.7rem;
+
+            letter-spacing:
+                0.18em;
+
+            opacity:
+                0.65;
+
+        }
+
+
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (
+            max-width: 700px
+        ) {
+
+            .fiction-page {
+
+                padding:
+                    45px
+                    20px
+                    80px;
+
+            }
+
+
+            .fiction-header {
+
+                margin-bottom:
+                    55px;
+
+            }
+
+
+            .story-link {
+
+                grid-template-columns:
+                    40px
+                    1fr;
+
+                gap:
+                    15px;
+
+                padding:
+                    22px
+                    0;
+
+            }
+
+
+            .story-read {
+
+                display:
+                    none;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================
+         DRAVYA VACUUM FLUCTUATION
+    ===================================== -->
+
+    <video
+        class="fluctuation-background"
+        autoplay
+        muted
+        loop
+        playsinline
+    >
+
+        <source
+            src="assets/dravya_vacuum_fluctuation_10s.mp4"
+            type="video/mp4"
+        >
+
+    </video>
+
+
+    <div
+        class="background-overlay"
+    ></div>
+
+
+    <!-- =====================================
+         FICTION
+    ===================================== -->
+
+    <main
+        class="fiction-page"
+    >
+
+
+        <!-- HEADER -->
+
+        <header
+            class="fiction-header"
+        >
+
+            <h1
+                class="fiction-title"
+            >
+                FICTION
+            </h1>
+
+
+            <a
+                href="index.html"
+                class="back-link"
+            >
+                ← DRAVYA
+            </a>
+
+        </header>
+
+
+        <!-- SUBTITLE -->
+
+        <div
+            class="fiction-subtitle"
+        >
+            ATOMIC TALES
+        </div>
+
+
+        <!-- =================================
+             STORIES
+        ================================== -->
+
+        <section
+            class="story-list"
+        >
+
+
+            <!-- 01 -->
+
+            <a
+                href="stories/tachypsychia.html"
+                class="story-link"
+            >
+
+                <span
+                    class="story-number"
+                >
+                    01
+                </span>
+
+                <span
+                    class="story-name"
+                >
+                    Tachypsychia
+                </span>
+
+                <span
+                    class="story-read"
+                >
+                    READ →
+                </span>
+
+            </a>
+
+
+            <!-- 02 -->
+
+            <a
+                href="stories/the-flight.html"
+                class="story-link"
+            >
+
+                <span
+                    class="story-number"
+                >
+                    02
+                </span>
+
+                <span
+                    class="story-name"
+                >
+                    The Flight
+                </span>
+
+                <span
+                    class="story-read"
+                >
+                    READ →
+                </span>
+
+            </a>
+
+
+            <!-- 03 -->
+
+            <a
+                href="stories/the-rainbow.html"
+                class="story-link"
+            >
+
+                <span
+                    class="story-number"
+                >
+                    03
+                </span>
+
+                <span
+                    class="story-name"
+                >
+                    The Rainbow
+                </span>
+
+                <span
+                    class="story-read"
+                >
+                    READ →
+                </span>
+
+            </a>
+
+
+            <!-- 04 -->
+
+            <a
+                href="stories/the-red-moon.html"
+                class="story-link"
+            >
+
+                <span
+                    class="story-number"
+                >
+                    04
+                </span>
+
+                <span
+                    class="story-name"
+                >
+                    The Red Moon
+                </span>
+
+                <span
+                    class="story-read"
+                >
+                    READ →
+                </span>
+
+            </a>
+
+
+            <!-- 05 -->
+
+            <a
+                href="stories/home.html"
+                class="story-link"
+            >
+
+                <span
+                    class="story-number"
+                >
+                    05
+                </span>
+
+                <span
+                    class="story-name"
+                >
+                    Home
+                </span>
+
+                <span
+                    class="story-read"
+                >
+                    READ →
+                </span>
+
+            </a>
+
+
+            <!-- 06 -->
+
+            <a
+                href="stories/dairy.html"
+                class="story-link"
+            >
+
+                <span
+                    class="story-number"
+                >
+                    06
+                </span>
+
+                <span
+                    class="story-name"
+                >
+                    Dairy
+                </span>
+
+                <span
+                    class="story-read"
+                >
+                    READ →
+                </span>
+
+            </a>
+
+
+            <!-- 07 -->
+
+            <a
+                href="stories/birthday.html"
+                class="story-link"
+            >
+
+                <span
+                    class="story-number"
+                >
+                    07
+                </span>
+
+                <span
+                    class="story-name"
+                >
+                    Birthday
+                </span>
+
+                <span
+                    class="story-read"
+                >
+                    READ →
+                </span>
+
+            </a>
+
+
+        </section>
+
+
+    </main>
+
+
+</body>
+
+</html>
