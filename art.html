@@ -16,14 +16,23 @@
 
     <style>
 
-        /* =========================================
-           VIDEO BACKGROUND
-        ========================================= */
+        /* =====================================
+           PAGE
+        ===================================== */
+
+        body {
+            margin: 0;
+            background: #000;
+        }
+
+
+        /* =====================================
+           DRAVYA FLUCTUATION BACKGROUND
+        ===================================== */
 
         .fluctuation-background {
             position: fixed;
-            top: 0;
-            left: 0;
+            inset: 0;
 
             width: 100%;
             height: 100%;
@@ -35,14 +44,12 @@
             pointer-events: none;
         }
 
-        /* Dark overlay — keeps artwork readable
-           without changing the actual video */
 
         .background-overlay {
             position: fixed;
             inset: 0;
 
-            background: rgba(0, 0, 0, 0.18);
+            background: rgba(0, 0, 0, 0.15);
 
             z-index: -1;
 
@@ -50,31 +57,27 @@
         }
 
 
-        /* =========================================
+        /* =====================================
            ART PAGE
-        ========================================= */
+        ===================================== */
 
         .art-page {
+            position: relative;
+            z-index: 1;
 
             min-height: 100vh;
 
             padding:
-                70px
-                6vw
+                70px 6vw
                 100px;
-
-            position: relative;
-
-            z-index: 1;
         }
 
 
-        /* =========================================
+        /* =====================================
            HEADER
-        ========================================= */
+        ===================================== */
 
         .art-header {
-
             display: flex;
 
             justify-content:
@@ -83,16 +86,19 @@
             align-items:
                 center;
 
-            margin-bottom: 60px;
+            margin-bottom: 65px;
         }
 
 
         .art-title {
-
             margin: 0;
 
+            color: #ffffff;
+
             font-size:
-                clamp(3rem, 7vw, 7rem);
+                clamp(3.5rem, 8vw, 8rem);
+
+            font-weight: 500;
 
             letter-spacing:
                 0.08em;
@@ -100,23 +106,20 @@
 
 
         .back-link {
-
-            color: inherit;
+            color: #ffffff;
 
             text-decoration: none;
 
+            font-size: 0.8rem;
+
             letter-spacing:
                 0.15em;
-
-            font-size:
-                0.8rem;
         }
 
 
-        /* =========================================
-           ART GRID
-           EXACTLY 2 IMAGES PER ROW
-        ========================================= */
+        /* =====================================
+           GALLERY
+        ===================================== */
 
         .art-grid {
 
@@ -125,19 +128,27 @@
             grid-template-columns:
                 repeat(2, minmax(0, 1fr));
 
-            gap: 35px;
+            gap: 32px;
 
             width: 100%;
         }
 
 
+        /* =====================================
+           INDIVIDUAL ARTWORK
+        ===================================== */
+
         .art-item {
+
+            position: relative;
 
             width: 100%;
 
             cursor: pointer;
 
             overflow: hidden;
+
+            background: transparent;
         }
 
 
@@ -149,23 +160,30 @@
 
             height: auto;
 
+            max-width: 100%;
+
             object-fit: contain;
 
+            opacity: 1;
+
+            visibility: visible;
+
             transition:
-                transform 0.45s ease;
+                transform 0.45s ease,
+                opacity 0.3s ease;
         }
 
 
         .art-item:hover img {
 
             transform:
-                scale(1.015);
+                scale(1.02);
         }
 
 
-        /* =========================================
-           FULLSCREEN VIEWER
-        ========================================= */
+        /* =====================================
+           FULLSCREEN
+        ===================================== */
 
         .lightbox {
 
@@ -184,7 +202,7 @@
             box-sizing: border-box;
 
             background:
-                rgba(0, 0, 0, 0.96);
+                rgba(0, 0, 0, 0.97);
 
             z-index: 99999;
 
@@ -193,25 +211,26 @@
 
 
         .lightbox.active {
-
             display: flex;
         }
 
 
         .lightbox img {
 
+            display: block;
+
             /*
-             * ORIGINAL ASPECT RATIO
-             * NO CROPPING
+             * Preserve original aspect ratio.
+             * Never crop or stretch.
              */
-
-            max-width: 100vw;
-
-            max-height: 100vh;
 
             width: auto;
 
             height: auto;
+
+            max-width: 96vw;
+
+            max-height: 94vh;
 
             object-fit: contain;
 
@@ -223,15 +242,17 @@
 
             position: absolute;
 
-            top: 22px;
+            top: 20px;
 
-            right: 32px;
+            right: 30px;
 
-            color: white;
+            color: #ffffff;
 
-            font-size: 38px;
+            font-size: 40px;
 
             font-weight: 300;
+
+            line-height: 1;
 
             cursor: pointer;
 
@@ -239,17 +260,15 @@
         }
 
 
-        /* =========================================
+        /* =====================================
            MOBILE
-        ========================================= */
+        ===================================== */
 
         @media (max-width: 700px) {
 
             .art-page {
-
                 padding:
-                    45px
-                    20px
+                    45px 20px
                     70px;
             }
 
@@ -258,11 +277,10 @@
                 grid-template-columns:
                     1fr;
 
-                gap: 25px;
+                gap: 22px;
             }
 
             .art-header {
-
                 margin-bottom: 40px;
             }
 
@@ -276,9 +294,9 @@
 <body>
 
 
-    <!-- =========================================
-         DRAVYA VACUUM FLUCTUATION BACKGROUND
-         ========================================= -->
+    <!-- =====================================
+         BACKGROUND VIDEO
+    ===================================== -->
 
     <video
         class="fluctuation-background"
@@ -299,9 +317,9 @@
     <div class="background-overlay"></div>
 
 
-    <!-- =========================================
-         ART PAGE
-    ========================================= -->
+    <!-- =====================================
+         ART
+    ===================================== -->
 
     <main class="art-page">
 
@@ -323,10 +341,9 @@
         </header>
 
 
-        <!-- =====================================
-             ARTWORKS
-             a.jpg → u.jpg
-        ====================================== -->
+        <!-- =================================
+             ACTUAL IMAGE GALLERY
+        ================================== -->
 
         <section
             class="art-grid"
@@ -337,27 +354,28 @@
     </main>
 
 
-    <!-- =========================================
-         FULLSCREEN ARTWORK
-    ========================================= -->
+    <!-- =====================================
+         FULLSCREEN VIEWER
+    ===================================== -->
 
     <div
         class="lightbox"
         id="lightbox"
     >
 
-        <span
+        <button
             class="close-lightbox"
             id="closeLightbox"
+            aria-label="Close"
         >
             ×
-        </span>
+        </button>
 
 
         <img
             id="lightboxImage"
             src=""
-            alt="DRAVYA artwork"
+            alt=""
         >
 
     </div>
@@ -370,18 +388,15 @@
                 "artGrid"
             );
 
-
         const lightbox =
             document.getElementById(
                 "lightbox"
             );
 
-
         const lightboxImage =
             document.getElementById(
                 "lightboxImage"
             );
-
 
         const closeLightbox =
             document.getElementById(
@@ -390,13 +405,7 @@
 
 
         /* =====================================
-           LOAD:
-
-           a.jpg
-           b.jpg
-           c.jpg
-           ...
-           u.jpg
+           a.jpg → u.jpg
         ===================================== */
 
         for (
@@ -409,41 +418,54 @@
                 String.fromCharCode(i);
 
 
-            const item =
-                document.createElement(
-                    "div"
-                );
-
-            item.className =
-                "art-item";
-
-
             const image =
                 document.createElement(
                     "img"
                 );
 
 
+            /*
+             * ACTUAL IMAGE FILE
+             */
+
             image.src =
                 `assets/art/${letter}.jpg`;
 
 
-            /*
-             * IMPORTANT:
-             * No filename displayed.
-             */
-
             image.alt =
-                "DRAVYA artwork";
+                "";
 
 
-            item.appendChild(image);
+            image.loading =
+                "lazy";
 
-            artGrid.appendChild(item);
+
+            image.decoding =
+                "async";
+
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "art-item";
+
+
+            item.appendChild(
+                image
+            );
+
+
+            artGrid.appendChild(
+                item
+            );
 
 
             /* =================================
-               CLICK → FULLSCREEN
+               CLICK IMAGE
             ================================= */
 
             item.addEventListener(
@@ -453,10 +475,12 @@
                     lightboxImage.src =
                         image.src;
 
+                    lightboxImage.alt =
+                        "";
+
                     lightbox.classList.add(
                         "active"
                     );
-
 
                     document.body.style.overflow =
                         "hidden";
@@ -468,7 +492,7 @@
 
 
         /* =====================================
-           CLOSE FULLSCREEN
+           CLOSE
         ===================================== */
 
         function closeViewer() {
@@ -477,9 +501,7 @@
                 "active"
             );
 
-
             lightboxImage.src = "";
-
 
             document.body.style.overflow =
                 "";
@@ -492,8 +514,6 @@
             closeViewer
         );
 
-
-        /* Click outside image */
 
         lightbox.addEventListener(
             "click",
@@ -510,8 +530,6 @@
             }
         );
 
-
-        /* ESC */
 
         document.addEventListener(
             "keydown",
