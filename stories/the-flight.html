@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <!-- =====================================
+         CHANGE STORY TITLE HERE
+    ====================================== -->
+
+    <title>DRAVYA — STORY TITLE</title>
+
+
+    <!-- TAB LOGO -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="../assets/logo.png"
+    >
+
+
+    <!-- DRAVYA STYLE -->
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+
+    <style>
+
+        /* =====================================
+           ENABLE SCROLLING
+        ===================================== */
+
+        html,
+        body {
+
+            height: auto !important;
+
+            min-height: 100% !important;
+
+            overflow-y: auto !important;
+
+            overflow-x: hidden !important;
+
+        }
+
+
+        /* =====================================
+           VACUUM FLUCTUATION BACKGROUND
+        ===================================== */
+
+        .fluctuation-background {
+
+            position: fixed;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            z-index: -2;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================
+           BACKGROUND OVERLAY
+        ===================================== */
+
+        .background-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.30
+                );
+
+            z-index: -1;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================
+           STORY PAGE
+        ===================================== */
+
+        .story-page {
+
+            position: relative;
+
+            z-index: 1;
+
+            min-height: 100vh;
+
+            padding:
+                70px
+                20px
+                120px;
+
+        }
+
+
+        /* =====================================
+           TOP NAVIGATION
+        ===================================== */
+
+        .story-nav {
+
+            width: 100%;
+
+            max-width:
+                900px;
+
+            margin:
+                0 auto
+                70px;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+        }
+
+
+        .back-link {
+
+            color:
+                #ffffff;
+
+            text-decoration:
+                none;
+
+            font-size:
+                0.75rem;
+
+            letter-spacing:
+                0.15em;
+
+        }
+
+
+        .story-label {
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.55
+                );
+
+            font-size:
+                0.7rem;
+
+            letter-spacing:
+                0.2em;
+
+        }
+
+
+        /* =====================================
+           STORY HEADER
+        ===================================== */
+
+        .story-header {
+
+            width: 100%;
+
+            max-width:
+                900px;
+
+            margin:
+                0 auto
+                80px;
+
+        }
+
+
+        .story-number {
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.55
+                );
+
+            font-size:
+                0.75rem;
+
+            letter-spacing:
+                0.2em;
+
+            margin-bottom:
+                20px;
+
+        }
+
+
+        .story-title {
+
+            margin:
+                0;
+
+            color:
+                #ffffff;
+
+            font-size:
+                clamp(
+                    3rem,
+                    7vw,
+                    6rem
+                );
+
+            font-weight:
+                500;
+
+            line-height:
+                1.05;
+
+            letter-spacing:
+                0.02em;
+
+        }
+
+
+        /* =====================================
+           STORY TEXT
+        ===================================== */
+
+.story-content {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+
+    color: rgba(255, 255, 255, 0.92);
+
+    font-size: 1.35rem;
+    line-height: 1.9;
+
+    letter-spacing: 0.01em;
+}
+
+
+        /* =====================================
+           PARAGRAPHS
+        ===================================== */
+
+        .story-content p {
+
+            margin:
+                0 0 1.8em;
+
+        }
+
+
+        /* =====================================
+           END
+        ===================================== */
+
+        .story-end {
+
+            width: 100%;
+
+            max-width:
+                720px;
+
+            margin:
+                100px auto
+                0;
+
+            padding-top:
+                35px;
+
+            border-top:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.18
+                );
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.45
+                );
+
+            font-size:
+                0.7rem;
+
+            letter-spacing:
+                0.25em;
+
+            text-align:
+                center;
+
+        }
+
+
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (
+            max-width: 700px
+        ) {
+
+            .story-page {
+
+                padding:
+                    45px
+                    20px
+                    80px;
+
+            }
+
+
+            .story-nav {
+
+                margin-bottom:
+                    55px;
+
+            }
+
+
+            .story-header {
+
+                margin-bottom:
+                    55px;
+
+            }
+
+
+            .story-content {
+
+                font-size:
+                    1rem;
+
+                line-height:
+                    1.85;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================
+         DRAVYA VACUUM FLUCTUATION BACKGROUND
+    ===================================== -->
+
+    <video
+        class="fluctuation-background"
+        autoplay
+        muted
+        loop
+        playsinline
+    >
+
+        <source
+            src="../assets/dravya_vacuum_fluctuation_10s.mp4"
+            type="video/mp4"
+        >
+
+    </video>
+
+
+    <div
+        class="background-overlay"
+    ></div>
+
+
+    <!-- =====================================
+         STORY PAGE
+    ===================================== -->
+
+    <main
+        class="story-page"
+    >
+
+
+        <!-- =================================
+             NAVIGATION
+        ================================== -->
+
+        <nav
+            class="story-nav"
+        >
+
+            <a
+                href="../fiction.html"
+                class="back-link"
+            >
+                ← ATOMIC TALES
+            </a>
+
+
+            <span
+                class="story-label"
+            >
+                DRAVYA
+            </span>
+
+        </nav>
+
+
+        <!-- =================================
+             STORY HEADER
+        ================================== -->
+
+        <header
+            class="story-header"
+        >
+
+            <!-- CHANGE NUMBER -->
+
+            <div
+                class="story-number"
+            >
+                02
+            </div>
+
+
+            <!-- CHANGE TITLE -->
+
+            <h1
+                class="story-title"
+            >
+                THE FLIGHT
+            </h1>
+
+        </header>
+
+
+        <!-- =================================
+             ✍️ PASTE YOUR STORY HERE
+             
+             IMPORTANT:
+             Separate paragraphs using
+             <p> ... </p>
+        ================================== -->
+
+        <article
+            class="story-content"
+        >
+
+
+            <!-- =============================
+                 YOUR STORY STARTS HERE
+            ============================== -->
+
+
+            <p>
+With its mysterious wings which follows a specific law that keeps the body in an ecstatic state while some kind of energy guides its mind to flap them so that it attains locomotion, an avian was in flight circling round the Alapana Towers on a cozy Thursday evening. It was nearly 6 PM when Madhava had finished his coffee at the office smoking zone next to the canteen on the top floor and was having his last puff of the day watching the hawk which was peacefully gliding. He thought about the true meaning of the term freedom.            </p>
+
+
+            <p>
+From the past 8 months, he was working as a data analyst for a private company by the name Usiru, which deals with life insurances. He spends nearly 7-8 hours in a day at the office verifying the records, detecting any fraudulent files and so on. Surprisingly, it was less work than usual today and after finishing his team meeting, he had walked up the stairs to the canteen on the next floor to grab his coffee. The vibration of a soothing Kannada song was spread across the floor as he watched the bird dissolve into the clouds. He then closed his eyes when the cool Thursday breeze kissed his face.
+            </p>
+
+
+            <p>
+It was time to head back home as ‘The Swastain’, a popular Kannada indie music band [whose song was being played at the canteen] was all set to perform at a café nearby. The show was scheduled to start at 7 PM and Madhava was a great admirer of the band. He walked towards the elevator block after passing through the canteen and pressed the down button. He could still hear the song from a distance. The number on the small LED screen showed the digit ‘0’ and had an upper arrow sign next to it in red. While he waited for it to turn ‘4’, he started to hum with the song. The fact that he was about to watch his favorite band perform live for the first time in the next few minutes really excited him. He just had to enter the lift, stand till it reached the basement, wait for the door to open, walk towards his bike, exit the office gate and take the second right to reach the Chaos Café. Today’s less work, the coffee, the bird, the breeze and the song, everything about this Thursday made him smile again. The LED screen showed ‘3’ when he heard a voice which added a harmonic layer to the music in the background and it sounded more melodious than it was. He was amazed for a moment and then turned to his left, still humming. Along with the sound waves, it was Sruthi who made her way into the elevator block. She was dressed in a blue saree and was glowing like an Angel. She used to work in a different shift than he did and hence they had never met. They both exchanged smiles as their harmonies blended perfectly. The melodious scene was interrupted by a robotic female voice with a distorted bell sound that said “fourth floor”. The doors of the elevator opened and a couple of employees quickly made their exit. Madhava and Sruthi got into the empty lift. The screen now showed the digit ‘4’ in red but this time there was no sign of the arrow. Sruthi then pressed the ‘0’ button which brought back the down arrow sign next to ‘4’. The doors and the song slowly closed.
+            </p>
+
+          <p>
+“You have a lovely voice”, said Madhava. “It’s not me, it’s The Swastain. They make everybody sound sweet through their composition. They are pure magic”, replied Sruthi and it was obvious that she too loved the band. “True! It’s great to know that you like them, they’re my favorite”, he added. A short smile was her reply. “How was your day?” asked Sruthi after a brief pause. Madhava talked about the bird he had watched, his excitement about the live show he was about to attend and then added, “It’s a peaceful day. How was yours?”
+          </p>
+“The best! It was my last working day and I love the lemon tea here at the canteen. I enjoyed the last sip vibing to the music and now I am here”, Sruthi giggled. She also said she had attended one of the live shows of the band and it was jam packed. “That’s great! You are indeed a free bird now”, he said. Madhava was kind of happy to see someone getting out of this office forever. When she nodded with a cute smile, the elevator doors opened with the same distorted bell sound and the robotic voice now said “second floor” but no one hopped in. Madhava thought about asking her next plans but restrained assuming that they had talked too much in the first meeting. The doors closed automatically after 10 seconds and the digit ‘2’ on the LED had a down arrow sign next to it. The lift’s downward acceleration reduced the normal force, making them feel less weight. Sruthi’s phone started to ring when Madhava was finding his earplugs from his office bag. She answered, “Yes, finally! Sure, I’ll be there in 2 hours. I am leaving now, see you soon”. Her sweet voice produced these set of words with a sound similar to waves of the sea. The employee and the ex-employee of the company Usiru had reached the first floor but the doors did not open. Sruthi resumed, “Well, I will be flying to Amsterdam with my husband in a few hours. I had waited years for this day. It really feels great to finally quit the job and talk to someone about my last day here”. “My pleasure! It’s nice to know that two happy strangers are on their way to experience something they always wanted”, Madhava replied after finding the earplugs and connected it to his phone. The robotic voice with the distortion was back with “ground floor” and the doors opened. The smiles were exchanged again but their names did not. Sruthi made her exit and before the doors closed, Madhava wished her, “Have a safe journey!” 
+          <p>
+The down arrow sign popped up on the LED screen next to ‘0’ when he pressed the ‘-1’ button and had his earplugs on. His body felt lighter as he launched the music player on his phone and played his favorite song. He still had to wait for the lift to reach the basement, walk up to his bike and exit the gate. It was 6:20 PM when he unlocked his bike. The song he played was called Haaru [Fly] from the album “The Flight” by The Swastain.
+          </p>
+
+          <p>
+Though it was short, it was indeed a good flight from the fourth floor to the basement. He thought to himself.
+          </p>
+
+        
+          
+
+            <!--
+                KEEP ADDING PARAGRAPHS:
+
+                <p>
+                    Your text...
+                </p>
+
+                <p>
+                    Your next paragraph...
+                </p>
+            -->
+
+
+            <!-- =============================
+                 YOUR STORY ENDS HERE
+            ============================== -->
+
+
+        </article>
+
+
+        <!-- =================================
+             END
+        ================================== -->
+
+        <div
+            class="story-end"
+        >
+            END
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>
