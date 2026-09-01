@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <!-- =====================================
+         CHANGE STORY TITLE HERE
+    ====================================== -->
+
+    <title>DRAVYA — STORY TITLE</title>
+
+
+    <!-- TAB LOGO -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="../assets/logo.png"
+    >
+
+
+    <!-- DRAVYA STYLE -->
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+
+    <style>
+
+        /* =====================================
+           ENABLE SCROLLING
+        ===================================== */
+
+        html,
+        body {
+
+            height: auto !important;
+
+            min-height: 100% !important;
+
+            overflow-y: auto !important;
+
+            overflow-x: hidden !important;
+
+        }
+
+
+        /* =====================================
+           VACUUM FLUCTUATION BACKGROUND
+        ===================================== */
+
+        .fluctuation-background {
+
+            position: fixed;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            z-index: -2;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================
+           BACKGROUND OVERLAY
+        ===================================== */
+
+        .background-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.30
+                );
+
+            z-index: -1;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================
+           STORY PAGE
+        ===================================== */
+
+        .story-page {
+
+            position: relative;
+
+            z-index: 1;
+
+            min-height: 100vh;
+
+            padding:
+                70px
+                20px
+                120px;
+
+        }
+
+
+        /* =====================================
+           TOP NAVIGATION
+        ===================================== */
+
+        .story-nav {
+
+            width: 100%;
+
+            max-width:
+                900px;
+
+            margin:
+                0 auto
+                70px;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+        }
+
+
+        .back-link {
+
+            color:
+                #ffffff;
+
+            text-decoration:
+                none;
+
+            font-size:
+                0.75rem;
+
+            letter-spacing:
+                0.15em;
+
+        }
+
+
+        .story-label {
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.55
+                );
+
+            font-size:
+                0.7rem;
+
+            letter-spacing:
+                0.2em;
+
+        }
+
+
+        /* =====================================
+           STORY HEADER
+        ===================================== */
+
+        .story-header {
+
+            width: 100%;
+
+            max-width:
+                900px;
+
+            margin:
+                0 auto
+                80px;
+
+        }
+
+
+        .story-number {
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.55
+                );
+
+            font-size:
+                0.75rem;
+
+            letter-spacing:
+                0.2em;
+
+            margin-bottom:
+                20px;
+
+        }
+
+
+        .story-title {
+
+            margin:
+                0;
+
+            color:
+                #ffffff;
+
+            font-size:
+                clamp(
+                    3rem,
+                    7vw,
+                    6rem
+                );
+
+            font-weight:
+                500;
+
+            line-height:
+                1.05;
+
+            letter-spacing:
+                0.02em;
+
+        }
+
+
+        /* =====================================
+           STORY TEXT
+        ===================================== */
+
+.story-content {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+
+    color: rgba(255, 255, 255, 0.92);
+
+    font-size: 1.35rem;
+    line-height: 1.9;
+
+    letter-spacing: 0.01em;
+}
+
+
+        /* =====================================
+           PARAGRAPHS
+        ===================================== */
+
+        .story-content p {
+
+            margin:
+                0 0 1.8em;
+
+        }
+
+
+        /* =====================================
+           END
+        ===================================== */
+
+        .story-end {
+
+            width: 100%;
+
+            max-width:
+                720px;
+
+            margin:
+                100px auto
+                0;
+
+            padding-top:
+                35px;
+
+            border-top:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.18
+                );
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.45
+                );
+
+            font-size:
+                0.7rem;
+
+            letter-spacing:
+                0.25em;
+
+            text-align:
+                center;
+
+        }
+
+
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (
+            max-width: 700px
+        ) {
+
+            .story-page {
+
+                padding:
+                    45px
+                    20px
+                    80px;
+
+            }
+
+
+            .story-nav {
+
+                margin-bottom:
+                    55px;
+
+            }
+
+
+            .story-header {
+
+                margin-bottom:
+                    55px;
+
+            }
+
+
+            .story-content {
+
+                font-size:
+                    1rem;
+
+                line-height:
+                    1.85;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================
+         DRAVYA VACUUM FLUCTUATION BACKGROUND
+    ===================================== -->
+
+    <video
+        class="fluctuation-background"
+        autoplay
+        muted
+        loop
+        playsinline
+    >
+
+        <source
+            src="../assets/dravya_vacuum_fluctuation_10s.mp4"
+            type="video/mp4"
+        >
+
+    </video>
+
+
+    <div
+        class="background-overlay"
+    ></div>
+
+
+    <!-- =====================================
+         STORY PAGE
+    ===================================== -->
+
+    <main
+        class="story-page"
+    >
+
+
+        <!-- =================================
+             NAVIGATION
+        ================================== -->
+
+        <nav
+            class="story-nav"
+        >
+
+            <a
+                href="../fiction.html"
+                class="back-link"
+            >
+                ← ATOMIC TALES
+            </a>
+
+
+            <span
+                class="story-label"
+            >
+                DRAVYA
+            </span>
+
+        </nav>
+
+
+        <!-- =================================
+             STORY HEADER
+        ================================== -->
+
+        <header
+            class="story-header"
+        >
+
+            <!-- CHANGE NUMBER -->
+
+            <div
+                class="story-number"
+            >
+                02
+            </div>
+
+
+            <!-- CHANGE TITLE -->
+
+            <h1
+                class="story-title"
+            >
+                THE RAINBOW
+            </h1>
+
+        </header>
+
+
+        <!-- =================================
+             ✍️ PASTE YOUR STORY HERE
+             
+             IMPORTANT:
+             Separate paragraphs using
+             <p> ... </p>
+        ================================== -->
+
+        <article
+            class="story-content"
+        >
+
+
+            <!-- =============================
+                 YOUR STORY STARTS HERE
+            ============================== -->
+
+
+            <p>
+"It's 11:30 in the morning my friends, we have exactly 30 minutes for the school bell to ring. You may do any work you wish or try to draw something from the story I narrated but please maintain silence. I'll be here watching the clouds".    
+            </p>
+
+
+            <p>
+Raj Gopal was a drawing tutor and a mythological writer at the Atomic School of Molecules, a primary school from Grade I to V, who also taught English and was loved by each and every kid. He was popularly and dearly called as Raju Sir. He spoke with a tone of care and joy. He admired the kids and strongly believed in a better future. He often narrated stories he wrote for his English Prose class at school which promoted peace, harmony and responsibility. He was one of a kind.   
+            </p>
+
+
+            <p>
+It was a drizzly Saturday yet the Sun was on duty. The Grade III classroom was on the first floor and had two rows and five benches with twenty four future citizens. Despite Raju Sir's request for silence, the class was filled with the sounds of murmuring, scribbling, rustling papers, and a few local languages. Bhuvan and Kishan were the only kids who tried to draw the picture of a palace from their English text book as they were astonished by the Prose - The Rainbow, written by our dearest Raju Sir, while Jeevan, another kid who completes the trio was taking a nap on the bench behind them. Bhuvan was fascinated about the talking fish in the story and Kishan was obsessed with the architecture of the palace which was beautifully described. While Kishan started to draw the rainbow behind the palace, Bhuvan recalled a scene from the story.          
+            </p>
+
+          <p>
+".......... and after hearing the injustice that happened at the war, the disturbed Prince then went for a walk from the palace to a nearby lake and sat there in solitude. After a while, he could hear the most melodious music ever produced on this planet - the sounds of the nature. Chirping birds, flowing water and the breeze. He closed his eyes to experience the vibration. 'Hey there!', came a voice from somewhere in the lake. He opened his eyes and was surprised after he saw a fish greeting him. Yes, it was a talking fish. The prince greeted back with awe. The fish continued -
+          </p>
+          
+          <p>
+' It's okay. It's okay my friend. Don't be so hard on yourself. It was not your fault. You are doing your best. Do not lose hope. Remember, you are an archer. Have patience and focus on the goal. I am with you, Vajra '        
+          </p>
+
+          <p>
+The fish then leaped into the sky and transformed into a burst of colors. The prince took a long breath and offered a heartfelt prayer of gratitude after realizing the presence of the Supreme Lord himself in the form of a fish and ............. "    
+          </p>
+
+          <p>
+Kishan had almost finished the drawing while Bhuvan was still wondering what happened to the talking fish after transforming into colors. He had forgot the ending of the story and turned back to ask Jeevan who was packing up his bag. Before he could ask him, the school bell rang and the whole class came back from their lost worlds and cheered with joy. Raju Sir smiled at the clouds, picked up his chalk box from the table, wished them a happy weekend and made his exit. It was still drizzling as Bhuvan, Kishan, and Jeevan cycled out of the campus on their way to the bakery they visited every Saturday after school. The sun’s rays shone directly into the eyes of Bakery Uncle, who blocked them by raising his left hand and asked, 'What’s up, kids? Cake or Potato bun?'. While Bhuvan and Kishen were confused what to eat, Jeevan stood there and watched the colors appearing like a magical event in the sky and it felt familiar to him. Raju Sir joined the trio after parking his bike next to the bakery and ordered a coffee. After few minutes, they all sat munching their snacks watching the rainbow while Raju Sir recited a sentence from the story he had narrated an hour ago to the kids -     
+          </p>
+
+          <p>
+            " The rainbow is depicted as an archer's bow in the Hindu Mythology. Indra, the god of thunder and war uses the rainbow to shoot the arrows of lightning "
+          </p>
+
+          <p>
+            Though there was no lightning that day, something did strike Bhuvan for a moment. Perhaps he finally remembered what had happened to the talking fish from the story.
+          </p>
+          
+          
+
+            <!--
+                KEEP ADDING PARAGRAPHS:
+
+                <p>
+                    Your text...
+                </p>
+
+                <p>
+                    Your next paragraph...
+                </p>
+            -->
+
+
+            <!-- =============================
+                 YOUR STORY ENDS HERE
+            ============================== -->
+
+
+        </article>
+
+
+        <!-- =================================
+             END
+        ================================== -->
+
+        <div
+            class="story-end"
+        >
+            END
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>
