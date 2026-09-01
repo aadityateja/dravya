@@ -10,17 +10,16 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <!-- TAB TITLE -->
     <title>DRAVYA — ART</title>
 
-    <!-- TAB LOGO / FAVICON -->
+    <!-- TAB LOGO -->
     <link
         rel="icon"
         type="image/png"
         href="assets/logo.png"
     >
 
-    <!-- EXISTING DRAVYA STYLE -->
+    <!-- DRAVYA STYLE -->
     <link
         rel="stylesheet"
         href="style.css"
@@ -30,7 +29,7 @@
     <style>
 
         /* =====================================
-           ENABLE SCROLLING
+           ENABLE PAGE SCROLLING
         ===================================== */
 
         html,
@@ -48,7 +47,7 @@
 
 
         /* =====================================
-           VIDEO BACKGROUND
+           VACUUM FLUCTUATION BACKGROUND
         ===================================== */
 
         .fluctuation-background {
@@ -68,8 +67,6 @@
 
         }
 
-
-        /* BACKGROUND OVERLAY */
 
         .background-overlay {
 
@@ -106,7 +103,7 @@
             padding:
                 70px
                 6vw
-                100px;
+                120px;
 
         }
 
@@ -125,12 +122,10 @@
             align-items:
                 center;
 
-            margin-bottom: 65px;
+            margin-bottom: 70px;
 
         }
 
-
-        /* ART TITLE */
 
         .art-title {
 
@@ -153,8 +148,6 @@
         }
 
 
-        /* BACK TO DRAVYA */
-
         .back-link {
 
             color: #ffffff;
@@ -170,8 +163,9 @@
 
 
         /* =====================================
-           ART GALLERY
-           2 IMAGES PER ROW
+           GALLERY
+           
+           TWO ARTWORKS PER ROW
         ===================================== */
 
         .art-grid {
@@ -184,7 +178,8 @@
                     minmax(0, 1fr)
                 );
 
-            gap: 35px;
+            gap:
+                55px 35px;
 
             width: 100%;
 
@@ -192,24 +187,67 @@
 
 
         /* =====================================
-           INDIVIDUAL ARTWORK
+           ARTWORK FRAME
+
+           Gives every image a consistent
+           visual presentation WITHOUT
+           cropping the actual artwork.
         ===================================== */
 
         .art-item {
 
-            position: relative;
-
             width: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
 
             cursor: pointer;
 
             overflow: hidden;
 
             background:
-                transparent;
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.10
+                );
+
+            padding: 18px;
+
+            box-sizing:
+                border-box;
+
+            min-height: 320px;
+
+            transition:
+                background 0.3s ease;
 
         }
 
+
+        .art-item:hover {
+
+            background:
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.20
+                );
+
+        }
+
+
+        /* =====================================
+           ACTUAL ARTWORK
+
+           NEVER CROP
+           NEVER STRETCH
+        ===================================== */
 
         .art-item img {
 
@@ -221,11 +259,9 @@
 
             max-width: 100%;
 
+            max-height: 650px;
+
             object-fit: contain;
-
-            opacity: 1;
-
-            visibility: visible;
 
             transition:
                 transform 0.45s ease;
@@ -236,13 +272,13 @@
         .art-item:hover img {
 
             transform:
-                scale(1.02);
+                scale(1.015);
 
         }
 
 
         /* =====================================
-           FULLSCREEN VIEWER
+           FULLSCREEN LIGHTBOX
         ===================================== */
 
         .lightbox {
@@ -259,10 +295,11 @@
             justify-content:
                 center;
 
-            padding: 20px;
-
             box-sizing:
                 border-box;
+
+            padding:
+                60px 100px;
 
             background:
                 rgba(
@@ -274,8 +311,6 @@
 
             z-index: 99999;
 
-            cursor: zoom-out;
-
         }
 
 
@@ -286,6 +321,12 @@
         }
 
 
+        /* =====================================
+           FULLSCREEN IMAGE
+
+           ORIGINAL ASPECT RATIO
+        ===================================== */
+
         .lightbox img {
 
             display: block;
@@ -294,18 +335,20 @@
 
             height: auto;
 
-            max-width: 96vw;
+            max-width: 90vw;
 
-            max-height: 94vh;
+            max-height: 90vh;
 
             object-fit: contain;
 
-            cursor: default;
+            user-select: none;
 
         }
 
 
-        /* CLOSE BUTTON */
+        /* =====================================
+           CLOSE BUTTON
+        ===================================== */
 
         .close-lightbox {
 
@@ -315,12 +358,15 @@
 
             right: 30px;
 
-            color: #ffffff;
+            width: 45px;
 
-            background:
-                transparent;
+            height: 45px;
 
             border: none;
+
+            background: transparent;
+
+            color: #ffffff;
 
             font-size: 40px;
 
@@ -330,7 +376,84 @@
 
             cursor: pointer;
 
-            z-index: 100000;
+            z-index: 100002;
+
+        }
+
+
+        /* =====================================
+           LEFT / RIGHT BUTTONS
+        ===================================== */
+
+        .gallery-button {
+
+            position: absolute;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            width: 60px;
+
+            height: 60px;
+
+            border: none;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.08
+                );
+
+            color: #ffffff;
+
+            font-size: 32px;
+
+            font-weight: 300;
+
+            cursor: pointer;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            z-index: 100001;
+
+            transition:
+                background 0.25s ease,
+                transform 0.25s ease;
+
+        }
+
+
+        .gallery-button:hover {
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.18
+                );
+
+        }
+
+
+        .gallery-button.prev {
+
+            left: 25px;
+
+        }
+
+
+        .gallery-button.next {
+
+            right: 25px;
 
         }
 
@@ -348,7 +471,15 @@
                 padding:
                     45px
                     20px
-                    70px;
+                    80px;
+
+            }
+
+
+            .art-header {
+
+                margin-bottom:
+                    45px;
 
             }
 
@@ -358,14 +489,79 @@
                 grid-template-columns:
                     1fr;
 
-                gap: 22px;
+                gap: 25px;
 
             }
 
 
-            .art-header {
+            .art-item {
 
-                margin-bottom: 40px;
+                min-height:
+                    220px;
+
+                padding:
+                    12px;
+
+            }
+
+
+            .lightbox {
+
+                padding:
+                    50px 45px;
+
+            }
+
+
+            .lightbox img {
+
+                max-width:
+                    88vw;
+
+                max-height:
+                    85vh;
+
+            }
+
+
+            .gallery-button {
+
+                width: 42px;
+
+                height: 42px;
+
+                font-size: 24px;
+
+                background:
+                    rgba(
+                        255,
+                        255,
+                        255,
+                        0.08
+                    );
+
+            }
+
+
+            .gallery-button.prev {
+
+                left: 5px;
+
+            }
+
+
+            .gallery-button.next {
+
+                right: 5px;
+
+            }
+
+
+            .close-lightbox {
+
+                top: 15px;
+
+                right: 15px;
 
             }
 
@@ -380,8 +576,7 @@
 
 
     <!-- =====================================
-         DRAVYA VACUUM FLUCTUATION
-         BACKGROUND
+         DRAVYA VACUUM FLUCTUATION BACKGROUND
     ===================================== -->
 
     <video
@@ -409,10 +604,10 @@
          ART PAGE
     ===================================== -->
 
-    <main class="art-page">
+    <main
+        class="art-page"
+    >
 
-
-        <!-- HEADER -->
 
         <header
             class="art-header"
@@ -436,13 +631,7 @@
 
 
         <!-- =================================
-             GALLERY
-             
-             a.jpg
-             b.jpg
-             c.jpg
-             ...
-             u.jpg
+             ART GALLERY
         ================================== -->
 
         <section
@@ -464,22 +653,47 @@
     >
 
 
+        <!-- CLOSE -->
+
         <button
             class="close-lightbox"
             id="closeLightbox"
             aria-label="Close"
         >
-
             ×
-
         </button>
 
+
+        <!-- PREVIOUS -->
+
+        <button
+            class="gallery-button prev"
+            id="prevButton"
+            aria-label="Previous artwork"
+        >
+            ‹
+        </button>
+
+
+        <!-- IMAGE -->
 
         <img
             id="lightboxImage"
             src=""
             alt=""
         >
+
+
+        <!-- NEXT -->
+
+        <button
+            class="gallery-button next"
+            id="nextButton"
+            aria-label="Next artwork"
+        >
+            ›
+        </button>
+
 
     </div>
 
@@ -514,11 +728,26 @@
             );
 
 
+        const prevButton =
+            document.getElementById(
+                "prevButton"
+            );
+
+
+        const nextButton =
+            document.getElementById(
+                "nextButton"
+            );
+
+
         /* =====================================
-           CREATE ARTWORKS
+           ARTWORK LIST
            
            a.jpg → u.jpg
         ===================================== */
+
+        const artworks = [];
+
 
         for (
             let i = 97;
@@ -526,84 +755,210 @@
             i++
         ) {
 
-
             const letter =
                 String.fromCharCode(i);
 
 
-            /* IMAGE */
-
-            const image =
-                document.createElement(
-                    "img"
-                );
-
-
-            image.src =
-                `art/${letter}.jpg`;
-
-
-            image.alt =
-                "";
-
-
-            image.loading =
-                "lazy";
-
-
-            image.decoding =
-                "async";
-
-
-            /* CONTAINER */
-
-            const item =
-                document.createElement(
-                    "div"
-                );
-
-
-            item.className =
-                "art-item";
-
-
-            item.appendChild(
-                image
-            );
-
-
-            artGrid.appendChild(
-                item
-            );
-
-
-            /* =================================
-               OPEN FULLSCREEN
-            ================================= */
-
-            item.addEventListener(
-                "click",
-                () => {
-
-                    lightboxImage.src =
-                        image.src;
-
-                    lightbox.classList.add(
-                        "active"
-                    );
-
-
-                    document.body.style.overflow =
-                        "hidden";
-
-                }
+            artworks.push(
+                `art/${letter}.jpg`
             );
 
         }
 
 
         /* =====================================
-           CLOSE FUNCTION
+           CREATE GALLERY
+        ===================================== */
+
+        artworks.forEach(
+            (src, index) => {
+
+                const item =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                item.className =
+                    "art-item";
+
+
+                const image =
+                    document.createElement(
+                        "img"
+                    );
+
+
+                image.src =
+                    src;
+
+
+                image.alt =
+                    "";
+
+
+                image.loading =
+                    "lazy";
+
+
+                image.decoding =
+                    "async";
+
+
+                item.appendChild(
+                    image
+                );
+
+
+                artGrid.appendChild(
+                    item
+                );
+
+
+                /* CLICK → OPEN */
+
+                item.addEventListener(
+                    "click",
+                    () => {
+
+                        openViewer(index);
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =====================================
+           CURRENT IMAGE
+        ===================================== */
+
+        let currentIndex = 0;
+
+
+        /* =====================================
+           OPEN VIEWER
+        ===================================== */
+
+        function openViewer(index) {
+
+            currentIndex = index;
+
+
+            lightboxImage.src =
+                artworks[currentIndex];
+
+
+            lightbox.classList.add(
+                "active"
+            );
+
+
+            document.body.style.overflow =
+                "hidden";
+
+        }
+
+
+        /* =====================================
+           SHOW IMAGE
+        ===================================== */
+
+        function showImage(index) {
+
+            /*
+             * Loop around:
+             *
+             * first ← last
+             * last → first
+             */
+
+            if (
+                index < 0
+            ) {
+
+                index =
+                    artworks.length - 1;
+
+            }
+
+
+            if (
+                index >= artworks.length
+            ) {
+
+                index = 0;
+
+            }
+
+
+            currentIndex =
+                index;
+
+
+            lightboxImage.src =
+                artworks[currentIndex];
+
+        }
+
+
+        /* =====================================
+           PREVIOUS
+        ===================================== */
+
+        function previousArtwork() {
+
+            showImage(
+                currentIndex - 1
+            );
+
+        }
+
+
+        /* =====================================
+           NEXT
+        ===================================== */
+
+        function nextArtwork() {
+
+            showImage(
+                currentIndex + 1
+            );
+
+        }
+
+
+        /* =====================================
+           BUTTONS
+        ===================================== */
+
+        prevButton.addEventListener(
+            "click",
+            (event) => {
+
+                event.stopPropagation();
+
+                previousArtwork();
+
+            }
+        );
+
+
+        nextButton.addEventListener(
+            "click",
+            (event) => {
+
+                event.stopPropagation();
+
+                nextArtwork();
+
+            }
+        );
+
+
+        /* =====================================
+           CLOSE
         ===================================== */
 
         function closeViewer() {
@@ -623,15 +978,15 @@
         }
 
 
-        /* X BUTTON */
-
         closeLightbox.addEventListener(
             "click",
             closeViewer
         );
 
 
-        /* CLICK OUTSIDE */
+        /* =====================================
+           CLICK OUTSIDE IMAGE
+        ===================================== */
 
         lightbox.addEventListener(
             "click",
@@ -650,11 +1005,44 @@
         );
 
 
-        /* ESC */
+        /* =====================================
+           KEYBOARD CONTROLS
+        ===================================== */
 
         document.addEventListener(
             "keydown",
             (event) => {
+
+                if (
+                    !lightbox.classList.contains(
+                        "active"
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                if (
+                    event.key ===
+                    "ArrowLeft"
+                ) {
+
+                    previousArtwork();
+
+                }
+
+
+                if (
+                    event.key ===
+                    "ArrowRight"
+                ) {
+
+                    nextArtwork();
+
+                }
+
 
                 if (
                     event.key ===
@@ -667,6 +1055,7 @@
 
             }
         );
+
 
     </script>
 
