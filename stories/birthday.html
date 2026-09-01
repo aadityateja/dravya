@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <!-- =====================================
+         CHANGE STORY TITLE HERE
+    ====================================== -->
+
+    <title>DRAVYA — STORY TITLE</title>
+
+
+    <!-- TAB LOGO -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="../assets/logo.png"
+    >
+
+
+    <!-- DRAVYA STYLE -->
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+
+    <style>
+
+        /* =====================================
+           ENABLE SCROLLING
+        ===================================== */
+
+        html,
+        body {
+
+            height: auto !important;
+
+            min-height: 100% !important;
+
+            overflow-y: auto !important;
+
+            overflow-x: hidden !important;
+
+        }
+
+
+        /* =====================================
+           VACUUM FLUCTUATION BACKGROUND
+        ===================================== */
+
+        .fluctuation-background {
+
+            position: fixed;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            z-index: -2;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================
+           BACKGROUND OVERLAY
+        ===================================== */
+
+        .background-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.30
+                );
+
+            z-index: -1;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================
+           STORY PAGE
+        ===================================== */
+
+        .story-page {
+
+            position: relative;
+
+            z-index: 1;
+
+            min-height: 100vh;
+
+            padding:
+                70px
+                20px
+                120px;
+
+        }
+
+
+        /* =====================================
+           TOP NAVIGATION
+        ===================================== */
+
+        .story-nav {
+
+            width: 100%;
+
+            max-width:
+                900px;
+
+            margin:
+                0 auto
+                70px;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+        }
+
+
+        .back-link {
+
+            color:
+                #ffffff;
+
+            text-decoration:
+                none;
+
+            font-size:
+                0.75rem;
+
+            letter-spacing:
+                0.15em;
+
+        }
+
+
+        .story-label {
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.55
+                );
+
+            font-size:
+                0.7rem;
+
+            letter-spacing:
+                0.2em;
+
+        }
+
+
+        /* =====================================
+           STORY HEADER
+        ===================================== */
+
+        .story-header {
+
+            width: 100%;
+
+            max-width:
+                900px;
+
+            margin:
+                0 auto
+                80px;
+
+        }
+
+
+        .story-number {
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.55
+                );
+
+            font-size:
+                0.75rem;
+
+            letter-spacing:
+                0.2em;
+
+            margin-bottom:
+                20px;
+
+        }
+
+
+        .story-title {
+
+            margin:
+                0;
+
+            color:
+                #ffffff;
+
+            font-size:
+                clamp(
+                    3rem,
+                    7vw,
+                    6rem
+                );
+
+            font-weight:
+                500;
+
+            line-height:
+                1.05;
+
+            letter-spacing:
+                0.02em;
+
+        }
+
+
+        /* =====================================
+           STORY TEXT
+        ===================================== */
+
+.story-content {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+
+    color: rgba(255, 255, 255, 0.92);
+
+    font-size: 1.5rem;
+    line-height: 1.9;
+
+    letter-spacing: 0.01em;
+}
+
+
+        /* =====================================
+           PARAGRAPHS
+        ===================================== */
+
+        .story-content p {
+
+            margin:
+                0 0 1.8em;
+
+        }
+
+
+        /* =====================================
+           END
+        ===================================== */
+
+        .story-end {
+
+            width: 100%;
+
+            max-width:
+                720px;
+
+            margin:
+                100px auto
+                0;
+
+            padding-top:
+                35px;
+
+            border-top:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.18
+                );
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.45
+                );
+
+            font-size:
+                0.7rem;
+
+            letter-spacing:
+                0.25em;
+
+            text-align:
+                center;
+
+        }
+
+
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (
+            max-width: 700px
+        ) {
+
+            .story-page {
+
+                padding:
+                    45px
+                    20px
+                    80px;
+
+            }
+
+
+            .story-nav {
+
+                margin-bottom:
+                    55px;
+
+            }
+
+
+            .story-header {
+
+                margin-bottom:
+                    55px;
+
+            }
+
+
+            .story-content {
+
+                font-size:
+                    1rem;
+
+                line-height:
+                    1.85;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================
+         DRAVYA VACUUM FLUCTUATION BACKGROUND
+    ===================================== -->
+
+    <video
+        class="fluctuation-background"
+        autoplay
+        muted
+        loop
+        playsinline
+    >
+
+        <source
+            src="../assets/dravya_vacuum_fluctuation_10s.mp4"
+            type="video/mp4"
+        >
+
+    </video>
+
+
+    <div
+        class="background-overlay"
+    ></div>
+
+
+    <!-- =====================================
+         STORY PAGE
+    ===================================== -->
+
+    <main
+        class="story-page"
+    >
+
+
+        <!-- =================================
+             NAVIGATION
+        ================================== -->
+
+        <nav
+            class="story-nav"
+        >
+
+            <a
+                href="../fiction.html"
+                class="back-link"
+            >
+                ← ATOMIC TALES
+            </a>
+
+
+            <span
+                class="story-label"
+            >
+                DRAVYA
+            </span>
+
+        </nav>
+
+
+        <!-- =================================
+             STORY HEADER
+        ================================== -->
+
+        <header
+            class="story-header"
+        >
+
+            <!-- CHANGE NUMBER -->
+
+            <div
+                class="story-number"
+            >
+                07
+            </div>
+
+
+            <!-- CHANGE TITLE -->
+
+            <h1
+                class="story-title"
+            >
+                BIRTHDAY
+            </h1>
+
+        </header>
+
+
+        <!-- =================================
+             ✍️ PASTE YOUR STORY HERE
+             
+             IMPORTANT:
+             Separate paragraphs using
+             <p> ... </p>
+        ================================== -->
+
+        <article
+            class="story-content"
+        >
+
+
+            <!-- =============================
+                 YOUR STORY STARTS HERE
+            ============================== -->
+
+
+            <p>
+              <em>
+Yes, that’s right! Or maybe a little left, I guess? Damn. Okay. There are two metal strips like a plus mark, with a mechanical hand that can move left to right and front to back inside a vertical rectangular box with transparent sides, filled with many dolls. I just need to focus and place the mechanical hand at the right point using this controller carefully — exactly above the bunny doll I want.
+Once the position is fixed, I just have to press this button so that the hand goes down. Once it senses the object, the finger-like parts of the hand will close, and if everything goes well, it’ll pick up the toy and automatically release it into the collection chamber! Yes, I can do this.
+                
+              </em>
+            </p>
+
+
+            <p>
+After two unsuccessful attempts, Adarsh gave himself another pep talk and carefully looked toward the mechanical hand, which was near the right corner of the metal strip. He just had to move it a little to the left so that the hand was perfectly aligned with the bunny.
+            </p>
+
+
+            <p>
+The arcade buzzed with the cheerful voices of kids running across the hall. Some were immersed in the shooting water game, while others screamed excitedly on the virtual 3D ride. A few parents wandered around, keeping an eye on their children.
+            </p>
+
+          <p>
+Amid all that noise and colour, only Adarsh — a 25-year-old — seemed genuinely happy to be there, in a place made mostly for kids. His eyes glowed with excitement, and retrying the game felt strangely satisfying. He finally aligned the mechanical hand with the bunny and closed his eyes for a moment before pressing the button.
+          </p>
+          
+          <p>
+<em>
+
+  I see nothing. Black. I hear the voices of kids. I’m here at the arcade. I’m playing like a kid again. This is good. Great.
+</em>
+          </p>
+
+          <p>
+He took a deep breath and watched the hand slowly descend. As it moved, a cheerful tune played inside the box — a sound designed to heighten the suspense. With every inch it dropped, the music grew louder, more intense. The hand touched the doll. Its metal fingers closed. For a brief moment, everything froze. Then, it lifted — the bunny held tightly — and carried it toward the collection chamber, where it finally dropped.
+          </p>
+
+          <p>
+<em>
+Yeahh! That’s what I’m talking about!
+
+
+  
+</em>
+          </p>
+
+          <p>
+            Adarsh picked up the soft blue-layered bunny doll from the chamber and looked straight into its brown eyes as if it were a real bunny. The doll was too cute to handle, indeed.
+          </p>
+
+          <p>
+            It was 11 in the morning on a sunny Sunday when he had walked into the Mad Mall and headed straight toward the cinema hall on the third floor. He wanted to watch the movie that starred his favourite actor — a film that was originally released nearly ten years ago and had now been re-released due to high fan demand. The show was scheduled to start at 12:00 PM.
+          </p>
+
+          <p>
+            He had a rare habit of collecting movie tickets and storing them in his memory box, where all his collections of different things from his school days were saved. When he stood in the queue to get the tickets, he noticed a huge crowd approaching the hall. The craze was unreal. His eyes lit up, and he smiled at the ticket lady as he got his seat booked.
+          </p>
+
+          <p>
+            Since he still had about an hour, he thought of walking around the mall and window-shopping for a while. That’s when he came across the gaming arcade on the first floor. The colors and the ambience kind of attracted him and made him feel like a child again. As he wandered through the game installations, mostly designed for kids, something made him smile constantly. The kids were lost in their own worlds, which reminded him of his own school days.
+          </p>
+
+          <p>
+            He vividly remembered that day when his father was supposed to take him to the movies but instead met with an accident while returning home. He had run to the hospital barefoot and had watched his dad covered in blood. Adarsh had cried a lot that night, alone — his father was the only person he knew and lived with. He never knew what had happened to his mother since his father never talked about it.
+          </p>
+
+          <p>
+            So many incomplete stories started to pile up in his mind, but time flew. Somehow, he found his own way to answer the questions he had and grew into a better man. He knew everybody on this planet has limited time, and one day we all have to exit this so-called world and make way for new lives. He believed that no matter how much science and technology evolve, we cannot go back in time to change anything that has happened. All we have is now, and all we can do is make the best out of this moment.
+          </p>
+
+          <p>
+            <em>
+Whoa! It’s 11:40 already!
+     </em>
+          </p>
+
+          <p>
+            He walked out of the arcade with the bunny doll in his left hand and the movie ticket in his right. He checked for the elevator sign, which showed the letter ‘G’ with an upper arrow mark besides it in red LED screen. When the bell sound followed a programmed female voice from the inside of the elevator said “First Floor”, the doors slowly opened. A cute little girl with her parents came out while Adarsh made his way into the elevator. As their paths crossed, the girl shouted “Mimiii, my baby! Mom, look at Mimii, why is this Uncle holding my Mimii!!”
+          </p>
+
+          <p>
+            The girl started crying while Adarsh figured out that the girl may have had a similar bunny doll toy and may have lost it somehow. Her dad immediately apologized for the kid’s behaviour and started consoling his daughter and politely confirmed her that it was not Mimii. It seemed as though something had moved within Adarsh, and he gently held the little girl’s hand before placing the bunny in it.
+          </p>
+
+          <p>
+            “Here you go, sweetheart. It’s all yours”, said Adarsh.
+
+          </p>
+
+          <p>
+            The girl’s eyes instantly lit up with joy.
+          </p>
+
+          <p>
+            “Thank you, but you don’t have to do this,” her father said.
+
+          </p>
+
+          <p>
+            He was genuinely surprised — how could someone, without a moment’s hesitation, give away something so kindly, without expecting anything in return?
+          </p>
+
+          <p>
+            Adarsh didn’t say anything. He noticed the empty elevator waiting for him. After pressing the ‘3’ button, he smiled softly and blinked at the little girl once as the doors slowly closed. As he approached the cinema hall, the sound of people shouting at the staff began to rise. A few were angrily yelling at the manager. Adarsh had no idea what was going on until he noticed a group of young men curiously watching the scene. When he asked them about it, he learned that, due to technical issues, the show had been cancelled. Many fans, having waited for hours and even cancelled work plans to watch the movie, had now lost their patience.
+          </p>
+
+          <p>
+            <em>
+
+              Absolute chaos.
+
+
+            </em>
+          </p>
+
+          <p>
+            Adarsh smiled again. He returned to his home, not with the bunny doll he won but with a few heartwarming yet contrasting moments and a movie ticket. He went straight to his room and opened the trunk beneath his bed. There it was: his beloved memory box. He gently placed the movie ticket inside, adding one more sheet to the collection. Among the papers, he came across a bunch of short notes his father had written to him. He grabbed one of them.
+          </p>
+
+          <p>
+            <em>
+“Life doesn’t wait, son. Treasure the small joys, and be kind - even when no one is watching.”
+              
+            </em>
+          </p>
+
+          <p>
+            It kind of summed up today’s events for Adarsh. He closed the trunk and got up to check the time. It was nearly 2 in the afternoon, and the sun shone brightly through his window. He still had about eight hours left before this day faded away. As he watched a line of ants disappear into a tiny hole in the wall, he whispered to himself,
+          </p>
+
+          <p>
+            <em>
+
+              Happy Birthday, my friend.
+
+
+            </em>
+          </p>
+
+          <p>
+            A gentle smile curved his lips. He stretched, feeling the warmth of the afternoon sun, and thought about how he might spend the rest of the day - maybe a quiet walk, a cup of coffee, or simply watching the world go by from his window.
+          </p>
+          
+
+            <!--
+                KEEP ADDING PARAGRAPHS:
+
+                <p>
+                    Your text...
+                </p>
+
+                <p>
+                    Your next paragraph...
+                </p>
+            -->
+
+
+            <!-- =============================
+                 YOUR STORY ENDS HERE
+            ============================== -->
+
+
+        </article>
+
+
+        <!-- =================================
+             END
+        ================================== -->
+
+        <div
+            class="story-end"
+        >
+            END
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>
