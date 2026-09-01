@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <!-- =====================================
+         CHANGE STORY TITLE HERE
+    ====================================== -->
+
+    <title>DRAVYA — STORY TITLE</title>
+
+
+    <!-- TAB LOGO -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="../assets/logo.png"
+    >
+
+
+    <!-- DRAVYA STYLE -->
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+
+    <style>
+
+        /* =====================================
+           ENABLE SCROLLING
+        ===================================== */
+
+        html,
+        body {
+
+            height: auto !important;
+
+            min-height: 100% !important;
+
+            overflow-y: auto !important;
+
+            overflow-x: hidden !important;
+
+        }
+
+
+        /* =====================================
+           VACUUM FLUCTUATION BACKGROUND
+        ===================================== */
+
+        .fluctuation-background {
+
+            position: fixed;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            z-index: -2;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================
+           BACKGROUND OVERLAY
+        ===================================== */
+
+        .background-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.30
+                );
+
+            z-index: -1;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================
+           STORY PAGE
+        ===================================== */
+
+        .story-page {
+
+            position: relative;
+
+            z-index: 1;
+
+            min-height: 100vh;
+
+            padding:
+                70px
+                20px
+                120px;
+
+        }
+
+
+        /* =====================================
+           TOP NAVIGATION
+        ===================================== */
+
+        .story-nav {
+
+            width: 100%;
+
+            max-width:
+                900px;
+
+            margin:
+                0 auto
+                70px;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+        }
+
+
+        .back-link {
+
+            color:
+                #ffffff;
+
+            text-decoration:
+                none;
+
+            font-size:
+                0.75rem;
+
+            letter-spacing:
+                0.15em;
+
+        }
+
+
+        .story-label {
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.55
+                );
+
+            font-size:
+                0.7rem;
+
+            letter-spacing:
+                0.2em;
+
+        }
+
+
+        /* =====================================
+           STORY HEADER
+        ===================================== */
+
+        .story-header {
+
+            width: 100%;
+
+            max-width:
+                900px;
+
+            margin:
+                0 auto
+                80px;
+
+        }
+
+
+        .story-number {
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.55
+                );
+
+            font-size:
+                0.75rem;
+
+            letter-spacing:
+                0.2em;
+
+            margin-bottom:
+                20px;
+
+        }
+
+
+        .story-title {
+
+            margin:
+                0;
+
+            color:
+                #ffffff;
+
+            font-size:
+                clamp(
+                    3rem,
+                    7vw,
+                    6rem
+                );
+
+            font-weight:
+                500;
+
+            line-height:
+                1.05;
+
+            letter-spacing:
+                0.02em;
+
+        }
+
+
+        /* =====================================
+           STORY TEXT
+        ===================================== */
+
+.story-content {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+
+    color: rgba(255, 255, 255, 0.92);
+
+    font-size: 1.5rem;
+    line-height: 1.9;
+
+    letter-spacing: 0.01em;
+}
+
+
+        /* =====================================
+           PARAGRAPHS
+        ===================================== */
+
+        .story-content p {
+
+            margin:
+                0 0 1.8em;
+
+        }
+
+
+        /* =====================================
+           END
+        ===================================== */
+
+        .story-end {
+
+            width: 100%;
+
+            max-width:
+                720px;
+
+            margin:
+                100px auto
+                0;
+
+            padding-top:
+                35px;
+
+            border-top:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.18
+                );
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.45
+                );
+
+            font-size:
+                0.7rem;
+
+            letter-spacing:
+                0.25em;
+
+            text-align:
+                center;
+
+        }
+
+
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (
+            max-width: 700px
+        ) {
+
+            .story-page {
+
+                padding:
+                    45px
+                    20px
+                    80px;
+
+            }
+
+
+            .story-nav {
+
+                margin-bottom:
+                    55px;
+
+            }
+
+
+            .story-header {
+
+                margin-bottom:
+                    55px;
+
+            }
+
+
+            .story-content {
+
+                font-size:
+                    1rem;
+
+                line-height:
+                    1.85;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================
+         DRAVYA VACUUM FLUCTUATION BACKGROUND
+    ===================================== -->
+
+    <video
+        class="fluctuation-background"
+        autoplay
+        muted
+        loop
+        playsinline
+    >
+
+        <source
+            src="../assets/dravya_vacuum_fluctuation_10s.mp4"
+            type="video/mp4"
+        >
+
+    </video>
+
+
+    <div
+        class="background-overlay"
+    ></div>
+
+
+    <!-- =====================================
+         STORY PAGE
+    ===================================== -->
+
+    <main
+        class="story-page"
+    >
+
+
+        <!-- =================================
+             NAVIGATION
+        ================================== -->
+
+        <nav
+            class="story-nav"
+        >
+
+            <a
+                href="../fiction.html"
+                class="back-link"
+            >
+                ← ATOMIC TALES
+            </a>
+
+
+            <span
+                class="story-label"
+            >
+                DRAVYA
+            </span>
+
+        </nav>
+
+
+        <!-- =================================
+             STORY HEADER
+        ================================== -->
+
+        <header
+            class="story-header"
+        >
+
+            <!-- CHANGE NUMBER -->
+
+            <div
+                class="story-number"
+            >
+                05
+            </div>
+
+
+            <!-- CHANGE TITLE -->
+
+            <h1
+                class="story-title"
+            >
+                HOME
+            </h1>
+
+        </header>
+
+
+        <!-- =================================
+             ✍️ PASTE YOUR STORY HERE
+             
+             IMPORTANT:
+             Separate paragraphs using
+             <p> ... </p>
+        ================================== -->
+
+        <article
+            class="story-content"
+        >
+
+
+            <!-- =============================
+                 YOUR STORY STARTS HERE
+            ============================== -->
+
+
+            <p>
+  "I hate surprises!" Bhoomi shouted at her husband, who was gently removing the red ribbon that had hidden the most beautiful eyes on the planet from the past six minutes. He stood behind her as she slowly opened her eyes. She felt Gagan's hands on her belly and his face next to hers, followed by a kiss on her neck. They were in love.
+            </p>
+
+
+            <p>
+It had already been six years since their marriage, and they had a cute little girl as a symbol of their love. "Do you like it?" a whisper filled the air. "What kind of color is that, man?" Bhoomi teased. Honestly, she didn’t care about such details, but she couldn’t resist making fun of her lovely husband.
+            </p>
+
+
+            <p>
+" It's Sapphire blue. The color of faith, trust and love. "
+</p>
+
+          <p>
+She turned to him, and they both hugged as if there were no tomorrow.
+
+          </p>
+          
+          <p>
+It was their dream to own a car and finally the day had made it's way into their lives. They lived in the Bubble Apartments, a dedicated space for the employees of ATOMS - a multi-disciplinary research organization in the city called Irini, on the Planet-C. A few years ago, the couple had met near the main office building for the first time on a cloudy afternoon of a September's Thursday. The clouds were dark grey and the sun was on break. The breeze had decided to be gentle as the eyes of the two talented scientists saw each other for the first time.  
+          </p>
+
+          <p>
+At that time, Bhoomi was working on a highly anticipated project on Interstellar Travel and was heading towards the Department of Mathematics while Gagan, then a Junior Research Fellow who worked on Acoustics, was on his way to the canteen. As one should pass through the main building to get anywhere inside the campus, it was time for these two souls to experience a moment in time filled with intense bliss, awe and an unfamiliar sense of the present. They looked at each other and eventually smiled. Just like that, a year passed, filled with moments that brought them closer and ultimately led to their marriage. Sometimes, life falls into place perfectly, and that’s exactly what was happening for the couple. Each day seemed better than the last, and a year after their wedding, a momentous day arrived -they were blessed with a baby girl. They named her Varsha, reminiscing the genesis of their love.
+          </p>
+
+          <p>
+It had rained heavily on the day they met after their paths crossed. By the time, Bhoomi reached the Mathematics department, Gagan was soaking wet and was having his favorite samosa at the canteen. A couple of Gagan's friends joined him after a while, and they began discussing the effects of sound vibrations on human biology and how they could contribute to curing certain chronic diseases. Swiftly, the topic was shifted to the noise control mechanisms for an upcoming project involving massive space shuttles. While Gagan got up to wash his hands, it was still raining. He stood there and searched for the sun but in vain. It's no secret that they were all working on the same project - DRAVYA, a journey back to our home planet Earth. After paying for the snack, Gagan walked through the corridor of the main building with his friends and stopped at the notice board.
+          </p>
+
+          <p>
+              A NOTE FROM THE DIRECTOR
+
+It's been time immemorial since we are living on the Planet-C and by the grace of our descendants, we are living here with peace and harmony. However, we are continuously receiving threats from the Planet-A as they're seeking volunteers for their anti-human project. We know that there were a few technical glitches at the time of the arrival of human beings from the solar system to this planetary system resulting in an unfortunate event where 500 people from Shuttle White were captured by the species on the Planet-A. Even after this, we have somehow managed to keep the planet safe from them due to our orbits but within the next 100 years the orbits would be so close that they will surely attack the planet. They've already mentioned the motto of their mission and are waiting for the orbit to get closer. Hence, I propose the project DRAVYA, a journey back to our home planet Earth. Let's work together and get back home. Detailed instructions are already submitted to the respected departments. I request all my friends to go through it. Let's all reach home soon.
+          </p>
+
+          <p>
+            Seven years have passed now and Gagan was staring at the same notice board which had the same information. The employees of the ATOMS have worked day and night with their ultimate dedication all these years and finally the project DRAVYA is almost complete as the countdown for the departure to the home has decreased to 2 years. 
+          </p>
+
+          <p>
+            Today, it was a memorable day at work for Gagan, as he was promoted as the Chief Scientist - Department of Acoustics, while Bhoomi had taken the day off from her work. He had asked one of his friends to suggest a car so that he could surprise his wife with the new life update. He drove the brand new Sapphire blue car to his home and parked it near the gate. After blindfolding Bhoomi with the red ribbon, he gently held her till the door. 
+          </p>
+
+          <p>
+            The tight hug loosened as Varsha's sweet call for her mother echoed through the air from the kitchen. Bhoomi kissed her lovely husband on the cheeks and disappeared into her realm of love - their home. Gagan, with a smile walked towards the gate, looking for the sun and this time he finally saw the celestial body up there shining brighter than his smile. He stopped at the gate as he could see the reflection of the sun through his car's window. However, he had not yet realized that he was standing in between to homes. One right behind him and one beyond the sun.
+          </p>
+          
+
+            <!--
+                KEEP ADDING PARAGRAPHS:
+
+                <p>
+                    Your text...
+                </p>
+
+                <p>
+                    Your next paragraph...
+                </p>
+            -->
+
+
+            <!-- =============================
+                 YOUR STORY ENDS HERE
+            ============================== -->
+
+
+        </article>
+
+
+        <!-- =================================
+             END
+        ================================== -->
+
+        <div
+            class="story-end"
+        >
+            END
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>
