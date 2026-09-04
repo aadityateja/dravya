@@ -2,114 +2,245 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Lotus Land — DRAVYA</title>
 
-    <!-- Keep your existing DRAVYA stylesheet -->
+    <!-- Existing DRAVYA stylesheet -->
     <link rel="stylesheet" href="style.css">
 
+
+    <!-- THREE.JS IMPORT MAP -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+        }
+    }
+    </script>
+
+
     <style>
+
         /* =========================================
-           LOTUS LAND — PAGE SPECIFIC STYLES
+           LOTUS LAND
+           Page-specific styling only
            ========================================= */
 
+        html,
         body {
             margin: 0;
+            padding: 0;
+
+            width: 100%;
+            height: 100%;
+
             overflow: hidden;
         }
+
 
         #lotus-land {
+
             position: fixed;
+
             inset: 0;
+
             width: 100vw;
             height: 100vh;
+
             overflow: hidden;
-            background: #050914;
+
+            background: #87a8c4;
         }
 
+
         #lotus-land canvas {
+
             display: block;
+
             width: 100%;
             height: 100%;
         }
 
-        /* Loading screen */
+
+        /* =========================================
+           LOADING SCREEN
+           ========================================= */
 
         #loading {
+
             position: absolute;
+
             inset: 0;
-            z-index: 10;
+
+            z-index: 20;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
             background: #050914;
 
-            font-family: inherit;
-            font-size: 14px;
+            color: white;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 13px;
+
             letter-spacing: 0.2em;
+
             text-transform: uppercase;
 
-            transition: opacity 0.8s ease;
+            transition:
+                opacity 1s ease;
         }
 
+
         #loading.hidden {
+
             opacity: 0;
+
             pointer-events: none;
         }
 
-        /* Small DRAVYA label */
 
-        #world-label {
+        /* =========================================
+           ERROR SCREEN
+           ========================================= */
+
+        #error {
+
             position: absolute;
+
+            inset: 0;
+
+            z-index: 30;
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 30px;
+
+            box-sizing: border-box;
+
+            background: #050914;
+
+            color: white;
+
+            font-family: Arial, sans-serif;
+
+            text-align: center;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================================
+           WORLD TITLE
+           ========================================= */
+
+        #world-title {
+
+            position: absolute;
+
             left: 30px;
             bottom: 25px;
 
-            z-index: 5;
+            z-index: 10;
+
+            color: white;
 
             font-family: inherit;
+
             font-size: 12px;
+
             letter-spacing: 0.25em;
+
             text-transform: uppercase;
 
-            opacity: 0.7;
+            opacity: 0.75;
+
             pointer-events: none;
         }
 
-        /* Mobile */
+
+        /* =========================================
+           MOBILE
+           ========================================= */
 
         @media (max-width: 600px) {
 
-            #world-label {
+            #world-title {
+
                 left: 18px;
+
                 bottom: 18px;
+
                 font-size: 10px;
             }
 
         }
+
     </style>
+
 </head>
+
 
 <body>
 
+
     <!-- =========================================
-         LOTUS LAND
+         LOTUS LAND CONTAINER
          ========================================= -->
 
     <main id="lotus-land">
 
+
+        <!-- Loading -->
+
         <div id="loading">
+
             Loading Lotus Land...
+
         </div>
 
-        <div id="world-label">
-            DRAVYA — LOTUS LAND
+
+        <!-- Error -->
+
+        <div id="error">
+
+            <div>
+
+                <strong>
+                    Lotus Land could not be loaded.
+                </strong>
+
+                <br><br>
+
+                Check the browser console with F12.
+
+            </div>
+
         </div>
+
+
+        <!-- Small label -->
+
+        <div id="world-title">
+
+            DRAVYA — LOTUS LAND
+
+        </div>
+
 
     </main>
+
 
 
     <!-- =========================================
@@ -118,227 +249,490 @@
 
     <script type="module">
 
-        import * as THREE from
-            'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js';
 
-        import { GLTFLoader } from
-            'https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/GLTFLoader.js';
+        /* =========================================
+           IMPORTS
+           ========================================= */
 
-        import { OrbitControls } from
-            'https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/controls/OrbitControls.js';
+        import * as THREE from 'three';
+
+        import {
+            GLTFLoader
+        } from 'three/addons/loaders/GLTFLoader.js';
+
+        import {
+            OrbitControls
+        } from 'three/addons/controls/OrbitControls.js';
+
 
 
         /* =========================================
-           BASIC SETUP
+           ELEMENTS
            ========================================= */
 
-        const container = document.getElementById("lotus-land");
-        const loading = document.getElementById("loading");
+        const container =
+            document.getElementById('lotus-land');
 
-        const scene = new THREE.Scene();
+        const loading =
+            document.getElementById('loading');
 
-        scene.background = new THREE.Color(0x87a8c4);
+        const errorBox =
+            document.getElementById('error');
+
+
+
+        /* =========================================
+           SCENE
+           ========================================= */
+
+        const scene =
+            new THREE.Scene();
+
+
+        scene.background =
+            new THREE.Color(0x87a8c4);
+
 
 
         /* =========================================
            CAMERA
            ========================================= */
 
-        const camera = new THREE.PerspectiveCamera(
-            55,
-            window.innerWidth / window.innerHeight,
-            0.1,
-            5000
+        const camera =
+            new THREE.PerspectiveCamera(
+
+                55,
+
+                window.innerWidth /
+                window.innerHeight,
+
+                0.1,
+
+                5000
+            );
+
+
+        camera.position.set(
+
+            20,
+
+            15,
+
+            20
         );
 
-        camera.position.set(20, 15, 20);
 
 
         /* =========================================
            RENDERER
            ========================================= */
 
-        const renderer = new THREE.WebGLRenderer({
-            antialias: true
-        });
+        const renderer =
+            new THREE.WebGLRenderer({
+
+                antialias: true,
+
+                powerPreference: "high-performance"
+
+            });
+
 
         renderer.setPixelRatio(
-            Math.min(window.devicePixelRatio, 2)
+
+            Math.min(
+
+                window.devicePixelRatio,
+
+                2
+            )
         );
 
+
         renderer.setSize(
+
             window.innerWidth,
+
             window.innerHeight
         );
 
-        renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+        renderer.outputColorSpace =
+            THREE.SRGBColorSpace;
+
 
         renderer.shadowMap.enabled = true;
 
-        container.appendChild(renderer.domElement);
+
+        renderer.shadowMap.type =
+            THREE.PCFSoftShadowMap;
+
+
+        container.appendChild(
+
+            renderer.domElement
+        );
+
 
 
         /* =========================================
            LIGHTING
            ========================================= */
 
-        const ambientLight = new THREE.HemisphereLight(
-            0xb9d7ff,
-            0x31402b,
-            2.0
+        const hemisphereLight =
+            new THREE.HemisphereLight(
+
+                0xddeeff,
+
+                0x31402b,
+
+                2.2
+            );
+
+
+        scene.add(
+
+            hemisphereLight
         );
 
-        scene.add(ambientLight);
 
 
-        const sun = new THREE.DirectionalLight(
-            0xffffff,
-            3.0
-        );
+        /* =========================================
+           SUN
+           ========================================= */
+
+        const sun =
+            new THREE.DirectionalLight(
+
+                0xffffff,
+
+                3.5
+            );
+
 
         sun.position.set(
+
             50,
+
             80,
+
             30
         );
 
+
         sun.castShadow = true;
 
-        scene.add(sun);
+
+        sun.shadow.mapSize.width = 2048;
+
+        sun.shadow.mapSize.height = 2048;
+
+
+        scene.add(
+
+            sun
+        );
+
 
 
         /* =========================================
-           CONTROLS
+           ORBIT CONTROLS
            ========================================= */
 
-        const controls = new OrbitControls(
-            camera,
-            renderer.domElement
-        );
+        const controls =
+            new OrbitControls(
+
+                camera,
+
+                renderer.domElement
+            );
+
 
         controls.enableDamping = true;
 
-        controls.dampingFactor = 0.05;
 
-        controls.maxPolarAngle = Math.PI * 0.49;
+        controls.dampingFactor =
+            0.05;
 
-        controls.minDistance = 2;
 
-        controls.maxDistance = 500;
+        controls.maxPolarAngle =
+            Math.PI * 0.49;
+
+
+        controls.minDistance = 1;
+
+
+        controls.maxDistance = 1000;
+
 
 
         /* =========================================
-           LOAD BLENDER WORLD
+           GLB LOADER
            ========================================= */
 
-        const loader = new GLTFLoader();
+        const loader =
+            new GLTFLoader();
+
 
         loader.load(
 
+            /*
+             * YOUR EXACT FILE
+             */
+
             'assets/lotus%20land.glb',
+
+
+            /* =====================================
+               SUCCESS
+               ===================================== */
 
             function (gltf) {
 
-                const world = gltf.scene;
 
-                scene.add(world);
+                console.log(
+                    "LOTUS LAND GLB LOADED"
+                );
 
 
-                /* -------------------------------------
+                const world =
+                    gltf.scene;
+
+
+                scene.add(
+                    world
+                );
+
+
+
+                /* =================================
                    ENABLE SHADOWS
-                   ------------------------------------- */
+                   ================================= */
 
-                world.traverse(function (object) {
+                world.traverse(
 
-                    if (object.isMesh) {
+                    function (object) {
 
-                        object.castShadow = true;
-                        object.receiveShadow = true;
+
+                        if (
+                            object.isMesh
+                        ) {
+
+                            object.castShadow =
+                                true;
+
+
+                            object.receiveShadow =
+                                true;
+
+                        }
 
                     }
-
-                });
-
-
-                /* -------------------------------------
-                   FIND WORLD SIZE
-                   ------------------------------------- */
-
-                const box = new THREE.Box3()
-                    .setFromObject(world);
-
-                const center = box.getCenter(
-                    new THREE.Vector3()
-                );
-
-                const size = box.getSize(
-                    new THREE.Vector3()
-                );
-
-                const maxDimension = Math.max(
-                    size.x,
-                    size.y,
-                    size.z
                 );
 
 
-                /* -------------------------------------
-                   CENTER CAMERA ON WORLD
-                   ------------------------------------- */
 
-                const distance = maxDimension * 0.9;
+                /* =================================
+                   CALCULATE WORLD SIZE
+                   ================================= */
+
+                const box =
+                    new THREE.Box3()
+                        .setFromObject(
+                            world
+                        );
+
+
+                const center =
+                    box.getCenter(
+
+                        new THREE.Vector3()
+                    );
+
+
+                const size =
+                    box.getSize(
+
+                        new THREE.Vector3()
+                    );
+
+
+                const maxDimension =
+                    Math.max(
+
+                        size.x,
+
+                        size.y,
+
+                        size.z
+                    );
+
+
+                console.log(
+                    "World size:",
+                    size
+                );
+
+
+
+                /* =================================
+                   AUTOMATIC CAMERA POSITION
+                   ================================= */
+
+                const distance =
+                    Math.max(
+
+                        maxDimension * 0.9,
+
+                        5
+                    );
+
 
                 camera.position.set(
+
                     center.x + distance,
-                    center.y + distance * 0.55,
+
+                    center.y +
+                    distance * 0.55,
+
                     center.z + distance
                 );
 
-                controls.target.copy(center);
+
+
+                /* =================================
+                   CAMERA CLIPPING
+                   ================================= */
+
+                camera.near =
+                    Math.max(
+
+                        maxDimension / 10000,
+
+                        0.01
+                    );
+
+
+                camera.far =
+                    Math.max(
+
+                        maxDimension * 20,
+
+                        1000
+                    );
+
+
+                camera.updateProjectionMatrix();
+
+
+
+                /* =================================
+                   CONTROLS TARGET
+                   ================================= */
+
+                controls.target.copy(
+
+                    center
+                );
+
+
+                controls.maxDistance =
+                    Math.max(
+
+                        maxDimension * 5,
+
+                        100
+                    );
+
 
                 controls.update();
 
 
-                /* -------------------------------------
-                   FINISHED LOADING
-                   ------------------------------------- */
 
-                loading.classList.add("hidden");
+                /* =================================
+                   REMOVE LOADING SCREEN
+                   ================================= */
 
-                console.log("LOTUS LAND LOADED");
-                console.log("World size:", size);
+                loading.classList.add(
+
+                    'hidden'
+                );
+
+
+                /*
+                 * Remove loading element
+                 * after the fade.
+                 */
+
+                setTimeout(
+
+                    function () {
+
+                        loading.remove();
+
+                    },
+
+                    1200
+                );
 
             },
 
+
+            /* =====================================
+               LOADING PROGRESS
+               ===================================== */
+
             function (progress) {
 
-                if (progress.total > 0) {
+
+                if (
+                    progress.total > 0
+                ) {
+
 
                     const percent =
-                        (progress.loaded / progress.total) * 100;
+                        Math.round(
 
-                    console.log(
-                        "Loading:",
-                        percent.toFixed(0) + "%"
-                    );
+                            (
+                                progress.loaded /
+                                progress.total
+                            ) * 100
+                        );
+
+
+                    loading.textContent =
+                        `Loading Lotus Land... ${percent}%`;
 
                 }
 
             },
 
+
+            /* =====================================
+               ERROR
+               ===================================== */
+
             function (error) {
 
+
                 console.error(
-                    "Failed to load Lotus Land:",
+
+                    "LOTUS LAND ERROR:",
+
                     error
                 );
 
-                loading.textContent =
-                    "Unable to load Lotus Land";
+
+                loading.style.display =
+                    'none';
+
+
+                errorBox.style.display =
+                    'flex';
 
             }
 
         );
+
 
 
         /* =========================================
@@ -346,48 +740,85 @@
            ========================================= */
 
         window.addEventListener(
-            "resize",
+
+            'resize',
+
             function () {
 
+
                 camera.aspect =
+
                     window.innerWidth /
                     window.innerHeight;
 
+
                 camera.updateProjectionMatrix();
 
+
                 renderer.setSize(
+
                     window.innerWidth,
+
                     window.innerHeight
                 );
 
             }
+
         );
+
 
 
         /* =========================================
            ANIMATION LOOP
            ========================================= */
 
-        const clock = new THREE.Clock();
+        const clock =
+            new THREE.Clock();
+
 
         function animate() {
 
-            requestAnimationFrame(animate);
 
-            const time = clock.getElapsedTime();
+            requestAnimationFrame(
+
+                animate
+            );
+
+
+            const time =
+                clock.getElapsedTime();
+
+
+            /*
+             * We'll use `time` later for:
+             *
+             * clouds
+             * wind
+             * water
+             * particles
+             * day/night
+             * etc.
+             */
+
 
             controls.update();
 
+
             renderer.render(
+
                 scene,
+
                 camera
             );
 
         }
 
+
         animate();
 
+
     </script>
+
 
 </body>
 
