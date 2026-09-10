@@ -1,0 +1,1431 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DRAVYA — What Is Matter?</title>
+
+<meta name="description"
+      content="DRAVYA — an interactive exploration of matter, quantum fields, space, mass and reality.">
+
+<link rel="icon" href="assets/logo.png">
+
+<style>
+
+/* =========================================================
+   DRAVYA
+   WHAT IS MATTER?
+   ========================================================= */
+
+@font-face {
+    font-family: "DRAVYA";
+    src: url("assets/fonts/HIGHLA2.TTF") format("truetype");
+}
+
+:root {
+    --background: #02040a;
+    --text: #f4f7ff;
+    --muted: #8d98ad;
+    --blue: #79a7ff;
+    --line: rgba(120,160,255,0.18);
+}
+
+/* ---------------------------------------------------------
+   RESET
+   --------------------------------------------------------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+
+    background: var(--background);
+    color: var(--text);
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    overflow: hidden;
+}
+
+/* ---------------------------------------------------------
+   QUANTUM FIELD
+   --------------------------------------------------------- */
+
+#quantumCanvas {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 0;
+
+    pointer-events: none;
+}
+
+/* ---------------------------------------------------------
+   FIELD OVERLAY
+   --------------------------------------------------------- */
+
+#fieldOverlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at center,
+            transparent 0%,
+            rgba(2,4,10,0.05) 40%,
+            rgba(2,4,10,0.72) 100%
+        );
+}
+
+/* ---------------------------------------------------------
+   MAIN EXPERIENCE
+   --------------------------------------------------------- */
+
+#experience {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+}
+
+/* ---------------------------------------------------------
+   SECTION
+   --------------------------------------------------------- */
+
+.section {
+
+    position: absolute;
+
+    width: min(1100px, 90vw);
+
+    min-height: 70vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0;
+
+    transform:
+        translateY(30px)
+        scale(0.98);
+
+    pointer-events: none;
+
+    transition:
+        opacity 1s ease,
+        transform 1s cubic-bezier(.2,.7,.2,1);
+
+}
+
+/* ACTIVE SECTION */
+
+.section.active {
+
+    opacity: 1;
+
+    transform:
+        translateY(0)
+        scale(1);
+
+    pointer-events: auto;
+}
+
+/* ---------------------------------------------------------
+   SMALL LABEL
+   --------------------------------------------------------- */
+
+.eyebrow {
+
+    font-size: 11px;
+
+    letter-spacing: 0.45em;
+
+    text-transform: uppercase;
+
+    color: var(--muted);
+
+    margin-bottom: 28px;
+}
+
+/* ---------------------------------------------------------
+   MAIN TITLE
+   --------------------------------------------------------- */
+
+h1 {
+
+    font-family: "DRAVYA", Arial, sans-serif;
+
+    font-size: clamp(48px, 9vw, 130px);
+
+    line-height: 0.9;
+
+    letter-spacing: 0.04em;
+
+    font-weight: normal;
+
+    text-transform: uppercase;
+
+    text-shadow:
+        0 0 20px rgba(110,150,255,0.12),
+        0 0 80px rgba(70,110,255,0.08);
+}
+
+/* ---------------------------------------------------------
+   LARGE QUESTION
+   --------------------------------------------------------- */
+
+.question {
+
+    font-size: clamp(36px, 6vw, 82px);
+
+    line-height: 1.05;
+
+    font-weight: 300;
+
+    max-width: 1000px;
+
+}
+
+/* ---------------------------------------------------------
+   BODY TEXT
+   --------------------------------------------------------- */
+
+.description {
+
+    margin-top: 40px;
+
+    max-width: 680px;
+
+    font-size: clamp(15px, 1.5vw, 19px);
+
+    line-height: 1.8;
+
+    color: var(--muted);
+
+}
+
+/* ---------------------------------------------------------
+   KEYWORD
+   --------------------------------------------------------- */
+
+.keyword {
+
+    font-family: "DRAVYA", Arial, sans-serif;
+
+    font-size: clamp(55px, 11vw, 160px);
+
+    letter-spacing: 0.05em;
+
+    font-weight: normal;
+
+    cursor: pointer;
+
+    transition:
+
+        transform 0.5s ease,
+        text-shadow 0.5s ease,
+        letter-spacing 0.5s ease;
+}
+
+.keyword:hover {
+
+    transform: scale(1.04);
+
+    letter-spacing: 0.09em;
+
+    text-shadow:
+
+        0 0 20px rgba(120,160,255,0.35),
+
+        0 0 80px rgba(80,130,255,0.18);
+
+}
+
+/* ---------------------------------------------------------
+   KEYWORD SUBTEXT
+   --------------------------------------------------------- */
+
+.keywordHint {
+
+    margin-top: 30px;
+
+    font-size: 12px;
+
+    letter-spacing: 0.3em;
+
+    text-transform: uppercase;
+
+    color: var(--muted);
+
+}
+
+/* ---------------------------------------------------------
+   NAVIGATION
+   --------------------------------------------------------- */
+
+#navigation {
+
+    position: fixed;
+
+    bottom: 35px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    z-index: 10;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+}
+
+/* dots */
+
+.dot {
+
+    width: 6px;
+
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.2);
+
+    transition:
+        transform 0.4s ease,
+        background 0.4s ease;
+
+}
+
+.dot.active {
+
+    background: rgba(150,190,255,0.9);
+
+    transform: scale(1.7);
+
+}
+
+/* ---------------------------------------------------------
+   ARROW HINT
+   --------------------------------------------------------- */
+
+#controls {
+
+    position: fixed;
+
+    bottom: 30px;
+
+    right: 35px;
+
+    z-index: 10;
+
+    color: rgba(255,255,255,0.35);
+
+    font-size: 10px;
+
+    letter-spacing: 0.2em;
+
+    text-transform: uppercase;
+
+}
+
+/* ---------------------------------------------------------
+   DRAVYA MARK
+   --------------------------------------------------------- */
+
+#brand {
+
+    position: fixed;
+
+    top: 30px;
+
+    left: 35px;
+
+    z-index: 10;
+
+    font-family: "DRAVYA", Arial, sans-serif;
+
+    font-size: 20px;
+
+    letter-spacing: 0.15em;
+
+}
+
+/* ---------------------------------------------------------
+   SECTION COUNTER
+   --------------------------------------------------------- */
+
+#counter {
+
+    position: fixed;
+
+    top: 32px;
+
+    right: 35px;
+
+    z-index: 10;
+
+    font-size: 10px;
+
+    letter-spacing: 0.2em;
+
+    color: rgba(255,255,255,0.35);
+
+}
+
+/* ---------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width: 600px) {
+
+    #brand {
+
+        top: 20px;
+        left: 20px;
+
+    }
+
+    #counter {
+
+        top: 22px;
+        right: 20px;
+
+    }
+
+    #controls {
+
+        display: none;
+
+    }
+
+    .description {
+
+        max-width: 90vw;
+
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- ======================================================
+     QUANTUM FLUCTUATION BACKGROUND
+     ====================================================== -->
+
+<canvas id="quantumCanvas"></canvas>
+
+<div id="fieldOverlay"></div>
+
+
+<!-- ======================================================
+     BRAND
+     ====================================================== -->
+
+<div id="brand">
+    DRAVYA
+</div>
+
+
+<!-- ======================================================
+     COUNTER
+     ====================================================== -->
+
+<div id="counter">
+    <span id="currentNumber">01</span>
+    /
+    <span id="totalNumber">07</span>
+</div>
+
+
+<!-- ======================================================
+     MAIN EXPERIENCE
+     ====================================================== -->
+
+<main id="experience">
+
+
+    <!-- ==================================================
+         01 — OPENING
+         ================================================== -->
+
+    <section class="section active">
+
+        <div class="eyebrow">
+            An exploration
+        </div>
+
+        <h1>
+            WHAT<br>
+            IS MATTER?
+        </h1>
+
+        <p class="description">
+            A journey from nothing,
+            through quantum fields,
+            atoms and forces,
+            into the structure of the universe.
+        </p>
+
+    </section>
+
+
+    <!-- ==================================================
+         02 — ANYTHING
+         ================================================== -->
+
+    <section class="section">
+
+        <div class="eyebrow">
+            Matter begins with a strange word
+        </div>
+
+        <div class="keyword">
+            ANYTHING
+        </div>
+
+        <p class="description">
+
+            Matter can take almost any form.
+            But before there can be anything...
+
+            <br><br>
+
+            <strong>
+                What is nothing?
+            </strong>
+
+        </p>
+
+        <div class="keywordHint">
+            ← explore
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         03 — NOTHING
+         ================================================== -->
+
+    <section class="section">
+
+        <div class="eyebrow">
+            Before anything
+        </div>
+
+        <div class="keyword">
+            NOTHING
+        </div>
+
+        <p class="description">
+
+            Empty space seems empty.
+
+            <br><br>
+
+            But in quantum physics,
+            even the lowest-energy state of a field
+            is not necessarily perfectly still.
+
+            <br><br>
+
+            <strong>
+                Welcome to the vacuum.
+            </strong>
+
+        </p>
+
+    </section>
+
+
+    <!-- ==================================================
+         04 — MASS
+         ================================================== -->
+
+    <section class="section">
+
+        <div class="eyebrow">
+            The second property
+        </div>
+
+        <div class="keyword">
+            MASS
+        </div>
+
+        <p class="description">
+
+            Mass describes how matter responds
+            to changes in motion.
+
+            <br><br>
+
+            But mass has a deeper story.
+
+            <br><br>
+
+            From atoms...
+            to nuclei...
+            to quarks...
+            to quantum fields.
+
+        </p>
+
+    </section>
+
+
+    <!-- ==================================================
+         05 — ATOM
+         ================================================== -->
+
+    <section class="section">
+
+        <div class="eyebrow">
+            Zoom in
+        </div>
+
+        <div class="keyword">
+            ATOM
+        </div>
+
+        <p class="description">
+
+            A world that looks solid
+            becomes strangely empty.
+
+            <br><br>
+
+            Electrons.
+            Nuclei.
+            Protons.
+            Neutrons.
+
+            <br><br>
+
+            And deeper still...
+
+            <br><br>
+
+            <strong>
+                Quarks.
+            </strong>
+
+        </p>
+
+    </section>
+
+
+    <!-- ==================================================
+         06 — SPACE
+         ================================================== -->
+
+    <section class="section">
+
+        <div class="eyebrow">
+            The third property
+        </div>
+
+        <div class="keyword">
+            SPACE
+        </div>
+
+        <p class="description">
+
+            Matter occupies space.
+
+            <br><br>
+
+            But space is not simply an empty container.
+
+            <br><br>
+
+            Add time...
+
+            <br><br>
+
+            and you get
+
+            <br><br>
+
+            <strong>
+                spacetime.
+            </strong>
+
+        </p>
+
+    </section>
+
+
+    <!-- ==================================================
+         07 — CONTINUE
+         ================================================== -->
+
+    <section class="section">
+
+        <div class="eyebrow">
+            The question continues
+        </div>
+
+        <div class="question">
+
+            Matter.
+            <br>
+            Fields.
+            <br>
+            Spacetime.
+            <br>
+            Universe.
+
+        </div>
+
+        <p class="description">
+
+            This is only the beginning.
+
+            <br><br>
+
+            Explore the structure of reality.
+
+        </p>
+
+    </section>
+
+
+</main>
+
+
+<!-- ======================================================
+     NAVIGATION DOTS
+     ====================================================== -->
+
+<div id="navigation">
+
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+
+</div>
+
+
+<div id="controls">
+    ← ↑ ↓ →
+</div>
+
+
+<script>
+
+/* =========================================================
+   DRAVYA — QUANTUM FLUCTUATION FIELD
+   ========================================================= */
+
+const canvas =
+    document.getElementById("quantumCanvas");
+
+const ctx =
+    canvas.getContext("2d");
+
+
+let width;
+let height;
+
+let particles = [];
+
+let mouse = {
+
+    x: null,
+    y: null,
+    active: false
+
+};
+
+
+/* =========================================================
+   CANVAS RESIZE
+   ========================================================= */
+
+function resizeCanvas() {
+
+    width =
+        canvas.width =
+        window.innerWidth *
+        window.devicePixelRatio;
+
+    height =
+        canvas.height =
+        window.innerHeight *
+        window.devicePixelRatio;
+
+    canvas.style.width =
+        window.innerWidth + "px";
+
+    canvas.style.height =
+        window.innerHeight + "px";
+
+    ctx.scale(
+        window.devicePixelRatio,
+        window.devicePixelRatio
+    );
+
+    width = window.innerWidth;
+    height = window.innerHeight;
+
+}
+
+resizeCanvas();
+
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
+
+
+/* =========================================================
+   QUANTUM FLUCTUATION PARTICLE
+   ========================================================= */
+
+class QuantumParticle {
+
+    constructor() {
+
+        this.reset();
+
+    }
+
+    reset() {
+
+        this.x =
+            Math.random() * width;
+
+        this.y =
+            Math.random() * height;
+
+        this.baseX =
+            this.x;
+
+        this.baseY =
+            this.y;
+
+        this.size =
+            Math.random() * 1.4 + 0.3;
+
+        this.phase =
+            Math.random() * Math.PI * 2;
+
+        this.speed =
+            Math.random() * 0.015 + 0.003;
+
+        this.life =
+            Math.random();
+
+        this.lifeSpeed =
+            Math.random() * 0.008 + 0.002;
+
+        this.drift =
+            Math.random() * 0.4 - 0.2;
+
+    }
+
+
+    update() {
+
+        this.phase += this.speed;
+
+        this.life += this.lifeSpeed;
+
+
+        if (this.life > 1) {
+
+            this.reset();
+
+        }
+
+
+        /*
+         * Quantum-like fluctuation
+         */
+
+        this.x =
+            this.baseX +
+            Math.sin(this.phase * 3) * 12;
+
+        this.y =
+            this.baseY +
+            Math.cos(this.phase * 2) * 12;
+
+
+        /*
+         * Mouse disturbance
+         */
+
+        if (mouse.active) {
+
+            const dx =
+                this.x - mouse.x;
+
+            const dy =
+                this.y - mouse.y;
+
+            const distance =
+                Math.sqrt(
+                    dx * dx +
+                    dy * dy
+                );
+
+            const radius = 180;
+
+
+            if (distance < radius) {
+
+                const force =
+                    (radius - distance) /
+                    radius;
+
+
+                this.x +=
+                    dx / distance *
+                    force *
+                    30;
+
+                this.y +=
+                    dy / distance *
+                    force *
+                    30;
+
+            }
+
+        }
+
+    }
+
+
+    draw() {
+
+        /*
+         * Fade in and out
+         */
+
+        const alpha =
+            Math.sin(
+                this.life *
+                Math.PI
+            ) * 0.45;
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+            this.x,
+            this.y,
+            this.size,
+            0,
+            Math.PI * 2
+        );
+
+
+        ctx.fillStyle =
+            `rgba(130,170,255,${alpha})`;
+
+        ctx.fill();
+
+    }
+
+}
+
+
+/* =========================================================
+   CREATE FIELD
+   ========================================================= */
+
+function createField() {
+
+    particles = [];
+
+    /*
+     * Density adapts to screen size.
+     */
+
+    const count =
+        Math.floor(
+            (width * height) / 9000
+        );
+
+
+    for (
+        let i = 0;
+        i < count;
+        i++
+    ) {
+
+        particles.push(
+            new QuantumParticle()
+        );
+
+    }
+
+}
+
+createField();
+
+
+/* =========================================================
+   CONNECT NEARBY FLUCTUATIONS
+   ========================================================= */
+
+function connectParticles() {
+
+    for (
+        let i = 0;
+        i < particles.length;
+        i++
+    ) {
+
+        for (
+            let j = i + 1;
+            j < particles.length;
+            j++
+        ) {
+
+            const p1 =
+                particles[i];
+
+            const p2 =
+                particles[j];
+
+
+            const dx =
+                p1.x - p2.x;
+
+            const dy =
+                p1.y - p2.y;
+
+            const distance =
+                Math.sqrt(
+                    dx * dx +
+                    dy * dy
+                );
+
+
+            if (distance < 100) {
+
+                const alpha =
+                    (1 - distance / 100)
+                    * 0.06;
+
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    p1.x,
+                    p1.y
+                );
+
+                ctx.lineTo(
+                    p2.x,
+                    p2.y
+                );
+
+
+                ctx.strokeStyle =
+                    `rgba(100,150,255,${alpha})`;
+
+                ctx.lineWidth = 0.5;
+
+                ctx.stroke();
+
+            }
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   ANIMATION LOOP
+   ========================================================= */
+
+function animateField() {
+
+    ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    /*
+     * Very subtle atmospheric glow
+     */
+
+    const gradient =
+        ctx.createRadialGradient(
+            width / 2,
+            height / 2,
+            0,
+            width / 2,
+            height / 2,
+            Math.max(width, height) * 0.7
+        );
+
+
+    gradient.addColorStop(
+        0,
+        "rgba(20,45,100,0.08)"
+    );
+
+    gradient.addColorStop(
+        1,
+        "rgba(0,0,0,0)"
+    );
+
+
+    ctx.fillStyle =
+        gradient;
+
+    ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    /*
+     * Update particles
+     */
+
+    particles.forEach(
+        particle => {
+
+            particle.update();
+            particle.draw();
+
+        }
+    );
+
+
+    /*
+     * Connect nearby fluctuations
+     */
+
+    connectParticles();
+
+
+    requestAnimationFrame(
+        animateField
+    );
+
+}
+
+animateField();
+
+
+/* =========================================================
+   MOUSE INTERACTION
+   ========================================================= */
+
+window.addEventListener(
+    "mousemove",
+    event => {
+
+        mouse.x =
+            event.clientX;
+
+        mouse.y =
+            event.clientY;
+
+        mouse.active = true;
+
+    }
+);
+
+
+window.addEventListener(
+    "mouseleave",
+    () => {
+
+        mouse.active = false;
+
+    }
+);
+
+
+/* =========================================================
+   SECTION SYSTEM
+   ========================================================= */
+
+const sections =
+    document.querySelectorAll(
+        ".section"
+    );
+
+const dots =
+    document.querySelectorAll(
+        ".dot"
+    );
+
+const currentNumber =
+    document.getElementById(
+        "currentNumber"
+    );
+
+
+let currentSection = 0;
+
+
+/* =========================================================
+   SHOW SECTION
+   ========================================================= */
+
+function showSection(index) {
+
+    if (
+        index < 0 ||
+        index >= sections.length
+    ) {
+
+        return;
+
+    }
+
+
+    sections.forEach(
+        section => {
+
+            section.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+
+    dots.forEach(
+        dot => {
+
+            dot.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+
+    sections[index]
+        .classList.add(
+            "active"
+        );
+
+
+    dots[index]
+        .classList.add(
+            "active"
+        );
+
+
+    currentNumber.textContent =
+        String(index + 1)
+        .padStart(2, "0");
+
+
+    currentSection =
+        index;
+
+}
+
+
+/* =========================================================
+   KEYBOARD NAVIGATION
+   ========================================================= */
+
+window.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "ArrowRight" ||
+            event.key === "ArrowDown"
+        ) {
+
+            showSection(
+                currentSection + 1
+            );
+
+        }
+
+
+        if (
+            event.key === "ArrowLeft" ||
+            event.key === "ArrowUp"
+        ) {
+
+            showSection(
+                currentSection - 1
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   CLICK NAVIGATION
+   ========================================================= */
+
+dots.forEach(
+    (dot, index) => {
+
+        dot.addEventListener(
+            "click",
+            () => {
+
+                showSection(index);
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   TOUCH / SWIPE
+   ========================================================= */
+
+let touchStartY = 0;
+
+let touchEndY = 0;
+
+
+window.addEventListener(
+    "touchstart",
+    event => {
+
+        touchStartY =
+            event.changedTouches[0].screenY;
+
+    }
+);
+
+
+window.addEventListener(
+    "touchend",
+    event => {
+
+        touchEndY =
+            event.changedTouches[0].screenY;
+
+
+        const difference =
+            touchStartY - touchEndY;
+
+
+        if (
+            Math.abs(difference) < 50
+        ) {
+
+            return;
+
+        }
+
+
+        if (difference > 0) {
+
+            showSection(
+                currentSection + 1
+            );
+
+        } else {
+
+            showSection(
+                currentSection - 1
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   PREVENT ARROW SCROLLING
+   ========================================================= */
+
+window.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            [
+                "ArrowUp",
+                "ArrowDown",
+                "ArrowLeft",
+                "ArrowRight"
+            ].includes(event.key)
+        ) {
+
+            event.preventDefault();
+
+        }
+
+    },
+    { passive: false }
+);
+
+</script>
+
+</body>
+</html>
+```
