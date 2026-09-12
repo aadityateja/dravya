@@ -1,128 +1,586 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>DRAVYA — Museum</title>
 
     <style>
-        html, body {
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+
             margin: 0;
+            padding: 0;
+
             width: 100%;
             height: 100%;
+
             overflow: hidden;
-            background: #000;
+
+            background: #02040a;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
         }
 
         canvas {
+
             display: block;
+
             width: 100%;
             height: 100%;
         }
 
+        /* ------------------------------------------------
+           LOADING SCREEN
+        ------------------------------------------------ */
+
         #loading {
+
             position: fixed;
+
             inset: 0;
+
             display: flex;
-            align-items: center;
+
+            flex-direction: column;
+
             justify-content: center;
-            background: #02030a;
+
+            align-items: center;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    #071535 0%,
+                    #02040a 55%,
+                    #000000 100%
+                );
+
             color: white;
-            font-family: Arial, sans-serif;
-            font-size: 18px;
-            letter-spacing: 3px;
-            z-index: 10;
+
+            z-index: 100;
+
+            transition:
+                opacity 1s ease;
         }
+
+        #loadingTitle {
+
+            font-size: 42px;
+
+            letter-spacing: 12px;
+
+            margin-bottom: 15px;
+        }
+
+        #loadingText {
+
+            font-size: 13px;
+
+            letter-spacing: 4px;
+
+            opacity: 0.6;
+        }
+
+        #loadingBar {
+
+            margin-top: 30px;
+
+            width: 280px;
+
+            height: 2px;
+
+            background: rgba(255,255,255,0.15);
+
+            overflow: hidden;
+        }
+
+        #loadingProgress {
+
+            width: 0%;
+
+            height: 100%;
+
+            background: #2d8cff;
+
+            transition:
+                width 0.2s ease;
+        }
+
+
+        /* ------------------------------------------------
+           CROSSHAIR
+        ------------------------------------------------ */
+
+        #crosshair {
+
+            position: fixed;
+
+            left: 50%;
+            top: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            width: 8px;
+            height: 8px;
+
+            border:
+                1px solid rgba(255,255,255,0.85);
+
+            border-radius: 50%;
+
+            z-index: 20;
+
+            pointer-events: none;
+
+            opacity: 0.7;
+        }
+
+
+        /* ------------------------------------------------
+           START SCREEN
+        ------------------------------------------------ */
+
+        #startScreen {
+
+            position: fixed;
+
+            inset: 0;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            flex-direction: column;
+
+            background:
+                rgba(0,0,0,0.30);
+
+            z-index: 30;
+
+            pointer-events: none;
+        }
+
+        #startTitle {
+
+            color: white;
+
+            font-size: 48px;
+
+            letter-spacing: 14px;
+
+            margin-bottom: 12px;
+        }
+
+        #startSubtitle {
+
+            color: rgba(255,255,255,0.65);
+
+            font-size: 13px;
+
+            letter-spacing: 4px;
+
+            margin-bottom: 35px;
+        }
+
+        #startHint {
+
+            color: white;
+
+            font-size: 14px;
+
+            letter-spacing: 2px;
+
+            padding:
+                14px 22px;
+
+            border:
+                1px solid rgba(255,255,255,0.25);
+
+            background:
+                rgba(0,0,0,0.35);
+        }
+
+
+        /* ------------------------------------------------
+           HUD
+        ------------------------------------------------ */
+
+        #hud {
+
+            position: fixed;
+
+            left: 25px;
+            bottom: 25px;
+
+            color:
+                rgba(255,255,255,0.55);
+
+            font-size: 11px;
+
+            line-height: 1.8;
+
+            letter-spacing: 2px;
+
+            z-index: 10;
+
+            pointer-events: none;
+        }
+
+
+        /* ------------------------------------------------
+           INTERACTION
+        ------------------------------------------------ */
+
+        #interaction {
+
+            position: fixed;
+
+            left: 50%;
+
+            bottom: 100px;
+
+            transform:
+                translateX(-50%);
+
+            color: white;
+
+            font-size: 14px;
+
+            letter-spacing: 2px;
+
+            padding:
+                13px 20px;
+
+            border:
+                1px solid rgba(80,150,255,0.5);
+
+            background:
+                rgba(0,10,30,0.75);
+
+            backdrop-filter:
+                blur(8px);
+
+            z-index: 25;
+
+            display: none;
+
+            pointer-events: none;
+        }
+
+
+        /* ------------------------------------------------
+           MOBILE WARNING
+        ------------------------------------------------ */
+
+        #mobileWarning {
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background: #02040a;
+
+            color: white;
+
+            z-index: 200;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 30px;
+
+            font-size: 14px;
+
+            line-height: 1.8;
+        }
+
+        @media (max-width: 700px) {
+
+            #mobileWarning {
+
+                display: flex;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
-<div id="loading">ENTERING DRAVYA MUSEUM...</div>
+
+<!-- ======================================================
+     LOADING
+====================================================== -->
+
+<div id="loading">
+
+    <div id="loadingTitle">
+        DRAVYA
+    </div>
+
+    <div id="loadingText">
+        ENTERING THE FIELD
+    </div>
+
+    <div id="loadingBar">
+
+        <div id="loadingProgress"></div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     START SCREEN
+====================================================== -->
+
+<div id="startScreen">
+
+    <div id="startTitle">
+        DRAVYA
+    </div>
+
+    <div id="startSubtitle">
+        MUSEUM • GROUND FLOOR
+    </div>
+
+    <div id="startHint">
+        CLICK TO ENTER
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     CROSSHAIR
+====================================================== -->
+
+<div id="crosshair"></div>
+
+
+<!-- ======================================================
+     HUD
+====================================================== -->
+
+<div id="hud">
+
+    W A S D &nbsp;&nbsp; MOVE<br>
+
+    SHIFT &nbsp;&nbsp; RUN<br>
+
+    SPACE &nbsp;&nbsp; JUMP<br>
+
+    MOUSE &nbsp;&nbsp; LOOK<br>
+
+    ESC &nbsp;&nbsp; RELEASE MOUSE
+
+</div>
+
+
+<!-- ======================================================
+     INTERACTION
+====================================================== -->
+
+<div id="interaction">
+
+    [ E ] &nbsp; EXPLORE
+
+</div>
+
+
+<div id="mobileWarning">
+
+    DRAVYA MUSEUM currently requires a
+    keyboard and mouse.<br><br>
+
+    Desktop exploration mode only.
+
+</div>
+
+
+<!-- ======================================================
+     THREE.JS
+====================================================== -->
 
 <script type="importmap">
+
 {
     "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+
+        "three":
+        "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+
+        "three/addons/":
+        "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+
     }
 }
+
 </script>
+
 
 <script type="module">
 
-import * as THREE from 'three';
 
-import { GLTFLoader } from
-    'three/addons/loaders/GLTFLoader.js';
+import * as THREE
+from 'three';
 
-import { OrbitControls } from
-    'three/addons/controls/OrbitControls.js';
+import {
+    GLTFLoader
+}
+from 'three/addons/loaders/GLTFLoader.js';
 
 
-// ============================================================
+// ========================================================
+// CONFIGURATION
+// ========================================================
+
+const MUSEUM_URL =
+    './museum/models/museum.glb';
+
+const AVATAR_URL =
+    './museum/models/avatar.glb';
+
+
+// ========================================================
 // SCENE
-// ============================================================
+// ========================================================
 
-const scene = new THREE.Scene();
+const scene =
+    new THREE.Scene();
 
-scene.background = new THREE.Color(0x02030a);
+scene.background =
+    new THREE.Color(0x02040a);
 
 
-// ============================================================
+// ========================================================
+// FOG
+// ========================================================
+
+scene.fog =
+    new THREE.Fog(
+        0x02040a,
+        35,
+        100
+    );
+
+
+// ========================================================
 // CAMERA
-// ============================================================
+// ========================================================
 
-const camera = new THREE.PerspectiveCamera(
-    60,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
+const camera =
+    new THREE.PerspectiveCamera(
+        70,
+        window.innerWidth /
+        window.innerHeight,
+        0.05,
+        500
+    );
+
+
+// Camera is positioned like a human
+camera.position.set(
+    0,
+    1.7,
+    -14
 );
 
-camera.position.set(0, 5, 15);
 
-
-// ============================================================
+// ========================================================
 // RENDERER
-// ============================================================
+// ========================================================
 
-const renderer = new THREE.WebGLRenderer({
-    antialias: true
-});
+const renderer =
+    new THREE.WebGLRenderer({
+
+        antialias: true,
+
+        powerPreference:
+            'high-performance'
+
+    });
+
 
 renderer.setPixelRatio(
-    Math.min(window.devicePixelRatio, 2)
+    Math.min(
+        window.devicePixelRatio,
+        2
+    )
 );
+
 
 renderer.setSize(
     window.innerWidth,
     window.innerHeight
 );
 
-renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-document.body.appendChild(renderer.domElement);
+renderer.outputColorSpace =
+    THREE.SRGBColorSpace;
 
 
-// ============================================================
+renderer.shadowMap.enabled =
+    true;
+
+
+renderer.shadowMap.type =
+    THREE.PCFSoftShadowMap;
+
+
+document.body.appendChild(
+    renderer.domElement
+);
+
+
+// ========================================================
 // LIGHTING
-// ============================================================
+// ========================================================
 
-const ambient = new THREE.HemisphereLight(
-    0x6688ff,
-    0x050505,
-    2
-);
+const hemi =
+    new THREE.HemisphereLight(
+        0x6688ff,
+        0x02030a,
+        1.8
+    );
 
-scene.add(ambient);
+scene.add(hemi);
 
 
-const mainLight = new THREE.DirectionalLight(
-    0xffffff,
-    3
-);
+const mainLight =
+    new THREE.DirectionalLight(
+        0xffffff,
+        2.5
+    );
 
 mainLight.position.set(
     10,
@@ -130,55 +588,90 @@ mainLight.position.set(
     10
 );
 
+mainLight.castShadow = true;
+
+mainLight.shadow.mapSize.width =
+    2048;
+
+mainLight.shadow.mapSize.height =
+    2048;
+
 scene.add(mainLight);
 
 
-// ============================================================
-// CONTROLS
-// ============================================================
+// ========================================================
+// GLTF LOADER
+// ========================================================
 
-const controls = new OrbitControls(
-    camera,
-    renderer.domElement
-);
-
-controls.enableDamping = true;
-
-controls.dampingFactor = 0.05;
-
-controls.target.set(
-    0,
-    2,
-    0
-);
+const loader =
+    new GLTFLoader();
 
 
-// ============================================================
-// LOAD DRAVYA MUSEUM
-// ============================================================
+// ========================================================
+// MUSEUM
+// ========================================================
 
-const loader = new GLTFLoader();
+let museum = null;
+
+let museumLoaded = false;
+
 
 loader.load(
 
-    'museum/models/museum.glb',
+    MUSEUM_URL,
 
     function(gltf) {
 
-        const museum = gltf.scene;
+        museum =
+            gltf.scene;
 
-        museum.name = 'DRAVYA_MUSEUM';
+        museum.name =
+            'DRAVYA_MUSEUM';
 
         scene.add(museum);
 
-        console.log(
-            'DRAVYA MUSEUM LOADED',
-            museum
+
+        // --------------------------------------------
+        // Prepare museum meshes
+        // --------------------------------------------
+
+        museum.traverse(
+            function(object) {
+
+                if (
+                    object.isMesh
+                ) {
+
+                    object.castShadow =
+                        true;
+
+                    object.receiveShadow =
+                        true;
+
+                }
+
+            }
         );
 
-        document.getElementById(
-            'loading'
-        ).style.display = 'none';
+
+        museumLoaded = true;
+
+
+        updateLoading(
+            100
+        );
+
+
+        setTimeout(
+            finishLoading,
+            700
+        );
+
+
+        console.log(
+            'DRAVYA MUSEUM:',
+            museum
+        );
 
     },
 
@@ -187,14 +680,16 @@ loader.load(
         if (xhr.total > 0) {
 
             const percent =
-                (xhr.loaded / xhr.total) * 100;
+                xhr.loaded /
+                xhr.total *
+                100;
 
-            document.getElementById(
-                'loading'
-            ).textContent =
-                'LOADING DRAVYA ' +
-                Math.round(percent) +
-                '%';
+            updateLoading(
+                Math.min(
+                    percent,
+                    95
+                )
+            );
 
         }
 
@@ -203,23 +698,986 @@ loader.load(
     function(error) {
 
         console.error(
-            'Could not load museum.glb:',
+            'Museum loading error:',
             error
         );
 
         document.getElementById(
-            'loading'
+            'loadingText'
         ).textContent =
-            'ERROR LOADING DRAVYA MUSEUM';
+            'MUSEUM LOAD ERROR';
 
     }
 
 );
 
 
-// ============================================================
+// ========================================================
+// AVATAR
+// ========================================================
+
+let avatar = null;
+
+let avatarLoaded = false;
+
+
+loader.load(
+
+    AVATAR_URL,
+
+    function(gltf) {
+
+        avatar =
+            gltf.scene;
+
+        avatar.name =
+            'DRAVYA_AVATAR';
+
+
+        avatar.scale.set(
+            1,
+            1,
+            1
+        );
+
+
+        avatar.position.set(
+            0,
+            0,
+            -14
+        );
+
+
+        avatar.traverse(
+            function(object) {
+
+                if (
+                    object.isMesh
+                ) {
+
+                    object.castShadow =
+                        true;
+
+                    object.receiveShadow =
+                        true;
+
+                }
+
+            }
+        );
+
+
+        scene.add(
+            avatar
+        );
+
+
+        avatarLoaded = true;
+
+
+        console.log(
+            'AVATAR LOADED:',
+            avatar
+        );
+
+    },
+
+    undefined,
+
+    function(error) {
+
+        console.warn(
+            'avatar.glb not found yet.'
+        );
+
+        createTemporaryAvatar();
+
+    }
+
+);
+
+
+// ========================================================
+// TEMPORARY AVATAR
+// ========================================================
+
+function createTemporaryAvatar() {
+
+    const geometry =
+        new THREE.CapsuleGeometry(
+            0.35,
+            1.0,
+            8,
+            16
+        );
+
+    const material =
+        new THREE.MeshStandardMaterial({
+            color: 0x1f66ff,
+            roughness: 0.4,
+            metalness: 0.2
+        });
+
+
+    avatar =
+        new THREE.Mesh(
+            geometry,
+            material
+        );
+
+    avatar.name =
+        'TEMPORARY_AVATAR';
+
+
+    avatar.position.set(
+        0,
+        1.05,
+        -14
+    );
+
+
+    scene.add(
+        avatar
+    );
+
+
+    avatarLoaded = true;
+
+}
+
+
+// ========================================================
+// PLAYER STATE
+// ========================================================
+
+const player = {
+
+    position:
+        new THREE.Vector3(
+            0,
+            1.7,
+            -14
+        ),
+
+    velocity:
+        new THREE.Vector3(
+            0,
+            0,
+            0
+        ),
+
+    height: 1.7,
+
+    radius: 0.35,
+
+    speed: 4.0,
+
+    runSpeed: 7.0,
+
+    jumpForce: 6.0,
+
+    gravity: 18.0,
+
+    grounded: true
+
+};
+
+
+// ========================================================
+// CAMERA LOOK
+// ========================================================
+
+let yaw = 0;
+
+let pitch = 0;
+
+
+const mouseSensitivity =
+    0.0022;
+
+
+document.addEventListener(
+    'mousemove',
+    function(event) {
+
+        if (
+            document.pointerLockElement !==
+            renderer.domElement
+        ) {
+
+            return;
+
+        }
+
+
+        yaw -=
+            event.movementX *
+            mouseSensitivity;
+
+
+        pitch -=
+            event.movementY *
+            mouseSensitivity;
+
+
+        const limit =
+            Math.PI / 2 - 0.05;
+
+
+        pitch =
+            Math.max(
+                -limit,
+                Math.min(
+                    limit,
+                    pitch
+                )
+            );
+
+    }
+);
+
+
+// ========================================================
+// POINTER LOCK
+// ========================================================
+
+renderer.domElement.addEventListener(
+    'click',
+    function() {
+
+        renderer.domElement.requestPointerLock();
+
+    }
+);
+
+
+// ========================================================
+// KEYBOARD
+// ========================================================
+
+const keys = {};
+
+
+window.addEventListener(
+    'keydown',
+    function(event) {
+
+        keys[event.code] = true;
+
+
+        // Jump
+
+        if (
+            event.code === 'Space' &&
+            player.grounded
+        ) {
+
+            player.velocity.y =
+                player.jumpForce;
+
+            player.grounded =
+                false;
+
+        }
+
+
+        // Interaction
+
+        if (
+            event.code === 'KeyE'
+        ) {
+
+            interact();
+
+        }
+
+    }
+);
+
+
+window.addEventListener(
+    'keyup',
+    function(event) {
+
+        keys[event.code] = false;
+
+    }
+);
+
+
+// ========================================================
+// SIMPLE COLLISION SYSTEM
+// ========================================================
+//
+// We use the museum bounding box as the first
+// collision boundary.
+//
+// Later we will replace this with proper
+// exhibit / wall collision geometry.
+// ========================================================
+
+let museumBox = null;
+
+
+function updateMuseumBounds() {
+
+    if (!museum) {
+        return;
+    }
+
+    museumBox =
+        new THREE.Box3()
+            .setFromObject(museum);
+
+}
+
+
+// ========================================================
+// MOVEMENT
+// ========================================================
+
+function updatePlayer(delta) {
+
+    if (!museumLoaded) {
+        return;
+    }
+
+
+    const move =
+        new THREE.Vector3();
+
+
+    // Forward / backward
+
+    if (keys['KeyW']) {
+
+        move.z -= 1;
+
+    }
+
+    if (keys['KeyS']) {
+
+        move.z += 1;
+
+    }
+
+
+    // Left / right
+
+    if (keys['KeyA']) {
+
+        move.x -= 1;
+
+    }
+
+    if (keys['KeyD']) {
+
+        move.x += 1;
+
+    }
+
+
+    if (
+        move.lengthSq() > 0
+    ) {
+
+        move.normalize();
+
+
+        // Rotate movement
+        // according to camera yaw
+
+        move.applyAxisAngle(
+            new THREE.Vector3(
+                0,
+                1,
+                0
+            ),
+            yaw
+        );
+
+
+        const speed =
+            keys['ShiftLeft'] ||
+            keys['ShiftRight']
+                ? player.runSpeed
+                : player.speed;
+
+
+        move.multiplyScalar(
+            speed * delta
+        );
+
+
+        player.position.add(
+            move
+        );
+
+    }
+
+
+    // ----------------------------------------------------
+    // Gravity
+    // ----------------------------------------------------
+
+    player.velocity.y -=
+        player.gravity * delta;
+
+
+    player.position.y +=
+        player.velocity.y * delta;
+
+
+    // Ground
+
+    if (
+        player.position.y <=
+        player.height
+    ) {
+
+        player.position.y =
+            player.height;
+
+        player.velocity.y =
+            0;
+
+        player.grounded =
+            true;
+
+    }
+
+
+    // ----------------------------------------------------
+    // Keep player inside museum
+    // ----------------------------------------------------
+
+    if (museumBox) {
+
+        const padding = 1.0;
+
+
+        player.position.x =
+            THREE.MathUtils.clamp(
+                player.position.x,
+                museumBox.min.x + padding,
+                museumBox.max.x - padding
+            );
+
+
+        player.position.z =
+            THREE.MathUtils.clamp(
+                player.position.z,
+                museumBox.min.z + padding,
+                museumBox.max.z - padding
+            );
+
+    }
+
+
+    // ----------------------------------------------------
+    // Camera
+    // ----------------------------------------------------
+
+    camera.position.copy(
+        player.position
+    );
+
+
+    camera.rotation.order =
+        'YXZ';
+
+
+    camera.rotation.y =
+        yaw;
+
+    camera.rotation.x =
+        pitch;
+
+
+    // ----------------------------------------------------
+    // Avatar
+    // ----------------------------------------------------
+
+    if (avatar) {
+
+        avatar.position.set(
+            player.position.x,
+            0,
+            player.position.z
+        );
+
+
+        // Face movement direction
+
+        if (
+            move.lengthSq() > 0
+        ) {
+
+            const targetAngle =
+                Math.atan2(
+                    move.x,
+                    move.z
+                );
+
+            avatar.rotation.y =
+                targetAngle;
+
+        }
+
+    }
+
+}
+
+
+// ========================================================
+// INTERACTION SYSTEM
+// ========================================================
+
+const interaction =
+    document.getElementById(
+        'interaction'
+    );
+
+
+let currentInteractable =
+    null;
+
+
+const interactionObjects = [];
+
+
+function setupInteractions() {
+
+    if (!museum) {
+        return;
+    }
+
+
+    museum.traverse(
+        function(object) {
+
+            if (
+                object.name.includes(
+                    'EXHIBIT_DRAVYA_FIELD'
+                )
+            ) {
+
+                interactionObjects.push({
+
+                    object: object,
+
+                    label:
+                        'THE DRAVYA FIELD',
+
+                    action:
+                        'matter'
+
+                });
+
+            }
+
+
+            if (
+                object.name.includes(
+                    'EXHIBIT_ZDC'
+                )
+            ) {
+
+                interactionObjects.push({
+
+                    object: object,
+
+                    label:
+                        'MY PHYSICS RESEARCH',
+
+                    action:
+                        'science'
+
+                });
+
+            }
+
+
+            if (
+                object.name.includes(
+                    'EXHIBIT_GRAND_PIANO'
+                )
+            ) {
+
+                interactionObjects.push({
+
+                    object: object,
+
+                    label:
+                        'DRAVYA SOUND',
+
+                    action:
+                        'music'
+
+                });
+
+            }
+
+
+            if (
+                object.name.includes(
+                    'EXHIBIT_GEOCHRONOLOGY'
+                )
+            ) {
+
+                interactionObjects.push({
+
+                    object: object,
+
+                    label:
+                        'GEOCHRONOLOGY',
+
+                    action:
+                        'geochronology'
+
+                });
+
+            }
+
+
+            if (
+                object.name.includes(
+                    'EXHIBIT_FICTION'
+                )
+            ) {
+
+                interactionObjects.push({
+
+                    object: object,
+
+                    label:
+                        'FICTION ARCHIVE',
+
+                    action:
+                        'fiction'
+
+                });
+
+            }
+
+
+            if (
+                object.name.includes(
+                    'PORTAL_BACKROOMS'
+                )
+            ) {
+
+                interactionObjects.push({
+
+                    object: object,
+
+                    label:
+                        'ENTER DRAVYA BACKROOMS',
+
+                    action:
+                        'backrooms'
+
+                });
+
+            }
+
+        }
+    );
+
+}
+
+
+// ========================================================
+// FIND NEAREST INTERACTION
+// ========================================================
+
+function updateInteraction() {
+
+    currentInteractable =
+        null;
+
+
+    let closest =
+        Infinity;
+
+
+    for (
+        const item
+        of interactionObjects
+    ) {
+
+        const position =
+            new THREE.Vector3();
+
+
+        item.object
+            .getWorldPosition(
+                position
+            );
+
+
+        const distance =
+            player.position.distanceTo(
+                position
+            );
+
+
+        if (
+            distance < 4 &&
+            distance < closest
+        ) {
+
+            closest =
+                distance;
+
+            currentInteractable =
+                item;
+
+        }
+
+    }
+
+
+    if (
+        currentInteractable
+    ) {
+
+        interaction.style.display =
+            'block';
+
+
+        interaction.innerHTML =
+            `[ E ] &nbsp; ${
+                currentInteractable.label
+            }`;
+
+    }
+
+    else {
+
+        interaction.style.display =
+            'none';
+
+    }
+
+}
+
+
+// ========================================================
+// INTERACTION ACTIONS
+// ========================================================
+
+function interact() {
+
+    if (
+        !currentInteractable
+    ) {
+
+        return;
+
+    }
+
+
+    const action =
+        currentInteractable.action;
+
+
+    console.log(
+        'INTERACTION:',
+        action
+    );
+
+
+    // -----------------------------------------------
+    // These pages don't need to exist yet.
+    // We'll connect them later.
+    // -----------------------------------------------
+
+    if (
+        action === 'matter'
+    ) {
+
+        window.location.href =
+            './matter.html';
+
+    }
+
+
+    if (
+        action === 'science'
+    ) {
+
+        window.location.href =
+            './science.html';
+
+    }
+
+
+    if (
+        action === 'music'
+    ) {
+
+        window.location.href =
+            './sounds.html';
+
+    }
+
+
+    if (
+        action === 'geochronology'
+    ) {
+
+        window.location.href =
+            './geochronology.html';
+
+    }
+
+
+    if (
+        action === 'fiction'
+    ) {
+
+        window.location.href =
+            './fiction.html';
+
+    }
+
+
+    if (
+        action === 'backrooms'
+    ) {
+
+        loadBackrooms();
+
+    }
+
+}
+
+
+// ========================================================
+// BACKROOMS
+// ========================================================
+
+function loadBackrooms() {
+
+    console.log(
+        'DRAVYA BACKROOMS REQUESTED'
+    );
+
+
+    /*
+        FUTURE:
+
+        museum.glb
+             ↓
+        fade screen
+             ↓
+        remove museum
+             ↓
+        load backrooms.glb
+             ↓
+        spawn player downstairs
+
+        We will implement this after
+        creating the Backrooms world.
+    */
+
+
+    alert(
+        'DRAVYA BACKROOMS — COMING SOON'
+    );
+
+}
+
+
+// ========================================================
+// LOADING UI
+// ========================================================
+
+function updateLoading(percent) {
+
+    document.getElementById(
+        'loadingProgress'
+    ).style.width =
+        percent + '%';
+
+}
+
+
+function finishLoading() {
+
+    updateMuseumBounds();
+
+    setupInteractions();
+
+
+    const loading =
+        document.getElementById(
+            'loading'
+        );
+
+
+    loading.style.opacity =
+        '0';
+
+
+    setTimeout(
+        function() {
+
+            loading.style.display =
+                'none';
+
+        },
+        1000
+    );
+
+}
+
+
+// ========================================================
+// ANIMATION
+// ========================================================
+
+const clock =
+    new THREE.Clock();
+
+
+function animate() {
+
+    requestAnimationFrame(
+        animate
+    );
+
+
+    const delta =
+        Math.min(
+            clock.getDelta(),
+            0.05
+        );
+
+
+    updatePlayer(
+        delta
+    );
+
+
+    updateInteraction();
+
+
+    renderer.render(
+        scene,
+        camera
+    );
+
+}
+
+
+animate();
+
+
+// ========================================================
 // RESIZE
-// ============================================================
+// ========================================================
 
 window.addEventListener(
     'resize',
@@ -229,7 +1687,9 @@ window.addEventListener(
             window.innerWidth /
             window.innerHeight;
 
+
         camera.updateProjectionMatrix();
+
 
         renderer.setSize(
             window.innerWidth,
@@ -240,25 +1700,9 @@ window.addEventListener(
 );
 
 
-// ============================================================
-// ANIMATION
-// ============================================================
-
-function animate() {
-
-    requestAnimationFrame(animate);
-
-    controls.update();
-
-    renderer.render(
-        scene,
-        camera
-    );
-}
-
-animate();
-
 </script>
 
 </body>
+
 </html>
+```
