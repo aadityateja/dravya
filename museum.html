@@ -3,180 +3,174 @@
 <head>
 <meta charset="UTF-8">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<title>DRAVYA — Museum</title>
 
-<title>DRAVYA Museum</title>
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
 
 <style>
 
 html,
 body {
     margin: 0;
-    padding: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: #000;
-    font-family: Arial, sans-serif;
-}
-
-#canvas {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-}
-
-#loading {
-    position: fixed;
-    inset: 0;
-    z-index: 10;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
 
     background:
         radial-gradient(
             circle at center,
-            #071a42 0%,
-            #020817 45%,
-            #000 100%
+            #07132e 0%,
+            #020611 55%,
+            #000000 100%
+        );
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+#loading {
+
+    position: fixed;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+
+    background:
+        radial-gradient(
+            circle,
+            #081a3a 0%,
+            #02050d 70%
         );
 
     color: white;
+
+    z-index: 100;
+
+    letter-spacing: 0.25em;
+
+    transition:
+        opacity 0.8s ease;
 }
 
-#loading h1 {
-    margin: 0 0 12px 0;
-    font-size: 42px;
-    letter-spacing: 8px;
+#loadingTitle {
+
+    font-size: 26px;
+
+    color: #79dcff;
+
+    margin-bottom: 14px;
 }
 
-#loading p {
-    margin: 5px;
-    opacity: 0.7;
-}
+#loadingText {
 
-#loadingBar {
-    width: 280px;
-    height: 3px;
-    margin-top: 25px;
-    background: rgba(255,255,255,0.15);
-    overflow: hidden;
-}
+    font-size: 11px;
 
-#loadingProgress {
-    width: 0%;
-    height: 100%;
-    background: #00d9ff;
-    transition: width 0.2s ease;
-}
-
-#error {
-    display: none;
-
-    position: fixed;
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
-
-    width: min(700px, 85vw);
-
-    padding: 25px;
-
-    background: rgba(10,10,20,0.95);
-    border: 1px solid rgba(0,220,255,0.5);
-
-    color: white;
-
-    z-index: 20;
-}
-
-#error h2 {
-    color: #00d9ff;
-}
-
-#error pre {
-    white-space: pre-wrap;
-    color: #ff8f8f;
+    opacity: 0.55;
 }
 
 #hud {
-    position: fixed;
-    left: 25px;
-    top: 25px;
 
-    z-index: 5;
+    position: fixed;
+
+    left: 24px;
+    bottom: 24px;
+
+    z-index: 10;
 
     color: white;
 
     pointer-events: none;
 
-    text-shadow:
-        0 0 10px rgba(0,200,255,0.8);
+    user-select: none;
 }
 
-#hud .title {
-    font-size: 18px;
-    letter-spacing: 4px;
+#hudTitle {
+
+    font-size: 13px;
+
+    letter-spacing: 0.3em;
+
+    color: #65dcff;
+
+    margin-bottom: 8px;
 }
 
-#hud .subtitle {
-    margin-top: 5px;
-    font-size: 11px;
-    opacity: 0.6;
-    letter-spacing: 2px;
-}
-
-#controls {
-    position: fixed;
-    right: 25px;
-    bottom: 25px;
-
-    z-index: 5;
-
-    padding: 12px 16px;
-
-    color: rgba(255,255,255,0.65);
+#hudControls {
 
     font-size: 11px;
 
-    background: rgba(0,0,0,0.3);
+    line-height: 1.8;
 
-    border:
-        1px solid
-        rgba(255,255,255,0.12);
+    opacity: 0.48;
 
-    pointer-events: none;
+    letter-spacing: 0.08em;
 }
 
-#crosshair {
+#interaction {
+
     position: fixed;
+
     left: 50%;
-    top: 50%;
+    bottom: 30px;
 
-    width: 5px;
-    height: 5px;
+    transform:
+        translateX(-50%);
 
-    transform: translate(-50%, -50%);
+    z-index: 20;
 
-    border-radius: 50%;
+    color: white;
 
-    background: rgba(255,255,255,0.8);
+    font-size: 11px;
 
-    box-shadow:
-        0 0 10px #00d9ff;
+    letter-spacing: 0.15em;
 
-    z-index: 5;
+    opacity: 0.4;
 
     pointer-events: none;
+}
+
+#error {
+
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px;
+
+    box-sizing: border-box;
+
+    background: #02040a;
+
+    color: #ff6d8c;
+
+    font-family: monospace;
+
+    white-space: pre-wrap;
+
+    z-index: 200;
 }
 
 </style>
@@ -184,140 +178,119 @@ body {
 
 <body>
 
-<canvas id="canvas"></canvas>
-
 <div id="loading">
 
-    <h1>DRAVYA</h1>
+    <div id="loadingTitle">
+        DRAVYA
+    </div>
 
-    <p id="loadingText">
-        Initialising field...
-    </p>
-
-    <div id="loadingBar">
-        <div id="loadingProgress"></div>
+    <div id="loadingText">
+        ENTERING THE FIELD...
     </div>
 
 </div>
 
-<div id="error">
-
-    <h2>DRAVYA FIELD ERROR</h2>
-
-    <p>
-        Something prevented the museum from loading.
-    </p>
-
-    <pre id="errorText"></pre>
-
-</div>
 
 <div id="hud">
 
-    <div class="title">
-        DRAVYA MUSEUM
+    <div id="hudTitle">
+        DRAVYA FIELD
     </div>
 
-    <div class="subtitle">
-        OBSERVE · DISTURB · CREATE
+    <div id="hudControls">
+
+        W A S D / ARROWS — MOVE<br>
+        MOUSE — LOOK<br>
+        SHIFT — ACCELERATE<br>
+        SPACE — ASCEND<br>
+        CTRL — DESCEND<br>
+        ESC — RELEASE MOUSE
+
     </div>
 
 </div>
 
-<div id="crosshair"></div>
 
-<div id="controls">
-
-    W A S D — MOVE<br>
-    MOUSE — LOOK<br>
-    SHIFT — ACCELERATE<br>
-    SPACE — HOVER
-
+<div id="interaction">
+    CLICK TO EXPLORE
 </div>
 
 
-<!-- =====================================================
-     THREE.JS
-===================================================== -->
+<div id="error"></div>
+
 
 <script type="importmap">
-
 {
     "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+        "three":
+        "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+
+        "three/addons/":
+        "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
     }
 }
-
 </script>
 
 
 <script type="module">
 
-import * as THREE from "three";
+import * as THREE
+    from "three";
 
 import {
     GLTFLoader
-} from "three/addons/loaders/GLTFLoader.js";
+} from
+    "three/addons/loaders/GLTFLoader.js";
 
 
-// ======================================================
+// ============================================================
 // BASIC SETUP
-// ======================================================
-
-const canvas =
-    document.getElementById("canvas");
-
-const loading =
-    document.getElementById("loading");
-
-const loadingText =
-    document.getElementById("loadingText");
-
-const loadingProgress =
-    document.getElementById("loadingProgress");
-
-const errorBox =
-    document.getElementById("error");
-
-const errorText =
-    document.getElementById("errorText");
-
+// ============================================================
 
 const scene =
     new THREE.Scene();
 
 scene.background =
-    new THREE.Color(0x020612);
+    new THREE.Color(
+        0x020611
+    );
 
-
-// ======================================================
-// CAMERA
-// ======================================================
-
-const camera =
-    new THREE.PerspectiveCamera(
-        65,
-        window.innerWidth /
-        window.innerHeight,
-        0.01,
-        5000
+scene.fog =
+    new THREE.FogExp2(
+        0x020611,
+        0.0035
     );
 
 
-// ======================================================
+// ============================================================
+// CAMERA
+// ============================================================
+
+const camera =
+    new THREE.PerspectiveCamera(
+        62,
+        window.innerWidth /
+        window.innerHeight,
+        0.05,
+        500
+    );
+
+
+// ============================================================
 // RENDERER
-// ======================================================
+// ============================================================
 
 const renderer =
     new THREE.WebGLRenderer({
-        canvas: canvas,
         antialias: true,
-        alpha: false
+        powerPreference: "high-performance"
     });
 
 renderer.setPixelRatio(
-    Math.min(window.devicePixelRatio, 2)
+    Math.min(
+        window.devicePixelRatio,
+        1.8
+    )
 );
 
 renderer.setSize(
@@ -334,524 +307,201 @@ renderer.toneMapping =
 renderer.toneMappingExposure =
     1.15;
 
+renderer.shadowMap.enabled = false;
 
-// ======================================================
+document.body.appendChild(
+    renderer.domElement
+);
+
+
+// ============================================================
 // LIGHTING
-// ======================================================
+// ============================================================
 
-const ambient =
+const hemi =
     new THREE.HemisphereLight(
-        0x9bcaff,
-        0x03030a,
-        1.8
+        0x7dbfff,
+        0x02030a,
+        1.5
     );
 
-scene.add(ambient);
+scene.add(hemi);
 
 
-const keyLight =
+const mainLight =
     new THREE.DirectionalLight(
-        0xffffff,
-        2.5
+        0xa9d9ff,
+        1.5
     );
 
-keyLight.position.set(
+mainLight.position.set(
     20,
-    40,
+    35,
     20
 );
 
-scene.add(keyLight);
+scene.add(mainLight);
 
 
-const blueLight =
+const cyanLight =
     new THREE.PointLight(
-        0x0088ff,
-        900,
-        80
+        0x00aaff,
+        55,
+        65
     );
 
-blueLight.position.set(
+cyanLight.position.set(
     0,
-    8,
+    7,
     0
 );
 
-scene.add(blueLight);
+scene.add(cyanLight);
 
 
 const purpleLight =
     new THREE.PointLight(
-        0x8b00ff,
-        700,
-        70
+        0x7d22ff,
+        35,
+        45
     );
 
 purpleLight.position.set(
-    15,
-    5,
+    -18,
+    8,
     -15
 );
 
 scene.add(purpleLight);
 
 
-// ======================================================
+const entranceLight =
+    new THREE.PointLight(
+        0x008cff,
+        30,
+        35
+    );
+
+entranceLight.position.set(
+    0,
+    8,
+    30
+);
+
+scene.add(entranceLight);
+
+
+// ============================================================
 // LOADER
-// ======================================================
+// ============================================================
 
 const loader =
     new GLTFLoader();
 
 
-// ======================================================
-// WORLD / PLAYER
-// ======================================================
-
-let museum = null;
+// ============================================================
+// PLAYER
+// ============================================================
 
 let player = null;
 
-let playerRoot = null;
+const playerRoot =
+    new THREE.Group();
 
-let playerReady = false;
-
-let museumReady = false;
-
-
-// ======================================================
-// PLAYER STATE
-// ======================================================
-
-const keys = {};
-
-let yaw = 0;
-
-let pitch = 0;
-
-let mouseActive = false;
-
-let verticalVelocity = 0;
-
-let targetHeight = 0;
+scene.add(
+    playerRoot
+);
 
 
-// ======================================================
-// MOVEMENT SETTINGS
-// ======================================================
+// ============================================================
+// PLAYER PHYSICS
+// ============================================================
 
-const movement = {
+const playerState = {
 
-    speed: 4.5,
+    velocity:
+        new THREE.Vector3(),
 
-    fastSpeed: 10,
+    position:
+        new THREE.Vector3(
+            0,
+            2.8,
+            24
+        ),
 
-    acceleration: 12,
+    yaw: Math.PI,
 
-    deceleration: 8
+    pitch: -0.10,
+
+    speed: 0,
+
+    maxSpeed: 8.5,
+
+    boostSpeed: 18.0,
+
+    acceleration: 17.0,
+
+    braking: 11.0,
+
+    verticalSpeed: 0,
+
+    verticalMax: 7.0
 
 };
 
-const velocity =
-    new THREE.Vector3();
 
+// ============================================================
+// SMALL SHIP SCALE
+// ============================================================
 
-// ======================================================
-// START POSITION
-// ======================================================
-//
-// IMPORTANT:
-//
-// We initially put the ship near the origin.
-//
-// If your museum's actual entrance is elsewhere,
-// change these three numbers.
-//
+const PLAYER_SCALE =
+    0.55;
 
-const START_POSITION =
-    new THREE.Vector3(
-        0,
-        1.5,
-        8
-    );
 
+// ============================================================
+// CAMERA SETTINGS
+// ============================================================
 
-// ======================================================
-// LOAD MUSEUM
-// ======================================================
+const cameraState = {
 
-function loadMuseum() {
+    distance: 12.0,
 
-    loadingText.textContent =
-        "Loading DRAVYA Museum...";
+    height: 5.5,
 
-    loader.load(
-    "./museum/models/museum.glb",
+    lookHeight: 1.8,
 
-        function(gltf) {
+    sensitivity: 0.0025,
 
-            museum =
-                gltf.scene;
+    smoothness: 7.0,
 
-            museum.name =
-                "DRAVYA_MUSEUM";
+    minDistance: 7,
 
-            scene.add(museum);
+    maxDistance: 22
 
-            museumReady = true;
+};
 
 
-            // ------------------------------------------
-            // Normalize strange GLB scale if necessary
-            // ------------------------------------------
+// ============================================================
+// INPUT
+// ============================================================
 
-            const box =
-                new THREE.Box3()
-                    .setFromObject(museum);
-
-            const size =
-                new THREE.Vector3();
-
-            box.getSize(size);
-
-            console.log(
-                "Museum size:",
-                size
-            );
-
-
-            // ------------------------------------------
-            // Center ONLY if model is wildly offset
-            // ------------------------------------------
-
-            const center =
-                new THREE.Vector3();
-
-            box.getCenter(center);
-
-            console.log(
-                "Museum center:",
-                center
-            );
-
-
-            // ------------------------------------------
-            // Enable shadows
-            // ------------------------------------------
-
-            museum.traverse(
-                function(object) {
-
-                    if (object.isMesh) {
-
-                        object.castShadow =
-                            true;
-
-                        object.receiveShadow =
-                            true;
-
-                        if (
-                            object.material
-                        ) {
-
-                            object.material
-                                .side =
-                                THREE.DoubleSide;
-
-                        }
-
-                    }
-
-                }
-            );
-
-
-            updateLoading();
-
-        },
-
-        function(progress) {
-
-            if (
-                progress.total > 0
-            ) {
-
-                const percent =
-                    (
-                        progress.loaded /
-                        progress.total
-                    ) * 100;
-
-                loadingProgress.style.width =
-                    percent + "%";
-
-                loadingText.textContent =
-                    "Loading museum " +
-                    Math.round(percent) +
-                    "%";
-
-            }
-
-        },
-
-        function(error) {
-
-            showError(
-                "MUSEUM FAILED TO LOAD",
-                error
-            );
-
-        }
-
-    );
-
-}
-
-
-// ======================================================
-// LOAD PLAYER SHIP
-// ======================================================
-
-function loadPlayer() {
-
-    loadingText.textContent =
-        "Loading DRAVYA vessel...";
-
-    loader.load(
-    "./museum/models/player_ship.glb",
-
-        function(gltf) {
-
-            player =
-                gltf.scene;
-
-            player.name =
-                "PLAYER_SHIP";
-
-            playerRoot =
-                player;
-
-
-            // ------------------------------------------
-            // Scale
-            // ------------------------------------------
-
-            player.scale.set(
-                1,
-                1,
-                1
-            );
-
-
-            // ------------------------------------------
-            // Place ship
-            // ------------------------------------------
-
-            player.position.copy(
-                START_POSITION
-            );
-
-
-            // ------------------------------------------
-            // Rotate ship
-            // ------------------------------------------
-
-            player.rotation.y =
-                Math.PI;
-
-
-            // ------------------------------------------
-            // Materials
-            // ------------------------------------------
-
-            player.traverse(
-                function(object) {
-
-                    if (object.isMesh) {
-
-                        object.castShadow =
-                            true;
-
-                        object.receiveShadow =
-                            true;
-
-                        if (
-                            object.material
-                        ) {
-
-                            object.material =
-                                object.material
-                                    .clone();
-
-                            object.material
-                                .side =
-                                THREE.DoubleSide;
-
-                        }
-
-                    }
-
-                }
-            );
-
-
-            scene.add(player);
-
-            playerReady = true;
-
-
-            // ------------------------------------------
-            // Animation
-            // ------------------------------------------
-
-            if (
-                gltf.animations &&
-                gltf.animations.length > 0
-            ) {
-
-                const mixer =
-                    new THREE.AnimationMixer(
-                        player
-                    );
-
-                for (
-                    const clip
-                    of gltf.animations
-                ) {
-
-                    mixer.clipAction(
-                        clip
-                    ).play();
-
-                }
-
-                player.userData.mixer =
-                    mixer;
-
-            }
-
-
-            updateLoading();
-
-        },
-
-        function(progress) {
-
-            if (
-                progress.total > 0
-            ) {
-
-                const percent =
-                    (
-                        progress.loaded /
-                        progress.total
-                    ) * 100;
-
-                loadingText.textContent =
-                    "Loading vessel " +
-                    Math.round(percent) +
-                    "%";
-
-            }
-
-        },
-
-        function(error) {
-
-            showError(
-                "PLAYER SHIP FAILED TO LOAD",
-                error
-            );
-
-        }
-
-    );
-
-}
-
-
-// ======================================================
-// LOADING STATE
-// ======================================================
-
-function updateLoading() {
-
-    if (
-        museumReady &&
-        playerReady
-    ) {
-
-        loadingProgress.style.width =
-            "100%";
-
-        loadingText.textContent =
-            "Entering the DRAVYA field...";
-
-
-        setTimeout(
-            function() {
-
-                loading.style.display =
-                    "none";
-
-            },
-            800
-        );
-
-    }
-
-}
-
-
-// ======================================================
-// ERROR
-// ======================================================
-
-function showError(title, error) {
-
-    console.error(
-        title,
-        error
-    );
-
-    errorBox.style.display =
-        "block";
-
-    errorText.textContent =
-        title +
-        "\n\n" +
-        "Check that:\n" +
-        "1. index.html is beside the models folder\n" +
-        "2. museum.glb exists\n" +
-        "3. player_ship.glb exists\n" +
-        "4. You are running this through GitHub Pages / a web server\n\n" +
-        "Path attempted:\n" +
-        "./models/\n\n" +
-        String(error);
-
-}
-
-
-// ======================================================
-// KEYBOARD
-// ======================================================
+const keys = {};
 
 window.addEventListener(
     "keydown",
-    function(event) {
+    event => {
 
-        keys[event.code] = true;
+        keys[
+            event.code
+        ] = true;
 
+        // Prevent browser scrolling
         if (
-            [
-                "KeyW",
-                "KeyA",
-                "KeyS",
-                "KeyD",
-                "Space",
-                "ShiftLeft",
-                "ShiftRight"
-            ].includes(event.code)
+            event.code === "Space" ||
+            event.code === "ArrowUp" ||
+            event.code === "ArrowDown" ||
+            event.code === "ArrowLeft" ||
+            event.code === "ArrowRight"
         ) {
 
             event.preventDefault();
@@ -864,28 +514,36 @@ window.addEventListener(
 
 window.addEventListener(
     "keyup",
-    function(event) {
+    event => {
 
-        keys[event.code] = false;
+        keys[
+            event.code
+        ] = false;
 
     }
 );
 
 
-// ======================================================
-// MOUSE CONTROL
-// ======================================================
+// ============================================================
+// MOUSE LOOK
+// ============================================================
 
-window.addEventListener(
+let mouseLocked = false;
+
+let mouseX = 0;
+let mouseY = 0;
+
+
+renderer.domElement.addEventListener(
     "click",
-    function() {
+    () => {
 
         if (
             document.pointerLockElement !==
-            document.body
+            renderer.domElement
         ) {
 
-            document.body.requestPointerLock();
+            renderer.domElement.requestPointerLock();
 
         }
 
@@ -895,11 +553,16 @@ window.addEventListener(
 
 document.addEventListener(
     "pointerlockchange",
-    function() {
+    () => {
 
-        mouseActive =
+        mouseLocked =
             document.pointerLockElement ===
-            document.body;
+            renderer.domElement;
+
+        document.getElementById(
+            "interaction"
+        ).style.opacity =
+            mouseLocked ? "0" : "0.4";
 
     }
 );
@@ -907,287 +570,804 @@ document.addEventListener(
 
 document.addEventListener(
     "mousemove",
-    function(event) {
+    event => {
 
-        if (!mouseActive) {
+        if (!mouseLocked)
             return;
-        }
 
-        const sensitivity =
-            0.0025;
-
-        yaw -=
+        mouseX -=
             event.movementX *
-            sensitivity;
+            cameraState.sensitivity;
 
-        pitch -=
+        mouseY -=
             event.movementY *
-            sensitivity;
+            cameraState.sensitivity;
 
-
-        pitch =
+        mouseY =
             THREE.MathUtils.clamp(
-                pitch,
-                -1.0,
-                1.0
+                mouseY,
+                -1.15,
+                0.75
             );
 
     }
 );
 
 
-// ======================================================
+// ============================================================
+// MOUSE WHEEL = CAMERA DISTANCE
+// ============================================================
+
+renderer.domElement.addEventListener(
+    "wheel",
+    event => {
+
+        cameraState.distance +=
+            event.deltaY *
+            0.015;
+
+        cameraState.distance =
+            THREE.MathUtils.clamp(
+                cameraState.distance,
+                cameraState.minDistance,
+                cameraState.maxDistance
+            );
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+// ============================================================
+// LOAD MUSEUM
+// ============================================================
+
+loader.load(
+
+    "./models/museum.glb",
+
+    gltf => {
+
+        const museum =
+            gltf.scene;
+
+        museum.name =
+            "DRAVYA_MUSEUM";
+
+        scene.add(
+            museum
+        );
+
+
+        // ----------------------------------------------------
+        // Identify collision geometry
+        // ----------------------------------------------------
+
+        museum.traverse(
+            object => {
+
+                if (
+                    object.isMesh
+                ) {
+
+                    object.frustumCulled =
+                        true;
+
+                }
+
+            }
+        );
+
+
+        loadPlayer();
+
+    },
+
+    xhr => {
+
+        if (xhr.total) {
+
+            const percent =
+                (
+                    xhr.loaded /
+                    xhr.total
+                ) * 100;
+
+            document.getElementById(
+                "loadingText"
+            ).textContent =
+                `LOADING MUSEUM ${percent.toFixed(0)}%`;
+
+        }
+
+    },
+
+    error => {
+
+        showError(
+            "MUSEUM FAILED TO LOAD\n\n" +
+            error
+        );
+
+    }
+
+);
+
+
+// ============================================================
+// LOAD PLAYER SHIP
+// ============================================================
+
+function loadPlayer() {
+
+    loader.load(
+
+        "./models/player_ship.glb",
+
+        gltf => {
+
+            player =
+                gltf.scene;
+
+            player.name =
+                "PLAYER_SHIP";
+
+            player.scale.setScalar(
+                PLAYER_SCALE
+            );
+
+            playerRoot.add(
+                player
+            );
+
+            playerRoot.position.copy(
+                playerState.position
+            );
+
+            playerRoot.rotation.y =
+                playerState.yaw;
+
+
+            // ------------------------------------------------
+            // Ensure ship remains visually bright
+            // ------------------------------------------------
+
+            player.traverse(
+                object => {
+
+                    if (
+                        object.isMesh
+                    ) {
+
+                        object.frustumCulled =
+                            true;
+
+                    }
+
+                }
+            );
+
+
+            // ------------------------------------------------
+            // Finish loading
+            // ------------------------------------------------
+
+            setTimeout(
+                () => {
+
+                    const loading =
+                        document.getElementById(
+                            "loading"
+                        );
+
+                    loading.style.opacity =
+                        "0";
+
+                    setTimeout(
+                        () => {
+
+                            loading.style.display =
+                                "none";
+
+                        },
+                        800
+                    );
+
+                },
+                400
+            );
+
+        },
+
+        undefined,
+
+        error => {
+
+            showError(
+                "PLAYER SHIP FAILED TO LOAD\n\n" +
+                error
+            );
+
+        }
+
+    );
+
+}
+
+
+// ============================================================
+// ERROR SCREEN
+// ============================================================
+
+function showError(message) {
+
+    const box =
+        document.getElementById(
+            "error"
+        );
+
+    box.style.display =
+        "flex";
+
+    box.textContent =
+        message;
+
+}
+
+
+// ============================================================
 // MOVEMENT
-// ======================================================
+// ============================================================
 
-function updatePlayer(delta) {
+const forward =
+    new THREE.Vector3();
 
-    if (!playerReady) {
+const right =
+    new THREE.Vector3();
+
+const moveDirection =
+    new THREE.Vector3();
+
+
+function updateMovement(delta) {
+
+    if (!player)
         return;
-    }
 
 
-    const forward =
-        new THREE.Vector3(
-            Math.sin(yaw),
-            0,
-            Math.cos(yaw)
-        );
+    // --------------------------------------------------------
+    // Keyboard aliases
+    // --------------------------------------------------------
 
-
-    const right =
-        new THREE.Vector3(
-            Math.cos(yaw),
-            0,
-            -Math.sin(yaw)
-        );
-
-
-    const direction =
-        new THREE.Vector3();
-
-
-    if (keys["KeyW"]) {
-
-        direction.add(
-            forward
-        );
-
-    }
-
-    if (keys["KeyS"]) {
-
-        direction.sub(
-            forward
-        );
-
-    }
-
-    if (keys["KeyD"]) {
-
-        direction.add(
-            right
-        );
-
-    }
-
-    if (keys["KeyA"]) {
-
-        direction.sub(
-            right
-        );
-
-    }
-
-
-    if (
-        direction.lengthSq() > 0
-    ) {
-
-        direction.normalize();
-
-    }
-
-
-    const maxSpeed =
+    const forwardInput =
         (
-            keys["ShiftLeft"] ||
-            keys["ShiftRight"]
-        )
-        ?
-        movement.fastSpeed
-        :
-        movement.speed;
+            keys["KeyW"] ||
+            keys["ArrowUp"]
+        ) ? 1 : 0;
+
+    const backwardInput =
+        (
+            keys["KeyS"] ||
+            keys["ArrowDown"]
+        ) ? 1 : 0;
+
+    const leftInput =
+        (
+            keys["KeyA"] ||
+            keys["ArrowLeft"]
+        ) ? 1 : 0;
+
+    const rightInput =
+        (
+            keys["KeyD"] ||
+            keys["ArrowRight"]
+        ) ? 1 : 0;
 
 
-    const desired =
-        direction.multiplyScalar(
-            maxSpeed
-        );
+    const verticalUp =
+        keys["Space"] ? 1 : 0;
+
+    const verticalDown =
+        (
+            keys["ControlLeft"] ||
+            keys["ControlRight"]
+        ) ? 1 : 0;
 
 
-    velocity.x =
-        THREE.MathUtils.damp(
-            velocity.x,
-            desired.x,
-            direction.lengthSq()
-                ? movement.acceleration
-                : movement.deceleration,
-            delta
-        );
+    // --------------------------------------------------------
+    // Camera-relative forward direction
+    // --------------------------------------------------------
 
-    velocity.z =
-        THREE.MathUtils.damp(
-            velocity.z,
-            desired.z,
-            direction.lengthSq()
-                ? movement.acceleration
-                : movement.deceleration,
-            delta
-        );
+    forward.set(
+        Math.sin(mouseX),
+        0,
+        Math.cos(mouseX)
+    );
+
+    forward.normalize();
 
 
-    player.position.x +=
-        velocity.x * delta;
+    // Camera-relative right
+    right.set(
+        forward.z,
+        0,
+        -forward.x
+    );
 
-    player.position.z +=
-        velocity.z * delta;
+    right.normalize();
 
 
-    // -----------------------------------------------
-    // Hover
-    // -----------------------------------------------
+    moveDirection.set(
+        0,
+        0,
+        0
+    );
 
-    if (keys["Space"]) {
 
-        targetHeight +=
-            4 * delta;
+    if (forwardInput)
+        moveDirection.add(forward);
+
+    if (backwardInput)
+        moveDirection.sub(forward);
+
+    if (rightInput)
+        moveDirection.add(right);
+
+    if (leftInput)
+        moveDirection.sub(right);
+
+
+    if (
+        moveDirection.lengthSq() > 0
+    ) {
+
+        moveDirection.normalize();
 
     }
 
 
-    targetHeight =
-        THREE.MathUtils.clamp(
-            targetHeight,
-            0,
-            4
-        );
+    // --------------------------------------------------------
+    // Speed
+    // --------------------------------------------------------
+
+    const boosting =
+        keys["ShiftLeft"] ||
+        keys["ShiftRight"];
+
+    const targetSpeed =
+        boosting
+            ? playerState.boostSpeed
+            : playerState.maxSpeed;
 
 
-    const desiredY =
-        START_POSITION.y +
-        targetHeight;
+    const hasMovement =
+        moveDirection.lengthSq() > 0;
 
 
-    player.position.y =
-        THREE.MathUtils.damp(
-            player.position.y,
-            desiredY,
-            8,
-            delta
-        );
+    if (hasMovement) {
 
-
-    // -----------------------------------------------
-    // Ship orientation
-    // -----------------------------------------------
-
-    const targetRotation =
-        Math.atan2(
-            velocity.x,
-            velocity.z
-        );
-
-
-    if (
-        velocity.lengthSq() > 0.01
-    ) {
-
-        player.rotation.y =
+        playerState.speed =
             THREE.MathUtils.damp(
-                player.rotation.y,
-                targetRotation,
-                7,
+                playerState.speed,
+                targetSpeed,
+                playerState.acceleration,
+                delta
+            );
+
+    }
+    else {
+
+        playerState.speed =
+            THREE.MathUtils.damp(
+                playerState.speed,
+                0,
+                playerState.braking,
                 delta
             );
 
     }
 
-}
 
+    // --------------------------------------------------------
+    // Horizontal movement
+    // --------------------------------------------------------
 
-// ======================================================
-// CAMERA
-// ======================================================
+    if (hasMovement) {
 
-function updateCamera(delta) {
+        playerState.velocity.x =
+            moveDirection.x *
+            playerState.speed;
 
-    if (!playerReady) {
-        return;
+        playerState.velocity.z =
+            moveDirection.z *
+            playerState.speed;
+
+    }
+    else {
+
+        playerState.velocity.x =
+            THREE.MathUtils.damp(
+                playerState.velocity.x,
+                0,
+                playerState.braking,
+                delta
+            );
+
+        playerState.velocity.z =
+            THREE.MathUtils.damp(
+                playerState.velocity.z,
+                0,
+                playerState.braking,
+                delta
+            );
+
     }
 
 
-    const cameraDistance =
-        7;
+    // --------------------------------------------------------
+    // Vertical movement
+    // --------------------------------------------------------
+
+    const verticalInput =
+        verticalUp -
+        verticalDown;
 
 
-    const cameraHeight =
-        3.4;
+    if (
+        verticalInput !== 0
+    ) {
+
+        playerState.verticalSpeed =
+            THREE.MathUtils.damp(
+                playerState.verticalSpeed,
+                verticalInput *
+                playerState.verticalMax,
+                12,
+                delta
+            );
+
+    }
+    else {
+
+        playerState.verticalSpeed =
+            THREE.MathUtils.damp(
+                playerState.verticalSpeed,
+                0,
+                9,
+                delta
+            );
+
+    }
 
 
-    const behind =
-        new THREE.Vector3(
-            0,
-            cameraHeight,
-            -cameraDistance
+    playerState.velocity.y =
+        playerState.verticalSpeed;
+
+
+    // --------------------------------------------------------
+    // Apply movement
+    // --------------------------------------------------------
+
+    const next =
+        playerState.position.clone();
+
+    next.x +=
+        playerState.velocity.x *
+        delta;
+
+    next.y +=
+        playerState.velocity.y *
+        delta;
+
+    next.z +=
+        playerState.velocity.z *
+        delta;
+
+
+    // --------------------------------------------------------
+    // Vertical boundaries
+    // --------------------------------------------------------
+
+    next.y =
+        THREE.MathUtils.clamp(
+            next.y,
+            1.5,
+            15.5
         );
 
 
-    behind.applyAxisAngle(
-        new THREE.Vector3(0,1,0),
-        player.rotation.y
+    // --------------------------------------------------------
+    // Museum collision
+    // --------------------------------------------------------
+
+    const safePosition =
+        constrainToMuseum(
+            next,
+            playerState.position
+        );
+
+
+    playerState.position.copy(
+        safePosition
     );
 
 
-    const desiredPosition =
-        player.position
-            .clone()
-            .add(behind);
+    playerRoot.position.copy(
+        playerState.position
+    );
 
+
+    // --------------------------------------------------------
+    // Ship rotation
+    // --------------------------------------------------------
+
+    if (
+        hasMovement
+    ) {
+
+        const targetYaw =
+            Math.atan2(
+                moveDirection.x,
+                moveDirection.z
+            );
+
+        playerState.yaw =
+            THREE.MathUtils.damp(
+                playerState.yaw,
+                targetYaw,
+                8,
+                delta
+            );
+
+    }
+
+
+    playerRoot.rotation.y =
+        playerState.yaw;
+
+}
+
+
+// ============================================================
+// HEXAGON COLLISION
+// ============================================================
+
+const MUSEUM_RADIUS =
+    34.0;
+
+const PLAYER_RADIUS =
+    1.15;
+
+const WALL_MARGIN =
+    1.0;
+
+
+// Regular hexagon half-plane test.
+// Front side contains entrance opening.
+
+function constrainToMuseum(
+    desired,
+    current
+) {
+
+    const result =
+        desired.clone();
+
+
+    const apothem =
+        MUSEUM_RADIUS *
+        Math.cos(
+            Math.PI / 6
+        );
+
+
+    const sides = 6;
+
+
+    for (
+        let i = 0;
+        i < sides;
+        i++
+    ) {
+
+        const angle =
+            i *
+            Math.PI /
+            3;
+
+
+        // outward normal
+        const nx =
+            Math.cos(angle);
+
+        const nz =
+            Math.sin(angle);
+
+
+        const distance =
+            result.x * nx +
+            result.z * nz;
+
+
+        const limit =
+            apothem -
+            PLAYER_RADIUS -
+            WALL_MARGIN;
+
+
+        // ----------------------------------------------------
+        // Front entrance
+        //
+        // Front side is approximately +Z.
+        // Leave central doorway open.
+        // ----------------------------------------------------
+
+        const frontSide =
+            nz > 0.8;
+
+
+        const insideEntrance =
+            Math.abs(
+                result.x
+            ) < ENTRANCE_HALF_WIDTH &&
+            result.z > 25;
+
+
+        if (
+            frontSide &&
+            insideEntrance
+        ) {
+
+            continue;
+
+        }
+
+
+        if (
+            distance > limit
+        ) {
+
+            const excess =
+                distance -
+                limit;
+
+            result.x -=
+                nx *
+                excess;
+
+            result.z -=
+                nz *
+                excess;
+
+        }
+
+    }
+
+
+    return result;
+
+}
+
+
+const ENTRANCE_HALF_WIDTH =
+    6.0;
+
+
+// ============================================================
+// CAMERA
+// ============================================================
+
+const desiredCameraPosition =
+    new THREE.Vector3();
+
+const cameraLookTarget =
+    new THREE.Vector3();
+
+
+function updateCamera(delta) {
+
+    if (!player)
+        return;
+
+
+    // Camera orbit direction
+    const horizontal =
+        cameraState.distance *
+        Math.cos(
+            mouseY
+        );
+
+
+    desiredCameraPosition.set(
+
+        playerState.position.x
+        - Math.sin(mouseX) *
+          horizontal,
+
+        playerState.position.y
+        + cameraState.height
+        + Math.sin(mouseY) *
+          cameraState.distance,
+
+        playerState.position.z
+        - Math.cos(mouseX) *
+          horizontal
+
+    );
+
+
+    // --------------------------------------------------------
+    // Smooth camera
+    // --------------------------------------------------------
 
     camera.position.lerp(
-        desiredPosition,
+        desiredCameraPosition,
         1 -
-        Math.pow(
-            0.001,
+        Math.exp(
+            -cameraState.smoothness *
             delta
         )
     );
 
 
-    const lookTarget =
-        player.position
-            .clone();
+    cameraLookTarget.set(
 
+        playerState.position.x,
 
-    lookTarget.y +=
-        0.7;
+        playerState.position.y
+        + cameraState.lookHeight,
+
+        playerState.position.z
+
+    );
 
 
     camera.lookAt(
-        lookTarget
+        cameraLookTarget
     );
 
 }
 
 
-// ======================================================
+// ============================================================
+// SUBTLE SHIP HOVER
+// ============================================================
+
+let hoverTime = 0;
+
+
+function updateHover(delta) {
+
+    if (!player)
+        return;
+
+
+    hoverTime += delta;
+
+
+    const hover =
+        Math.sin(
+            hoverTime * 2.4
+        ) *
+        0.045;
+
+
+    player.position.y =
+        hover;
+
+
+}
+
+
+// ============================================================
 // RESIZE
-// ======================================================
+// ============================================================
 
 window.addEventListener(
     "resize",
-    function() {
+    () => {
 
         camera.aspect =
             window.innerWidth /
@@ -1204,17 +1384,17 @@ window.addEventListener(
 );
 
 
-// ======================================================
+// ============================================================
 // CLOCK
-// ======================================================
+// ============================================================
 
 const clock =
     new THREE.Clock();
 
 
-// ======================================================
-// ANIMATION LOOP
-// ======================================================
+// ============================================================
+// MAIN LOOP
+// ============================================================
 
 function animate() {
 
@@ -1230,7 +1410,7 @@ function animate() {
         );
 
 
-    updatePlayer(
+    updateMovement(
         delta
     );
 
@@ -1240,16 +1420,9 @@ function animate() {
     );
 
 
-    if (
-        player &&
-        player.userData.mixer
-    ) {
-
-        player.userData.mixer.update(
-            delta
-        );
-
-    }
+    updateHover(
+        delta
+    );
 
 
     renderer.render(
@@ -1261,15 +1434,6 @@ function animate() {
 
 
 animate();
-
-
-// ======================================================
-// START LOADING
-// ======================================================
-
-loadMuseum();
-
-loadPlayer();
 
 </script>
 
