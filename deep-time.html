@@ -1,0 +1,2381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Deep Time Calendar — DRAVYA</title>
+
+<style>
+
+/* =========================================================
+   FONT
+========================================================= */
+
+@font-face {
+    font-family: "Minecraft";
+    src: url("assets/fonts/Minecraft.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #02050b;
+    color: #eaf6ff;
+    font-family: "Minecraft", monospace;
+    overflow-x: hidden;
+}
+
+/* =========================================================
+   BACKGROUND VIDEO
+========================================================= */
+
+#bg-video {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.32;
+    pointer-events: none;
+}
+
+.video-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(15,70,120,0.18),
+            rgba(0,0,0,0.72) 65%,
+            rgba(0,0,0,0.94)
+        );
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.page {
+    position: relative;
+    z-index: 5;
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 20;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 22px 5vw;
+
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.72),
+        transparent
+    );
+}
+
+.logo {
+    font-size: 18px;
+    letter-spacing: 3px;
+    color: #ffffff;
+}
+
+.nav-links {
+    display: flex;
+    gap: 26px;
+}
+
+.nav-links a {
+    color: #b9d8ec;
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: white;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    padding: 120px 20px 80px;
+}
+
+.eyebrow {
+    font-size: 13px;
+    letter-spacing: 5px;
+    color: #6ca8d8;
+    margin-bottom: 30px;
+}
+
+.hero h1 {
+    font-size: clamp(48px, 9vw, 120px);
+    line-height: 0.95;
+    letter-spacing: 4px;
+    font-weight: normal;
+
+    text-shadow:
+        0 0 20px rgba(80,170,255,0.25),
+        0 0 60px rgba(30,100,180,0.15);
+}
+
+.hero h1 span {
+    color: #71b9ed;
+}
+
+.hero-subtitle {
+    max-width: 800px;
+    margin-top: 35px;
+
+    font-size: clamp(14px, 2vw, 20px);
+    line-height: 1.8;
+
+    color: #b9cddd;
+}
+
+.hero-note {
+    margin-top: 60px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #6c8191;
+}
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+section {
+    width: min(1200px, 90vw);
+    margin: auto;
+    padding: 130px 0;
+}
+
+.section-label {
+    color: #5d9ccc;
+    font-size: 11px;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: clamp(30px, 5vw, 65px);
+    font-weight: normal;
+    line-height: 1.1;
+    margin-bottom: 30px;
+}
+
+.section-description {
+    max-width: 760px;
+    color: #9eb5c6;
+    line-height: 1.9;
+    font-size: 14px;
+}
+
+/* =========================================================
+   SCALE CARDS
+========================================================= */
+
+.scale-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-top: 60px;
+}
+
+.scale-card {
+    border: 1px solid rgba(120,180,220,0.18);
+    background: rgba(5,18,30,0.58);
+
+    padding: 28px;
+
+    min-height: 170px;
+
+    transition: 0.35s;
+}
+
+.scale-card:hover {
+    border-color: rgba(120,190,240,0.55);
+    transform: translateY(-5px);
+}
+
+.scale-card .number {
+    font-size: 26px;
+    color: #72b8e8;
+    margin-bottom: 15px;
+}
+
+.scale-card .label {
+    font-size: 12px;
+    color: #b8cbd8;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   COSMIC CLOCK
+========================================================= */
+
+.clock-section {
+    text-align: center;
+}
+
+.cosmic-clock {
+    margin: 70px auto 30px;
+
+    width: min(650px, 85vw);
+    aspect-ratio: 1;
+
+    border-radius: 50%;
+
+    border:
+        1px solid rgba(120,190,240,0.3);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(20,80,130,0.18),
+            rgba(0,0,0,0.5) 65%
+        );
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 0 80px rgba(20,110,190,0.08),
+        inset 0 0 80px rgba(20,110,190,0.08);
+}
+
+.clock-center {
+    text-align: center;
+}
+
+.clock-time {
+    font-size: clamp(35px, 7vw, 70px);
+    color: white;
+}
+
+.clock-date {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #75b9e8;
+}
+
+.clock-caption {
+    margin-top: 20px;
+    color: #718999;
+    font-size: 11px;
+}
+
+/* clock marks */
+
+.clock-mark {
+    position: absolute;
+    width: 2px;
+    height: 13px;
+    background: rgba(150,210,245,0.35);
+
+    left: 50%;
+    top: 4%;
+
+    transform-origin: 50% 46.5%;
+}
+
+/* =========================================================
+   TIMELINE
+========================================================= */
+
+.timeline-section {
+    position: relative;
+}
+
+.timeline {
+    position: relative;
+    margin-top: 90px;
+}
+
+.timeline::before {
+    content: "";
+
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+
+    width: 1px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            rgba(100,180,230,0.5),
+            rgba(100,180,230,0.5),
+            transparent
+        );
+}
+
+.event {
+    position: relative;
+    width: 50%;
+
+    padding: 35px 60px;
+
+    opacity: 0.75;
+    transition: 0.35s;
+}
+
+.event:hover {
+    opacity: 1;
+}
+
+.event.left {
+    text-align: right;
+    left: 0;
+}
+
+.event.right {
+    left: 50%;
+}
+
+.event-dot {
+    position: absolute;
+
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: #75bde9;
+
+    box-shadow:
+        0 0 15px rgba(100,190,240,0.8);
+}
+
+.event.left .event-dot {
+    right: -5px;
+}
+
+.event.right .event-dot {
+    left: -5px;
+}
+
+.event-age {
+    font-size: 11px;
+    color: #5998c8;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+}
+
+.event h3 {
+    font-size: 22px;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.event p {
+    color: #92a9b8;
+    line-height: 1.7;
+    font-size: 12px;
+}
+
+/* =========================================================
+   GEOLOGICAL HIERARCHY
+========================================================= */
+
+.hierarchy {
+    margin-top: 70px;
+}
+
+.hierarchy-row {
+    display: flex;
+    align-items: stretch;
+
+    border-left: 2px solid rgba(100,180,230,0.35);
+
+    margin-bottom: 10px;
+
+    background: rgba(5,15,25,0.48);
+}
+
+.hierarchy-type {
+    width: 130px;
+    padding: 22px;
+
+    color: #5fa5d5;
+    font-size: 11px;
+    letter-spacing: 2px;
+
+    border-right: 1px solid rgba(100,180,230,0.15);
+}
+
+.hierarchy-content {
+    flex: 1;
+
+    padding: 22px;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.geo-unit {
+    border: 1px solid rgba(110,170,210,0.18);
+    padding: 9px 12px;
+
+    font-size: 11px;
+
+    color: #b7cad7;
+
+    transition: 0.25s;
+}
+
+.geo-unit:hover {
+    border-color: rgba(110,190,240,0.6);
+    color: white;
+}
+
+/* =========================================================
+   ZOOM SYSTEM
+========================================================= */
+
+.zoom-controls {
+    display: flex;
+    gap: 10px;
+
+    margin-top: 50px;
+
+    flex-wrap: wrap;
+}
+
+.zoom-btn {
+    background: rgba(10,25,40,0.75);
+
+    color: #9ebdce;
+
+    border: 1px solid rgba(100,180,220,0.2);
+
+    padding: 13px 18px;
+
+    font-family: inherit;
+    font-size: 11px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.zoom-btn:hover,
+.zoom-btn.active {
+    color: white;
+    border-color: #66afe0;
+}
+
+/* =========================================================
+   ZOOM DISPLAY
+========================================================= */
+
+.zoom-display {
+    margin-top: 35px;
+
+    border: 1px solid rgba(100,180,220,0.18);
+
+    background: rgba(2,10,18,0.7);
+
+    padding: 35px;
+}
+
+.zoom-title {
+    font-size: 28px;
+    margin-bottom: 12px;
+}
+
+.zoom-age {
+    color: #65aadb;
+    font-size: 12px;
+    margin-bottom: 25px;
+}
+
+.zoom-description {
+    color: #9bb1bf;
+    line-height: 1.8;
+    font-size: 13px;
+}
+
+/* =========================================================
+   GEOLOGICAL ERAS
+========================================================= */
+
+.eras {
+    margin-top: 70px;
+}
+
+.era {
+    position: relative;
+
+    border-left: 3px solid #4386b4;
+
+    padding: 25px 30px;
+
+    margin-bottom: 12px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(20,70,100,0.25),
+            rgba(3,10,18,0.45)
+        );
+}
+
+.era-name {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.era-age {
+    color: #62a8d8;
+    font-size: 11px;
+    margin-bottom: 15px;
+}
+
+.era-text {
+    color: #93aab8;
+    line-height: 1.8;
+    font-size: 12px;
+}
+
+/* =========================================================
+   HUMAN END
+========================================================= */
+
+.human-section {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.human-clock {
+    font-size: clamp(50px, 12vw, 150px);
+
+    color: white;
+
+    text-shadow:
+        0 0 30px rgba(100,190,240,0.4);
+}
+
+.human-title {
+    font-size: clamp(35px, 7vw, 80px);
+
+    margin-top: 30px;
+}
+
+.human-text {
+    max-width: 650px;
+
+    margin-top: 30px;
+
+    color: #9db2c0;
+
+    font-size: 14px;
+
+    line-height: 2;
+}
+
+/* =========================================================
+   SOURCES
+========================================================= */
+
+.sources {
+    border-top: 1px solid rgba(100,180,220,0.15);
+
+    padding-top: 50px;
+
+    margin-top: 100px;
+}
+
+.sources a {
+    color: #70add5;
+
+    text-decoration: none;
+
+    display: block;
+
+    margin: 12px 0;
+
+    font-size: 11px;
+}
+
+.sources a:hover {
+    color: white;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    padding: 100px 20px;
+
+    text-align: center;
+
+    border-top: 1px solid rgba(100,180,220,0.12);
+}
+
+.footer-brand {
+    font-size: 22px;
+
+    letter-spacing: 5px;
+
+    margin-bottom: 15px;
+}
+
+.footer-tagline {
+    color: #638095;
+
+    font-size: 10px;
+
+    letter-spacing: 4px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width: 800px) {
+
+    .nav-links {
+        display: none;
+    }
+
+    .scale-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .timeline::before {
+        left: 10px;
+    }
+
+    .event,
+    .event.left,
+    .event.right {
+        width: 100%;
+        left: 0;
+
+        text-align: left;
+
+        padding-left: 45px;
+        padding-right: 10px;
+    }
+
+    .event.left .event-dot,
+    .event.right .event-dot {
+        left: 5px;
+        right: auto;
+    }
+
+    .hierarchy-row {
+        flex-direction: column;
+    }
+
+    .hierarchy-type {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid rgba(100,180,220,0.15);
+    }
+}
+
+@media(max-width: 500px) {
+
+    .scale-grid {
+        grid-template-columns: 1fr;
+    }
+
+    section {
+        padding: 90px 0;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ======================================================
+     BACKGROUND
+====================================================== -->
+
+<video id="bg-video" autoplay muted loop playsinline>
+    <source
+        src="assets/dravya_vacuum_fluctuation_10s.mp4"
+        type="video/mp4">
+</video>
+
+<div class="video-overlay"></div>
+
+
+<div class="page">
+
+<!-- ======================================================
+     NAV
+====================================================== -->
+
+<nav>
+
+    <div class="logo">
+        DRAVYA
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html">HOME</a>
+        <a href="cosmic.html">COSMIC</a>
+        <a href="geochronology.html">GEOCHRONOLOGY</a>
+    </div>
+
+</nav>
+
+
+<!-- ======================================================
+     HERO
+====================================================== -->
+
+<header class="hero">
+
+    <div class="eyebrow">
+        COSMOS · EARTH · LIFE · HUMANITY
+    </div>
+
+    <h1>
+        DEEP<br>
+        <span>TIME</span>
+    </h1>
+
+    <p class="hero-subtitle">
+        What if the history of the Universe and the history of Earth
+        could exist on the same calendar?
+    </p>
+
+    <p class="hero-note">
+        ONE CALENDAR · 13.8 BILLION YEARS
+    </p>
+
+</header>
+
+
+<!-- ======================================================
+     INTRODUCTION
+====================================================== -->
+
+<section>
+
+    <div class="section-label">
+        THE IDEA
+    </div>
+
+    <h2 class="section-title">
+        A calendar for<br>
+        almost everything.
+    </h2>
+
+    <p class="section-description">
+
+        The Universe is approximately 13.8 billion years old.
+        Earth formed about 4.54 billion years ago.
+        Geological time then divides Earth's history into nested
+        intervals — eons, eras, periods, epochs and ages.
+
+        <br><br>
+
+        Here, we compress the age of the Universe into one
+        calendar year.
+
+        Every event keeps its approximate physical age.
+        The calendar simply gives our minds another way to see
+        the scale.
+
+    </p>
+
+
+    <div class="scale-grid">
+
+        <div class="scale-card">
+            <div class="number">13.8 Ga</div>
+            <div class="label">
+                The age represented by the complete calendar.
+            </div>
+        </div>
+
+        <div class="scale-card">
+            <div class="number">37.8 Ma</div>
+            <div class="label">
+                Approximately one calendar day.
+            </div>
+        </div>
+
+        <div class="scale-card">
+            <div class="number">26.3 ka</div>
+            <div class="label">
+                Approximately one calendar minute.
+            </div>
+        </div>
+
+        <div class="scale-card">
+            <div class="number">438 yr</div>
+            <div class="label">
+                Approximately one calendar second.
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     COSMIC CLOCK
+====================================================== -->
+
+<section class="clock-section">
+
+    <div class="section-label">
+        THE COSMIC CALENDAR
+    </div>
+
+    <h2 class="section-title">
+        One year.<br>
+        Thirteen point eight billion years.
+    </h2>
+
+    <p class="section-description" style="margin:auto;">
+        Move through the calendar and watch cosmic history
+        become geological history.
+    </p>
+
+
+    <div class="cosmic-clock">
+
+        <div class="clock-center">
+
+            <div
+                id="clockTime"
+                class="clock-time">
+                JAN 01
+            </div>
+
+            <div
+                id="clockDate"
+                class="clock-date">
+                THE BEGINNING
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="clock-caption">
+        VISUAL SCALE · NOT A SECONDARY TIME STANDARD
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     COSMIC → EARTH TIMELINE
+====================================================== -->
+
+<section class="timeline-section">
+
+    <div class="section-label">
+        THE TIMELINE
+    </div>
+
+    <h2 class="section-title">
+        From the first moments<br>
+        to the present.
+    </h2>
+
+    <p class="section-description">
+
+        These events are positioned according to their approximate
+        age before present. Their positions on the cosmic calendar
+        are calculated automatically.
+
+    </p>
+
+
+    <div class="timeline" id="timeline">
+
+        <!-- BIG BANG -->
+
+        <div
+            class="event left"
+            data-age="13800000000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~13.8 BILLION YEARS AGO
+            </div>
+
+            <h3>
+                The Big Bang
+            </h3>
+
+            <p>
+                The Universe begins expanding from an extremely
+                hot, dense early state.
+            </p>
+
+        </div>
+
+
+        <!-- RECOMBINATION -->
+
+        <div
+            class="event right"
+            data-age="13799620000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~13.8 BILLION YEARS AGO
+            </div>
+
+            <h3>
+                Recombination
+            </h3>
+
+            <p>
+                Hundreds of thousands of years after the beginning,
+                atoms form and the Universe becomes transparent
+                to light. The cosmic microwave background is released.
+            </p>
+
+        </div>
+
+
+        <!-- FIRST STARS -->
+
+        <div
+            class="event left"
+            data-age="13600000000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~13.6 BILLION YEARS AGO
+            </div>
+
+            <h3>
+                First Stars
+            </h3>
+
+            <p>
+                The first generations of stars ignite from primordial
+                matter, beginning a new era of stellar evolution.
+            </p>
+
+        </div>
+
+
+        <!-- GALAXIES -->
+
+        <div
+            class="event right"
+            data-age="13500000000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~13.5 BILLION YEARS AGO
+            </div>
+
+            <h3>
+                Early Galaxies
+            </h3>
+
+            <p>
+                Small early galaxies emerge and begin assembling
+                into the structures that populate the Universe today.
+            </p>
+
+        </div>
+
+
+        <!-- MILKY WAY -->
+
+        <div
+            class="event left"
+            data-age="13600000000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~13.6 BILLION YEARS AGO
+            </div>
+
+            <h3>
+                Milky Way
+            </h3>
+
+            <p>
+                Our galaxy grows through the assembly and merging
+                of smaller structures over cosmic time.
+            </p>
+
+        </div>
+
+
+        <!-- SOLAR SYSTEM -->
+
+        <div
+            class="event right"
+            data-age="4600000000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~4.6 BILLION YEARS AGO
+            </div>
+
+            <h3>
+                The Solar System
+            </h3>
+
+            <p>
+                The Sun and planets form from a rotating disk of
+                gas and dust surrounding the young Sun.
+            </p>
+
+        </div>
+
+
+        <!-- EARTH -->
+
+        <div
+            class="event left"
+            data-age="4540000000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~4.54 BILLION YEARS AGO
+            </div>
+
+            <h3>
+                Earth
+            </h3>
+
+            <p>
+                A rocky planet forms around the young Sun.
+            </p>
+
+        </div>
+
+
+        <!-- EARLY LIFE -->
+
+        <div
+            class="event right"
+            data-age="3700000000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~3.7 BILLION YEARS AGO
+            </div>
+
+            <h3>
+                Early Life
+            </h3>
+
+            <p>
+                Geological evidence points toward very ancient
+                microbial life on Earth.
+            </p>
+
+        </div>
+
+
+        <!-- GREAT OXIDATION -->
+
+        <div
+            class="event left"
+            data-age="2400000000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~2.4 BILLION YEARS AGO
+            </div>
+
+            <h3>
+                Great Oxidation Event
+            </h3>
+
+            <p>
+                Oxygen produced by photosynthetic organisms begins
+                accumulating significantly in Earth's atmosphere.
+            </p>
+
+        </div>
+
+
+        <!-- EUKARYOTES -->
+
+        <div
+            class="event right"
+            data-age="1800000000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~1.8 BILLION YEARS AGO
+            </div>
+
+            <h3>
+                Complex Cells
+            </h3>
+
+            <p>
+                Eukaryotic life becomes an increasingly important
+                part of Earth's biosphere.
+            </p>
+
+        </div>
+
+
+        <!-- CAMBRIAN -->
+
+        <div
+            class="event left"
+            data-age="538800000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~538.8 MILLION YEARS AGO
+            </div>
+
+            <h3>
+                Cambrian
+            </h3>
+
+            <p>
+                The Phanerozoic begins with the Cambrian and a major
+                diversification of animal life.
+            </p>
+
+        </div>
+
+
+        <!-- ORDOVICIAN -->
+
+        <div
+            class="event right"
+            data-age="485400000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~485.4 MILLION YEARS AGO
+            </div>
+
+            <h3>
+                Ordovician
+            </h3>
+
+            <p>
+                Marine ecosystems diversify dramatically.
+            </p>
+
+        </div>
+
+
+        <!-- DEVONIAN -->
+
+        <div
+            class="event left"
+            data-age="419200000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~419.2 MILLION YEARS AGO
+            </div>
+
+            <h3>
+                Devonian
+            </h3>
+
+            <p>
+                Often called the Age of Fishes. Vertebrates continue
+                expanding into new ecological environments.
+            </p>
+
+        </div>
+
+
+        <!-- CARBONIFEROUS -->
+
+        <div
+            class="event right"
+            data-age="358900000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~358.9 MILLION YEARS AGO
+            </div>
+
+            <h3>
+                Carboniferous
+            </h3>
+
+            <p>
+                Vast forests spread across parts of the planet,
+                contributing to deposits that later become coal.
+            </p>
+
+        </div>
+
+
+        <!-- PERMIAN -->
+
+        <div
+            class="event left"
+            data-age="298900000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~298.9 MILLION YEARS AGO
+            </div>
+
+            <h3>
+                Permian
+            </h3>
+
+            <p>
+                Supercontinent Pangaea dominates Earth's geography.
+                The period ends with the largest known mass extinction.
+            </p>
+
+        </div>
+
+
+        <!-- TRIASSIC -->
+
+        <div
+            class="event right"
+            data-age="251900000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~251.9 MILLION YEARS AGO
+            </div>
+
+            <h3>
+                Triassic
+            </h3>
+
+            <p>
+                Ecosystems recover and dinosaurs appear during the
+                early stages of the Mesozoic.
+            </p>
+
+        </div>
+
+
+        <!-- JURASSIC -->
+
+        <div
+            class="event left"
+            data-age="201400000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~201.4 MILLION YEARS AGO
+            </div>
+
+            <h3>
+                Jurassic
+            </h3>
+
+            <p>
+                Dinosaurs become major components of terrestrial
+                ecosystems while the supercontinent begins breaking apart.
+            </p>
+
+        </div>
+
+
+        <!-- CRETACEOUS -->
+
+        <div
+            class="event right"
+            data-age="145000000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~145 MILLION YEARS AGO
+            </div>
+
+            <h3>
+                Cretaceous
+            </h3>
+
+            <p>
+                Flowering plants diversify and dinosaurs continue
+                dominating many terrestrial ecosystems.
+            </p>
+
+        </div>
+
+
+        <!-- KPG -->
+
+        <div
+            class="event left"
+            data-age="66000000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                66 MILLION YEARS AGO
+            </div>
+
+            <h3>
+                K–Pg Boundary
+            </h3>
+
+            <p>
+                A major mass extinction marks the end of the Cretaceous
+                and non-avian dinosaurs.
+            </p>
+
+        </div>
+
+
+        <!-- QUATERNARY -->
+
+        <div
+            class="event right"
+            data-age="2580000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                2.58 MILLION YEARS AGO
+            </div>
+
+            <h3>
+                Quaternary
+            </h3>
+
+            <p>
+                The current geological period begins.
+                Ice-age cycles become a defining feature.
+            </p>
+
+        </div>
+
+
+        <!-- HOMO SAPIENS -->
+
+        <div
+            class="event left"
+            data-age="300000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~300,000 YEARS AGO
+            </div>
+
+            <h3>
+                Homo sapiens
+            </h3>
+
+            <p>
+                Our species emerges in Africa.
+            </p>
+
+        </div>
+
+
+        <!-- AGRICULTURE -->
+
+        <div
+            class="event right"
+            data-age="12000">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~12,000 YEARS AGO
+            </div>
+
+            <h3>
+                Agriculture
+            </h3>
+
+            <p>
+                Human societies increasingly domesticate plants and
+                animals and establish permanent settlements.
+            </p>
+
+        </div>
+
+
+        <!-- WRITING -->
+
+        <div
+            class="event left"
+            data-age="5500">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                ~5,500 YEARS AGO
+            </div>
+
+            <h3>
+                Writing
+            </h3>
+
+            <p>
+                Written systems emerge, creating durable records of
+                human societies.
+            </p>
+
+        </div>
+
+
+        <!-- PRESENT -->
+
+        <div
+            class="event right"
+            data-age="0">
+
+            <div class="event-dot"></div>
+
+            <div class="event-age">
+                NOW
+            </div>
+
+            <h3>
+                You are here.
+            </h3>
+
+            <p>
+                The entire cosmic calendar has led to this moment.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     GEOLOGICAL HIERARCHY
+====================================================== -->
+
+<section>
+
+    <div class="section-label">
+        GEOLOGICAL TIME SCALE
+    </div>
+
+    <h2 class="section-title">
+        Earth's history<br>
+        has structure.
+    </h2>
+
+    <p class="section-description">
+
+        Geochronology does not simply divide time into arbitrary
+        pieces. Geological units are established using evidence
+        preserved in rocks, fossils, isotopic systems and globally
+        correlatable boundaries.
+
+    </p>
+
+
+    <div class="hierarchy">
+
+        <!-- EONS -->
+
+        <div class="hierarchy-row">
+
+            <div class="hierarchy-type">
+                EONS
+            </div>
+
+            <div class="hierarchy-content">
+
+                <div class="geo-unit">Hadean</div>
+                <div class="geo-unit">Archean</div>
+                <div class="geo-unit">Proterozoic</div>
+                <div class="geo-unit">Phanerozoic</div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ERAS -->
+
+        <div class="hierarchy-row">
+
+            <div class="hierarchy-type">
+                ERAS
+            </div>
+
+            <div class="hierarchy-content">
+
+                <div class="geo-unit">Eoarchean</div>
+                <div class="geo-unit">Paleoarchean</div>
+                <div class="geo-unit">Mesoarchean</div>
+                <div class="geo-unit">Neoarchean</div>
+
+                <div class="geo-unit">Paleoproterozoic</div>
+                <div class="geo-unit">Mesoproterozoic</div>
+                <div class="geo-unit">Neoproterozoic</div>
+
+                <div class="geo-unit">Paleozoic</div>
+                <div class="geo-unit">Mesozoic</div>
+                <div class="geo-unit">Cenozoic</div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PERIODS -->
+
+        <div class="hierarchy-row">
+
+            <div class="hierarchy-type">
+                PERIODS
+            </div>
+
+            <div class="hierarchy-content">
+
+                <div class="geo-unit">Cambrian</div>
+                <div class="geo-unit">Ordovician</div>
+                <div class="geo-unit">Silurian</div>
+                <div class="geo-unit">Devonian</div>
+                <div class="geo-unit">Carboniferous</div>
+                <div class="geo-unit">Permian</div>
+
+                <div class="geo-unit">Triassic</div>
+                <div class="geo-unit">Jurassic</div>
+                <div class="geo-unit">Cretaceous</div>
+
+                <div class="geo-unit">Paleogene</div>
+                <div class="geo-unit">Neogene</div>
+                <div class="geo-unit">Quaternary</div>
+
+            </div>
+
+        </div>
+
+
+        <!-- EPOCHS -->
+
+        <div class="hierarchy-row">
+
+            <div class="hierarchy-type">
+                EPOCHS
+            </div>
+
+            <div class="hierarchy-content">
+
+                <div class="geo-unit">Paleocene</div>
+                <div class="geo-unit">Eocene</div>
+                <div class="geo-unit">Oligocene</div>
+
+                <div class="geo-unit">Miocene</div>
+                <div class="geo-unit">Pliocene</div>
+
+                <div class="geo-unit">Pleistocene</div>
+                <div class="geo-unit">Holocene</div>
+
+            </div>
+
+        </div>
+
+
+        <!-- AGES -->
+
+        <div class="hierarchy-row">
+
+            <div class="hierarchy-type">
+                AGES
+            </div>
+
+            <div class="hierarchy-content">
+
+                <div class="geo-unit">Gelasian</div>
+                <div class="geo-unit">Calabrian</div>
+                <div class="geo-unit">Chibanian</div>
+
+                <div class="geo-unit">Greenlandian</div>
+                <div class="geo-unit">Northgrippian</div>
+                <div class="geo-unit">Meghalayan</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     GEOLOGICAL STORY
+====================================================== -->
+
+<section>
+
+    <div class="section-label">
+        EARTH IN DETAIL
+    </div>
+
+    <h2 class="section-title">
+        Zoom into<br>
+        geological time.
+    </h2>
+
+
+    <div class="zoom-controls">
+
+        <button class="zoom-btn active"
+            data-zoom="earth">
+            EARTH
+        </button>
+
+        <button class="zoom-btn"
+            data-zoom="phanerozoic">
+            PHANEROZOIC
+        </button>
+
+        <button class="zoom-btn"
+            data-zoom="mesozoic">
+            MESOZOIC
+        </button>
+
+        <button class="zoom-btn"
+            data-zoom="cenozoic">
+            CENOZOIC
+        </button>
+
+        <button class="zoom-btn"
+            data-zoom="quaternary">
+            QUATERNARY
+        </button>
+
+        <button class="zoom-btn"
+            data-zoom="holocene">
+            HOLOCENE
+        </button>
+
+    </div>
+
+
+    <div class="zoom-display">
+
+        <div
+            id="zoomTitle"
+            class="zoom-title">
+            Earth
+        </div>
+
+        <div
+            id="zoomAge"
+            class="zoom-age">
+            ~4.54 BILLION YEARS
+        </div>
+
+        <div
+            id="zoomDescription"
+            class="zoom-description">
+
+            Earth has existed for approximately 4.54 billion years.
+            Its geological history contains enormous intervals that
+            predate complex life, dinosaurs and humanity.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     GEOLOGICAL ERAS
+====================================================== -->
+
+<section>
+
+    <div class="section-label">
+        THE PHANEROZOIC
+    </div>
+
+    <h2 class="section-title">
+        The visible<br>
+        fossil record.
+    </h2>
+
+
+    <div class="eras">
+
+        <div class="era">
+
+            <div class="era-name">
+                PALEOZOIC
+            </div>
+
+            <div class="era-age">
+                ~538.8 – 251.9 Ma
+            </div>
+
+            <div class="era-text">
+                Marine diversification, the colonisation of land,
+                forests, early vertebrates and the rise of complex
+                terrestrial ecosystems.
+            </div>
+
+        </div>
+
+
+        <div class="era">
+
+            <div class="era-name">
+                MESOZOIC
+            </div>
+
+            <div class="era-age">
+                ~251.9 – 66 Ma
+            </div>
+
+            <div class="era-text">
+                Triassic, Jurassic and Cretaceous worlds.
+                Dinosaurs dominate many terrestrial ecosystems.
+                Birds and flowering plants emerge and diversify.
+            </div>
+
+        </div>
+
+
+        <div class="era">
+
+            <div class="era-name">
+                CENOZOIC
+            </div>
+
+            <div class="era-age">
+                66 Ma – present
+            </div>
+
+            <div class="era-text">
+                Mammals diversify after the end-Cretaceous extinction.
+                Primates evolve, climates shift and eventually humans
+                become a geological force.
+            </div>
+
+        </div>
+
+
+        <div class="era">
+
+            <div class="era-name">
+                QUATERNARY
+            </div>
+
+            <div class="era-age">
+                2.58 Ma – present
+            </div>
+
+            <div class="era-text">
+                The current geological period, containing the
+                Pleistocene and Holocene.
+            </div>
+
+        </div>
+
+
+        <div class="era">
+
+            <div class="era-name">
+                HOLOCENE
+            </div>
+
+            <div class="era-age">
+                11.7 ka – present
+            </div>
+
+            <div class="era-text">
+                The current geological epoch. It contains the
+                Greenlandian, Northgrippian and Meghalayan ages.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     HUMAN SCALE
+====================================================== -->
+
+<section>
+
+    <div class="section-label">
+        ZOOM ALL THE WAY IN
+    </div>
+
+    <h2 class="section-title">
+        13.8 billion years<br>
+        become a second.
+    </h2>
+
+    <p class="section-description">
+
+        On the cosmic calendar, one second represents roughly
+        438 years.
+
+        <br><br>
+
+        Agriculture occupies only the final few tens of seconds.
+        Recorded history is only a handful of seconds.
+        A human lifetime is measured in fractions of a second.
+
+    </p>
+
+</section>
+
+
+<!-- ======================================================
+     YOU
+====================================================== -->
+
+<section class="human-section">
+
+    <div class="section-label">
+        THE PRESENT
+    </div>
+
+    <div
+        id="humanClock"
+        class="human-clock">
+        23:59:59
+    </div>
+
+    <div class="human-title">
+        YOU
+    </div>
+
+    <p class="human-text">
+
+        You are not outside the timeline.
+
+        <br><br>
+
+        You are a temporary configuration of matter,
+        energy, information and history —
+
+        <br><br>
+
+        appearing near the final instant
+        of a 13.8-billion-year story.
+
+    </p>
+
+</section>
+
+
+<!-- ======================================================
+     SOURCES
+====================================================== -->
+
+<section>
+
+    <div class="section-label">
+        SOURCES
+    </div>
+
+    <h2 class="section-title">
+        Follow the evidence.
+    </h2>
+
+    <div class="sources">
+
+        <a
+            href="https://stratigraphy.org/supplementary"
+            target="_blank">
+            International Commission on Stratigraphy — International Chronostratigraphic Chart
+        </a>
+
+        <a
+            href="https://www.usgs.gov/publications/divisions-geologic-time-major-chronostratigraphic-and-geochronologic-units"
+            target="_blank">
+            USGS — Divisions of Geologic Time
+        </a>
+
+        <a
+            href="https://science.nasa.gov/universe/overview/"
+            target="_blank">
+            NASA — Universe Overview
+        </a>
+
+        <a
+            href="https://science.nasa.gov/exoplanets/what-is-the-universe/"
+            target="_blank">
+            NASA — What Is the Universe?
+        </a>
+
+        <a
+            href="https://science.nasa.gov/mission/hubble/science/science-behind-the-discoveries/hubble-big-bang/"
+            target="_blank">
+            NASA — Hubble and the Big Bang
+        </a>
+
+        <a
+            href="https://www.nhm.ac.uk/discover/when-did-dinosaurs-live.html"
+            target="_blank">
+            Natural History Museum — When Did Dinosaurs Live?
+        </a>
+
+        <a
+            href="https://quaternary.stratigraphy.org/major-divisions"
+            target="_blank">
+            International Commission on Stratigraphy — Holocene Divisions
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+    <div class="footer-brand">
+        DRAVYA
+    </div>
+
+    <div class="footer-tagline">
+        OBSERVE · DISTURB · CREATE
+    </div>
+
+</footer>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   COSMIC CALENDAR
+========================================================= */
+
+const UNIVERSE_AGE = 13.8e9;
+
+/*
+    One cosmic year = age of Universe.
+
+    ageAgo = how many years before present
+
+    elapsedSinceBeginning =
+        universeAge - ageAgo
+*/
+
+function cosmicDate(ageAgo) {
+
+    let elapsed =
+        UNIVERSE_AGE - ageAgo;
+
+    if (elapsed < 0) elapsed = 0;
+
+    let fraction =
+        elapsed / UNIVERSE_AGE;
+
+    let totalSeconds =
+        fraction * 365 * 24 * 60 * 60;
+
+    let day =
+        Math.floor(
+            totalSeconds / 86400
+        );
+
+    let remainder =
+        totalSeconds % 86400;
+
+    let hour =
+        Math.floor(
+            remainder / 3600
+        );
+
+    remainder %= 3600;
+
+    let minute =
+        Math.floor(
+            remainder / 60
+        );
+
+    let second =
+        Math.floor(
+            remainder % 60
+        );
+
+    return {
+        day,
+        hour,
+        minute,
+        second
+    };
+}
+
+
+/* =========================================================
+   FORMAT
+========================================================= */
+
+function monthDay(dayOfYear) {
+
+    const months = [
+        ["JAN",31],
+        ["FEB",28],
+        ["MAR",31],
+        ["APR",30],
+        ["MAY",31],
+        ["JUN",30],
+        ["JUL",31],
+        ["AUG",31],
+        ["SEP",30],
+        ["OCT",31],
+        ["NOV",30],
+        ["DEC",31]
+    ];
+
+    let remaining = dayOfYear;
+
+    for (let i = 0; i < months.length; i++) {
+
+        if (remaining < months[i][1]) {
+
+            return months[i][0] +
+                " " +
+                String(remaining + 1).padStart(2,"0");
+        }
+
+        remaining -= months[i][1];
+    }
+
+    return "DEC 31";
+}
+
+
+/* =========================================================
+   UPDATE CLOCK
+========================================================= */
+
+function updateClock() {
+
+    const now =
+        window.scrollY /
+        (
+            document.body.scrollHeight -
+            window.innerHeight
+        );
+
+    const ageAgo =
+        UNIVERSE_AGE *
+        (1 - now);
+
+    const date =
+        cosmicDate(ageAgo);
+
+    const dateString =
+        monthDay(date.day);
+
+    const timeString =
+        String(date.hour).padStart(2,"0")
+        + ":"
+        + String(date.minute).padStart(2,"0")
+        + ":"
+        + String(date.second).padStart(2,"0");
+
+    document.getElementById(
+        "clockTime"
+    ).textContent = dateString;
+
+    document.getElementById(
+        "clockDate"
+    ).textContent =
+        timeString +
+        " · COSMIC TIME";
+
+    document.getElementById(
+        "humanClock"
+    ).textContent =
+        timeString;
+}
+
+
+window.addEventListener(
+    "scroll",
+    updateClock
+);
+
+updateClock();
+
+
+/* =========================================================
+   CLOCK MARKS
+========================================================= */
+
+const clock =
+    document.querySelector(".cosmic-clock");
+
+for (let i = 0; i < 12; i++) {
+
+    const mark =
+        document.createElement("div");
+
+    mark.className =
+        "clock-mark";
+
+    mark.style.transform =
+        `rotate(${i * 30}deg)`;
+
+    clock.appendChild(mark);
+}
+
+
+/* =========================================================
+   TIMELINE EVENT CALENDAR DATES
+========================================================= */
+
+document.querySelectorAll(
+    ".event[data-age]"
+).forEach(event => {
+
+    const age =
+        Number(
+            event.dataset.age
+        );
+
+    const date =
+        cosmicDate(age);
+
+    const calendarDate =
+        monthDay(date.day);
+
+    const label =
+        event.querySelector(".event-age");
+
+    if (age !== 0) {
+
+        label.textContent =
+            label.textContent +
+            " · " +
+            calendarDate +
+            " · " +
+            String(date.hour).padStart(2,"0") +
+            ":" +
+            String(date.minute).padStart(2,"0") +
+            ":" +
+            String(date.second).padStart(2,"0");
+
+    }
+
+});
+
+
+/* =========================================================
+   GEOLOGICAL ZOOM
+========================================================= */
+
+const zoomData = {
+
+    earth: {
+        title: "Earth",
+        age: "~4.54 BILLION YEARS",
+        text:
+            "Earth formed approximately 4.54 billion years ago. " +
+            "Its history contains the Hadean, Archean, Proterozoic " +
+            "and Phanerozoic eons."
+    },
+
+    phanerozoic: {
+        title: "Phanerozoic",
+        age: "~538.8 MILLION YEARS – PRESENT",
+        text:
+            "The Phanerozoic is the eon of abundant visible fossil " +
+            "life. It contains the Paleozoic, Mesozoic and Cenozoic eras."
+    },
+
+    mesozoic: {
+        title: "Mesozoic",
+        age: "~251.9 – 66 MILLION YEARS",
+        text:
+            "The Mesozoic consists of the Triassic, Jurassic and " +
+            "Cretaceous periods. Dinosaurs became major components " +
+            "of terrestrial ecosystems during this interval."
+    },
+
+    cenozoic: {
+        title: "Cenozoic",
+        age: "66 MILLION YEARS – PRESENT",
+        text:
+            "The Cenozoic follows the end-Cretaceous mass extinction. " +
+            "Mammals diversify, climates change and primates eventually " +
+            "give rise to humans."
+    },
+
+    quaternary: {
+        title: "Quaternary",
+        age: "2.58 MILLION YEARS – PRESENT",
+        text:
+            "The Quaternary is the current geological period. " +
+            "It contains the Pleistocene and Holocene epochs."
+    },
+
+    holocene: {
+        title: "Holocene",
+        age: "11,700 YEARS – PRESENT",
+        text:
+            "The Holocene is the current geological epoch. " +
+            "Its formal ages are the Greenlandian, Northgrippian " +
+            "and Meghalayan."
+    }
+
+};
+
+
+document.querySelectorAll(
+    ".zoom-btn"
+).forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            document.querySelectorAll(
+                ".zoom-btn"
+            ).forEach(b =>
+                b.classList.remove("active")
+            );
+
+            button.classList.add(
+                "active"
+            );
+
+            const data =
+                zoomData[
+                    button.dataset.zoom
+                ];
+
+            document.getElementById(
+                "zoomTitle"
+            ).textContent =
+                data.title;
+
+            document.getElementById(
+                "zoomAge"
+            ).textContent =
+                data.age;
+
+            document.getElementById(
+                "zoomDescription"
+            ).textContent =
+                data.text;
+        }
+    );
+
+});
+
+
+/* =========================================================
+   VIDEO AUTOPLAY FALLBACK
+========================================================= */
+
+const video =
+    document.getElementById(
+        "bg-video"
+    );
+
+video.play().catch(() => {
+    document.addEventListener(
+        "click",
+        () => video.play(),
+        { once:true }
+    );
+});
+
+</script>
+
+</body>
+</html>
