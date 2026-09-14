@@ -1,0 +1,2671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cosmic Calendar — DRAVYA</title>
+
+<meta
+    name="description"
+    content="The Cosmic Calendar — 13.8 billion years of cosmic history compressed into one year."
+>
+
+<style>
+
+/* =========================================================
+   DRAVYA — COSMIC CALENDAR
+   ========================================================= */
+
+@font-face {
+    font-family: "Dark";
+    src: url("assets/fonts/Dark.ttf") format("truetype");
+    font-display: swap;
+}
+
+:root {
+    --white: #edf8ff;
+    --blue: #75cfff;
+    --cyan: #a8eaff;
+    --muted: #8ea8bb;
+
+    --bg: #01040a;
+
+    --panel:
+        rgba(2, 12, 26, 0.72);
+
+    --border:
+        rgba(110, 205, 255, 0.18);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--bg);
+
+    color: var(--white);
+
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    line-height: 1.7;
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   VIDEO
+   ========================================================= */
+
+#background-video {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    z-index: 0;
+
+    opacity: 0.40;
+
+    pointer-events: none;
+}
+
+
+.video-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(0, 55, 100, 0.08),
+            rgba(0, 0, 0, 0.82) 75%
+        );
+}
+
+
+/* =========================================================
+   PARTICLE FIELD
+   ========================================================= */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 2;
+
+    pointer-events: none;
+
+    opacity: 0.08;
+
+    background-image:
+        radial-gradient(
+            rgba(150, 220, 255, 0.8) 1px,
+            transparent 1px
+        );
+
+    background-size: 80px 80px;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+nav,
+main,
+footer {
+
+    position: relative;
+
+    z-index: 5;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+nav {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    padding: 20px 5vw;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    z-index: 20;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0, 4, 12, 0.92),
+            rgba(0, 4, 12, 0)
+        );
+
+    backdrop-filter: blur(8px);
+}
+
+.logo {
+
+    font-family: "Dark", sans-serif;
+
+    font-size: 1.2rem;
+
+    letter-spacing: 0.18em;
+
+    color: white;
+}
+
+.links {
+
+    display: flex;
+
+    gap: 25px;
+
+    align-items: center;
+}
+
+.links a {
+
+    color: #b7d8ea;
+
+    text-decoration: none;
+
+    font-size: 0.7rem;
+
+    letter-spacing: 0.13em;
+
+    text-transform: uppercase;
+
+    transition: 0.3s ease;
+}
+
+.links a:hover {
+
+    color: white;
+
+    text-shadow:
+        0 0 15px
+        rgba(100, 210, 255, 0.9);
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    padding:
+        150px
+        8vw
+        100px;
+}
+
+.hero-content {
+
+    max-width: 1100px;
+}
+
+.eyebrow {
+
+    color: var(--cyan);
+
+    font-size: 0.75rem;
+
+    letter-spacing: 0.35em;
+
+    text-transform: uppercase;
+
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+
+    font-family: "Dark", sans-serif;
+
+    font-size:
+        clamp(
+            4.5rem,
+            12vw,
+            11rem
+        );
+
+    line-height: 0.85;
+
+    font-weight: 400;
+
+    letter-spacing: 0.04em;
+
+    margin-bottom: 35px;
+
+    text-shadow:
+        0 0 50px
+        rgba(70, 190, 255, 0.3);
+}
+
+.hero h2 {
+
+    max-width: 900px;
+
+    font-size:
+        clamp(
+            1.3rem,
+            3vw,
+            2.3rem
+        );
+
+    font-weight: 300;
+
+    color: #dceefa;
+}
+
+.hero-description {
+
+    max-width: 750px;
+
+    color: var(--muted);
+
+    margin-top: 30px;
+
+    font-size: 1rem;
+}
+
+.scroll {
+
+    margin-top: 70px;
+
+    color: var(--blue);
+
+    font-size: 0.7rem;
+
+    letter-spacing: 0.3em;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   SECTIONS
+   ========================================================= */
+
+section {
+
+    padding:
+        130px
+        7vw;
+}
+
+.section-number {
+
+    color: var(--blue);
+
+    font-size: 0.7rem;
+
+    letter-spacing: 0.3em;
+
+    text-transform: uppercase;
+
+    margin-bottom: 15px;
+}
+
+section h2 {
+
+    font-family: "Dark", sans-serif;
+
+    font-weight: 400;
+
+    font-size:
+        clamp(
+            2.8rem,
+            7vw,
+            6rem
+        );
+
+    line-height: 1;
+
+    margin-bottom: 25px;
+}
+
+.intro {
+
+    max-width: 850px;
+
+    color: var(--muted);
+
+    font-size: 1.05rem;
+
+    margin-bottom: 60px;
+}
+
+
+/* =========================================================
+   COSMIC NUMBER
+   ========================================================= */
+
+.cosmic-number {
+
+    text-align: center;
+
+    padding:
+        120px
+        20px;
+}
+
+.big-number {
+
+    font-family: "Dark", sans-serif;
+
+    font-size:
+        clamp(
+            5rem,
+            17vw,
+            15rem
+        );
+
+    line-height: 0.8;
+
+    text-shadow:
+        0 0 60px
+        rgba(80, 200, 255, 0.28);
+}
+
+.number-label {
+
+    margin-top: 30px;
+
+    color: var(--cyan);
+
+    font-size: 0.8rem;
+
+    letter-spacing: 0.3em;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   CALENDAR INTRO
+   ========================================================= */
+
+.calendar-intro {
+
+    max-width: 1000px;
+
+    margin: auto;
+
+    text-align: center;
+}
+
+.calendar-equation {
+
+    font-family:
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(
+            1.5rem,
+            4vw,
+            3rem
+        );
+
+    margin:
+        45px
+        0;
+
+    color: white;
+}
+
+.calendar-equation span {
+
+    color: var(--cyan);
+}
+
+
+/* =========================================================
+   MONTH NAVIGATION
+   ========================================================= */
+
+.month-nav {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    margin:
+        50px
+        auto
+        80px;
+
+    max-width: 1100px;
+}
+
+.month-button {
+
+    cursor: pointer;
+
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        rgba(5, 25, 45, 0.6);
+
+    color: #9dbbce;
+
+    padding:
+        10px
+        15px;
+
+    font-size: 0.68rem;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+
+    transition: 0.25s ease;
+}
+
+.month-button:hover,
+.month-button.active {
+
+    color: white;
+
+    border-color:
+        rgba(120, 215, 255, 0.6);
+
+    background:
+        rgba(30, 100, 150, 0.3);
+
+    box-shadow:
+        0 0 20px
+        rgba(70, 180, 255, 0.12);
+}
+
+
+/* =========================================================
+   CALENDAR TIMELINE
+   ========================================================= */
+
+.calendar {
+
+    max-width: 1100px;
+
+    margin: auto;
+
+    position: relative;
+}
+
+.calendar::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 32px;
+
+    top: 0;
+
+    bottom: 0;
+
+    width: 1px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            rgba(100, 210, 255, 0.45),
+            transparent
+        );
+}
+
+
+/* =========================================================
+   MONTH
+   ========================================================= */
+
+.month {
+
+    position: relative;
+
+    padding-left: 85px;
+
+    margin-bottom: 100px;
+}
+
+.month-marker {
+
+    position: absolute;
+
+    left: 22px;
+
+    top: 8px;
+
+    width: 21px;
+
+    height: 21px;
+
+    border-radius: 50%;
+
+    background:
+        #78d7ff;
+
+    box-shadow:
+        0 0 25px
+        rgba(80, 210, 255, 0.75);
+}
+
+.month h3 {
+
+    font-family: "Dark", sans-serif;
+
+    font-size: 3rem;
+
+    font-weight: 400;
+
+    margin-bottom: 5px;
+}
+
+.month-subtitle {
+
+    color: var(--cyan);
+
+    font-size: 0.72rem;
+
+    letter-spacing: 0.18em;
+
+    text-transform: uppercase;
+
+    margin-bottom: 30px;
+}
+
+
+/* =========================================================
+   EVENT
+   ========================================================= */
+
+.event {
+
+    position: relative;
+
+    margin:
+        20px
+        0;
+
+    padding: 28px 30px;
+
+    border:
+        1px solid
+        rgba(110, 205, 255, 0.14);
+
+    background:
+        rgba(2, 15, 30, 0.62);
+
+    backdrop-filter: blur(12px);
+
+    transition:
+        transform 0.35s ease,
+        border-color 0.35s ease,
+        background 0.35s ease;
+}
+
+.event:hover {
+
+    transform:
+        translateX(8px);
+
+    border-color:
+        rgba(120, 215, 255, 0.45);
+
+    background:
+        rgba(10, 45, 75, 0.65);
+}
+
+.event-time {
+
+    color: var(--blue);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 0.78rem;
+
+    letter-spacing: 0.08em;
+
+    margin-bottom: 8px;
+}
+
+.event h4 {
+
+    font-family: "Dark", sans-serif;
+
+    font-size: 1.8rem;
+
+    font-weight: 400;
+
+    margin-bottom: 8px;
+}
+
+.event p {
+
+    color: var(--muted);
+
+    font-size: 0.88rem;
+
+    max-width: 800px;
+}
+
+
+/* =========================================================
+   SPECIAL EVENT
+   ========================================================= */
+
+.event.major {
+
+    border-color:
+        rgba(120, 220, 255, 0.35);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(15, 65, 100, 0.55),
+            rgba(0, 12, 25, 0.7)
+        );
+}
+
+.event.major h4 {
+
+    font-size: 2.3rem;
+}
+
+
+/* =========================================================
+   SOLAR SYSTEM
+   ========================================================= */
+
+.solar-system {
+
+    min-height: 90vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+}
+
+.solar-content {
+
+    max-width: 900px;
+}
+
+.orbit {
+
+    width:
+        min(
+            70vw,
+            500px
+        );
+
+    height:
+        min(
+            70vw,
+            500px
+        );
+
+    border:
+        1px solid
+        rgba(100, 200, 255, 0.15);
+
+    border-radius: 50%;
+
+    margin:
+        60px
+        auto;
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.sun {
+
+    width: 70px;
+
+    height: 70px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            white,
+            #7bd8ff 35%,
+            rgba(80, 180, 255, 0.2) 70%,
+            transparent 72%
+        );
+
+    box-shadow:
+        0 0 70px
+        rgba(80, 200, 255, 0.7);
+}
+
+.earth-dot {
+
+    position: absolute;
+
+    width: 12px;
+
+    height: 12px;
+
+    border-radius: 50%;
+
+    background: #8edfff;
+
+    box-shadow:
+        0 0 20px
+        rgba(100, 210, 255, 0.9);
+
+    top: 4%;
+
+    left: calc(50% - 6px);
+}
+
+
+/* =========================================================
+   LAST DAY
+   ========================================================= */
+
+.last-day {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+}
+
+.last-day-content {
+
+    max-width: 1000px;
+}
+
+.last-day h2 {
+
+    font-size:
+        clamp(
+            4rem,
+            10vw,
+            9rem
+        );
+}
+
+.clock-time {
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size:
+        clamp(
+            2rem,
+            6vw,
+            5rem
+        );
+
+    color: var(--cyan);
+
+    margin:
+        35px
+        0;
+}
+
+.last-day p {
+
+    max-width: 700px;
+
+    margin: auto;
+
+    color: var(--muted);
+
+    font-size: 1.05rem;
+}
+
+
+/* =========================================================
+   YOU
+   ========================================================= */
+
+.you {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+}
+
+.you-inner {
+
+    max-width: 1000px;
+}
+
+.you h2 {
+
+    font-size:
+        clamp(
+            4rem,
+            12vw,
+            11rem
+        );
+
+    margin-bottom: 40px;
+}
+
+.you-line {
+
+    font-family: "Dark", sans-serif;
+
+    font-size:
+        clamp(
+            1.5rem,
+            4vw,
+            3.5rem
+        );
+
+    color: white;
+
+    margin-bottom: 30px;
+}
+
+.you p {
+
+    max-width: 750px;
+
+    margin: auto;
+
+    color: var(--muted);
+}
+
+
+/* =========================================================
+   SOURCES
+   ========================================================= */
+
+.sources {
+
+    max-width: 1000px;
+
+    margin: auto;
+}
+
+.sources ul {
+
+    list-style: none;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+.sources li {
+
+    padding:
+        18px
+        22px;
+
+    background:
+        rgba(0, 15, 30, 0.55);
+
+    border:
+        1px solid
+        rgba(100, 190, 255, 0.15);
+}
+
+.sources a {
+
+    color: var(--cyan);
+
+    text-decoration: none;
+}
+
+.sources a:hover {
+
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+
+    padding:
+        60px
+        7vw;
+
+    border-top:
+        1px solid
+        rgba(100, 190, 255, 0.12);
+
+    color: #6e899d;
+
+    font-size: 0.72rem;
+
+    letter-spacing: 0.15em;
+}
+
+footer strong {
+
+    color: white;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 750px) {
+
+    nav {
+
+        padding:
+            15px
+            20px;
+    }
+
+    .links {
+
+        display: none;
+    }
+
+    .hero {
+
+        padding:
+            130px
+            25px
+            80px;
+    }
+
+    section {
+
+        padding:
+            90px
+            25px;
+    }
+
+    .calendar::before {
+
+        left: 15px;
+    }
+
+    .month {
+
+        padding-left: 45px;
+    }
+
+    .month-marker {
+
+        left: 5px;
+    }
+
+    .month h3 {
+
+        font-size: 2.4rem;
+    }
+
+    .event {
+
+        padding: 22px;
+    }
+
+    .big-number {
+
+        font-size: 5rem;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     BACKGROUND
+     ===================================================== -->
+
+<video
+    id="background-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    aria-hidden="true"
+>
+
+    <source
+        src="assets/dravya_vacuum_fluctuation_10s.mp4"
+        type="video/mp4"
+    >
+
+</video>
+
+<div class="video-overlay"></div>
+
+
+<!-- =====================================================
+     NAVIGATION
+     ===================================================== -->
+
+<nav>
+
+    <div class="logo">
+        DRAVYA / COSMIC CALENDAR
+    </div>
+
+    <div class="links">
+
+        <a href="index.html">
+            DRAVYA
+        </a>
+
+        <a href="geochronology.html">
+            Geochronology
+        </a>
+
+        <a href="#calendar">
+            Calendar
+        </a>
+
+        <a href="#you">
+            You
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main>
+
+
+<!-- =====================================================
+     HERO
+     ===================================================== -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="eyebrow">
+            Space · Time · Evolution
+        </div>
+
+        <h1>
+            COSMIC<br>
+            CALENDAR
+        </h1>
+
+        <h2>
+            What if the entire history of the Universe
+            happened in one year?
+        </h2>
+
+        <p class="hero-description">
+
+            Take approximately 13.8 billion years of cosmic
+            history and compress it into a single calendar.
+
+            The Big Bang happens at midnight on January 1.
+
+            The present arrives at the final moment of
+            December 31.
+
+        </p>
+
+        <div class="scroll">
+            ↓ Enter the year
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     NUMBER
+     ===================================================== -->
+
+<section class="cosmic-number">
+
+    <div class="section-number">
+        THE UNIVERSE
+    </div>
+
+    <div class="big-number">
+        13.8
+    </div>
+
+    <div class="number-label">
+        billion years
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     INTRO
+     ===================================================== -->
+
+<section>
+
+    <div class="calendar-intro">
+
+        <div class="section-number">
+            THE SCALE
+        </div>
+
+        <h2>
+            One year.
+        </h2>
+
+        <p class="intro">
+
+            The Cosmic Calendar is a visualization of
+            cosmic history in which the Universe's entire
+            approximately 13.8-billion-year history is
+            mapped onto one Gregorian year.
+
+            <br><br>
+
+            It is a scale model — not a new physical unit
+            of time. The dates below are therefore
+            approximate.
+
+        </p>
+
+        <div class="calendar-equation">
+
+            <span>
+                13.8 billion years
+            </span>
+
+            →
+
+            <span>
+                365 days
+            </span>
+
+        </div>
+
+        <p class="intro">
+
+            On this scale, approximately
+            <strong>37.8 million years</strong>
+            pass every calendar day.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MONTH SELECTOR
+     ===================================================== -->
+
+<section id="calendar">
+
+    <div class="section-number">
+        THE YEAR
+    </div>
+
+    <h2>
+        The Universe, month by month.
+    </h2>
+
+    <p class="intro">
+
+        Select a month to jump through cosmic history.
+
+        The timeline moves from the earliest observable
+        Universe toward the moment in which you are reading
+        this page.
+
+    </p>
+
+
+    <div class="month-nav">
+
+        <button class="month-button" data-target="jan">
+            January
+        </button>
+
+        <button class="month-button" data-target="feb">
+            February
+        </button>
+
+        <button class="month-button" data-target="mar">
+            March
+        </button>
+
+        <button class="month-button" data-target="apr">
+            April
+        </button>
+
+        <button class="month-button" data-target="may">
+            May
+        </button>
+
+        <button class="month-button" data-target="jun">
+            June
+        </button>
+
+        <button class="month-button" data-target="jul">
+            July
+        </button>
+
+        <button class="month-button" data-target="aug">
+            August
+        </button>
+
+        <button class="month-button" data-target="sep">
+            September
+        </button>
+
+        <button class="month-button" data-target="oct">
+            October
+        </button>
+
+        <button class="month-button" data-target="nov">
+            November
+        </button>
+
+        <button class="month-button" data-target="dec">
+            December
+        </button>
+
+    </div>
+
+
+    <!-- =================================================
+         TIMELINE
+         ================================================= -->
+
+    <div class="calendar">
+
+
+        <!-- JANUARY -->
+
+        <div class="month" id="jan">
+
+            <div class="month-marker"></div>
+
+            <h3>
+                January
+            </h3>
+
+            <div class="month-subtitle">
+                The beginning
+            </div>
+
+
+            <div class="event major">
+
+                <div class="event-time">
+                    JAN 01 · 00:00:00
+                </div>
+
+                <h4>
+                    The Universe
+                </h4>
+
+                <p>
+
+                    The Universe begins its hot, dense expansion
+                    approximately 13.8 billion years ago.
+
+                    Modern cosmology can describe the Universe
+                    back to extremely early times, although the
+                    physics of the very beginning remains an
+                    open question.
+
+                </p>
+
+            </div>
+
+
+            <div class="event">
+
+                <div class="event-time">
+                    JAN 01 · FIRST MOMENTS
+                </div>
+
+                <h4>
+                    Inflation
+                </h4>
+
+                <p>
+
+                    Cosmological models include an extraordinarily
+                    rapid early expansion known as inflation.
+                    Its physical origin remains an active area of
+                    research.
+
+                </p>
+
+            </div>
+
+
+            <div class="event">
+
+                <div class="event-time">
+                    JAN 01 · MINUTES
+                </div>
+
+                <h4>
+                    Primordial nucleosynthesis
+                </h4>
+
+                <p>
+
+                    Within the first few minutes, conditions allow
+                    light atomic nuclei — primarily hydrogen and
+                    helium, with tiny amounts of other light
+                    nuclei — to form.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FEBRUARY -->
+
+        <div class="month" id="feb">
+
+            <div class="month-marker"></div>
+
+            <h3>
+                February
+            </h3>
+
+            <div class="month-subtitle">
+                Cooling cosmos
+            </div>
+
+            <div class="event">
+
+                <div class="event-time">
+                    FEBRUARY
+                </div>
+
+                <h4>
+                    A young, expanding Universe
+                </h4>
+
+                <p>
+
+                    The Universe continues expanding and cooling.
+                    Matter evolves from the extremely hot early
+                    state toward the structures that will eventually
+                    become stars and galaxies.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- MARCH -->
+
+        <div class="month" id="mar">
+
+            <div class="month-marker"></div>
+
+            <h3>
+                March
+            </h3>
+
+            <div class="month-subtitle">
+                Atoms and darkness
+            </div>
+
+            <div class="event major">
+
+                <div class="event-time">
+                    JAN 01 · 00:00:01
+                </div>
+
+                <h4>
+                    Recombination
+                </h4>
+
+                <p>
+
+                    About 380,000 years after the Big Bang,
+                    electrons combine with atomic nuclei to
+                    form neutral atoms.
+
+                    Light can now travel much more freely.
+
+                    This ancient light is observed today as
+                    the <strong>cosmic microwave background</strong>.
+
+                </p>
+
+            </div>
+
+
+            <div class="event">
+
+                <div class="event-time">
+                    COSMIC DARK AGES
+                </div>
+
+                <h4>
+                    No stars yet
+                </h4>
+
+                <p>
+
+                    After the cosmic microwave background was
+                    released, the Universe entered a period
+                    without stars.
+
+                    Hydrogen and helium filled an increasingly
+                    structured cosmos.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- APRIL -->
+
+        <div class="month" id="apr">
+
+            <div class="month-marker"></div>
+
+            <h3>
+                April
+            </h3>
+
+            <div class="month-subtitle">
+                The first lights
+            </div>
+
+            <div class="event major">
+
+                <div class="event-time">
+                    ~JAN 06
+                </div>
+
+                <h4>
+                    First stars
+                </h4>
+
+                <p>
+
+                    The first stars ignite after hundreds of
+                    millions of years of cosmic evolution.
+
+                    Their intense radiation transforms their
+                    surroundings.
+
+                    These stars also become factories for elements
+                    heavier than those produced in the early Universe.
+
+                </p>
+
+            </div>
+
+
+            <div class="event">
+
+                <div class="event-time">
+                    EARLY COSMIC ERA
+                </div>
+
+                <h4>
+                    First galaxies
+                </h4>
+
+                <p>
+
+                    Stars gather under gravity into increasingly
+                    complex structures.
+
+                    Galaxies grow through star formation,
+                    gravitational interactions and mergers.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- MAY -->
+
+        <div class="month" id="may">
+
+            <div class="month-marker"></div>
+
+            <h3>
+                May
+            </h3>
+
+            <div class="month-subtitle">
+                Cosmic architecture
+            </div>
+
+            <div class="event">
+
+                <div class="event-time">
+                    MAY
+                </div>
+
+                <h4>
+                    Galaxies evolve
+                </h4>
+
+                <p>
+
+                    Galaxies grow and transform.
+
+                    Stars are born and die.
+
+                    Their deaths return newly forged elements
+                    to interstellar space.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- JUNE -->
+
+        <div class="month" id="jun">
+
+            <div class="month-marker"></div>
+
+            <h3>
+                June
+            </h3>
+
+            <div class="month-subtitle">
+                Stars become chemical factories
+            </div>
+
+            <div class="event">
+
+                <div class="event-time">
+                    JUNE
+                </div>
+
+                <h4>
+                    Heavy elements accumulate
+                </h4>
+
+                <p>
+
+                    Successive generations of stars enrich galaxies
+                    with elements heavier than hydrogen and helium.
+
+                    These materials eventually become part of
+                    future stars, planets and planetary systems.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- JULY -->
+
+        <div class="month" id="jul">
+
+            <div class="month-marker"></div>
+
+            <h3>
+                July
+            </h3>
+
+            <div class="month-subtitle">
+                A structured Universe
+            </div>
+
+            <div class="event">
+
+                <div class="event-time">
+                    JULY
+                </div>
+
+                <h4>
+                    The cosmic web
+                </h4>
+
+                <p>
+
+                    Gravity organizes matter into galaxies,
+                    galaxy groups, clusters and enormous
+                    filamentary structures separated by cosmic
+                    voids.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- AUGUST -->
+
+        <div class="month" id="aug">
+
+            <div class="month-marker"></div>
+
+            <h3>
+                August
+            </h3>
+
+            <div class="month-subtitle">
+                The Milky Way era
+            </div>
+
+            <div class="event">
+
+                <div class="event-time">
+                    AUGUST
+                </div>
+
+                <h4>
+                    Our galaxy takes shape
+                </h4>
+
+                <p>
+
+                    The Milky Way develops through the assembly
+                    and evolution of stellar populations and
+                    smaller systems over cosmic time.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- SEPTEMBER -->
+
+        <div class="month" id="sep">
+
+            <div class="month-marker"></div>
+
+            <h3>
+                September
+            </h3>
+
+            <div class="month-subtitle">
+                Our cosmic neighbourhood
+            </div>
+
+
+            <div class="event major">
+
+                <div class="event-time">
+                    ~SEP 01
+                </div>
+
+                <h4>
+                    The Sun
+                </h4>
+
+                <p>
+
+                    About 4.6 billion years ago, a cloud of gas
+                    and dust in the Milky Way collapses to form
+                    the Sun and the surrounding planetary system.
+
+                </p>
+
+            </div>
+
+
+            <div class="event major">
+
+                <div class="event-time">
+                    ~SEP 01
+                </div>
+
+                <h4>
+                    Earth
+                </h4>
+
+                <p>
+
+                    Earth forms within the young Solar System
+                    approximately 4.54 billion years ago.
+
+                </p>
+
+            </div>
+
+
+            <div class="event">
+
+                <div class="event-time">
+                    SEPTEMBER
+                </div>
+
+                <h4>
+                    The Moon
+                </h4>
+
+                <p>
+
+                    Earth's Moon forms early in Solar System history,
+                    probably following a giant impact involving the
+                    young Earth.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- OCTOBER -->
+
+        <div class="month" id="oct">
+
+            <div class="month-marker"></div>
+
+            <h3>
+                October
+            </h3>
+
+            <div class="month-subtitle">
+                A living planet
+            </div>
+
+            <div class="event major">
+
+                <div class="event-time">
+                    ~OCT 02
+                </div>
+
+                <h4>
+                    Early life
+                </h4>
+
+                <p>
+
+                    Earth's geological record preserves evidence
+                    for life billions of years ago.
+
+                    Microbial ecosystems dominate Earth's early
+                    biosphere.
+
+                </p>
+
+            </div>
+
+
+            <div class="event">
+
+                <div class="event-time">
+                    OCTOBER
+                </div>
+
+                <h4>
+                    Oxygen transforms Earth
+                </h4>
+
+                <p>
+
+                    Photosynthetic organisms contribute to the
+                    accumulation of oxygen, profoundly changing
+                    Earth's atmosphere and oceans.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- NOVEMBER -->
+
+        <div class="month" id="nov">
+
+            <div class="month-marker"></div>
+
+            <h3>
+                November
+            </h3>
+
+            <div class="month-subtitle">
+                Complexity
+            </div>
+
+            <div class="event">
+
+                <div class="event-time">
+                    NOVEMBER
+                </div>
+
+                <h4>
+                    Eukaryotic life
+                </h4>
+
+                <p>
+
+                    Complex cells containing internal structures
+                    evolve and diversify.
+
+                </p>
+
+            </div>
+
+
+            <div class="event">
+
+                <div class="event-time">
+                    LATE NOVEMBER
+                </div>
+
+                <h4>
+                    Multicellular organisms
+                </h4>
+
+                <p>
+
+                    Life becomes increasingly complex, eventually
+                    leading toward the diverse multicellular
+                    ecosystems of the later Precambrian.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- DECEMBER -->
+
+        <div class="month" id="dec">
+
+            <div class="month-marker"></div>
+
+            <h3>
+                December
+            </h3>
+
+            <div class="month-subtitle">
+                The final month
+            </div>
+
+
+            <div class="event major">
+
+                <div class="event-time">
+                    DEC 17
+                </div>
+
+                <h4>
+                    Cambrian diversification
+                </h4>
+
+                <p>
+
+                    Complex marine ecosystems diversify dramatically.
+                    The fossil record becomes rich in many forms of
+                    animal life.
+
+                </p>
+
+            </div>
+
+
+            <div class="event">
+
+                <div class="event-time">
+                    DEC 18–20
+                </div>
+
+                <h4>
+                    Life moves onto land
+                </h4>
+
+                <p>
+
+                    Plants and animals progressively establish
+                    terrestrial ecosystems.
+
+                </p>
+
+            </div>
+
+
+            <div class="event major">
+
+                <div class="event-time">
+                    DEC 24
+                </div>
+
+                <h4>
+                    Dinosaurs
+                </h4>
+
+                <p>
+
+                    Dinosaurs appear during the Triassic and
+                    diversify across the Mesozoic.
+
+                </p>
+
+            </div>
+
+
+            <div class="event">
+
+                <div class="event-time">
+                    DEC 26–29
+                </div>
+
+                <h4>
+                    Mammals diversify
+                </h4>
+
+                <p>
+
+                    Mammals evolve and diversify through the
+                    Mesozoic and Cenozoic.
+
+                </p>
+
+            </div>
+
+
+            <div class="event major">
+
+                <div class="event-time">
+                    DEC 30 · ~22:57
+                </div>
+
+                <h4>
+                    Non-avian dinosaurs disappear
+                </h4>
+
+                <p>
+
+                    Around 66 million years ago, the
+                    Cretaceous–Paleogene mass extinction
+                    eliminates non-avian dinosaurs along with
+                    many other groups.
+
+                </p>
+
+            </div>
+
+
+            <div class="event">
+
+                <div class="event-time">
+                    DEC 31
+                </div>
+
+                <h4>
+                    Primates
+                </h4>
+
+                <p>
+
+                    Primates and other mammalian groups diversify
+                    within the Cenozoic world.
+
+                </p>
+
+            </div>
+
+
+            <div class="event major">
+
+                <div class="event-time">
+                    DEC 31 · 23:59:59
+                </div>
+
+                <h4>
+                    Homo sapiens
+                </h4>
+
+                <p>
+
+                    Our species appears extremely close to midnight
+                    on the Cosmic Calendar.
+
+                    Around 300,000 years of human evolutionary
+                    history occupies only a tiny fraction of the
+                    final day.
+
+                </p>
+
+            </div>
+
+
+            <div class="event">
+
+                <div class="event-time">
+                    FINAL MINUTES
+                </div>
+
+                <h4>
+                    Agriculture
+                </h4>
+
+                <p>
+
+                    Agriculture, permanent settlements and
+                    increasingly complex societies appear only
+                    moments before midnight.
+
+                </p>
+
+            </div>
+
+
+            <div class="event">
+
+                <div class="event-time">
+                    FINAL SECONDS
+                </div>
+
+                <h4>
+                    Writing
+                </h4>
+
+                <p>
+
+                    Recorded human history occupies only the final
+                    seconds of the Cosmic Calendar.
+
+                </p>
+
+            </div>
+
+
+            <div class="event major">
+
+                <div class="event-time">
+                    23:59:59.999...
+                </div>
+
+                <h4>
+                    You are here.
+                </h4>
+
+                <p>
+
+                    The Universe has spent billions of years
+                    becoming increasingly structured.
+
+                    Stars.
+
+                    Galaxies.
+
+                    Elements.
+
+                    Planets.
+
+                    Life.
+
+                    Conscious observers.
+
+                    And now —
+
+                    this moment.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SOLAR SYSTEM
+     ===================================================== -->
+
+<section class="solar-system">
+
+    <div class="solar-content">
+
+        <div class="section-number">
+            SEPTEMBER
+        </div>
+
+        <h2>
+            Our star appears late.
+        </h2>
+
+        <p class="intro">
+
+            On the Cosmic Calendar, the Sun and Solar System
+            arrive during the final third of the year.
+
+            Earth is not an ancient feature of the Universe.
+
+            It is a relatively recent structure built from
+            material produced by earlier generations of stars.
+
+        </p>
+
+
+        <div class="orbit">
+
+            <div class="sun"></div>
+
+            <div class="earth-dot"></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     LAST DAY
+     ===================================================== -->
+
+<section class="last-day">
+
+    <div class="last-day-content">
+
+        <div class="section-number">
+            DECEMBER 31
+        </div>
+
+        <h2>
+            The final day.
+        </h2>
+
+        <div class="clock-time">
+            23:59:59
+        </div>
+
+        <p>
+
+            Everything humans have written, built,
+            discovered and remembered belongs to the
+            final moments of the Cosmic Calendar.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     YOU
+     ===================================================== -->
+
+<section class="you" id="you">
+
+    <div class="you-inner">
+
+        <div class="section-number">
+            31 DECEMBER · 23:59:59...
+        </div>
+
+        <h2>
+            YOU
+        </h2>
+
+        <div class="you-line">
+            A cosmic event.
+        </div>
+
+        <p>
+
+            You are made of atoms forged through cosmic history.
+
+            Hydrogen from the early Universe.
+
+            Heavier elements created inside stars.
+
+            Matter gathered into galaxies.
+
+            A star formed.
+
+            Planets formed.
+
+            Chemistry became biology.
+
+            Biology became increasingly complex.
+
+            And eventually, matter became capable of asking
+            where it came from.
+
+            <br><br>
+
+            The Cosmic Calendar is not saying that the Universe
+            was moving toward you.
+
+            It is showing how extraordinarily much had to happen
+            before an observer like you could exist.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SOURCES
+     ===================================================== -->
+
+<section>
+
+    <div class="sources">
+
+        <div class="section-number">
+            SCIENTIFIC SOURCES
+        </div>
+
+        <h2>
+            The evidence.
+        </h2>
+
+        <p class="intro">
+
+            The Cosmic Calendar is a visualization rather than
+            a formal scientific timescale. The underlying cosmic
+            history is based on observations and models of
+            cosmology, stellar evolution, galaxy formation,
+            planetary science and evolutionary history.
+
+        </p>
+
+
+        <ul>
+
+            <li>
+
+                <strong>
+                    NASA Science — The Universe
+                </strong>
+
+                —
+                <a
+                    href="https://science.nasa.gov/exoplanets/what-is-the-universe/"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    NASA
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <strong>
+                    NASA Science — Overview of Cosmic History
+                </strong>
+
+                —
+                <a
+                    href="https://science.nasa.gov/universe/overview/"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Cosmic History
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <strong>
+                    NASA — Early Universe / Webb
+                </strong>
+
+                —
+                <a
+                    href="https://science.nasa.gov/mission/webb/early-universe/"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Early Universe
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <strong>
+                    NASA — Hubble and the Big Bang
+                </strong>
+
+                —
+                <a
+                    href="https://science.nasa.gov/mission/hubble/science/science-behind-the-discoveries/hubble-big-bang/"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Big Bang and Cosmic Evolution
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <strong>
+                    NASA — Galaxies
+                </strong>
+
+                —
+                <a
+                    href="https://science.nasa.gov/universe/galaxies/"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Galaxy Formation and Evolution
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <strong>
+                    NASA — The Big Bang
+                </strong>
+
+                —
+                <a
+                    href="https://science.nasa.gov/universe/the-big-bang/"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    NASA Science
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <strong>
+                    NASA — How Did We Get Here?
+                </strong>
+
+                —
+                <a
+                    href="https://science.nasa.gov/astrophysics/science-questions/how-did-universe-originate-and-evolve-produce-galaxies-stars-and-planets-we-see-today/"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Cosmic Origins
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <strong>
+                    NASA WMAP — Life in the Universe
+                </strong>
+
+                —
+                <a
+                    href="https://wmap.gsfc.nasa.gov/universe/uni_life.html"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    WMAP
+                </a>
+
+            </li>
+
+        </ul>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<footer>
+
+    <strong>
+        DRAVYA
+    </strong>
+
+    &nbsp; / &nbsp;
+
+    OBSERVE · DISTURB · CREATE
+
+    &nbsp; / &nbsp;
+
+    COSMIC CALENDAR
+
+</footer>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+
+<script>
+
+/* =========================================================
+   MONTH NAVIGATION
+   ========================================================= */
+
+const buttons =
+    document.querySelectorAll(".month-button");
+
+buttons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        const target =
+            document.getElementById(
+                button.dataset.target
+            );
+
+        if (!target) return;
+
+        target.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+    });
+
+});
+
+
+/* =========================================================
+   ACTIVE MONTH
+   ========================================================= */
+
+const months =
+    document.querySelectorAll(".month");
+
+const observer =
+    new IntersectionObserver(
+        entries => {
+
+            entries.forEach(entry => {
+
+                if (!entry.isIntersecting) {
+                    return;
+                }
+
+                buttons.forEach(button => {
+
+                    button.classList.remove(
+                        "active"
+                    );
+
+                });
+
+                const active =
+                    document.querySelector(
+                        `[data-target="${entry.target.id}"]`
+                    );
+
+                if (active) {
+
+                    active.classList.add(
+                        "active"
+                    );
+
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.35
+        }
+    );
+
+months.forEach(month => {
+
+    observer.observe(month);
+
+});
+
+
+/* =========================================================
+   VIDEO SAFETY
+   ========================================================= */
+
+const video =
+    document.getElementById(
+        "background-video"
+    );
+
+if (video) {
+
+    video.play().catch(() => {
+
+        /*
+         Browser autoplay policies can prevent
+         playback until interaction.
+
+         The page still works without it.
+        */
+
+    });
+
+}
+
+</script>
+
+
+</body>
+</html>
