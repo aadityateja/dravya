@@ -1,0 +1,3742 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>THE FUNDAMENTALS — DRAVYA</title>
+
+<style>
+
+/* =========================================================
+   DRAVYA FUNDAMENTALS
+   Units · Constants · Scales · Reality
+========================================================= */
+
+@font-face {
+    font-family: "Minecraft";
+    src: url("assets/fonts/Minecraft.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --bg: #02050a;
+    --panel: rgba(5, 15, 25, 0.72);
+    --panel2: rgba(7, 22, 35, 0.82);
+
+    --text: #eaf7ff;
+    --muted: #8fa9b8;
+    --soft: #65879b;
+
+    --blue: #67b9ed;
+    --blue2: #2f7eae;
+
+    --line: rgba(110,190,235,0.18);
+    --line-strong: rgba(110,190,235,0.42);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Minecraft", monospace;
+    overflow-x: hidden;
+}
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+#bg-video {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    z-index: 0;
+
+    opacity: 0.30;
+
+    pointer-events: none;
+}
+
+.video-overlay {
+    position: fixed;
+    inset: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            rgba(25,95,145,0.17),
+            transparent 40%
+        ),
+        linear-gradient(
+            rgba(0,0,0,0.35),
+            rgba(0,0,0,0.82)
+        );
+}
+
+.page {
+    position: relative;
+    z-index: 5;
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+nav {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    padding: 22px 5vw;
+
+    z-index: 50;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,0.78),
+            transparent
+        );
+}
+
+.logo {
+    color: white;
+
+    font-size: 18px;
+
+    letter-spacing: 4px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links a {
+    color: #a7c3d4;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: white;
+}
+
+/* =========================================================
+   GENERAL
+========================================================= */
+
+section {
+    width: min(1200px, 90vw);
+
+    margin: auto;
+
+    padding: 130px 0;
+}
+
+.section-label {
+    color: var(--blue);
+
+    font-size: 11px;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: clamp(35px, 6vw, 75px);
+
+    line-height: 1.05;
+
+    font-weight: normal;
+
+    margin-bottom: 30px;
+}
+
+.section-description {
+    max-width: 780px;
+
+    color: var(--muted);
+
+    line-height: 1.9;
+
+    font-size: 13px;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    min-height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 120px 20px 80px;
+}
+
+.hero-label {
+    color: var(--blue);
+
+    font-size: 12px;
+
+    letter-spacing: 6px;
+
+    margin-bottom: 30px;
+}
+
+.hero h1 {
+    font-size: clamp(50px, 11vw, 140px);
+
+    font-weight: normal;
+
+    line-height: 0.9;
+
+    letter-spacing: 4px;
+
+    text-shadow:
+        0 0 25px rgba(80,180,240,0.25),
+        0 0 80px rgba(40,120,180,0.15);
+}
+
+.hero h1 span {
+    color: var(--blue);
+}
+
+.hero-subtitle {
+    max-width: 750px;
+
+    margin-top: 40px;
+
+    color: #b6cbd7;
+
+    font-size: 15px;
+
+    line-height: 1.9;
+}
+
+.hero-bottom {
+    margin-top: 70px;
+
+    color: #668092;
+
+    font-size: 10px;
+
+    letter-spacing: 4px;
+}
+
+/* =========================================================
+   INTRO NUMBERS
+========================================================= */
+
+.intro-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+
+    margin-top: 60px;
+}
+
+.intro-card {
+    background: var(--panel);
+
+    border: 1px solid var(--line);
+
+    padding: 35px;
+
+    min-height: 180px;
+
+    transition: 0.35s;
+}
+
+.intro-card:hover {
+    border-color: var(--line-strong);
+
+    transform: translateY(-5px);
+}
+
+.intro-number {
+    color: var(--blue);
+
+    font-size: 30px;
+
+    margin-bottom: 15px;
+}
+
+.intro-name {
+    color: #d8e8f0;
+
+    font-size: 12px;
+
+    margin-bottom: 10px;
+}
+
+.intro-text {
+    color: var(--muted);
+
+    font-size: 11px;
+
+    line-height: 1.7;
+}
+
+/* =========================================================
+   BASE UNITS
+========================================================= */
+
+.base-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 12px;
+
+    margin-top: 60px;
+}
+
+.base-card {
+    background: rgba(4,17,28,0.7);
+
+    border: 1px solid var(--line);
+
+    padding: 28px;
+
+    min-height: 190px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.base-card:hover,
+.base-card.active {
+    border-color: var(--blue);
+
+    background:
+        rgba(8,28,43,0.88);
+
+    transform: translateY(-4px);
+}
+
+.base-symbol {
+    font-size: 34px;
+
+    color: var(--blue);
+
+    margin-bottom: 18px;
+}
+
+.base-name {
+    font-size: 13px;
+
+    margin-bottom: 8px;
+}
+
+.base-unit {
+    color: #6ca6c5;
+
+    font-size: 11px;
+
+    margin-bottom: 15px;
+}
+
+.base-description {
+    color: var(--muted);
+
+    font-size: 10px;
+
+    line-height: 1.6;
+}
+
+/* =========================================================
+   CONSTANT EXPLORER
+========================================================= */
+
+.constant-controls {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+
+    margin-top: 50px;
+
+    margin-bottom: 25px;
+}
+
+.filter-btn {
+    background: rgba(7,21,32,0.8);
+
+    border: 1px solid var(--line);
+
+    color: #9db7c6;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    padding: 12px 16px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    color: white;
+
+    border-color: var(--blue);
+}
+
+.constants-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+}
+
+.constant-card {
+    background: var(--panel);
+
+    border: 1px solid var(--line);
+
+    padding: 28px;
+
+    min-height: 220px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.constant-card:hover {
+    border-color: var(--line-strong);
+
+    transform: translateY(-4px);
+}
+
+.constant-symbol {
+    font-size: 34px;
+
+    color: var(--blue);
+
+    margin-bottom: 15px;
+}
+
+.constant-name {
+    font-size: 14px;
+
+    margin-bottom: 15px;
+}
+
+.constant-value {
+    color: #d9edf7;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+
+    margin-bottom: 12px;
+}
+
+.constant-unit {
+    color: #6295ae;
+
+    font-size: 10px;
+}
+
+.constant-category {
+    margin-top: 18px;
+
+    color: #55768a;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal {
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0,0,0,0.78);
+
+    z-index: 100;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    width: min(700px, 95vw);
+
+    max-height: 85vh;
+
+    overflow-y: auto;
+
+    background:
+        rgba(3,14,23,0.97);
+
+    border: 1px solid var(--line-strong);
+
+    padding: 45px;
+
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+
+    top: 18px;
+    right: 22px;
+
+    color: #7996a7;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+.modal-symbol {
+    color: var(--blue);
+
+    font-size: 60px;
+
+    margin-bottom: 20px;
+}
+
+.modal-title {
+    font-size: 30px;
+
+    margin-bottom: 20px;
+}
+
+.modal-value {
+    color: #b9d9e8;
+
+    line-height: 1.8;
+
+    margin-bottom: 25px;
+}
+
+.modal-description {
+    color: var(--muted);
+
+    line-height: 1.9;
+
+    font-size: 13px;
+}
+
+/* =========================================================
+   PLANCK SECTION
+========================================================= */
+
+.planck-stage {
+    margin-top: 70px;
+
+    min-height: 500px;
+
+    border: 1px solid var(--line);
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(30,100,150,0.12),
+            transparent 50%
+        ),
+        rgba(2,9,16,0.78);
+
+    position: relative;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.planck-core {
+    width: 190px;
+
+    height: 190px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(100,190,240,0.55);
+
+    box-shadow:
+        0 0 25px rgba(70,170,230,0.35),
+        0 0 100px rgba(30,100,180,0.15);
+
+    position: relative;
+
+    animation:
+        pulseCore 5s ease-in-out infinite;
+}
+
+.planck-core::before,
+.planck-core::after {
+    content: "";
+
+    position: absolute;
+
+    inset: -50px;
+
+    border: 1px solid rgba(100,190,240,0.12);
+
+    border-radius: 50%;
+
+    animation:
+        orbit 12s linear infinite;
+}
+
+.planck-core::after {
+    inset: -100px;
+
+    animation-duration: 18s;
+
+    transform: rotate(70deg);
+}
+
+.planck-dot {
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    background: #bcecff;
+
+    border-radius: 50%;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    box-shadow:
+        0 0 15px #7ed7ff,
+        0 0 50px #419fd1;
+}
+
+.planck-label {
+    position: absolute;
+
+    text-align: center;
+
+    width: 100%;
+
+    top: 50%;
+
+    transform:
+        translateY(115px);
+}
+
+.planck-label strong {
+    display: block;
+
+    font-size: 25px;
+
+    color: white;
+}
+
+.planck-label span {
+    display: block;
+
+    color: #6ca2bb;
+
+    font-size: 10px;
+
+    margin-top: 8px;
+}
+
+@keyframes pulseCore {
+
+    0%,100% {
+        transform: scale(0.96);
+    }
+
+    50% {
+        transform: scale(1.04);
+    }
+}
+
+@keyframes orbit {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================================================
+   PLANCK CARDS
+========================================================= */
+
+.planck-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 12px;
+
+    margin-top: 30px;
+}
+
+.planck-card {
+    background: rgba(5,18,29,0.75);
+
+    border: 1px solid var(--line);
+
+    padding: 25px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.planck-card:hover {
+    border-color: var(--blue);
+}
+
+.planck-symbol {
+    color: var(--blue);
+
+    font-size: 28px;
+
+    margin-bottom: 12px;
+}
+
+.planck-name {
+    font-size: 11px;
+
+    margin-bottom: 10px;
+}
+
+.planck-value {
+    color: #a7c5d4;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+}
+
+/* =========================================================
+   SCALE OF REALITY
+========================================================= */
+
+.scale-wrapper {
+    margin-top: 70px;
+
+    border: 1px solid var(--line);
+
+    padding: 35px;
+
+    background: rgba(2,10,17,0.7);
+}
+
+.scale-track {
+    height: 3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #275d7e,
+            #67b9ed,
+            #275d7e
+        );
+
+    position: relative;
+
+    margin:
+        90px 20px
+        120px;
+}
+
+.scale-point {
+    position: absolute;
+
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    width: 16px;
+
+    height: 16px;
+
+    border-radius: 50%;
+
+    background: #08141f;
+
+    border: 2px solid var(--blue);
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.scale-point:hover {
+    transform:
+        translate(-50%, -50%)
+        scale(1.5);
+
+    box-shadow:
+        0 0 20px rgba(100,190,240,0.7);
+}
+
+.scale-label {
+    position: absolute;
+
+    width: 130px;
+
+    text-align: center;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    color: #a9c1ce;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+}
+
+.scale-label.top {
+    bottom: 35px;
+}
+
+.scale-label.bottom {
+    top: 35px;
+}
+
+.scale-info {
+    text-align: center;
+
+    min-height: 80px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    line-height: 1.7;
+}
+
+/* =========================================================
+   UNIT CONVERTER
+========================================================= */
+
+.converter {
+    margin-top: 60px;
+
+    background: rgba(4,17,28,0.78);
+
+    border: 1px solid var(--line);
+
+    padding: 35px;
+}
+
+.converter-row {
+    display: grid;
+
+    grid-template-columns:
+        1fr 180px
+        80px
+        1fr 180px;
+
+    gap: 10px;
+
+    align-items: center;
+}
+
+.converter input,
+.converter select {
+    width: 100%;
+
+    background: #06111b;
+
+    border: 1px solid var(--line);
+
+    color: white;
+
+    padding: 17px;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    outline: none;
+}
+
+.converter input:focus,
+.converter select:focus {
+    border-color: var(--blue);
+}
+
+.converter-arrow {
+    text-align: center;
+
+    color: var(--blue);
+
+    font-size: 20px;
+}
+
+.converter-result {
+    margin-top: 30px;
+
+    padding: 25px;
+
+    background: rgba(10,35,52,0.55);
+
+    border: 1px solid rgba(100,180,230,0.13);
+
+    text-align: center;
+}
+
+.result-number {
+    color: white;
+
+    font-size: 28px;
+
+    word-break: break-word;
+}
+
+.result-label {
+    color: #7092a5;
+
+    font-size: 10px;
+
+    margin-top: 10px;
+}
+
+/* =========================================================
+   DIMENSIONAL ANALYSIS
+========================================================= */
+
+.dimension-box {
+    margin-top: 60px;
+
+    background:
+        rgba(3,13,22,0.8);
+
+    border: 1px solid var(--line);
+
+    padding: 40px;
+}
+
+.dimension-equation {
+    font-size: clamp(22px, 4vw, 40px);
+
+    color: white;
+
+    margin-bottom: 25px;
+
+    text-align: center;
+}
+
+.dimension-equation span {
+    color: var(--blue);
+}
+
+.dimension-explanation {
+    color: var(--muted);
+
+    line-height: 1.9;
+
+    max-width: 750px;
+
+    margin: auto;
+
+    font-size: 12px;
+}
+
+/* =========================================================
+   EQUATIONS
+========================================================= */
+
+.equations {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 12px;
+
+    margin-top: 60px;
+}
+
+.equation-card {
+    border: 1px solid var(--line);
+
+    background: rgba(4,17,28,0.7);
+
+    padding: 35px;
+
+    min-height: 180px;
+}
+
+.equation {
+    font-size: 30px;
+
+    color: white;
+
+    margin-bottom: 20px;
+}
+
+.equation-name {
+    color: var(--blue);
+
+    font-size: 11px;
+
+    margin-bottom: 10px;
+}
+
+.equation-description {
+    color: var(--muted);
+
+    font-size: 11px;
+
+    line-height: 1.7;
+}
+
+/* =========================================================
+   DIMENSIONLESS CONSTANTS
+========================================================= */
+
+.dimensionless {
+    margin-top: 60px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+}
+
+.dimensionless-card {
+    padding: 30px;
+
+    border: 1px solid var(--line);
+
+    background: rgba(4,16,27,0.72);
+}
+
+.dimensionless-symbol {
+    color: var(--blue);
+
+    font-size: 34px;
+
+    margin-bottom: 15px;
+}
+
+.dimensionless-value {
+    font-size: 20px;
+
+    margin-bottom: 12px;
+}
+
+.dimensionless-text {
+    color: var(--muted);
+
+    font-size: 10px;
+
+    line-height: 1.7;
+}
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+.final {
+    min-height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+}
+
+.final-equation {
+    font-size: clamp(35px, 8vw, 100px);
+
+    color: white;
+
+    text-shadow:
+        0 0 30px rgba(100,190,240,0.35);
+}
+
+.final-title {
+    margin-top: 40px;
+
+    font-size: clamp(30px, 6vw, 70px);
+}
+
+.final-text {
+    max-width: 650px;
+
+    color: #93adbc;
+
+    line-height: 2;
+
+    font-size: 13px;
+
+    margin-top: 25px;
+}
+
+/* =========================================================
+   SOURCES
+========================================================= */
+
+.sources {
+    border-top: 1px solid var(--line);
+
+    padding-top: 45px;
+
+    margin-top: 80px;
+}
+
+.sources a {
+    display: block;
+
+    color: #6caed4;
+
+    text-decoration: none;
+
+    margin: 14px 0;
+
+    font-size: 10px;
+}
+
+.sources a:hover {
+    color: white;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    padding: 100px 20px;
+
+    text-align: center;
+
+    border-top: 1px solid var(--line);
+}
+
+.footer-brand {
+    font-size: 22px;
+
+    letter-spacing: 5px;
+}
+
+.footer-tagline {
+    margin-top: 15px;
+
+    color: #587486;
+
+    font-size: 9px;
+
+    letter-spacing: 4px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width: 900px) {
+
+    .constants-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .base-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .planck-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .intro-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .converter-row {
+        grid-template-columns:
+            1fr;
+    }
+
+    .converter-arrow {
+        transform: rotate(90deg);
+    }
+
+    .equations {
+        grid-template-columns: 1fr;
+    }
+
+    .dimensionless {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+@media(max-width: 600px) {
+
+    .nav-links {
+        display: none;
+    }
+
+    .constants-grid,
+    .base-grid,
+    .planck-grid,
+    .intro-grid,
+    .dimensionless {
+        grid-template-columns: 1fr;
+    }
+
+    section {
+        padding: 90px 0;
+    }
+
+    .planck-stage {
+        min-height: 420px;
+    }
+
+    .scale-track {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- ======================================================
+     BACKGROUND
+====================================================== -->
+
+<video
+    id="bg-video"
+    autoplay
+    muted
+    loop
+    playsinline>
+
+    <source
+        src="assets/dravya_vacuum_fluctuation_10s.mp4"
+        type="video/mp4">
+
+</video>
+
+<div class="video-overlay"></div>
+
+
+<div class="page">
+
+
+<!-- ======================================================
+     NAV
+====================================================== -->
+
+<nav>
+
+    <div class="logo">
+        DRAVYA
+    </div>
+
+    <div class="nav-links">
+
+        <a href="index.html">
+            HOME
+        </a>
+
+        <a href="deep-time.html">
+            DEEP TIME
+        </a>
+
+        <a href="geochronology.html">
+            GEOCHRONOLOGY
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- ======================================================
+     HERO
+====================================================== -->
+
+<header class="hero">
+
+    <div class="hero-label">
+        THE ARCHITECTURE OF REALITY
+    </div>
+
+    <h1>
+        THE<br>
+        <span>FUNDAMENTALS</span>
+    </h1>
+
+    <p class="hero-subtitle">
+
+        Before galaxies.
+        Before planets.
+        Before life.
+
+        <br><br>
+
+        There are quantities we use to describe
+        the structure of physical reality.
+
+        <br>
+
+        Units. Constants. Scales. Relations.
+
+    </p>
+
+    <div class="hero-bottom">
+        UNITS · CONSTANTS · DIMENSIONS · SCALES
+    </div>
+
+</header>
+
+
+<!-- ======================================================
+     INTRO
+====================================================== -->
+
+<section>
+
+    <div class="section-label">
+        WHERE MEASUREMENT BEGINS
+    </div>
+
+    <h2 class="section-title">
+        Reality can be<br>
+        measured.
+    </h2>
+
+    <p class="section-description">
+
+        Physics describes nature through measurable quantities.
+        The International System of Units provides a common language
+        for expressing those quantities.
+
+        <br><br>
+
+        Modern SI is built around fixed numerical values of
+        fundamental constants. The units are therefore connected
+        directly to properties of nature rather than to arbitrary
+        physical artefacts.
+
+    </p>
+
+
+    <div class="intro-grid">
+
+        <div class="intro-card">
+
+            <div class="intro-number">
+                7
+            </div>
+
+            <div class="intro-name">
+                SI BASE UNITS
+            </div>
+
+            <div class="intro-text">
+                Time, length, mass, electric current,
+                temperature, amount of substance and
+                luminous intensity.
+            </div>
+
+        </div>
+
+
+        <div class="intro-card">
+
+            <div class="intro-number">
+                c
+            </div>
+
+            <div class="intro-name">
+                SPEED OF LIGHT
+            </div>
+
+            <div class="intro-text">
+                The metre is defined through the fixed
+                value of the speed of light in vacuum.
+            </div>
+
+        </div>
+
+
+        <div class="intro-card">
+
+            <div class="intro-number">
+                h
+            </div>
+
+            <div class="intro-name">
+                PLANCK CONSTANT
+            </div>
+
+            <div class="intro-text">
+                The quantum of action underlying
+                quantum mechanical relationships.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     SI BASE UNITS
+====================================================== -->
+
+<section>
+
+    <div class="section-label">
+        THE SI
+    </div>
+
+    <h2 class="section-title">
+        Seven ways<br>
+        to measure.
+    </h2>
+
+    <p class="section-description">
+
+        Every other SI unit can be expressed using combinations
+        of the seven base units.
+
+    </p>
+
+
+    <div class="base-grid">
+
+
+        <div
+            class="base-card"
+            data-modal="second">
+
+            <div class="base-symbol">
+                s
+            </div>
+
+            <div class="base-name">
+                second
+            </div>
+
+            <div class="base-unit">
+                TIME
+            </div>
+
+            <div class="base-description">
+                The SI unit of time.
+            </div>
+
+        </div>
+
+
+        <div
+            class="base-card"
+            data-modal="metre">
+
+            <div class="base-symbol">
+                m
+            </div>
+
+            <div class="base-name">
+                metre
+            </div>
+
+            <div class="base-unit">
+                LENGTH
+            </div>
+
+            <div class="base-description">
+                The SI unit of length.
+            </div>
+
+        </div>
+
+
+        <div
+            class="base-card"
+            data-modal="kilogram">
+
+            <div class="base-symbol">
+                kg
+            </div>
+
+            <div class="base-name">
+                kilogram
+            </div>
+
+            <div class="base-unit">
+                MASS
+            </div>
+
+            <div class="base-description">
+                The SI unit of mass.
+            </div>
+
+        </div>
+
+
+        <div
+            class="base-card"
+            data-modal="ampere">
+
+            <div class="base-symbol">
+                A
+            </div>
+
+            <div class="base-name">
+                ampere
+            </div>
+
+            <div class="base-unit">
+                ELECTRIC CURRENT
+            </div>
+
+            <div class="base-description">
+                The SI unit of electric current.
+            </div>
+
+        </div>
+
+
+        <div
+            class="base-card"
+            data-modal="kelvin">
+
+            <div class="base-symbol">
+                K
+            </div>
+
+            <div class="base-name">
+                kelvin
+            </div>
+
+            <div class="base-unit">
+                TEMPERATURE
+            </div>
+
+            <div class="base-description">
+                The SI unit of thermodynamic temperature.
+            </div>
+
+        </div>
+
+
+        <div
+            class="base-card"
+            data-modal="mole">
+
+            <div class="base-symbol">
+                mol
+            </div>
+
+            <div class="base-name">
+                mole
+            </div>
+
+            <div class="base-unit">
+                AMOUNT OF SUBSTANCE
+            </div>
+
+            <div class="base-description">
+                The SI unit of amount of substance.
+            </div>
+
+        </div>
+
+
+        <div
+            class="base-card"
+            data-modal="candela">
+
+            <div class="base-symbol">
+                cd
+            </div>
+
+            <div class="base-name">
+                candela
+            </div>
+
+            <div class="base-unit">
+                LUMINOUS INTENSITY
+            </div>
+
+            <div class="base-description">
+                The SI unit of luminous intensity.
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     CONSTANT EXPLORER
+====================================================== -->
+
+<section id="constants">
+
+    <div class="section-label">
+        CONSTANT EXPLORER
+    </div>
+
+    <h2 class="section-title">
+        Numbers that<br>
+        describe nature.
+    </h2>
+
+    <p class="section-description">
+
+        Explore some of the constants and characteristic quantities
+        that appear throughout modern physics.
+
+        <br><br>
+
+        Some values are exact because the SI defines them exactly.
+        Others are experimentally determined and carry uncertainty.
+
+    </p>
+
+
+    <div class="constant-controls">
+
+        <button
+            class="filter-btn active"
+            data-filter="all">
+            ALL
+        </button>
+
+        <button
+            class="filter-btn"
+            data-filter="universal">
+            UNIVERSAL
+        </button>
+
+        <button
+            class="filter-btn"
+            data-filter="quantum">
+            QUANTUM
+        </button>
+
+        <button
+            class="filter-btn"
+            data-filter="electromagnetic">
+            ELECTROMAGNETIC
+        </button>
+
+        <button
+            class="filter-btn"
+            data-filter="atomic">
+            ATOMIC
+        </button>
+
+    </div>
+
+
+    <div class="constants-grid">
+
+
+        <!-- c -->
+
+        <div
+            class="constant-card"
+            data-category="universal"
+            data-symbol="c"
+            data-title="Speed of light in vacuum"
+            data-value="299 792 458 m/s"
+            data-description="The speed at which electromagnetic radiation propagates through vacuum. In the SI, the numerical value of c is fixed exactly and the metre is defined using it.">
+
+            <div class="constant-symbol">
+                c
+            </div>
+
+            <div class="constant-name">
+                Speed of light
+            </div>
+
+            <div class="constant-value">
+                299 792 458 m/s
+            </div>
+
+            <div class="constant-unit">
+                EXACT
+            </div>
+
+            <div class="constant-category">
+                UNIVERSAL
+            </div>
+
+        </div>
+
+
+        <!-- h -->
+
+        <div
+            class="constant-card"
+            data-category="quantum"
+            data-symbol="h"
+            data-title="Planck constant"
+            data-value="6.626 070 15 × 10⁻³⁴ J s"
+            data-description="The Planck constant sets the scale of quantum action. It connects the energy of a photon with its frequency through E = hν. Its numerical value is fixed exactly in the SI.">
+
+            <div class="constant-symbol">
+                h
+            </div>
+
+            <div class="constant-name">
+                Planck constant
+            </div>
+
+            <div class="constant-value">
+                6.626 070 15 × 10⁻³⁴ J s
+            </div>
+
+            <div class="constant-unit">
+                EXACT
+            </div>
+
+            <div class="constant-category">
+                QUANTUM
+            </div>
+
+        </div>
+
+
+        <!-- hbar -->
+
+        <div
+            class="constant-card"
+            data-category="quantum"
+            data-symbol="ℏ"
+            data-title="Reduced Planck constant"
+            data-value="1.054 571 817… × 10⁻³⁴ J s"
+            data-description="The reduced Planck constant is h divided by 2π. It appears throughout quantum mechanics, quantum field theory, angular momentum and commutation relations.">
+
+            <div class="constant-symbol">
+                ℏ
+            </div>
+
+            <div class="constant-name">
+                Reduced Planck constant
+            </div>
+
+            <div class="constant-value">
+                1.054 571 817… × 10⁻³⁴ J s
+            </div>
+
+            <div class="constant-unit">
+                J s
+            </div>
+
+            <div class="constant-category">
+                QUANTUM
+            </div>
+
+        </div>
+
+
+        <!-- G -->
+
+        <div
+            class="constant-card"
+            data-category="universal"
+            data-symbol="G"
+            data-title="Newtonian gravitational constant"
+            data-value="6.674 30(15) × 10⁻¹¹ m³ kg⁻¹ s⁻²"
+            data-description="The gravitational constant sets the strength of gravitational interaction in Newtonian gravity and appears in the coupling of mass to spacetime curvature in general relativity.">
+
+            <div class="constant-symbol">
+                G
+            </div>
+
+            <div class="constant-name">
+                Gravitational constant
+            </div>
+
+            <div class="constant-value">
+                6.674 30(15) × 10⁻¹¹
+            </div>
+
+            <div class="constant-unit">
+                m³ kg⁻¹ s⁻²
+            </div>
+
+            <div class="constant-category">
+                UNIVERSAL
+            </div>
+
+        </div>
+
+
+        <!-- e -->
+
+        <div
+            class="constant-card"
+            data-category="electromagnetic"
+            data-symbol="e"
+            data-title="Elementary charge"
+            data-value="1.602 176 634 × 10⁻¹⁹ C"
+            data-description="The magnitude of the elementary electric charge. The SI fixes its numerical value exactly. The proton carries +e and the electron carries −e.">
+
+            <div class="constant-symbol">
+                e
+            </div>
+
+            <div class="constant-name">
+                Elementary charge
+            </div>
+
+            <div class="constant-value">
+                1.602 176 634 × 10⁻¹⁹ C
+            </div>
+
+            <div class="constant-unit">
+                EXACT
+            </div>
+
+            <div class="constant-category">
+                ELECTROMAGNETIC
+            </div>
+
+        </div>
+
+
+        <!-- k -->
+
+        <div
+            class="constant-card"
+            data-category="universal"
+            data-symbol="kᵦ"
+            data-title="Boltzmann constant"
+            data-value="1.380 649 × 10⁻²³ J/K"
+            data-description="The Boltzmann constant connects microscopic statistical physics with macroscopic thermodynamics. It appears in expressions such as S = kB ln Ω.">
+
+            <div class="constant-symbol">
+                kᵦ
+            </div>
+
+            <div class="constant-name">
+                Boltzmann constant
+            </div>
+
+            <div class="constant-value">
+                1.380 649 × 10⁻²³ J/K
+            </div>
+
+            <div class="constant-unit">
+                EXACT
+            </div>
+
+            <div class="constant-category">
+                UNIVERSAL
+            </div>
+
+        </div>
+
+
+        <!-- NA -->
+
+        <div
+            class="constant-card"
+            data-category="atomic"
+            data-symbol="Nₐ"
+            data-title="Avogadro constant"
+            data-value="6.022 140 76 × 10²³ mol⁻¹"
+            data-description="The Avogadro constant specifies the number of elementary entities per mole. Its numerical value is fixed exactly in the SI.">
+
+            <div class="constant-symbol">
+                Nₐ
+            </div>
+
+            <div class="constant-name">
+                Avogadro constant
+            </div>
+
+            <div class="constant-value">
+                6.022 140 76 × 10²³ mol⁻¹
+            </div>
+
+            <div class="constant-unit">
+                EXACT
+            </div>
+
+            <div class="constant-category">
+                ATOMIC
+            </div>
+
+        </div>
+
+
+        <!-- alpha -->
+
+        <div
+            class="constant-card"
+            data-category="electromagnetic"
+            data-symbol="α"
+            data-title="Fine-structure constant"
+            data-value="α ≈ 7.297 352 5643 × 10⁻³"
+            data-description="A dimensionless measure of the strength of electromagnetic interaction. Its inverse is approximately 137.035999177. Because it is dimensionless, its value does not depend on the choice of units.">
+
+            <div class="constant-symbol">
+                α
+            </div>
+
+            <div class="constant-name">
+                Fine-structure constant
+            </div>
+
+            <div class="constant-value">
+                7.297 352 5643 × 10⁻³
+            </div>
+
+            <div class="constant-unit">
+                DIMENSIONLESS
+            </div>
+
+            <div class="constant-category">
+                ELECTROMAGNETIC
+            </div>
+
+        </div>
+
+
+        <!-- epsilon -->
+
+        <div
+            class="constant-card"
+            data-category="electromagnetic"
+            data-symbol="ε₀"
+            data-title="Vacuum electric permittivity"
+            data-value="8.854 187 8188(14) × 10⁻¹² F/m"
+            data-description="The vacuum electric permittivity appears in the electromagnetic description of electric fields and is related to the magnetic permeability and speed of light by ε₀ = 1/(μ₀c²).">
+
+            <div class="constant-symbol">
+                ε₀
+            </div>
+
+            <div class="constant-name">
+                Vacuum permittivity
+            </div>
+
+            <div class="constant-value">
+                8.854 187 8188 × 10⁻¹²
+            </div>
+
+            <div class="constant-unit">
+                F/m
+            </div>
+
+            <div class="constant-category">
+                ELECTROMAGNETIC
+            </div>
+
+        </div>
+
+
+        <!-- mu -->
+
+        <div
+            class="constant-card"
+            data-category="electromagnetic"
+            data-symbol="μ₀"
+            data-title="Vacuum magnetic permeability"
+            data-value="1.256 637 061 27(20) × 10⁻⁶ N/A²"
+            data-description="The vacuum magnetic permeability characterizes the magnetic response associated with vacuum in the SI formulation. Since the 2019 SI revision, μ₀ is no longer an exact defining constant.">
+
+            <div class="constant-symbol">
+                μ₀
+            </div>
+
+            <div class="constant-name">
+                Vacuum permeability
+            </div>
+
+            <div class="constant-value">
+                1.256 637 061 27 × 10⁻⁶
+            </div>
+
+            <div class="constant-unit">
+                N/A²
+            </div>
+
+            <div class="constant-category">
+                ELECTROMAGNETIC
+            </div>
+
+        </div>
+
+
+        <!-- Bohr -->
+
+        <div
+            class="constant-card"
+            data-category="atomic"
+            data-symbol="a₀"
+            data-title="Bohr radius"
+            data-value="5.291 772 105 44(82) × 10⁻¹¹ m"
+            data-description="The Bohr radius is the characteristic length scale of the hydrogen atom in the Bohr model and appears naturally in the quantum mechanical hydrogen problem.">
+
+            <div class="constant-symbol">
+                a₀
+            </div>
+
+            <div class="constant-name">
+                Bohr radius
+            </div>
+
+            <div class="constant-value">
+                5.291 772 105 44 × 10⁻¹¹ m
+            </div>
+
+            <div class="constant-unit">
+                LENGTH
+            </div>
+
+            <div class="constant-category">
+                ATOMIC
+            </div>
+
+        </div>
+
+
+        <!-- electron mass -->
+
+        <div
+            class="constant-card"
+            data-category="atomic"
+            data-symbol="mₑ"
+            data-title="Electron mass"
+            data-value="9.109 383 7139(28) × 10⁻³¹ kg"
+            data-description="The rest mass of the electron. It sets an important mass scale in atomic, condensed-matter and particle physics.">
+
+            <div class="constant-symbol">
+                mₑ
+            </div>
+
+            <div class="constant-name">
+                Electron mass
+            </div>
+
+            <div class="constant-value">
+                9.109 383 7139 × 10⁻³¹ kg
+            </div>
+
+            <div class="constant-unit">
+                kg
+            </div>
+
+            <div class="constant-category">
+                ATOMIC
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     PLANCK SCALE
+====================================================== -->
+
+<section>
+
+    <div class="section-label">
+        NATURAL UNITS
+    </div>
+
+    <h2 class="section-title">
+        Enter the<br>
+        Planck scale.
+    </h2>
+
+    <p class="section-description">
+
+        Combine the constants c, G and ℏ and characteristic
+        scales emerge naturally.
+
+        <br><br>
+
+        These are not experimentally established boundaries of
+        known physics. They are natural scales constructed from
+        fundamental constants and are important in discussions
+        of quantum gravity.
+
+    </p>
+
+
+    <div class="planck-stage">
+
+        <div class="planck-core">
+
+            <div class="planck-dot"></div>
+
+        </div>
+
+        <div class="planck-label">
+
+            <strong>
+                ℓₚ
+            </strong>
+
+            <span>
+                PLANCK LENGTH
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="planck-grid">
+
+
+        <div
+            class="planck-card"
+            data-modal="planck-length">
+
+            <div class="planck-symbol">
+                ℓₚ
+            </div>
+
+            <div class="planck-name">
+                PLANCK LENGTH
+            </div>
+
+            <div class="planck-value">
+                1.616 255(18) × 10⁻³⁵ m
+            </div>
+
+        </div>
+
+
+        <div
+            class="planck-card"
+            data-modal="planck-time">
+
+            <div class="planck-symbol">
+                tₚ
+            </div>
+
+            <div class="planck-name">
+                PLANCK TIME
+            </div>
+
+            <div class="planck-value">
+                5.391 247(60) × 10⁻⁴⁴ s
+            </div>
+
+        </div>
+
+
+        <div
+            class="planck-card"
+            data-modal="planck-mass">
+
+            <div class="planck-symbol">
+                mₚ
+            </div>
+
+            <div class="planck-name">
+                PLANCK MASS
+            </div>
+
+            <div class="planck-value">
+                2.176 434(24) × 10⁻⁸ kg
+            </div>
+
+        </div>
+
+
+        <div
+            class="planck-card"
+            data-modal="planck-temp">
+
+            <div class="planck-symbol">
+                Tₚ
+            </div>
+
+            <div class="planck-name">
+                PLANCK TEMPERATURE
+            </div>
+
+            <div class="planck-value">
+                1.416 784(16) × 10³² K
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     SCALE OF REALITY
+====================================================== -->
+
+<section>
+
+    <div class="section-label">
+        SCALE
+    </div>
+
+    <h2 class="section-title">
+        From Planck<br>
+        to cosmos.
+    </h2>
+
+    <p class="section-description">
+
+        The physical world spans an extraordinary range of
+        characteristic length scales.
+
+    </p>
+
+
+    <div class="scale-wrapper">
+
+        <div class="scale-track">
+
+
+            <div
+                class="scale-point"
+                style="left: 2%;"
+                data-info="Planck scale · ~10⁻³⁵ m">
+
+                <div class="scale-label top">
+                    PLANCK<br>
+                    ~10⁻³⁵ m
+                </div>
+
+            </div>
+
+
+            <div
+                class="scale-point"
+                style="left: 18%;"
+                data-info="Nuclear scale · ~10⁻¹⁵ m">
+
+                <div class="scale-label bottom">
+                    NUCLEAR<br>
+                    ~10⁻¹⁵ m
+                </div>
+
+            </div>
+
+
+            <div
+                class="scale-point"
+                style="left: 35%;"
+                data-info="Atomic scale · ~10⁻¹⁰ m">
+
+                <div class="scale-label top">
+                    ATOMIC<br>
+                    ~10⁻¹⁰ m
+                </div>
+
+            </div>
+
+
+            <div
+                class="scale-point"
+                style="left: 51%;"
+                data-info="Human scale · ~1 m">
+
+                <div class="scale-label bottom">
+                    HUMAN<br>
+                    ~1 m
+                </div>
+
+            </div>
+
+
+            <div
+                class="scale-point"
+                style="left: 67%;"
+                data-info="Planetary scale · ~10⁷ m">
+
+                <div class="scale-label top">
+                    PLANETARY<br>
+                    ~10⁷ m
+                </div>
+
+            </div>
+
+
+            <div
+                class="scale-point"
+                style="left: 83%;"
+                data-info="Stellar scale · ~10⁹ m">
+
+                <div class="scale-label bottom">
+                    STELLAR<br>
+                    ~10⁹ m
+                </div>
+
+            </div>
+
+
+            <div
+                class="scale-point"
+                style="left: 98%;"
+                data-info="Cosmological scale · ~10²⁶ m">
+
+                <div class="scale-label top">
+                    COSMIC<br>
+                    ~10²⁶ m
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div
+            id="scaleInfo"
+            class="scale-info">
+
+            SELECT A SCALE
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     UNIT CONVERTER
+====================================================== -->
+
+<section>
+
+    <div class="section-label">
+        UNIT CONVERTER
+    </div>
+
+    <h2 class="section-title">
+        Change the<br>
+        language.
+    </h2>
+
+    <p class="section-description">
+
+        A physical quantity does not change because we express it
+        in another unit. Only the numerical representation changes.
+
+    </p>
+
+
+    <div class="converter">
+
+        <div class="converter-row">
+
+            <input
+                id="inputValue"
+                type="number"
+                value="1"
+                step="any">
+
+
+            <select id="fromUnit">
+
+                <option value="m">
+                    metre
+                </option>
+
+                <option value="km">
+                    kilometre
+                </option>
+
+                <option value="cm">
+                    centimetre
+                </option>
+
+                <option value="mm">
+                    millimetre
+                </option>
+
+                <option value="um">
+                    micrometre
+                </option>
+
+                <option value="nm">
+                    nanometre
+                </option>
+
+                <option value="pm">
+                    picometre
+                </option>
+
+                <option value="fm">
+                    femtometre
+                </option>
+
+                <option value="planck">
+                    Planck length
+                </option>
+
+                <option value="s">
+                    second
+                </option>
+
+                <option value="ms">
+                    millisecond
+                </option>
+
+                <option value="us">
+                    microsecond
+                </option>
+
+                <option value="ns">
+                    nanosecond
+                </option>
+
+                <option value="kg">
+                    kilogram
+                </option>
+
+                <option value="g">
+                    gram
+                </option>
+
+                <option value="mg">
+                    milligram
+                </option>
+
+                <option value="K">
+                    kelvin
+                </option>
+
+            </select>
+
+
+            <div class="converter-arrow">
+                →
+            </div>
+
+
+            <div
+                id="outputValue"
+                class="converter-output"
+                style="
+                    background:#06111b;
+                    border:1px solid rgba(110,190,235,0.18);
+                    padding:17px;
+                    min-height:52px;
+                    font-size:12px;
+                    overflow:hidden;
+                ">
+                1
+            </div>
+
+
+            <select id="toUnit">
+
+                <option value="km">
+                    kilometre
+                </option>
+
+                <option value="m">
+                    metre
+                </option>
+
+                <option value="cm">
+                    centimetre
+                </option>
+
+                <option value="mm">
+                    millimetre
+                </option>
+
+                <option value="um">
+                    micrometre
+                </option>
+
+                <option value="nm">
+                    nanometre
+                </option>
+
+                <option value="pm">
+                    picometre
+                </option>
+
+                <option value="fm">
+                    femtometre
+                </option>
+
+                <option value="planck">
+                    Planck length
+                </option>
+
+                <option value="s">
+                    second
+                </option>
+
+                <option value="ms">
+                    millisecond
+                </option>
+
+                <option value="us">
+                    microsecond
+                </option>
+
+                <option value="ns">
+                    nanosecond
+                </option>
+
+                <option value="kg">
+                    kilogram
+                </option>
+
+                <option value="g">
+                    gram
+                </option>
+
+                <option value="mg">
+                    milligram
+                </option>
+
+                <option value="K">
+                    kelvin
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="converter-result">
+
+            <div
+                id="resultNumber"
+                class="result-number">
+                1,000
+            </div>
+
+            <div
+                id="resultLabel"
+                class="result-label">
+                centimetres
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     DIMENSIONAL ANALYSIS
+====================================================== -->
+
+<section>
+
+    <div class="section-label">
+        DIMENSION
+    </div>
+
+    <h2 class="section-title">
+        Numbers have<br>
+        structure.
+    </h2>
+
+    <p class="section-description">
+
+        Dimensional analysis allows physics to check whether
+        equations are physically meaningful.
+
+    </p>
+
+
+    <div class="dimension-box">
+
+        <div class="dimension-equation">
+
+            [ <span>E</span> ]
+            =
+            [ <span>M</span> ]
+            [ <span>L</span> ]²
+            [ <span>T</span> ]⁻²
+
+        </div>
+
+
+        <div class="dimension-explanation">
+
+            Energy has the dimensions of mass × length² ÷ time².
+
+            <br><br>
+
+            This means that the joule can be written as:
+
+            <br><br>
+
+            <strong>
+                J = kg m² s⁻²
+            </strong>
+
+            <br><br>
+
+            Derived units are therefore combinations of the
+            underlying SI base dimensions.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     EQUATIONS
+====================================================== -->
+
+<section>
+
+    <div class="section-label">
+        RELATIONSHIPS
+    </div>
+
+    <h2 class="section-title">
+        Constants become<br>
+        physics through equations.
+    </h2>
+
+
+    <div class="equations">
+
+
+        <div class="equation-card">
+
+            <div class="equation">
+                E = mc²
+            </div>
+
+            <div class="equation-name">
+                MASS–ENERGY EQUIVALENCE
+            </div>
+
+            <div class="equation-description">
+                Mass contributes to the energy content of a system.
+                The conversion factor is the square of the speed of light.
+            </div>
+
+        </div>
+
+
+        <div class="equation-card">
+
+            <div class="equation">
+                E = hν
+            </div>
+
+            <div class="equation-name">
+                QUANTUM OF ENERGY
+            </div>
+
+            <div class="equation-description">
+                Photon energy is proportional to electromagnetic frequency.
+            </div>
+
+        </div>
+
+
+        <div class="equation-card">
+
+            <div class="equation">
+                p = ℏk
+            </div>
+
+            <div class="equation-name">
+                MATTER WAVES
+            </div>
+
+            <div class="equation-description">
+                Momentum is connected to wave number through the
+                reduced Planck constant.
+            </div>
+
+        </div>
+
+
+        <div class="equation-card">
+
+            <div class="equation">
+                F = Gm₁m₂/r²
+            </div>
+
+            <div class="equation-name">
+                NEWTONIAN GRAVITY
+            </div>
+
+            <div class="equation-description">
+                The gravitational constant sets the coupling scale
+                of Newtonian gravitational attraction.
+            </div>
+
+        </div>
+
+
+        <div class="equation-card">
+
+            <div class="equation">
+                S = kᵦ ln Ω
+            </div>
+
+            <div class="equation-name">
+                STATISTICAL ENTROPY
+            </div>
+
+            <div class="equation-description">
+                The Boltzmann constant connects microscopic
+                multiplicity with macroscopic entropy.
+            </div>
+
+        </div>
+
+
+        <div class="equation-card">
+
+            <div class="equation">
+                ΔxΔp ≥ ℏ/2
+            </div>
+
+            <div class="equation-name">
+                UNCERTAINTY PRINCIPLE
+            </div>
+
+            <div class="equation-description">
+                Quantum mechanics imposes a lower bound on the
+                simultaneous spread of position and momentum.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     DIMENSIONLESS
+====================================================== -->
+
+<section>
+
+    <div class="section-label">
+        DIMENSIONLESS
+    </div>
+
+    <h2 class="section-title">
+        When units<br>
+        disappear.
+    </h2>
+
+    <p class="section-description">
+
+        Dimensionless constants are especially interesting because
+        their numerical values do not depend on our choice of units.
+
+    </p>
+
+
+    <div class="dimensionless">
+
+
+        <div class="dimensionless-card">
+
+            <div class="dimensionless-symbol">
+                α
+            </div>
+
+            <div class="dimensionless-value">
+                1 / 137.035999177
+            </div>
+
+            <div class="dimensionless-text">
+                Fine-structure constant.
+                A dimensionless measure of electromagnetic coupling.
+            </div>
+
+        </div>
+
+
+        <div class="dimensionless-card">
+
+            <div class="dimensionless-symbol">
+                π
+            </div>
+
+            <div class="dimensionless-value">
+                3.14159265…
+            </div>
+
+            <div class="dimensionless-text">
+                A mathematical constant appearing throughout geometry,
+                waves, oscillations, quantum mechanics and field theory.
+            </div>
+
+        </div>
+
+
+        <div class="dimensionless-card">
+
+            <div class="dimensionless-symbol">
+                Ω
+            </div>
+
+            <div class="dimensionless-value">
+                STATE COUNT
+            </div>
+
+            <div class="dimensionless-text">
+                In statistical mechanics, the number of accessible
+                microscopic configurations enters directly into entropy.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     FINAL
+====================================================== -->
+
+<section class="final">
+
+    <div class="section-label">
+        THE IDEA
+    </div>
+
+    <div class="final-equation">
+        ℏ · c · G
+    </div>
+
+    <div class="final-title">
+        Three constants.<br>
+        A scale of reality.
+    </div>
+
+    <p class="final-text">
+
+        From a small collection of physical constants,
+        we can construct natural scales of length, time,
+        mass and temperature.
+
+        <br><br>
+
+        The equations do not tell us that the Universe
+        must end at the Planck scale.
+
+        They tell us something more subtle:
+
+        <br><br>
+
+        <strong>
+            these constants define a remarkable natural
+            system of scales at which quantum theory,
+            relativity and gravity become deeply connected.
+
+        </strong>
+
+    </p>
+
+</section>
+
+
+<!-- ======================================================
+     SOURCES
+====================================================== -->
+
+<section>
+
+    <div class="section-label">
+        SOURCES
+    </div>
+
+    <h2 class="section-title">
+        Follow the<br>
+        measurements.
+    </h2>
+
+
+    <div class="sources">
+
+        <a
+            href="https://www.bipm.org/en/measurement-units/si-defining-constants"
+            target="_blank">
+            BIPM — SI Defining Constants
+        </a>
+
+        <a
+            href="https://www.bipm.org/en/measurement-units/si-base-units"
+            target="_blank">
+            BIPM — SI Base Units
+        </a>
+
+        <a
+            href="https://www.bipm.org/en/publications/si-brochure"
+            target="_blank">
+            BIPM — SI Brochure
+        </a>
+
+        <a
+            href="https://physics.nist.gov/constants"
+            target="_blank">
+            NIST — Fundamental Physical Constants / CODATA
+        </a>
+
+        <a
+            href="https://www.nist.gov/publications/codata-recommended-values-fundamental-physical-constants-2022"
+            target="_blank">
+            NIST — CODATA Recommended Values 2022
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+    <div class="footer-brand">
+        DRAVYA
+    </div>
+
+    <div class="footer-tagline">
+        OBSERVE · DISTURB · CREATE
+    </div>
+
+</footer>
+
+</div>
+
+
+<!-- ======================================================
+     CONSTANT MODAL
+====================================================== -->
+
+<div
+    id="modal"
+    class="modal">
+
+    <div class="modal-box">
+
+        <div
+            id="modalClose"
+            class="modal-close">
+            ×
+        </div>
+
+        <div
+            id="modalSymbol"
+            class="modal-symbol">
+        </div>
+
+        <div
+            id="modalTitle"
+            class="modal-title">
+        </div>
+
+        <div
+            id="modalValue"
+            class="modal-value">
+        </div>
+
+        <div
+            id="modalDescription"
+            class="modal-description">
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   VIDEO
+========================================================= */
+
+const video =
+    document.getElementById("bg-video");
+
+video.play().catch(() => {
+
+    document.addEventListener(
+        "click",
+        () => video.play(),
+        { once: true }
+    );
+
+});
+
+
+/* =========================================================
+   CONSTANT FILTER
+========================================================= */
+
+const filterButtons =
+    document.querySelectorAll(".filter-btn");
+
+const constantCards =
+    document.querySelectorAll(".constant-card");
+
+filterButtons.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            filterButtons.forEach(
+                b => b.classList.remove("active")
+            );
+
+            button.classList.add("active");
+
+            const filter =
+                button.dataset.filter;
+
+            constantCards.forEach(card => {
+
+                if (
+                    filter === "all" ||
+                    card.dataset.category === filter
+                ) {
+
+                    card.style.display = "block";
+
+                } else {
+
+                    card.style.display = "none";
+
+                }
+
+            });
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+const modal =
+    document.getElementById("modal");
+
+const modalSymbol =
+    document.getElementById("modalSymbol");
+
+const modalTitle =
+    document.getElementById("modalTitle");
+
+const modalValue =
+    document.getElementById("modalValue");
+
+const modalDescription =
+    document.getElementById("modalDescription");
+
+function openModal(
+    symbol,
+    title,
+    value,
+    description
+) {
+
+    modalSymbol.textContent =
+        symbol;
+
+    modalTitle.textContent =
+        title;
+
+    modalValue.textContent =
+        value;
+
+    modalDescription.textContent =
+        description;
+
+    modal.classList.add("show");
+
+}
+
+
+function closeModal() {
+
+    modal.classList.remove("show");
+
+}
+
+
+document
+    .querySelectorAll(
+        ".constant-card"
+    )
+    .forEach(card => {
+
+        card.addEventListener(
+            "click",
+            () => {
+
+                openModal(
+                    card.dataset.symbol,
+                    card.dataset.title,
+                    card.dataset.value,
+                    card.dataset.description
+                );
+
+            }
+        );
+
+    });
+
+
+document
+    .querySelectorAll(
+        ".base-card"
+    )
+    .forEach(card => {
+
+        const data = {
+
+            second: [
+                "s",
+                "second",
+                "The SI unit of time.",
+                "The second is defined using the unperturbed ground-state hyperfine transition frequency of caesium-133."
+            ],
+
+            metre: [
+                "m",
+                "metre",
+                "The SI unit of length.",
+                "The metre is defined by fixing the numerical value of the speed of light in vacuum."
+            ],
+
+            kilogram: [
+                "kg",
+                "kilogram",
+                "The SI unit of mass.",
+                "The kilogram is defined through the fixed numerical value of the Planck constant."
+            ],
+
+            ampere: [
+                "A",
+                "ampere",
+                "The SI unit of electric current.",
+                "The ampere is defined through the fixed numerical value of the elementary charge."
+            ],
+
+            kelvin: [
+                "K",
+                "kelvin",
+                "The SI unit of thermodynamic temperature.",
+                "The kelvin is defined through the fixed numerical value of the Boltzmann constant."
+            ],
+
+            mole: [
+                "mol",
+                "mole",
+                "The SI unit of amount of substance.",
+                "The mole is defined by fixing the numerical value of the Avogadro constant."
+            ],
+
+            candela: [
+                "cd",
+                "candela",
+                "The SI unit of luminous intensity.",
+                "The candela is defined using a specified luminous efficacy for monochromatic radiation."
+            ]
+
+        };
+
+        card.addEventListener(
+            "click",
+            () => {
+
+                const d =
+                    data[
+                        card.dataset.modal
+                    ];
+
+                openModal(
+                    d[0],
+                    d[1],
+                    d[2],
+                    d[3]
+                );
+
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   PLANCK MODALS
+========================================================= */
+
+const planckData = {
+
+    "planck-length": [
+        "ℓₚ",
+        "Planck length",
+        "1.616 255(18) × 10⁻³⁵ m",
+        "The Planck length is constructed from ℏ, G and c: √(ℏG/c³). It is a natural length scale associated with quantum gravity."
+    ],
+
+    "planck-time": [
+        "tₚ",
+        "Planck time",
+        "5.391 247(60) × 10⁻⁴⁴ s",
+        "The Planck time is the time required for light to travel one Planck length. It is constructed from ℏ, G and c."
+    ],
+
+    "planck-mass": [
+        "mₚ",
+        "Planck mass",
+        "2.176 434(24) × 10⁻⁸ kg",
+        "The Planck mass is constructed from ℏ, G and c and provides a natural mass scale in discussions of quantum gravity."
+    ],
+
+    "planck-temp": [
+        "Tₚ",
+        "Planck temperature",
+        "1.416 784(16) × 10³² K",
+        "The Planck temperature is constructed from ℏ, c, G and the Boltzmann constant."
+    ]
+
+};
+
+
+document
+    .querySelectorAll(
+        ".planck-card"
+    )
+    .forEach(card => {
+
+        card.addEventListener(
+            "click",
+            () => {
+
+                const d =
+                    planckData[
+                        card.dataset.modal
+                    ];
+
+                openModal(
+                    d[0],
+                    d[1],
+                    d[2],
+                    d[3]
+                );
+
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   CLOSE MODAL
+========================================================= */
+
+document
+    .getElementById("modalClose")
+    .addEventListener(
+        "click",
+        closeModal
+    );
+
+
+modal.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target === modal
+        ) {
+
+            closeModal();
+
+        }
+
+    }
+);
+
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closeModal();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   SCALE EXPLORER
+========================================================= */
+
+const scalePoints =
+    document.querySelectorAll(
+        ".scale-point"
+    );
+
+const scaleInfo =
+    document.getElementById(
+        "scaleInfo"
+    );
+
+scalePoints.forEach(point => {
+
+    point.addEventListener(
+        "click",
+        () => {
+
+            scaleInfo.textContent =
+                point.dataset.info;
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   UNIT CONVERTER
+========================================================= */
+
+/*
+    Conversion factors to SI.
+
+    Length → metre
+    Time → second
+    Mass → kilogram
+    Temperature → kelvin
+
+    Temperature conversions are handled separately.
+*/
+
+const units = {
+
+    m: {
+        type: "length",
+        factor: 1,
+        label: "metres"
+    },
+
+    km: {
+        type: "length",
+        factor: 1000,
+        label: "kilometres"
+    },
+
+    cm: {
+        type: "length",
+        factor: 0.01,
+        label: "centimetres"
+    },
+
+    mm: {
+        type: "length",
+        factor: 0.001,
+        label: "millimetres"
+    },
+
+    um: {
+        type: "length",
+        factor: 1e-6,
+        label: "micrometres"
+    },
+
+    nm: {
+        type: "length",
+        factor: 1e-9,
+        label: "nanometres"
+    },
+
+    pm: {
+        type: "length",
+        factor: 1e-12,
+        label: "picometres"
+    },
+
+    fm: {
+        type: "length",
+        factor: 1e-15,
+        label: "femtometres"
+    },
+
+    planck: {
+        type: "length",
+        factor: 1.616255e-35,
+        label: "Planck lengths"
+    },
+
+    s: {
+        type: "time",
+        factor: 1,
+        label: "seconds"
+    },
+
+    ms: {
+        type: "time",
+        factor: 1e-3,
+        label: "milliseconds"
+    },
+
+    us: {
+        type: "time",
+        factor: 1e-6,
+        label: "microseconds"
+    },
+
+    ns: {
+        type: "time",
+        factor: 1e-9,
+        label: "nanoseconds"
+    },
+
+    kg: {
+        type: "mass",
+        factor: 1,
+        label: "kilograms"
+    },
+
+    g: {
+        type: "mass",
+        factor: 1e-3,
+        label: "grams"
+    },
+
+    mg: {
+        type: "mass",
+        factor: 1e-6,
+        label: "milligrams"
+    },
+
+    K: {
+        type: "temperature",
+        factor: 1,
+        label: "kelvin"
+    }
+
+};
+
+
+const inputValue =
+    document.getElementById(
+        "inputValue"
+    );
+
+const fromUnit =
+    document.getElementById(
+        "fromUnit"
+    );
+
+const toUnit =
+    document.getElementById(
+        "toUnit"
+    );
+
+const outputValue =
+    document.getElementById(
+        "outputValue"
+    );
+
+const resultNumber =
+    document.getElementById(
+        "resultNumber"
+    );
+
+const resultLabel =
+    document.getElementById(
+        "resultLabel"
+    );
+
+
+function formatNumber(value) {
+
+    if (!Number.isFinite(value)) {
+        return "—";
+    }
+
+    const abs =
+        Math.abs(value);
+
+    if (
+        abs !== 0 &&
+        (abs >= 1e9 || abs < 1e-6)
+    ) {
+
+        return value.toExponential(8);
+
+    }
+
+    return value.toLocaleString(
+        undefined,
+        {
+            maximumFractionDigits: 12
+        }
+    );
+
+}
+
+
+function convertUnits() {
+
+    const value =
+        Number(
+            inputValue.value
+        );
+
+    const from =
+        units[
+            fromUnit.value
+        ];
+
+    const to =
+        units[
+            toUnit.value
+        ];
+
+    if (
+        !from ||
+        !to ||
+        !Number.isFinite(value)
+    ) {
+
+        outputValue.textContent =
+            "—";
+
+        resultNumber.textContent =
+            "—";
+
+        return;
+
+    }
+
+
+    /* incompatible dimensions */
+
+    if (
+        from.type !== to.type
+    ) {
+
+        outputValue.textContent =
+            "INCOMPATIBLE";
+
+        resultNumber.textContent =
+            "Choose compatible units";
+
+        resultLabel.textContent =
+            "length, time, mass and temperature cannot be mixed";
+
+        return;
+
+    }
+
+
+    let result;
+
+
+    /* temperature */
+
+    if (
+        from.type === "temperature"
+    ) {
+
+        /*
+            Only kelvin is currently included.
+            This structure makes adding Celsius/Fahrenheit easy.
+        */
+
+        result =
+            value;
+
+    } else {
+
+        const siValue =
+            value * from.factor;
+
+        result =
+            siValue / to.factor;
+
+    }
+
+
+    const formatted =
+        formatNumber(result);
+
+
+    outputValue.textContent =
+        formatted;
+
+
+    resultNumber.textContent =
+        formatted;
+
+
+    resultLabel.textContent =
+        units[
+            toUnit.value
+        ].label;
+
+}
+
+
+[
+    inputValue,
+    fromUnit,
+    toUnit
+].forEach(
+    element => {
+
+        element.addEventListener(
+            "input",
+            convertUnits
+        );
+
+        element.addEventListener(
+            "change",
+            convertUnits
+        );
+
+    }
+);
+
+
+convertUnits();
+
+
+</script>
+
+</body>
+</html>
+```
