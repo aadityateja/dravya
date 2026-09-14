@@ -1,28 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Geochronology — DRAVYA</title>
 
 <meta
     name="description"
-    content="Explore Earth's history through geochronology, geological time and radioactive clocks."
+    content="Geochronology — a journey through Earth's 4.54 billion year history."
 >
-
 
 <style>
 
 /* =========================================================
-   GLOBAL
-========================================================= */
+   DRAVYA GEOCHRONOLOGY
+   ========================================================= */
+
+@font-face {
+    font-family: "Dark";
+    src: url("assets/fonts/Dark.ttf") format("truetype");
+    font-display: swap;
+}
+
+:root {
+    --blue: #68bfff;
+    --cyan: #9be7ff;
+    --deep: #020812;
+    --panel: rgba(3, 12, 25, 0.72);
+    --border: rgba(120, 200, 255, 0.20);
+    --text: #eaf6ff;
+    --muted: #91a9bd;
+}
 
 * {
     box-sizing: border-box;
@@ -35,11 +44,8 @@ html {
 }
 
 body {
-
-    background: #000;
-
-    color: #e9f2ff;
-
+    background: #01040a;
+    color: var(--text);
     font-family:
         Inter,
         system-ui,
@@ -49,216 +55,244 @@ body {
         sans-serif;
 
     line-height: 1.7;
-
     overflow-x: hidden;
 }
 
 
 /* =========================================================
-   DRAVYA VIDEO BACKGROUND
-========================================================= */
+   VIDEO BACKGROUND
+   ========================================================= */
 
 #background-video {
-
     position: fixed;
+    inset: 0;
 
-    top: 0;
-    left: 0;
-
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 
     object-fit: cover;
 
-    z-index: -10;
+    z-index: 0;
 
-    opacity: 0.42;
+    opacity: 0.38;
+
+    pointer-events: none;
+}
+
+.video-overlay {
+    position: fixed;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(0, 80, 160, 0.08),
+            rgba(0, 0, 0, 0.78) 72%
+        );
+
+    z-index: 1;
 
     pointer-events: none;
 }
 
 
 /* =========================================================
-   CINEMATIC OVERLAY
-========================================================= */
+   GLOBAL ATMOSPHERE
+   ========================================================= */
 
-body::after {
-
+body::before {
     content: "";
 
     position: fixed;
-
     inset: 0;
 
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(0, 5, 15, 0.42),
-            rgba(0, 3, 10, 0.72)
+    background-image:
+        radial-gradient(
+            rgba(120, 210, 255, 0.18) 1px,
+            transparent 1px
         );
 
-    z-index: -9;
+    background-size: 70px 70px;
+
+    opacity: 0.08;
+
+    z-index: 1;
 
     pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTENT LAYER
+   ========================================================= */
+
+nav,
+main,
+footer {
+    position: relative;
+    z-index: 5;
 }
 
 
 /* =========================================================
    NAVIGATION
-========================================================= */
+   ========================================================= */
 
 nav {
-
     position: fixed;
 
     top: 0;
     left: 0;
 
     width: 100%;
-    height: 64px;
+
+    padding: 22px 5vw;
 
     display: flex;
-
+    justify-content: space-between;
     align-items: center;
 
-    justify-content: space-between;
-
-    padding: 0 5vw;
-
     background:
-        rgba(2, 4, 12, 0.72);
+        linear-gradient(
+            to bottom,
+            rgba(0, 4, 12, 0.86),
+            rgba(0, 4, 12, 0)
+        );
 
-    backdrop-filter:
-        blur(16px);
+    backdrop-filter: blur(8px);
 
-    border-bottom:
-        1px solid
-        rgba(130, 180, 255, 0.12);
-
-    z-index: 1000;
+    z-index: 20;
 }
 
 .logo {
+    font-family: "Dark", sans-serif;
 
-    font-size: 1rem;
+    font-size: 1.25rem;
 
-    letter-spacing:
-        0.25em;
+    letter-spacing: 0.18em;
 
-    color: #8fc7ff;
+    color: white;
+}
 
-    font-weight: 600;
+nav .links {
+    display: flex;
+    gap: 24px;
+
+    flex-wrap: wrap;
+    justify-content: flex-end;
 }
 
 nav a {
-
-    color: #9baec9;
+    color: #b9d9ee;
 
     text-decoration: none;
 
-    margin-left: 28px;
+    font-size: 0.75rem;
 
-    font-size: 0.78rem;
-
-    letter-spacing:
-        0.12em;
+    letter-spacing: 0.12em;
 
     text-transform: uppercase;
 
-    transition: 0.3s;
+    transition: 0.3s ease;
 }
 
 nav a:hover {
     color: white;
+
+    text-shadow:
+        0 0 12px rgba(100, 210, 255, 0.9);
 }
 
 
 /* =========================================================
    HERO
-========================================================= */
+   ========================================================= */
 
 .hero {
-
     min-height: 100vh;
 
     display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
     align-items: center;
 
-    text-align: center;
-
-    padding: 120px 20px 80px;
+    padding:
+        150px
+        8vw
+        100px;
 
     position: relative;
 }
 
+.hero-inner {
+    max-width: 1100px;
+}
+
 .eyebrow {
+    font-size: 0.8rem;
 
-    font-size: 0.75rem;
-
-    letter-spacing:
-        0.4em;
+    letter-spacing: 0.35em;
 
     text-transform: uppercase;
 
-    color: #709ed1;
+    color: var(--cyan);
 
-    margin-bottom: 25px;
+    margin-bottom: 28px;
 }
 
 .hero h1 {
+    font-family: "Dark", sans-serif;
 
     font-size:
-        clamp(4rem, 12vw, 10rem);
+        clamp(
+            4rem,
+            11vw,
+            10rem
+        );
 
-    font-weight: 200;
-
-    letter-spacing:
-        -0.04em;
+    font-weight: 400;
 
     line-height: 0.9;
 
-    background:
-        linear-gradient(
-            120deg,
-            #ffffff,
-            #86bfff,
-            #536fa8
+    letter-spacing: 0.05em;
+
+    margin-bottom: 35px;
+
+    text-shadow:
+        0 0 30px rgba(80, 190, 255, 0.25);
+}
+
+.hero h2 {
+    font-size:
+        clamp(
+            1.3rem,
+            3vw,
+            2.4rem
         );
 
-    -webkit-background-clip: text;
+    font-weight: 300;
 
-    background-clip: text;
+    max-width: 900px;
 
-    color: transparent;
+    color: #d9edf9;
 }
 
 .hero p {
+    max-width: 700px;
 
-    max-width: 720px;
+    margin-top: 30px;
 
-    margin-top: 40px;
+    color: var(--muted);
 
-    color: #c0cee3;
-
-    font-size:
-        clamp(1rem, 2vw, 1.3rem);
+    font-size: 1rem;
 }
 
 .scroll {
-
-    margin-top: 90px;
-
-    color: #7da5d3;
+    margin-top: 70px;
 
     font-size: 0.7rem;
 
-    letter-spacing:
-        0.3em;
+    letter-spacing: 0.3em;
+
+    color: #75bde2;
 
     text-transform: uppercase;
 }
@@ -266,573 +300,647 @@ nav a:hover {
 
 /* =========================================================
    SECTIONS
-========================================================= */
+   ========================================================= */
 
 section {
+    position: relative;
 
-    width: min(
-        1100px,
-        90%
-    );
-
-    margin: 0 auto;
-
-    padding: 150px 0;
+    padding:
+        130px
+        7vw;
 }
 
-.section-label {
-
-    color: #72a5dc;
-
+.section-number {
     font-size: 0.7rem;
 
-    letter-spacing:
-        0.3em;
+    letter-spacing: 0.3em;
 
-    text-transform: uppercase;
+    color: var(--blue);
 
-    margin-bottom: 18px;
+    margin-bottom: 15px;
 }
 
-h2 {
+section h2 {
+    font-family: "Dark", sans-serif;
 
     font-size:
-        clamp(2.5rem, 6vw, 5rem);
-
-    font-weight: 250;
-
-    line-height: 1;
-
-    margin-bottom: 40px;
-}
-
-h3 {
-
-    font-size: 1.5rem;
+        clamp(
+            2.5rem,
+            6vw,
+            5rem
+        );
 
     font-weight: 400;
 
-    margin-bottom: 18px;
+    letter-spacing: 0.04em;
+
+    margin-bottom: 25px;
 }
 
-p {
+.section-intro {
+    max-width: 850px;
 
-    color: #b9c7da;
-
-    max-width: 760px;
+    color: var(--muted);
 
     font-size: 1.05rem;
+
+    margin-bottom: 55px;
 }
 
 
 /* =========================================================
-   BIG NUMBER
-========================================================= */
+   EARTH AGE
+   ========================================================= */
 
-.big-age {
+.earth-age {
+    min-height: 85vh;
 
-    margin: 70px 0;
+    display: flex;
 
-    text-align: center;
-
-    padding: 80px 20px;
-
-    border-top:
-        1px solid
-        rgba(100, 160, 230, 0.18);
-
-    border-bottom:
-        1px solid
-        rgba(100, 160, 230, 0.18);
+    align-items: center;
 }
 
-.big-age .number {
+.age-number {
+    font-family: "Dark", sans-serif;
 
     font-size:
-        clamp(3rem, 9vw, 8rem);
+        clamp(
+            5rem,
+            15vw,
+            13rem
+        );
 
-    font-weight: 200;
+    line-height: 0.85;
 
-    letter-spacing:
-        -0.04em;
-
-    color: #d9ecff;
+    color: white;
 
     text-shadow:
-        0 0 40px
-        rgba(70, 150, 255, 0.25);
+        0 0 50px rgba(80, 190, 255, 0.25);
 }
 
-.big-age span {
+.age-unit {
+    font-size: 1rem;
 
-    display: block;
+    letter-spacing: 0.3em;
 
-    color: #6885a8;
-
-    font-size: 0.8rem;
-
-    letter-spacing:
-        0.35em;
+    color: var(--cyan);
 
     text-transform: uppercase;
+
+    margin-top: 20px;
 }
 
 
 /* =========================================================
-   EARTH ORBIT
-========================================================= */
+   GEOLOGICAL TIME SCALE
+   ========================================================= */
 
-.orbit {
+.timeline {
+    max-width: 1200px;
 
-    width: 340px;
+    margin: auto;
+}
 
-    height: 340px;
+.timeline-intro {
+    margin-bottom: 70px;
+}
 
-    border:
-        1px solid
-        rgba(90, 160, 255, 0.28);
-
-    border-radius: 50%;
-
-    margin: 70px auto;
-
+.time-block {
     position: relative;
-}
-
-.sun {
-
-    position: absolute;
-
-    width: 55px;
-    height: 55px;
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle,
-            #fff6d0,
-            #f2b45e,
-            #d75e24
-        );
-
-    top: 50%;
-    left: 50%;
-
-    transform:
-        translate(-50%, -50%);
-
-    box-shadow:
-        0 0 60px
-        rgba(255, 160, 70, 0.45);
-}
-
-.earth {
-
-    position: absolute;
-
-    width: 18px;
-    height: 18px;
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle at 35% 35%,
-            #75c6ff,
-            #1262a0 55%,
-            #061b3b
-        );
-
-    top: 0;
-    left: 50%;
-
-    transform:
-        translate(-50%, -50%);
-
-    box-shadow:
-        0 0 20px
-        rgba(50, 150, 255, 0.5);
-}
-
-
-/* =========================================================
-   TIME SCALE
-========================================================= */
-
-.time-scale {
-
-    margin-top: 70px;
 
     border-left:
         1px solid
-        rgba(100, 160, 230, 0.25);
+        rgba(100, 190, 255, 0.35);
 
-    padding-left: 35px;
+    padding:
+        35px
+        0
+        35px
+        50px;
+
+    margin-left: 20px;
 }
 
-.time-item {
-
-    padding: 30px 0;
-
-    position: relative;
-}
-
-.time-item::before {
-
+.time-block::before {
     content: "";
 
     position: absolute;
 
-    width: 8px;
-    height: 8px;
+    left: -6px;
+    top: 42px;
+
+    width: 11px;
+    height: 11px;
 
     border-radius: 50%;
 
-    background: #72b9ff;
-
-    left: -40px;
-    top: 40px;
+    background: #72cfff;
 
     box-shadow:
-        0 0 15px
-        rgba(90, 180, 255, 0.8);
+        0 0 18px
+        rgba(80, 190, 255, 0.8);
 }
 
-.time-item strong {
+.time-block h3 {
+    font-family: "Dark", sans-serif;
 
-    display: block;
+    font-size: 2.5rem;
 
-    color: #8ec7ff;
+    font-weight: 400;
+
+    margin-bottom: 4px;
+}
+
+.time-range {
+    color: var(--cyan);
 
     font-size: 0.75rem;
 
-    letter-spacing:
-        0.2em;
+    letter-spacing: 0.18em;
 
     text-transform: uppercase;
 
-    margin-bottom: 8px;
+    margin-bottom: 18px;
+}
+
+.time-description {
+    max-width: 800px;
+
+    color: var(--muted);
+}
+
+.time-events {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 22px;
+}
+
+.event {
+    padding:
+        7px
+        12px;
+
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        rgba(30, 100, 150, 0.10);
+
+    border-radius: 100px;
+
+    font-size: 0.72rem;
+
+    color: #b9ddf1;
 }
 
 
 /* =========================================================
-   GEOLOGICAL HIERARCHY
-========================================================= */
+   ERA CARDS
+   ========================================================= */
 
-.hierarchy {
-
+.era-grid {
     display: grid;
 
     grid-template-columns:
-        repeat(5, 1fr);
+        repeat(
+            auto-fit,
+            minmax(280px, 1fr)
+        );
 
-    gap: 12px;
+    gap: 20px;
 
-    margin-top: 70px;
+    margin-top: 45px;
 }
 
-.level {
+.era-card {
+    padding: 35px;
 
-    padding: 30px 15px;
-
-    text-align: center;
+    min-height: 240px;
 
     border:
         1px solid
-        rgba(100, 160, 230, 0.16);
-
-    background:
-        rgba(20, 35, 60, 0.32);
-
-    transition:
-        transform 0.3s,
-        background 0.3s;
-}
-
-.level:hover {
-
-    transform:
-        translateY(-8px);
-
-    background:
-        rgba(30, 60, 100, 0.45);
-}
-
-.level strong {
-
-    display: block;
-
-    color: #b8dcff;
-
-    margin-bottom: 8px;
-}
-
-.level small {
-    color: #7187a5;
-}
-
-
-/* =========================================================
-   RADIOACTIVE DECAY
-========================================================= */
-
-.decay-box {
-
-    margin-top: 70px;
-
-    padding: 50px;
-
-    border:
-        1px solid
-        rgba(100, 160, 230, 0.18);
+        var(--border);
 
     background:
         linear-gradient(
             145deg,
-            rgba(20, 40, 70, 0.55),
-            rgba(3, 8, 18, 0.60)
+            rgba(10, 35, 65, 0.68),
+            rgba(1, 8, 18, 0.75)
         );
 
-    border-radius: 16px;
-}
-
-.decay-equation {
-
-    font-size:
-        clamp(1.5rem, 4vw, 3rem);
-
-    text-align: center;
-
-    margin-bottom: 50px;
-
-    color: #e6f3ff;
-
-    font-family: Georgia, serif;
-}
-
-.bars {
-
-    display: flex;
-
-    align-items: flex-end;
-
-    justify-content: center;
-
-    gap: 8px;
-
-    height: 260px;
-}
-
-.bar {
-
-    width: 20px;
-
-    background:
-        linear-gradient(
-            to top,
-            #1767a5,
-            #65c9ff
-        );
-
-    border-radius:
-        5px 5px 0 0;
+    backdrop-filter: blur(12px);
 
     transition:
-        height 0.5s;
+        transform 0.4s ease,
+        border-color 0.4s ease;
 }
 
-.slider {
+.era-card:hover {
+    transform: translateY(-8px);
 
-    width: 100%;
-
-    margin-top: 50px;
-
-    accent-color: #6bbcff;
+    border-color:
+        rgba(120, 210, 255, 0.55);
 }
 
+.era-card h3 {
+    font-family: "Dark", sans-serif;
 
-/* =========================================================
-   ROCK CLOCK
-========================================================= */
+    font-size: 2rem;
 
-.rock {
+    font-weight: 400;
 
-    width: 240px;
-    height: 240px;
-
-    margin: 70px auto;
-
-    border-radius:
-        42% 58% 50% 46%;
-
-    background:
-        radial-gradient(
-            circle at 30% 25%,
-            #8e96a4,
-            #4e5663 40%,
-            #202631 75%,
-            #0b1018
-        );
-
-    box-shadow:
-        inset -20px -25px 50px
-        rgba(0,0,0,0.5),
-
-        0 25px 80px
-        rgba(0,0,0,0.5);
-
-    position: relative;
+    margin-bottom: 10px;
 }
 
-.atom {
+.era-card .date {
+    color: var(--cyan);
 
-    position: absolute;
+    font-size: 0.72rem;
 
-    width: 12px;
-    height: 12px;
+    letter-spacing: 0.15em;
 
-    border-radius: 50%;
-
-    background: #7bc8ff;
-
-    box-shadow:
-        0 0 18px
-        rgba(90,190,255,0.8);
+    margin-bottom: 18px;
 }
 
-.atom:nth-child(1) {
-    top: 25%;
-    left: 30%;
-}
+.era-card p {
+    color: var(--muted);
 
-.atom:nth-child(2) {
-    top: 50%;
-    left: 60%;
-}
-
-.atom:nth-child(3) {
-    top: 70%;
-    left: 40%;
-}
-
-.atom:nth-child(4) {
-    top: 35%;
-    left: 70%;
+    font-size: 0.9rem;
 }
 
 
 /* =========================================================
-   FINAL
-========================================================= */
+   PERIOD TABLE
+   ========================================================= */
 
-.final {
-
-    min-height: 70vh;
+.period-list {
+    margin-top: 60px;
 
     display: flex;
 
     flex-direction: column;
 
-    justify-content: center;
+    gap: 12px;
+}
+
+.period {
+    display: grid;
+
+    grid-template-columns:
+        150px
+        180px
+        1fr;
+
+    gap: 20px;
 
     align-items: center;
+
+    padding: 20px 24px;
+
+    border:
+        1px solid
+        rgba(100, 190, 255, 0.13);
+
+    background:
+        rgba(0, 15, 30, 0.55);
+
+    transition: 0.3s ease;
+}
+
+.period:hover {
+    background:
+        rgba(30, 100, 150, 0.16);
+
+    border-color:
+        rgba(100, 200, 255, 0.35);
+}
+
+.period-name {
+    font-family: "Dark", sans-serif;
+
+    font-size: 1.5rem;
+}
+
+.period-date {
+    font-size: 0.72rem;
+
+    color: var(--cyan);
+
+    letter-spacing: 0.1em;
+}
+
+.period-event {
+    color: var(--muted);
+
+    font-size: 0.88rem;
+}
+
+
+/* =========================================================
+   DEEP TIME EVENTS
+   ========================================================= */
+
+.event-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(270px, 1fr)
+        );
+
+    gap: 18px;
+
+    margin-top: 50px;
+}
+
+.event-card {
+    padding: 28px;
+
+    border-top:
+        1px solid
+        rgba(100, 200, 255, 0.5);
+
+    background:
+        rgba(0, 15, 30, 0.55);
+}
+
+.event-card .when {
+    font-family: "Dark", sans-serif;
+
+    font-size: 2rem;
+
+    margin-bottom: 12px;
+}
+
+.event-card h3 {
+    font-size: 1.1rem;
+
+    font-weight: 500;
+
+    margin-bottom: 8px;
+}
+
+.event-card p {
+    color: var(--muted);
+
+    font-size: 0.86rem;
+}
+
+
+/* =========================================================
+   GEOLOGICAL CLOCK
+   ========================================================= */
+
+.clock {
+    max-width: 900px;
+
+    margin: auto;
+
+    padding: 60px;
+
+    border:
+        1px solid
+        var(--border);
+
+    background:
+        rgba(0, 10, 20, 0.7);
+
+    backdrop-filter: blur(15px);
+
+    text-align: center;
+}
+
+.clock-equation {
+    font-family:
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(
+            1.8rem,
+            4vw,
+            3rem
+        );
+
+    margin:
+        35px
+        0;
+
+    color: white;
+}
+
+.clock p {
+    color: var(--muted);
+
+    max-width: 700px;
+
+    margin: auto;
+}
+
+
+/* =========================================================
+   HOLocene / INDIA
+   ========================================================= */
+
+.india {
+    border:
+        1px solid
+        rgba(120, 210, 255, 0.25);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(10, 60, 95, 0.4),
+            rgba(0, 10, 20, 0.75)
+        );
+
+    padding: 50px;
+
+    margin-top: 50px;
+}
+
+.india h3 {
+    font-family: "Dark", sans-serif;
+
+    font-size: 2.5rem;
+
+    margin-bottom: 15px;
+}
+
+.india p {
+    color: var(--muted);
+
+    max-width: 800px;
+}
+
+
+/* =========================================================
+   SOURCES
+   ========================================================= */
+
+.sources {
+    max-width: 1000px;
+
+    margin: auto;
+}
+
+.sources ul {
+    list-style: none;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+.sources li {
+    padding:
+        16px
+        20px;
+
+    border:
+        1px solid
+        rgba(100, 190, 255, 0.15);
+
+    background:
+        rgba(0, 15, 30, 0.55);
+}
+
+.sources a {
+    color: var(--cyan);
+
+    text-decoration: none;
+}
+
+.sources a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   FINAL
+   ========================================================= */
+
+.final {
+    min-height: 90vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
 
     text-align: center;
 }
 
 .final h2 {
-    max-width: 850px;
+    max-width: 1000px;
+
+    font-size:
+        clamp(
+            3rem,
+            8vw,
+            8rem
+        );
 }
 
-.final strong {
-    color: #dceeff;
+.final p {
+    max-width: 700px;
+
+    margin:
+        30px
+        auto;
+
+    color: var(--muted);
 }
 
 
 /* =========================================================
    FOOTER
-========================================================= */
+   ========================================================= */
 
 footer {
-
-    text-align: center;
-
-    padding: 70px 20px;
+    padding:
+        60px
+        7vw;
 
     border-top:
         1px solid
-        rgba(100, 160, 230, 0.12);
+        rgba(100, 190, 255, 0.12);
 
-    color: #536b88;
+    color: #6e899d;
 
     font-size: 0.75rem;
 
-    letter-spacing:
-        0.2em;
+    letter-spacing: 0.15em;
+}
+
+footer strong {
+    color: white;
 }
 
 
 /* =========================================================
-   REVEAL
-========================================================= */
-
-.reveal {
-
-    opacity: 0;
-
-    transform:
-        translateY(35px);
-
-    transition:
-        opacity 1s ease,
-        transform 1s ease;
-}
-
-.reveal.visible {
-
-    opacity: 1;
-
-    transform:
-        translateY(0);
-}
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+   MOBILE
+   ========================================================= */
 
 @media (max-width: 700px) {
 
-    nav a {
+    nav {
+        padding: 15px 20px;
+
+        align-items: flex-start;
+    }
+
+    nav .links {
         display: none;
     }
 
-    .hierarchy {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .decay-box {
-        padding: 25px;
+    .hero {
+        padding:
+            130px
+            25px
+            80px;
     }
 
     section {
-        padding: 100px 0;
+        padding:
+            90px
+            25px;
     }
 
+    .period {
+        grid-template-columns: 1fr;
+
+        gap: 5px;
+    }
+
+    .clock {
+        padding: 30px 20px;
+    }
+
+    .india {
+        padding: 30px 20px;
+    }
 }
 
 </style>
-
 </head>
 
 
 <body>
 
 
-<!-- ======================================================
-     DRAVYA VACUUM FIELD BACKGROUND
-====================================================== -->
+<!-- =====================================================
+     DRAVYA VACUUM FLUCTUATION BACKGROUND
+     ===================================================== -->
 
 <video
     id="background-video"
@@ -843,18 +951,18 @@ footer {
     preload="auto"
     aria-hidden="true"
 >
-
     <source
         src="assets/dravya_vacuum_fluctuation_10s.mp4"
         type="video/mp4"
     >
-
 </video>
 
+<div class="video-overlay"></div>
 
-<!-- ======================================================
+
+<!-- =====================================================
      NAVIGATION
-====================================================== -->
+     ===================================================== -->
 
 <nav>
 
@@ -862,23 +970,17 @@ footer {
         DRAVYA / GEOCHRONOLOGY
     </div>
 
-    <div>
+    <div class="links">
 
-        <a href="#earth">
-            Earth
-        </a>
+        <a href="#earth">Earth</a>
 
-        <a href="#time">
-            Time
-        </a>
+        <a href="#deep-time">Deep Time</a>
 
-        <a href="#clock">
-            Atomic Clock
-        </a>
+        <a href="#timeline">Timeline</a>
 
-        <a href="#age">
-            Age
-        </a>
+        <a href="#events">Events</a>
+
+        <a href="#clock">Clock</a>
 
         <a href="cosmic.html">
             Cosmic Calendar
@@ -888,1615 +990,1643 @@ footer {
 
 </nav>
 
-/* =========================================================
-   HERO
-========================================================= */
 
-.hero {
+<main>
 
-    min-height: 100vh;
 
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    align-items: center;
-
-    text-align: center;
-
-    padding:
-        120px 20px 80px;
-
-    position: relative;
-}
-
-.eyebrow {
-
-    font-size: 0.75rem;
-
-    letter-spacing:
-        0.4em;
-
-    text-transform:
-        uppercase;
-
-    color: #709ed1;
-
-    margin-bottom: 25px;
-}
-
-.hero h1 {
-
-    font-size:
-        clamp(4rem, 12vw, 10rem);
-
-    font-weight: 200;
-
-    letter-spacing:
-        -0.04em;
-
-    line-height: 0.9;
-
-    background:
-        linear-gradient(
-            120deg,
-            #ffffff,
-            #86bfff,
-            #536fa8
-        );
-
-    -webkit-background-clip:
-        text;
-
-    color: transparent;
-}
-
-.hero p {
-
-    max-width: 720px;
-
-    margin-top: 40px;
-
-    color: #9daec8;
-
-    font-size:
-        clamp(1rem, 2vw, 1.3rem);
-}
-
-.scroll {
-
-    margin-top: 90px;
-
-    color: #52739d;
-
-    font-size: 0.7rem;
-
-    letter-spacing:
-        0.3em;
-
-    text-transform:
-        uppercase;
-}
-
-
-/* =========================================================
-   SECTIONS
-========================================================= */
-
-section {
-
-    width: min(
-        1100px,
-        90%
-    );
-
-    margin:
-        0 auto;
-
-    padding:
-        150px 0;
-}
-
-.section-label {
-
-    color: #5c86b6;
-
-    font-size: 0.7rem;
-
-    letter-spacing:
-        0.3em;
-
-    text-transform:
-        uppercase;
-
-    margin-bottom: 18px;
-}
-
-h2 {
-
-    font-size:
-        clamp(2.5rem, 6vw, 5rem);
-
-    font-weight: 250;
-
-    line-height: 1;
-
-    margin-bottom: 40px;
-}
-
-h3 {
-
-    font-size: 1.5rem;
-
-    font-weight: 400;
-
-    margin-bottom: 18px;
-}
-
-p {
-
-    color: #aebbd0;
-
-    max-width: 760px;
-
-    font-size: 1.05rem;
-}
-
-
-/* =========================================================
-   BIG NUMBER
-========================================================= */
-
-.big-age {
-
-    margin:
-        70px 0;
-
-    text-align: center;
-
-    padding:
-        80px 20px;
-
-    border-top:
-        1px solid
-        rgba(100,160,230,0.18);
-
-    border-bottom:
-        1px solid
-        rgba(100,160,230,0.18);
-}
-
-.big-age .number {
-
-    font-size:
-        clamp(3rem, 9vw, 8rem);
-
-    font-weight: 200;
-
-    letter-spacing:
-        -0.04em;
-
-    color: #d9ecff;
-
-    text-shadow:
-        0 0 40px
-        rgba(70,150,255,0.25);
-}
-
-.big-age span {
-
-    display: block;
-
-    color: #6885a8;
-
-    font-size: 0.8rem;
-
-    letter-spacing:
-        0.35em;
-
-    text-transform:
-        uppercase;
-}
-
-
-/* =========================================================
-   EARTH ORBIT
-========================================================= */
-
-.orbit {
-
-    width: 340px;
-
-    height: 340px;
-
-    border:
-        1px solid
-        rgba(90,160,255,0.28);
-
-    border-radius: 50%;
-
-    margin:
-        70px auto;
-
-    position: relative;
-}
-
-.sun {
-
-    position: absolute;
-
-    width: 55px;
-
-    height: 55px;
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle,
-            #fff6d0,
-            #f2b45e,
-            #d75e24
-        );
-
-    top: 50%;
-
-    left: 50%;
-
-    transform:
-        translate(-50%, -50%);
-
-    box-shadow:
-        0 0 60px
-        rgba(255,160,70,0.45);
-}
-
-.earth {
-
-    position: absolute;
-
-    width: 18px;
-
-    height: 18px;
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle at 35% 35%,
-            #75c6ff,
-            #1262a0 55%,
-            #061b3b
-        );
-
-    top: 0;
-
-    left: 50%;
-
-    transform:
-        translate(-50%, -50%);
-
-    box-shadow:
-        0 0 20px
-        rgba(50,150,255,0.5);
-}
-
-
-/* =========================================================
-   TIME SCALE
-========================================================= */
-
-.time-scale {
-
-    margin-top: 70px;
-
-    border-left:
-        1px solid
-        rgba(100,160,230,0.25);
-
-    padding-left: 35px;
-}
-
-.time-item {
-
-    padding:
-        30px 0;
-
-    position: relative;
-}
-
-.time-item::before {
-
-    content: "";
-
-    position: absolute;
-
-    width: 8px;
-
-    height: 8px;
-
-    border-radius: 50%;
-
-    background: #72b9ff;
-
-    left: -40px;
-
-    top: 40px;
-
-    box-shadow:
-        0 0 15px
-        rgba(90,180,255,0.8);
-}
-
-.time-item strong {
-
-    display: block;
-
-    color: #8ec7ff;
-
-    font-size: 0.75rem;
-
-    letter-spacing:
-        0.2em;
-
-    text-transform:
-        uppercase;
-
-    margin-bottom: 8px;
-}
-
-
-/* =========================================================
-   GEOLOGICAL HIERARCHY
-========================================================= */
-
-.hierarchy {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(5, 1fr);
-
-    gap: 12px;
-
-    margin-top: 70px;
-}
-
-.level {
-
-    padding:
-        30px 15px;
-
-    text-align: center;
-
-    border:
-        1px solid
-        rgba(100,160,230,0.16);
-
-    background:
-        rgba(20,35,60,0.22);
-
-    transition:
-        transform 0.3s,
-        background 0.3s;
-}
-
-.level:hover {
-
-    transform:
-        translateY(-8px);
-
-    background:
-        rgba(30,60,100,0.35);
-}
-
-.level strong {
-
-    display: block;
-
-    color: #b8dcff;
-
-    margin-bottom: 8px;
-}
-
-.level small {
-
-    color: #7187a5;
-
-}
-
-
-/* =========================================================
-   RADIOACTIVE DECAY
-========================================================= */
-
-.decay-box {
-
-    margin-top: 70px;
-
-    padding:
-        50px;
-
-    border:
-        1px solid
-        rgba(100,160,230,0.18);
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(20,40,70,0.38),
-            rgba(3,8,18,0.45)
-        );
-
-    border-radius: 16px;
-}
-
-.decay-equation {
-
-    font-size:
-        clamp(1.5rem, 4vw, 3rem);
-
-    text-align: center;
-
-    margin-bottom: 50px;
-
-    color: #e6f3ff;
-
-    font-family:
-        Georgia,
-        serif;
-}
-
-.bars {
-
-    display: flex;
-
-    align-items:
-        flex-end;
-
-    justify-content:
-        center;
-
-    gap: 8px;
-
-    height: 260px;
-}
-
-.bar {
-
-    width: 20px;
-
-    background:
-        linear-gradient(
-            to top,
-            #1767a5,
-            #65c9ff
-        );
-
-    border-radius:
-        5px 5px 0 0;
-
-    transition:
-        height 0.5s;
-}
-
-.slider {
-
-    width: 100%;
-
-    margin-top: 50px;
-
-    accent-color:
-        #6bbcff;
-}
-
-
-/* =========================================================
-   ROCK CLOCK
-========================================================= */
-
-.rock {
-
-    width: 240px;
-
-    height: 240px;
-
-    margin:
-        70px auto;
-
-    border-radius:
-        42% 58% 50% 46%;
-
-    background:
-        radial-gradient(
-            circle at 30% 25%,
-            #8e96a4,
-            #4e5663 40%,
-            #202631 75%,
-            #0b1018
-        );
-
-    box-shadow:
-        inset -20px -25px 50px
-        rgba(0,0,0,0.5),
-
-        0 25px 80px
-        rgba(0,0,0,0.5);
-
-    position: relative;
-}
-
-.atom {
-
-    position: absolute;
-
-    width: 12px;
-
-    height: 12px;
-
-    border-radius: 50%;
-
-    background: #7bc8ff;
-
-    box-shadow:
-        0 0 18px
-        rgba(90,190,255,0.8);
-}
-
-.atom:nth-child(1) {
-    top: 25%;
-    left: 30%;
-}
-
-.atom:nth-child(2) {
-    top: 50%;
-    left: 60%;
-}
-
-.atom:nth-child(3) {
-    top: 70%;
-    left: 40%;
-}
-
-.atom:nth-child(4) {
-    top: 35%;
-    left: 70%;
-}
-
-
-/* =========================================================
-   FINAL
-========================================================= */
-
-.final {
-
-    min-height:
-        70vh;
-
-    display: flex;
-
-    flex-direction:
-        column;
-
-    justify-content:
-        center;
-
-    align-items:
-        center;
-
-    text-align: center;
-}
-
-.final h2 {
-
-    max-width: 850px;
-}
-
-.final strong {
-
-    color: #dceeff;
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer {
-
-    text-align:
-        center;
-
-    padding:
-        70px 20px;
-
-    border-top:
-        1px solid
-        rgba(100,160,230,0.12);
-
-    color: #536b88;
-
-    font-size: 0.75rem;
-
-    letter-spacing:
-        0.2em;
-}
-
-
-/* =========================================================
-   REVEAL
-========================================================= */
-
-.reveal {
-
-    opacity: 0;
-
-    transform:
-        translateY(35px);
-
-    transition:
-        opacity 1s ease,
-        transform 1s ease;
-}
-
-.reveal.visible {
-
-    opacity: 1;
-
-    transform:
-        translateY(0);
-}
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media (max-width: 700px) {
-
-    nav a {
-        display: none;
-    }
-
-    .hierarchy {
-
-        grid-template-columns:
-            1fr 1fr;
-    }
-
-    .decay-box {
-
-        padding: 25px;
-    }
-
-    section {
-
-        padding:
-            100px 0;
-    }
-
-}
-
-</style>
-
-</head>
-
-
-<body>
-
-
-<!-- ======================================================
-     NAV
-====================================================== -->
-
-<nav>
-
-    <div class="logo">
-        DRAVYA / GEOCHRONOLOGY
-    </div>
-
-    <div>
-
-        <a href="#earth">
-            Earth
-        </a>
-
-        <a href="#time">
-            Time
-        </a>
-
-        <a href="#clock">
-            Atomic Clock
-        </a>
-
-        <a href="#age">
-            Age
-        </a>
-
-    </div>
-
-</nav>
-
-
-<!-- ======================================================
+<!-- =====================================================
      HERO
-====================================================== -->
+     ===================================================== -->
 
-<header class="hero">
+<section class="hero">
 
-    <div class="eyebrow">
-        Earth · Time · Evidence
+    <div class="hero-inner">
+
+        <div class="eyebrow">
+            Earth · Time · Evidence
+        </div>
+
+        <h1>
+            GEOCHRONOLOGY
+        </h1>
+
+        <h2>
+            How do we reconstruct a history
+            that began billions of years before us?
+        </h2>
+
+        <p>
+            Geochronology is the science of determining
+            the age of rocks, minerals, fossils and geological
+            events — and of placing them into the enormous
+            history of our planet.
+        </p>
+
+        <div class="scroll">
+            ↓ Enter deep time
+        </div>
+
     </div>
 
-    <h1>
-        GEOCHRONOLOGY
-    </h1>
-
-    <p>
-        How do we read the history of a planet
-        that has been recording its story for
-        billions of years?
-    </p>
-
-    <div class="scroll">
-        ↓ begin here
-    </div>
-
-</header>
+</section>
 
 
-<!-- ======================================================
+<!-- =====================================================
      EARTH
-====================================================== -->
+     ===================================================== -->
 
-<section id="earth" class="reveal">
+<section id="earth">
 
-    <div class="section-label">
-        01 / WHERE WE ARE
+    <div class="section-number">
+        01 / THE PLANET
     </div>
 
     <h2>
         We are here.
     </h2>
 
-    <p>
-
-        We live on planet Earth.
-
-        Earth rotates around its axis,
-        giving us the cycle of day and night.
-
-        At the same time, Earth travels around
-        the Sun.
-
-    </p>
-
-    <div class="orbit">
-
-        <div class="sun"></div>
-
-        <div class="earth"></div>
-
-    </div>
-
-    <p>
-
-        One complete revolution of Earth around
-        the Sun defines approximately one year.
-
-        We use years to describe the passage of time
-        in our lives.
-
-    </p>
-
-</section>
-
-
-<!-- ======================================================
-     BIRTHDAY
-====================================================== -->
-
-<section class="reveal">
-
-    <div class="section-label">
-        02 / YOUR CLOCK
-    </div>
-
-    <h2>
-        How old are you?
-    </h2>
-
-    <p>
-
-        When someone asks your age,
-        you answer with a number.
-
-        That number represents the amount of
-        elapsed time since you were born,
-        usually expressed in years.
-
-    </p>
-
-    <div class="big-age">
-
-        <div class="number">
-            27
-        </div>
-
-        <span>
-            years since birth
-        </span>
-
-    </div>
-
-    <p>
-
-        Every birthday is a reminder that
-        another year of your life has passed.
-
-        But now let's ask a much bigger question.
-
-    </p>
-
-</section>
-
-
-<!-- ======================================================
-     EARTH AGE
-====================================================== -->
-
-<section id="age" class="reveal">
-
-    <div class="section-label">
-        03 / DEEP TIME
-    </div>
-
-    <h2>
-        How old is Earth?
-    </h2>
-
-    <p>
-
-        Earth does not have a birth certificate.
-
-        Nobody was here 4.5 billion years ago
-        to write down the date.
-
-        So how can we possibly know?
-
-    </p>
-
-    <div class="big-age">
-
-        <div class="number">
-            4.54
-        </div>
-
-        <span>
-            billion years
-        </span>
-
-    </div>
-
-    <p>
-
-        We cannot simply count Earth's birthdays.
-
-        Instead, we read the evidence preserved
-        in rocks, minerals and geological processes.
-
-        This is where geochronology begins.
-
-    </p>
-
-</section>
-
-
-<!-- ======================================================
-     GEOLOGICAL TIME
-====================================================== -->
-
-<section id="time" class="reveal">
-
-    <div class="section-label">
-        04 / GEOLOGICAL TIME
-    </div>
-
-    <h2>
-        Deep time needs a language.
-    </h2>
-
-    <p>
-
-        Earth's history stretches across billions
-        of years.
-
-        To make sense of such an enormous span,
-        geologists divide geological time into
-        hierarchical intervals.
-
-    </p>
-
-
-    <div class="hierarchy">
-
-        <div class="level">
-            <strong>EON</strong>
-            <small>largest scale</small>
-        </div>
-
-        <div class="level">
-            <strong>ERA</strong>
-            <small>major division</small>
-        </div>
-
-        <div class="level">
-            <strong>PERIOD</strong>
-            <small>smaller interval</small>
-        </div>
-
-        <div class="level">
-            <strong>EPOCH</strong>
-            <small>finer interval</small>
-        </div>
-
-        <div class="level">
-            <strong>AGE</strong>
-            <small>fine scale</small>
-        </div>
-
-    </div>
-
-
-    <div class="time-scale">
-
-        <div class="time-item">
-
-            <strong>
-                EON
-            </strong>
-
-            <p>
-                The broadest divisions of
-                geological history.
-            </p>
-
-        </div>
-
-
-        <div class="time-item">
-
-            <strong>
-                ERA
-            </strong>
-
-            <p>
-                Major chapters within an eon.
-            </p>
-
-        </div>
-
-
-        <div class="time-item">
-
-            <strong>
-                PERIOD
-            </strong>
-
-            <p>
-                Major subdivisions of eras.
-            </p>
-
-        </div>
-
-
-        <div class="time-item">
-
-            <strong>
-                EPOCH
-            </strong>
-
-            <p>
-                Finer divisions within periods.
-            </p>
-
-        </div>
-
-
-        <div class="time-item">
-
-            <strong>
-                AGE
-            </strong>
-
-            <p>
-                Smaller units used to describe
-                geological time.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ======================================================
-     ROCK RECORD
-====================================================== -->
-
-<section class="reveal">
-
-    <div class="section-label">
-        05 / THE ROCK RECORD
-    </div>
-
-    <h2>
-        Rocks remember.
-    </h2>
-
-    <p>
-
-        A rock is not merely a piece of Earth.
-
-        Minerals inside it can preserve evidence
-        about when they formed and what happened
-        afterwards.
-
-        Geological structures can therefore act
-        as records of Earth's history.
-
-    </p>
-
-
-    <div class="rock">
-
-        <div class="atom"></div>
-        <div class="atom"></div>
-        <div class="atom"></div>
-        <div class="atom"></div>
-
-    </div>
-
-
-    <p>
-
-        Some minerals contain radioactive isotopes.
-
-        These isotopes behave like tiny clocks.
-
-    </p>
-
-</section>
-
-
-<!-- ======================================================
-     RADIOACTIVE CLOCK
-====================================================== -->
-
-<section id="clock" class="reveal">
-
-    <div class="section-label">
-        06 / THE ATOMIC CLOCK
-    </div>
-
-    <h2>
-        A clock inside the atom.
-    </h2>
-
-    <p>
-
-        Some atomic nuclei are unstable.
-
-        They transform through radioactive decay.
-
-        A parent isotope can decay into a daughter
-        isotope at a characteristic statistical rate.
-
-    </p>
-
-
-    <div class="decay-box">
-
-        <div class="decay-equation">
-
-            Parent
-            →
-            Daughter
-
-        </div>
-
-
-        <div
-            class="bars"
-            id="bars"
-        >
-        </div>
-
-
-        <input
-            class="slider"
-            id="decaySlider"
-            type="range"
-            min="0"
-            max="100"
-            value="0"
-        >
-
-    </div>
-
-
-    <p style="margin-top:40px">
-
-        The decay of a radioactive parent follows
-        an exponential law:
-
-    </p>
-
-
-    <div class="decay-equation"
-         style="margin-top:35px">
-
-        N(t) = N₀ e<sup>−λt</sup>
-
-    </div>
-
-
-    <p>
-
-        The half-life is the time required for
-        half of the parent population to decay:
-
-    </p>
-
-
-    <div class="decay-equation"
-         style="margin-top:35px">
-
-        t<sub>1/2</sub> =
-        ln(2) / λ
-
-    </div>
-
-</section>
-
-
-<!-- ======================================================
-     AGE DETERMINATION
-====================================================== -->
-
-<section class="reveal">
-
-    <div class="section-label">
-        07 / READING THE CLOCK
-    </div>
-
-    <h2>
-        From atoms to age.
-    </h2>
-
-    <p>
-
-        If we know the decay constant of a radioactive
-        isotope and measure the parent and daughter
-        isotopes preserved in a mineral, we can use
-        that information to estimate elapsed time.
-
-    </p>
-
-    <br>
-
-    <p>
-
-        This is the fundamental idea behind
-        radiometric dating.
-
-    </p>
-
-</section>
-
-
-<!-- ======================================================
-     MULTIPLE CLOCKS
-====================================================== -->
-
-<section class="reveal">
-
-    <div class="section-label">
-        08 / NOT JUST ONE CLOCK
-    </div>
-
-    <h2>
-        Earth has many clocks.
-    </h2>
-
-    <p>
-
-        Different isotopic systems operate over
-        different timescales and suit different
-        geological materials.
-
-        Geochronologists therefore choose methods
-        according to the question being asked.
-
-    </p>
-
-
-    <div class="hierarchy">
-
-        <div class="level">
-
-            <strong>
-                U–Pb
-            </strong>
-
-            <small>
-                ancient rocks
-            </small>
-
-        </div>
-
-
-        <div class="level">
-
-            <strong>
-                K–Ar
-            </strong>
-
-            <small>
-                volcanic history
-            </small>
-
-        </div>
-
-
-        <div class="level">
-
-            <strong>
-                Ar–Ar
-            </strong>
-
-            <small>
-                geological events
-            </small>
-
-        </div>
-
-
-        <div class="level">
-
-            <strong>
-                ¹⁴C
-            </strong>
-
-            <small>
-                recent past
-            </small>
-
-        </div>
-
-
-        <div class="level">
-
-            <strong>
-                U–Th
-            </strong>
-
-            <small>
-                younger materials
-            </small>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ======================================================
-     WHY IT MATTERS
-====================================================== -->
-
-<section class="reveal">
-
-    <div class="section-label">
-        09 / WHY IT MATTERS
-    </div>
-
-    <h2>
-        Knowing when changes
-        happened changes
-        what we understand.
-    </h2>
-
-    <div class="time-scale">
-
-        <div class="time-item">
-
-            <strong>
-                VOLCANOES
-            </strong>
-
-            <p>
-                When did an eruption occur?
-            </p>
-
-        </div>
-
-
-        <div class="time-item">
-
-            <strong>
-                MOUNTAINS
-            </strong>
-
-            <p>
-                When did geological structures form?
-            </p>
-
-        </div>
-
-
-        <div class="time-item">
-
-            <strong>
-                CLIMATE
-            </strong>
-
-            <p>
-                How has Earth's climate changed
-                through deep time?
-            </p>
-
-        </div>
-
-
-        <div class="time-item">
-
-            <strong>
-                LIFE
-            </strong>
-
-            <p>
-                When did major biological transitions
-                occur?
-            </p>
-
-        </div>
-
-
-        <div class="time-item">
-
-            <strong>
-                EARTH
-            </strong>
-
-            <p>
-                How has our planet evolved
-                over billions of years?
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ======================================================
-     FINAL
-====================================================== -->
-
-<section class="final reveal">
-
-    <div class="section-label">
-        10 / DEEP TIME
-    </div>
-
-    <h2>
-
-        Your birthday measures
-        a few decades.
+    <p class="section-intro">
+
+        Earth formed approximately
+        <strong>4.54 billion years ago</strong>.
+        Everything humans have ever seen occupies only
+        an extraordinarily small interval near the very
+        end of that history.
 
         <br><br>
 
-        A mineral can remember
+        To understand our place in time, geologists divide
+        Earth's history into nested units:
+
         <strong>
-            billions of years.
-        </strong>
-
-    </h2>
-
-
-    <p>
-
-        Geochronology is our attempt
-        to read those memories.
+            Eons → Eras → Periods → Epochs → Ages
+        </strong>.
 
     </p>
+
+    <div class="earth-age">
+
+        <div>
+
+            <div class="age-number">
+                4.54
+            </div>
+
+            <div class="age-unit">
+                billion years of Earth history
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
 
 
-<!-- ======================================================
+<!-- =====================================================
+     DEEP TIME
+     ===================================================== -->
+
+<section id="deep-time">
+
+    <div class="section-number">
+        02 / DEEP TIME
+    </div>
+
+    <h2>
+        Before complex life.
+    </h2>
+
+    <p class="section-intro">
+
+        Most of Earth's history occurred before the
+        appearance of abundant complex animal life.
+
+        This immense interval is commonly grouped as
+        the <strong>Precambrian</strong>, comprising the
+        Hadean, Archean and Proterozoic eons.
+
+    </p>
+
+
+    <div class="timeline">
+
+
+        <!-- HADEAN -->
+
+        <div class="time-block">
+
+            <h3>
+                Hadean
+            </h3>
+
+            <div class="time-range">
+                ~4.6 – 4.0 billion years ago
+            </div>
+
+            <p class="time-description">
+
+                Earth formed from material in the early Solar
+                System. The young planet was intensely hot,
+                heavily bombarded by impactors and underwent
+                differentiation into a metallic core, rocky
+                mantle and crust.
+
+                <br><br>
+
+                As the planet cooled, liquid water and early
+                oceans became possible.
+
+            </p>
+
+            <div class="time-events">
+
+                <span class="event">
+                    Solar System forms
+                </span>
+
+                <span class="event">
+                    Earth forms
+                </span>
+
+                <span class="event">
+                    Planetary differentiation
+                </span>
+
+                <span class="event">
+                    Early oceans
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ARCHEAN -->
+
+        <div class="time-block">
+
+            <h3>
+                Archean
+            </h3>
+
+            <div class="time-range">
+                ~4.0 – 2.5 billion years ago
+            </div>
+
+            <p class="time-description">
+
+                Earth's crust, oceans and atmosphere evolved.
+                Life existed primarily as microscopic organisms.
+                Some of the oldest evidence for life comes from
+                rocks and structures associated with this immense
+                interval.
+
+                <br><br>
+
+                The Archean is divided into the
+                <strong>
+                    Eoarchean, Paleoarchean,
+                    Mesoarchean and Neoarchean.
+                </strong>
+
+            </p>
+
+            <div class="time-events">
+
+                <span class="event">
+                    Early microbial life
+                </span>
+
+                <span class="event">
+                    Ancient oceans
+                </span>
+
+                <span class="event">
+                    Crust develops
+                </span>
+
+                <span class="event">
+                    Stromatolites
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- PROTEROZOIC -->
+
+        <div class="time-block">
+
+            <h3>
+                Proterozoic
+            </h3>
+
+            <div class="time-range">
+                2.5 billion – 538.8 million years ago
+            </div>
+
+            <p class="time-description">
+
+                The Proterozoic witnessed profound changes in
+                Earth's atmosphere and biosphere.
+
+                Oxygen accumulated in the atmosphere during the
+                <strong>Great Oxidation Event</strong>, while
+                eukaryotic cells and increasingly complex organisms
+                appeared.
+
+                <br><br>
+
+                The Proterozoic contains three eras:
+
+                <strong>
+                    Paleoproterozoic,
+                    Mesoproterozoic,
+                    Neoproterozoic.
+                </strong>
+
+            </p>
+
+            <div class="time-events">
+
+                <span class="event">
+                    Great Oxidation
+                </span>
+
+                <span class="event">
+                    Eukaryotes
+                </span>
+
+                <span class="event">
+                    Supercontinents
+                </span>
+
+                <span class="event">
+                    Snowball Earth episodes
+                </span>
+
+                <span class="event">
+                    Multicellular life
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- EDIACARAN -->
+
+        <div class="time-block">
+
+            <h3>
+                Ediacaran
+            </h3>
+
+            <div class="time-range">
+                635 – 538.8 million years ago
+            </div>
+
+            <p class="time-description">
+
+                The final period of the Proterozoic.
+
+                Large multicellular organisms populated the
+                oceans, including the enigmatic Ediacaran biota.
+                The biological world was approaching the transition
+                into the Phanerozoic.
+
+            </p>
+
+            <div class="time-events">
+
+                <span class="event">
+                    Ediacaran organisms
+                </span>
+
+                <span class="event">
+                    Complex multicellular life
+                </span>
+
+                <span class="event">
+                    Precambrian ends
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PHANEROZOIC
+     ===================================================== -->
+
+<section id="timeline">
+
+    <div class="section-number">
+        03 / PHANEROZOIC
+    </div>
+
+    <h2>
+        Life becomes visible.
+    </h2>
+
+    <p class="section-intro">
+
+        The <strong>Phanerozoic Eon</strong> is the part of
+        Earth's history in which abundant fossil evidence
+        records complex life.
+
+        It is divided into three great eras:
+
+        <strong>
+            Paleozoic · Mesozoic · Cenozoic
+        </strong>.
+
+    </p>
+
+
+    <div class="era-grid">
+
+
+        <!-- PALEOZOIC -->
+
+        <div class="era-card">
+
+            <h3>
+                Paleozoic
+            </h3>
+
+            <div class="date">
+                ~538.8 – 251.9 Ma
+            </div>
+
+            <p>
+
+                The age of early complex marine ecosystems,
+                the rise of fishes, colonisation of land by
+                plants and animals, vast forests, amphibians
+                and early reptiles.
+
+                <br><br>
+
+                Ends with the largest mass extinction known
+                in Earth's history.
+
+            </p>
+
+        </div>
+
+
+        <!-- MESOZOIC -->
+
+        <div class="era-card">
+
+            <h3>
+                Mesozoic
+            </h3>
+
+            <div class="date">
+                251.9 – 66 Ma
+            </div>
+
+            <p>
+
+                The Triassic, Jurassic and Cretaceous periods.
+
+                Dinosaurs diversified, mammals appeared,
+                flowering plants evolved and the supercontinent
+                Pangaea progressively broke apart.
+
+            </p>
+
+        </div>
+
+
+        <!-- CENOZOIC -->
+
+        <div class="era-card">
+
+            <h3>
+                Cenozoic
+            </h3>
+
+            <div class="date">
+                66 Ma – present
+            </div>
+
+            <p>
+
+                Mammals and birds diversified after the
+                end-Cretaceous extinction.
+
+                Grasslands expanded, climate changed,
+                primates and hominins evolved, and eventually
+                Homo sapiens appeared.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PALEOZOIC
+     ===================================================== -->
+
+<section>
+
+    <div class="section-number">
+        04 / PALEOZOIC
+    </div>
+
+    <h2>
+        The ancient seas.
+    </h2>
+
+    <p class="section-intro">
+
+        The Paleozoic transformed Earth from a world dominated
+        by marine ecosystems into one containing extensive
+        terrestrial forests and complex land animals.
+
+    </p>
+
+
+    <div class="period-list">
+
+
+        <div class="period">
+
+            <div class="period-name">
+                Cambrian
+            </div>
+
+            <div class="period-date">
+                ~538.8 – 486.9 Ma
+            </div>
+
+            <div class="period-event">
+
+                Rapid diversification of animal body plans;
+                trilobites and other marine organisms become
+                abundant.
+
+            </div>
+
+        </div>
+
+
+        <div class="period">
+
+            <div class="period-name">
+                Ordovician
+            </div>
+
+            <div class="period-date">
+                ~486.9 – 443.1 Ma
+            </div>
+
+            <div class="period-event">
+
+                Marine biodiversity expands dramatically.
+                Graptolites, brachiopods and marine communities
+                flourish. Ends with a major mass extinction.
+
+            </div>
+
+        </div>
+
+
+        <div class="period">
+
+            <div class="period-name">
+                Silurian
+            </div>
+
+            <div class="period-date">
+                ~443.1 – 419.6 Ma
+            </div>
+
+            <div class="period-event">
+
+                Jawed fishes diversify. Vascular plants expand
+                onto land and the earliest terrestrial ecosystems
+                develop.
+
+            </div>
+
+        </div>
+
+
+        <div class="period">
+
+            <div class="period-name">
+                Devonian
+            </div>
+
+            <div class="period-date">
+                ~419.6 – 358.9 Ma
+            </div>
+
+            <div class="period-event">
+
+                Often called the Age of Fishes.
+                Forests spread, seed plants develop and
+                vertebrates begin the transition toward land.
+
+            </div>
+
+        </div>
+
+
+        <div class="period">
+
+            <div class="period-name">
+                Carboniferous
+            </div>
+
+            <div class="period-date">
+                ~358.9 – 298.9 Ma
+            </div>
+
+            <div class="period-event">
+
+                Vast swamp forests, giant arthropods and
+                abundant coal-forming vegetation.
+                Divided into Mississippian and Pennsylvanian.
+
+            </div>
+
+        </div>
+
+
+        <div class="period">
+
+            <div class="period-name">
+                Permian
+            </div>
+
+            <div class="period-date">
+                ~298.9 – 251.9 Ma
+            </div>
+
+            <div class="period-event">
+
+                Pangaea dominates the planet.
+                Reptiles and synapsids diversify.
+
+                Ends with the catastrophic
+                Permian–Triassic mass extinction.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MESOZOIC
+     ===================================================== -->
+
+<section>
+
+    <div class="section-number">
+        05 / MESOZOIC
+    </div>
+
+    <h2>
+        The age of dinosaurs.
+    </h2>
+
+    <p class="section-intro">
+
+        The Mesozoic lasted almost 186 million years.
+
+        Pangaea fragmented, dinosaurs became dominant on land,
+        marine reptiles inhabited the oceans and the first
+        birds and mammals evolved.
+
+    </p>
+
+
+    <div class="period-list">
+
+
+        <div class="period">
+
+            <div class="period-name">
+                Triassic
+            </div>
+
+            <div class="period-date">
+                251.9 – 201.4 Ma
+            </div>
+
+            <div class="period-event">
+
+                Ecosystems recover from the end-Permian
+                extinction. Early dinosaurs and mammals appear.
+                Pangaea begins to fragment.
+
+            </div>
+
+        </div>
+
+
+        <div class="period">
+
+            <div class="period-name">
+                Jurassic
+            </div>
+
+            <div class="period-date">
+                201.4 – 145 Ma
+            </div>
+
+            <div class="period-event">
+
+                Dinosaurs diversify dramatically.
+                Giant sauropods dominate many terrestrial
+                ecosystems. Birds evolve from theropod dinosaurs.
+
+            </div>
+
+        </div>
+
+
+        <div class="period">
+
+            <div class="period-name">
+                Cretaceous
+            </div>
+
+            <div class="period-date">
+                145 – 66 Ma
+            </div>
+
+            <div class="period-event">
+
+                Flowering plants diversify.
+                Continents move toward their modern arrangement.
+
+                The period ends with the
+                Cretaceous–Paleogene mass extinction.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CENOZOIC
+     ===================================================== -->
+
+<section>
+
+    <div class="section-number">
+        06 / CENOZOIC
+    </div>
+
+    <h2>
+        The world we recognise.
+    </h2>
+
+    <p class="section-intro">
+
+        After 66 million years ago, mammals and birds
+        diversified into many ecological niches.
+
+        The Cenozoic contains the Paleogene, Neogene
+        and Quaternary periods.
+
+    </p>
+
+
+    <div class="period-list">
+
+
+        <div class="period">
+
+            <div class="period-name">
+                Paleocene
+            </div>
+
+            <div class="period-date">
+                66 – 56 Ma
+            </div>
+
+            <div class="period-event">
+
+                Mammals diversify after the end-Cretaceous
+                extinction.
+
+            </div>
+
+        </div>
+
+
+        <div class="period">
+
+            <div class="period-name">
+                Eocene
+            </div>
+
+            <div class="period-date">
+                56 – 33.9 Ma
+            </div>
+
+            <div class="period-event">
+
+                Warm global climates, extensive forests and
+                major diversification of mammals.
+
+            </div>
+
+        </div>
+
+
+        <div class="period">
+
+            <div class="period-name">
+                Oligocene
+            </div>
+
+            <div class="period-date">
+                33.9 – 23.0 Ma
+            </div>
+
+            <div class="period-event">
+
+                Global cooling and expansion of grasslands.
+                Major evolutionary changes among mammals.
+
+            </div>
+
+        </div>
+
+
+        <div class="period">
+
+            <div class="period-name">
+                Miocene
+            </div>
+
+            <div class="period-date">
+                23.0 – 5.33 Ma
+            </div>
+
+            <div class="period-event">
+
+                Grasslands expand.
+                Apes diversify and major changes occur in
+                terrestrial ecosystems.
+
+            </div>
+
+        </div>
+
+
+        <div class="period">
+
+            <div class="period-name">
+                Pliocene
+            </div>
+
+            <div class="period-date">
+                5.33 – 2.58 Ma
+            </div>
+
+            <div class="period-event">
+
+                Cooling continues.
+                Early hominins evolve in Africa.
+
+            </div>
+
+        </div>
+
+
+        <div class="period">
+
+            <div class="period-name">
+                Pleistocene
+            </div>
+
+            <div class="period-date">
+                2.58 Ma – 11.7 ka
+            </div>
+
+            <div class="period-event">
+
+                Repeated glacial and interglacial cycles.
+                Homo species spread across the planet.
+
+            </div>
+
+        </div>
+
+
+        <div class="period">
+
+            <div class="period-name">
+                Holocene
+            </div>
+
+            <div class="period-date">
+                11.7 ka – present
+            </div>
+
+            <div class="period-event">
+
+                The present interglacial.
+                Agriculture, cities, civilizations,
+                industrialisation and modern society emerge.
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- HOLocene subdivisions -->
+
+    <div class="india">
+
+        <h3>
+            The Holocene has its own clock.
+        </h3>
+
+        <p>
+
+            The International Commission on Stratigraphy
+            formally subdivides the Holocene into three
+            ages:
+
+            <strong>
+                Greenlandian,
+                Northgrippian,
+                and Meghalayan.
+            </strong>
+
+            <br><br>
+
+            The Meghalayan begins at approximately
+            <strong>4,200 years ago</strong>.
+
+            Its Global Boundary Stratotype Section and Point
+            is defined by a speleothem from
+            <strong>Mawmluh Cave in Meghalaya, India.</strong>
+
+            <br><br>
+
+            A piece of rock from a cave in India therefore
+            participates in the formal international language
+            used to describe Earth's time.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MAJOR EVENTS
+     ===================================================== -->
+
+<section id="events">
+
+    <div class="section-number">
+        07 / TURNING POINTS
+    </div>
+
+    <h2>
+        Moments that changed Earth.
+    </h2>
+
+    <p class="section-intro">
+
+        Geological time is not simply a list of dates.
+        Boundaries often correspond to profound changes
+        in Earth's rocks, climate, atmosphere and biosphere.
+
+    </p>
+
+
+    <div class="event-grid">
+
+
+        <div class="event-card">
+
+            <div class="when">
+                ~4.54 Ga
+            </div>
+
+            <h3>
+                Earth forms
+            </h3>
+
+            <p>
+                Material in the early Solar System
+                accretes into the planet we inhabit.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <div class="when">
+                ~4.0 Ga+
+            </div>
+
+            <h3>
+                Early life
+            </h3>
+
+            <p>
+                Microbial life becomes part of Earth's
+                ancient geological record.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <div class="when">
+                ~2.4 Ga
+            </div>
+
+            <h3>
+                Great Oxidation Event
+            </h3>
+
+            <p>
+                Atmospheric oxygen rises dramatically,
+                transforming Earth's surface environment.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <div class="when">
+                ~635–539 Ma
+            </div>
+
+            <h3>
+                Ediacaran world
+            </h3>
+
+            <p>
+                Large multicellular organisms inhabit
+                Earth's oceans.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <div class="when">
+                ~539 Ma
+            </div>
+
+            <h3>
+                Cambrian diversification
+            </h3>
+
+            <p>
+                Animal diversity and fossil preservation
+                increase dramatically.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <div class="when">
+                ~470 Ma
+            </div>
+
+            <h3>
+                Plants colonise land
+            </h3>
+
+            <p>
+                Terrestrial ecosystems begin transforming
+                the continents.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <div class="when">
+                ~370 Ma
+            </div>
+
+            <h3>
+                Forest ecosystems
+            </h3>
+
+            <p>
+                Large forests spread and Earth's terrestrial
+                environments become increasingly complex.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <div class="when">
+                252 Ma
+            </div>
+
+            <h3>
+                Great Dying
+            </h3>
+
+            <p>
+                The Permian–Triassic extinction eliminates
+                most marine and terrestrial species.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <div class="when">
+                ~230 Ma
+            </div>
+
+            <h3>
+                Dinosaurs
+            </h3>
+
+            <p>
+                Early dinosaurs appear during the Triassic
+                and later become globally dominant.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <div class="when">
+                ~160 Ma
+            </div>
+
+            <h3>
+                Early birds
+            </h3>
+
+            <p>
+                Bird-line theropods evolve during the
+                Jurassic.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <div class="when">
+                ~140 Ma+
+            </div>
+
+            <h3>
+                Flowering plants
+            </h3>
+
+            <p>
+                Angiosperms diversify and eventually become
+                dominant components of many ecosystems.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <div class="when">
+                66 Ma
+            </div>
+
+            <h3>
+                Cretaceous–Paleogene extinction
+            </h3>
+
+            <p>
+                A catastrophic extinction event removes
+                non-avian dinosaurs and many other groups.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <div class="when">
+                ~7–6 Ma
+            </div>
+
+            <h3>
+                Hominin lineage
+            </h3>
+
+            <p>
+                The evolutionary history leading toward
+                humans separates from the lineage leading
+                to living chimpanzees.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <div class="when">
+                ~300 ka
+            </div>
+
+            <h3>
+                Homo sapiens
+            </h3>
+
+            <p>
+                The oldest widely accepted Homo sapiens
+                fossils are roughly 300,000 years old.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <div class="when">
+                11.7 ka
+            </div>
+
+            <h3>
+                Holocene begins
+            </h3>
+
+            <p>
+                Earth enters the current interglacial
+                epoch.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <div class="when">
+                ~4.2 ka
+            </div>
+
+            <h3>
+                Meghalayan begins
+            </h3>
+
+            <p>
+                The formal upper division of the Holocene
+                begins, defined using a speleothem from
+                Mawmluh Cave, Meghalaya.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     GEOCHRONOLOGICAL CLOCK
+     ===================================================== -->
+
+<section id="clock">
+
+    <div class="section-number">
+        08 / THE CLOCK
+    </div>
+
+    <h2>
+        How do we know?
+    </h2>
+
+    <p class="section-intro">
+
+        Geological time is reconstructed from physical
+        evidence preserved in rocks, minerals, fossils,
+        sediments, ice cores and geological structures.
+
+    </p>
+
+
+    <div class="clock">
+
+        <h3>
+            RADIOACTIVE DECAY
+        </h3>
+
+        <div class="clock-equation">
+
+            N(t) = N₀ e<sup>−λt</sup>
+
+        </div>
+
+        <p>
+
+            Unstable radioactive isotopes transform into
+            daughter products at predictable rates.
+
+            By measuring the ratio of parent and daughter
+            isotopes, scientists can determine the time
+            elapsed since a mineral or geological system
+            closed to isotopic exchange.
+
+            <br><br>
+
+            This is the foundation of
+            <strong>radiometric dating</strong>.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     GEOCHRONOLOGY METHODS
+     ===================================================== -->
+
+<section>
+
+    <div class="section-number">
+        09 / READING TIME
+    </div>
+
+    <h2>
+        Earth's clocks.
+    </h2>
+
+    <p class="section-intro">
+
+        Different geological materials preserve different
+        clocks. Scientists select methods appropriate to
+        the age and material being investigated.
+
+    </p>
+
+
+    <div class="event-grid">
+
+
+        <div class="event-card">
+
+            <h3>
+                U–Pb dating
+            </h3>
+
+            <p>
+                Uranium-lead systems, especially in zircon,
+                provide some of the most powerful tools for
+                dating ancient rocks and geological events.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <h3>
+                K–Ar dating
+            </h3>
+
+            <p>
+                Potassium-40 decays to argon-40 and can be
+                used to date suitable volcanic and geological
+                materials.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <h3>
+                Ar–Ar dating
+            </h3>
+
+            <p>
+                A refined potassium-argon technique widely
+                used in geochronology and volcanic studies.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <h3>
+                Radiocarbon
+            </h3>
+
+            <p>
+                Carbon-14 dating is particularly useful for
+                relatively young organic material, extending
+                back tens of thousands of years.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <h3>
+                U–Th dating
+            </h3>
+
+            <p>
+                Uranium-thorium systems are valuable for
+                dating carbonates such as cave deposits and
+                speleothems.
+            </p>
+
+        </div>
+
+
+        <div class="event-card">
+
+            <h3>
+                Stratigraphy
+            </h3>
+
+            <p>
+                Rock layers, fossils and their relationships
+                establish relative sequences of geological
+                events.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PRESENT
+     ===================================================== -->
+
+<section class="final">
+
+    <div>
+
+        <div class="section-number">
+            10 / NOW
+        </div>
+
+        <h2>
+            You are living<br>
+            in deep time.
+        </h2>
+
+        <p>
+
+            A human lifetime is measured in decades.
+
+            Civilization occupies thousands of years.
+
+            Homo sapiens occupy a few hundred thousand years.
+
+            Earth has existed for approximately
+            <strong>4.54 billion years.</strong>
+
+            <br><br>
+
+            Geochronology is our attempt to read
+            that immense memory.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SOURCES
+     ===================================================== -->
+
+<section>
+
+    <div class="sources">
+
+        <div class="section-number">
+            SCIENTIFIC SOURCES
+        </div>
+
+        <h2>
+            The evidence.
+        </h2>
+
+        <p class="section-intro">
+
+            This page is based primarily on formal geological
+            time-scale material and institutional scientific
+            sources.
+
+        </p>
+
+
+        <ul>
+
+            <li>
+
+                <strong>
+                    International Commission on Stratigraphy
+                </strong>
+
+                —
+                <a
+                    href="https://stratigraphy.org/"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    stratigraphy.org
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <strong>
+                    ICS — Current Chronostratigraphic Chart
+                </strong>
+
+                —
+                <a
+                    href="https://stratigraphy.org/supplementary"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Current 2026 Chart
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <strong>
+                    U.S. Geological Survey — 2026
+                    Divisions of Geologic Time
+                </strong>
+
+                —
+                <a
+                    href="https://www.usgs.gov/publications/divisions-geologic-time-major-chronostratigraphic-and-geochronologic-units"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    USGS
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <strong>
+                    USGS — Fossils, Rocks and Time
+                </strong>
+
+                —
+                <a
+                    href="https://pubs.usgs.gov/gip/fossils/scale.html"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Relative Geologic Time
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <strong>
+                    Natural History Museum, London
+                </strong>
+
+                —
+                <a
+                    href="https://www.nhm.ac.uk/discover/when-did-dinosaurs-live.html"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Dinosaur Timeline
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <strong>
+                    Natural History Museum —
+                    Origin of Life
+                </strong>
+
+                —
+                <a
+                    href="https://www.nhm.ac.uk/discover/origin-of-life-on-earth.html"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Early Earth and Life
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <strong>
+                    International Commission on Stratigraphy —
+                    Holocene
+                </strong>
+
+                —
+                <a
+                    href="https://quaternary.stratigraphy.org/major-divisions"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Holocene subdivisions
+                </a>
+
+            </li>
+
+        </ul>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =====================================================
      FOOTER
-====================================================== -->
+     ===================================================== -->
 
 <footer>
 
-    DRAVYA
+    <strong>
+        DRAVYA
+    </strong>
 
-    <br><br>
+    &nbsp; / &nbsp;
 
     OBSERVE · DISTURB · CREATE
 
-    <br><br>
+    &nbsp; / &nbsp;
 
     GEOCHRONOLOGY
 
 </footer>
-
-
-<!-- ======================================================
-     JAVASCRIPT
-====================================================== -->
-
-<script>
-
-
-/* =========================================================
-   SCROLL REVEAL
-========================================================= */
-
-const reveals =
-    document.querySelectorAll(
-        ".reveal"
-    );
-
-
-const observer =
-    new IntersectionObserver(
-
-        entries => {
-
-            entries.forEach(
-                entry => {
-
-                    if (
-                        entry.isIntersecting
-                    ) {
-
-                        entry.target
-                            .classList
-                            .add("visible");
-
-                    }
-
-                }
-            );
-
-        },
-
-        {
-            threshold: 0.12
-        }
-
-    );
-
-
-reveals.forEach(
-    element =>
-        observer.observe(element)
-);
-
-
-/* =========================================================
-   RADIOACTIVE DECAY VISUAL
-========================================================= */
-
-const bars =
-    document.getElementById(
-        "bars"
-    );
-
-const slider =
-    document.getElementById(
-        "decaySlider"
-    );
-
-
-const BAR_COUNT = 30;
-
-
-function createBars() {
-
-    bars.innerHTML = "";
-
-    for (
-        let i = 0;
-        i < BAR_COUNT;
-        i++
-    ) {
-
-        const bar =
-            document.createElement(
-                "div"
-            );
-
-        bar.className =
-            "bar";
-
-        bars.appendChild(
-            bar
-        );
-
-    }
-
-}
-
-
-function updateDecay() {
-
-    const t =
-        Number(
-            slider.value
-        ) / 100;
-
-
-    const barElements =
-        document.querySelectorAll(
-            ".bar"
-        );
-
-
-    barElements.forEach(
-        (bar, i) => {
-
-            /*
-             * Exponential decay.
-             *
-             * Each bar represents
-             * a population fraction.
-             */
-
-            const x =
-                i / BAR_COUNT;
-
-
-            const remaining =
-                Math.exp(
-                    -t * x * 5
-                );
-
-
-            const height =
-                25 +
-                remaining * 210;
-
-
-            bar.style.height =
-                height + "px";
-
-        }
-    );
-
-}
-
-
-createBars();
-
-updateDecay();
-
-
-slider.addEventListener(
-    "input",
-    updateDecay
-);
-
-
-</script>
 
 
 </body>
