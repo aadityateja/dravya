@@ -15,6 +15,51 @@
 
 <style>
 
+      /* =========================================================
+   VIDEO BACKGROUND
+========================================================= */
+
+#background-video {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    z-index: -10;
+
+    opacity: 0.42;
+
+    pointer-events: none;
+}
+
+/* Dark cinematic overlay */
+
+body::after {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0, 5, 15, 0.45),
+            rgba(0, 3, 10, 0.72)
+        );
+
+    z-index: -9;
+
+    pointer-events: none;
+}
+
 /* =========================================================
    GLOBAL
 ========================================================= */
@@ -55,41 +100,33 @@ body {
 }
 
 
-/* =========================================================
-   BACKGROUND FIELD
-========================================================= */
+<body>
 
-body::before {
+<!-- ======================================================
+     DRAVYA VACUUM FIELD BACKGROUND
+====================================================== -->
 
-    content: "";
+<video
+    id="background-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    aria-hidden="true">
 
-    position: fixed;
+    <source
+        src="assets/dravya_vacuum_fluctuation_10s.mp4"
+        type="video/mp4">
 
-    inset: 0;
+</video>
 
-    pointer-events: none;
 
-    opacity: 0.18;
+<!-- ======================================================
+     NAV
+====================================================== -->
 
-    background-image:
-
-        radial-gradient(
-            circle,
-            rgba(90,160,255,0.45) 1px,
-            transparent 1px
-        );
-
-    background-size: 55px 55px;
-
-    mask-image:
-        linear-gradient(
-            to bottom,
-            black,
-            transparent 80%
-        );
-
-    z-index: -1;
-}
+<nav>
 
 
 /* =========================================================
