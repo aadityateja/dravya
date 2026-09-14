@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Geochronology — DRAVYA</title>
+
+<meta
+    name="description"
+    content="Explore Earth's history through geochronology, geological time and radioactive clocks."
+>
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background:
+        radial-gradient(
+            circle at 50% 10%,
+            #101c35 0%,
+            #050914 35%,
+            #02030a 70%,
+            #000106 100%
+        );
+
+    color: #e9f2ff;
+
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    line-height: 1.7;
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   BACKGROUND FIELD
+========================================================= */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0.18;
+
+    background-image:
+
+        radial-gradient(
+            circle,
+            rgba(90,160,255,0.45) 1px,
+            transparent 1px
+        );
+
+    background-size: 55px 55px;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            black,
+            transparent 80%
+        );
+
+    z-index: -1;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+nav {
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 64px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        0 5vw;
+
+    background:
+        rgba(2,4,12,0.72);
+
+    backdrop-filter:
+        blur(16px);
+
+    border-bottom:
+        1px solid
+        rgba(130,180,255,0.12);
+
+    z-index: 1000;
+}
+
+.logo {
+
+    font-size: 1rem;
+
+    letter-spacing:
+        0.25em;
+
+    color: #8fc7ff;
+
+    font-weight: 600;
+}
+
+nav a {
+
+    color: #9baec9;
+
+    text-decoration: none;
+
+    margin-left: 28px;
+
+    font-size: 0.78rem;
+
+    letter-spacing:
+        0.12em;
+
+    text-transform:
+        uppercase;
+
+    transition: 0.3s;
+}
+
+nav a:hover {
+
+    color: white;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    padding:
+        120px 20px 80px;
+
+    position: relative;
+}
+
+.eyebrow {
+
+    font-size: 0.75rem;
+
+    letter-spacing:
+        0.4em;
+
+    text-transform:
+        uppercase;
+
+    color: #709ed1;
+
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+
+    font-size:
+        clamp(4rem, 12vw, 10rem);
+
+    font-weight: 200;
+
+    letter-spacing:
+        -0.04em;
+
+    line-height: 0.9;
+
+    background:
+        linear-gradient(
+            120deg,
+            #ffffff,
+            #86bfff,
+            #536fa8
+        );
+
+    -webkit-background-clip:
+        text;
+
+    color: transparent;
+}
+
+.hero p {
+
+    max-width: 720px;
+
+    margin-top: 40px;
+
+    color: #9daec8;
+
+    font-size:
+        clamp(1rem, 2vw, 1.3rem);
+}
+
+.scroll {
+
+    margin-top: 90px;
+
+    color: #52739d;
+
+    font-size: 0.7rem;
+
+    letter-spacing:
+        0.3em;
+
+    text-transform:
+        uppercase;
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+section {
+
+    width: min(
+        1100px,
+        90%
+    );
+
+    margin:
+        0 auto;
+
+    padding:
+        150px 0;
+}
+
+.section-label {
+
+    color: #5c86b6;
+
+    font-size: 0.7rem;
+
+    letter-spacing:
+        0.3em;
+
+    text-transform:
+        uppercase;
+
+    margin-bottom: 18px;
+}
+
+h2 {
+
+    font-size:
+        clamp(2.5rem, 6vw, 5rem);
+
+    font-weight: 250;
+
+    line-height: 1;
+
+    margin-bottom: 40px;
+}
+
+h3 {
+
+    font-size: 1.5rem;
+
+    font-weight: 400;
+
+    margin-bottom: 18px;
+}
+
+p {
+
+    color: #aebbd0;
+
+    max-width: 760px;
+
+    font-size: 1.05rem;
+}
+
+
+/* =========================================================
+   BIG NUMBER
+========================================================= */
+
+.big-age {
+
+    margin:
+        70px 0;
+
+    text-align: center;
+
+    padding:
+        80px 20px;
+
+    border-top:
+        1px solid
+        rgba(100,160,230,0.18);
+
+    border-bottom:
+        1px solid
+        rgba(100,160,230,0.18);
+}
+
+.big-age .number {
+
+    font-size:
+        clamp(3rem, 9vw, 8rem);
+
+    font-weight: 200;
+
+    letter-spacing:
+        -0.04em;
+
+    color: #d9ecff;
+
+    text-shadow:
+        0 0 40px
+        rgba(70,150,255,0.25);
+}
+
+.big-age span {
+
+    display: block;
+
+    color: #6885a8;
+
+    font-size: 0.8rem;
+
+    letter-spacing:
+        0.35em;
+
+    text-transform:
+        uppercase;
+}
+
+
+/* =========================================================
+   EARTH ORBIT
+========================================================= */
+
+.orbit {
+
+    width: 340px;
+
+    height: 340px;
+
+    border:
+        1px solid
+        rgba(90,160,255,0.28);
+
+    border-radius: 50%;
+
+    margin:
+        70px auto;
+
+    position: relative;
+}
+
+.sun {
+
+    position: absolute;
+
+    width: 55px;
+
+    height: 55px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #fff6d0,
+            #f2b45e,
+            #d75e24
+        );
+
+    top: 50%;
+
+    left: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    box-shadow:
+        0 0 60px
+        rgba(255,160,70,0.45);
+}
+
+.earth {
+
+    position: absolute;
+
+    width: 18px;
+
+    height: 18px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle at 35% 35%,
+            #75c6ff,
+            #1262a0 55%,
+            #061b3b
+        );
+
+    top: 0;
+
+    left: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    box-shadow:
+        0 0 20px
+        rgba(50,150,255,0.5);
+}
+
+
+/* =========================================================
+   TIME SCALE
+========================================================= */
+
+.time-scale {
+
+    margin-top: 70px;
+
+    border-left:
+        1px solid
+        rgba(100,160,230,0.25);
+
+    padding-left: 35px;
+}
+
+.time-item {
+
+    padding:
+        30px 0;
+
+    position: relative;
+}
+
+.time-item::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 8px;
+
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #72b9ff;
+
+    left: -40px;
+
+    top: 40px;
+
+    box-shadow:
+        0 0 15px
+        rgba(90,180,255,0.8);
+}
+
+.time-item strong {
+
+    display: block;
+
+    color: #8ec7ff;
+
+    font-size: 0.75rem;
+
+    letter-spacing:
+        0.2em;
+
+    text-transform:
+        uppercase;
+
+    margin-bottom: 8px;
+}
+
+
+/* =========================================================
+   GEOLOGICAL HIERARCHY
+========================================================= */
+
+.hierarchy {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 12px;
+
+    margin-top: 70px;
+}
+
+.level {
+
+    padding:
+        30px 15px;
+
+    text-align: center;
+
+    border:
+        1px solid
+        rgba(100,160,230,0.16);
+
+    background:
+        rgba(20,35,60,0.22);
+
+    transition:
+        transform 0.3s,
+        background 0.3s;
+}
+
+.level:hover {
+
+    transform:
+        translateY(-8px);
+
+    background:
+        rgba(30,60,100,0.35);
+}
+
+.level strong {
+
+    display: block;
+
+    color: #b8dcff;
+
+    margin-bottom: 8px;
+}
+
+.level small {
+
+    color: #7187a5;
+
+}
+
+
+/* =========================================================
+   RADIOACTIVE DECAY
+========================================================= */
+
+.decay-box {
+
+    margin-top: 70px;
+
+    padding:
+        50px;
+
+    border:
+        1px solid
+        rgba(100,160,230,0.18);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,40,70,0.38),
+            rgba(3,8,18,0.45)
+        );
+
+    border-radius: 16px;
+}
+
+.decay-equation {
+
+    font-size:
+        clamp(1.5rem, 4vw, 3rem);
+
+    text-align: center;
+
+    margin-bottom: 50px;
+
+    color: #e6f3ff;
+
+    font-family:
+        Georgia,
+        serif;
+}
+
+.bars {
+
+    display: flex;
+
+    align-items:
+        flex-end;
+
+    justify-content:
+        center;
+
+    gap: 8px;
+
+    height: 260px;
+}
+
+.bar {
+
+    width: 20px;
+
+    background:
+        linear-gradient(
+            to top,
+            #1767a5,
+            #65c9ff
+        );
+
+    border-radius:
+        5px 5px 0 0;
+
+    transition:
+        height 0.5s;
+}
+
+.slider {
+
+    width: 100%;
+
+    margin-top: 50px;
+
+    accent-color:
+        #6bbcff;
+}
+
+
+/* =========================================================
+   ROCK CLOCK
+========================================================= */
+
+.rock {
+
+    width: 240px;
+
+    height: 240px;
+
+    margin:
+        70px auto;
+
+    border-radius:
+        42% 58% 50% 46%;
+
+    background:
+        radial-gradient(
+            circle at 30% 25%,
+            #8e96a4,
+            #4e5663 40%,
+            #202631 75%,
+            #0b1018
+        );
+
+    box-shadow:
+        inset -20px -25px 50px
+        rgba(0,0,0,0.5),
+
+        0 25px 80px
+        rgba(0,0,0,0.5);
+
+    position: relative;
+}
+
+.atom {
+
+    position: absolute;
+
+    width: 12px;
+
+    height: 12px;
+
+    border-radius: 50%;
+
+    background: #7bc8ff;
+
+    box-shadow:
+        0 0 18px
+        rgba(90,190,255,0.8);
+}
+
+.atom:nth-child(1) {
+    top: 25%;
+    left: 30%;
+}
+
+.atom:nth-child(2) {
+    top: 50%;
+    left: 60%;
+}
+
+.atom:nth-child(3) {
+    top: 70%;
+    left: 40%;
+}
+
+.atom:nth-child(4) {
+    top: 35%;
+    left: 70%;
+}
+
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+.final {
+
+    min-height:
+        70vh;
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    text-align: center;
+}
+
+.final h2 {
+
+    max-width: 850px;
+}
+
+.final strong {
+
+    color: #dceeff;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+
+    text-align:
+        center;
+
+    padding:
+        70px 20px;
+
+    border-top:
+        1px solid
+        rgba(100,160,230,0.12);
+
+    color: #536b88;
+
+    font-size: 0.75rem;
+
+    letter-spacing:
+        0.2em;
+}
+
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+.reveal {
+
+    opacity: 0;
+
+    transform:
+        translateY(35px);
+
+    transition:
+        opacity 1s ease,
+        transform 1s ease;
+}
+
+.reveal.visible {
+
+    opacity: 1;
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    nav a {
+        display: none;
+    }
+
+    .hierarchy {
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .decay-box {
+
+        padding: 25px;
+    }
+
+    section {
+
+        padding:
+            100px 0;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ======================================================
+     NAV
+====================================================== -->
+
+<nav>
+
+    <div class="logo">
+        DRAVYA / GEOCHRONOLOGY
+    </div>
+
+    <div>
+
+        <a href="#earth">
+            Earth
+        </a>
+
+        <a href="#time">
+            Time
+        </a>
+
+        <a href="#clock">
+            Atomic Clock
+        </a>
+
+        <a href="#age">
+            Age
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- ======================================================
+     HERO
+====================================================== -->
+
+<header class="hero">
+
+    <div class="eyebrow">
+        Earth · Time · Evidence
+    </div>
+
+    <h1>
+        GEOCHRONOLOGY
+    </h1>
+
+    <p>
+        How do we read the history of a planet
+        that has been recording its story for
+        billions of years?
+    </p>
+
+    <div class="scroll">
+        ↓ begin here
+    </div>
+
+</header>
+
+
+<!-- ======================================================
+     EARTH
+====================================================== -->
+
+<section id="earth" class="reveal">
+
+    <div class="section-label">
+        01 / WHERE WE ARE
+    </div>
+
+    <h2>
+        We are here.
+    </h2>
+
+    <p>
+
+        We live on planet Earth.
+
+        Earth rotates around its axis,
+        giving us the cycle of day and night.
+
+        At the same time, Earth travels around
+        the Sun.
+
+    </p>
+
+    <div class="orbit">
+
+        <div class="sun"></div>
+
+        <div class="earth"></div>
+
+    </div>
+
+    <p>
+
+        One complete revolution of Earth around
+        the Sun defines approximately one year.
+
+        We use years to describe the passage of time
+        in our lives.
+
+    </p>
+
+</section>
+
+
+<!-- ======================================================
+     BIRTHDAY
+====================================================== -->
+
+<section class="reveal">
+
+    <div class="section-label">
+        02 / YOUR CLOCK
+    </div>
+
+    <h2>
+        How old are you?
+    </h2>
+
+    <p>
+
+        When someone asks your age,
+        you answer with a number.
+
+        That number represents the amount of
+        elapsed time since you were born,
+        usually expressed in years.
+
+    </p>
+
+    <div class="big-age">
+
+        <div class="number">
+            27
+        </div>
+
+        <span>
+            years since birth
+        </span>
+
+    </div>
+
+    <p>
+
+        Every birthday is a reminder that
+        another year of your life has passed.
+
+        But now let's ask a much bigger question.
+
+    </p>
+
+</section>
+
+
+<!-- ======================================================
+     EARTH AGE
+====================================================== -->
+
+<section id="age" class="reveal">
+
+    <div class="section-label">
+        03 / DEEP TIME
+    </div>
+
+    <h2>
+        How old is Earth?
+    </h2>
+
+    <p>
+
+        Earth does not have a birth certificate.
+
+        Nobody was here 4.5 billion years ago
+        to write down the date.
+
+        So how can we possibly know?
+
+    </p>
+
+    <div class="big-age">
+
+        <div class="number">
+            4.54
+        </div>
+
+        <span>
+            billion years
+        </span>
+
+    </div>
+
+    <p>
+
+        We cannot simply count Earth's birthdays.
+
+        Instead, we read the evidence preserved
+        in rocks, minerals and geological processes.
+
+        This is where geochronology begins.
+
+    </p>
+
+</section>
+
+
+<!-- ======================================================
+     GEOLOGICAL TIME
+====================================================== -->
+
+<section id="time" class="reveal">
+
+    <div class="section-label">
+        04 / GEOLOGICAL TIME
+    </div>
+
+    <h2>
+        Deep time needs a language.
+    </h2>
+
+    <p>
+
+        Earth's history stretches across billions
+        of years.
+
+        To make sense of such an enormous span,
+        geologists divide geological time into
+        hierarchical intervals.
+
+    </p>
+
+
+    <div class="hierarchy">
+
+        <div class="level">
+            <strong>EON</strong>
+            <small>largest scale</small>
+        </div>
+
+        <div class="level">
+            <strong>ERA</strong>
+            <small>major division</small>
+        </div>
+
+        <div class="level">
+            <strong>PERIOD</strong>
+            <small>smaller interval</small>
+        </div>
+
+        <div class="level">
+            <strong>EPOCH</strong>
+            <small>finer interval</small>
+        </div>
+
+        <div class="level">
+            <strong>AGE</strong>
+            <small>fine scale</small>
+        </div>
+
+    </div>
+
+
+    <div class="time-scale">
+
+        <div class="time-item">
+
+            <strong>
+                EON
+            </strong>
+
+            <p>
+                The broadest divisions of
+                geological history.
+            </p>
+
+        </div>
+
+
+        <div class="time-item">
+
+            <strong>
+                ERA
+            </strong>
+
+            <p>
+                Major chapters within an eon.
+            </p>
+
+        </div>
+
+
+        <div class="time-item">
+
+            <strong>
+                PERIOD
+            </strong>
+
+            <p>
+                Major subdivisions of eras.
+            </p>
+
+        </div>
+
+
+        <div class="time-item">
+
+            <strong>
+                EPOCH
+            </strong>
+
+            <p>
+                Finer divisions within periods.
+            </p>
+
+        </div>
+
+
+        <div class="time-item">
+
+            <strong>
+                AGE
+            </strong>
+
+            <p>
+                Smaller units used to describe
+                geological time.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     ROCK RECORD
+====================================================== -->
+
+<section class="reveal">
+
+    <div class="section-label">
+        05 / THE ROCK RECORD
+    </div>
+
+    <h2>
+        Rocks remember.
+    </h2>
+
+    <p>
+
+        A rock is not merely a piece of Earth.
+
+        Minerals inside it can preserve evidence
+        about when they formed and what happened
+        afterwards.
+
+        Geological structures can therefore act
+        as records of Earth's history.
+
+    </p>
+
+
+    <div class="rock">
+
+        <div class="atom"></div>
+        <div class="atom"></div>
+        <div class="atom"></div>
+        <div class="atom"></div>
+
+    </div>
+
+
+    <p>
+
+        Some minerals contain radioactive isotopes.
+
+        These isotopes behave like tiny clocks.
+
+    </p>
+
+</section>
+
+
+<!-- ======================================================
+     RADIOACTIVE CLOCK
+====================================================== -->
+
+<section id="clock" class="reveal">
+
+    <div class="section-label">
+        06 / THE ATOMIC CLOCK
+    </div>
+
+    <h2>
+        A clock inside the atom.
+    </h2>
+
+    <p>
+
+        Some atomic nuclei are unstable.
+
+        They transform through radioactive decay.
+
+        A parent isotope can decay into a daughter
+        isotope at a characteristic statistical rate.
+
+    </p>
+
+
+    <div class="decay-box">
+
+        <div class="decay-equation">
+
+            Parent
+            →
+            Daughter
+
+        </div>
+
+
+        <div
+            class="bars"
+            id="bars"
+        >
+        </div>
+
+
+        <input
+            class="slider"
+            id="decaySlider"
+            type="range"
+            min="0"
+            max="100"
+            value="0"
+        >
+
+    </div>
+
+
+    <p style="margin-top:40px">
+
+        The decay of a radioactive parent follows
+        an exponential law:
+
+    </p>
+
+
+    <div class="decay-equation"
+         style="margin-top:35px">
+
+        N(t) = N₀ e<sup>−λt</sup>
+
+    </div>
+
+
+    <p>
+
+        The half-life is the time required for
+        half of the parent population to decay:
+
+    </p>
+
+
+    <div class="decay-equation"
+         style="margin-top:35px">
+
+        t<sub>1/2</sub> =
+        ln(2) / λ
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     AGE DETERMINATION
+====================================================== -->
+
+<section class="reveal">
+
+    <div class="section-label">
+        07 / READING THE CLOCK
+    </div>
+
+    <h2>
+        From atoms to age.
+    </h2>
+
+    <p>
+
+        If we know the decay constant of a radioactive
+        isotope and measure the parent and daughter
+        isotopes preserved in a mineral, we can use
+        that information to estimate elapsed time.
+
+    </p>
+
+    <br>
+
+    <p>
+
+        This is the fundamental idea behind
+        radiometric dating.
+
+    </p>
+
+</section>
+
+
+<!-- ======================================================
+     MULTIPLE CLOCKS
+====================================================== -->
+
+<section class="reveal">
+
+    <div class="section-label">
+        08 / NOT JUST ONE CLOCK
+    </div>
+
+    <h2>
+        Earth has many clocks.
+    </h2>
+
+    <p>
+
+        Different isotopic systems operate over
+        different timescales and suit different
+        geological materials.
+
+        Geochronologists therefore choose methods
+        according to the question being asked.
+
+    </p>
+
+
+    <div class="hierarchy">
+
+        <div class="level">
+
+            <strong>
+                U–Pb
+            </strong>
+
+            <small>
+                ancient rocks
+            </small>
+
+        </div>
+
+
+        <div class="level">
+
+            <strong>
+                K–Ar
+            </strong>
+
+            <small>
+                volcanic history
+            </small>
+
+        </div>
+
+
+        <div class="level">
+
+            <strong>
+                Ar–Ar
+            </strong>
+
+            <small>
+                geological events
+            </small>
+
+        </div>
+
+
+        <div class="level">
+
+            <strong>
+                ¹⁴C
+            </strong>
+
+            <small>
+                recent past
+            </small>
+
+        </div>
+
+
+        <div class="level">
+
+            <strong>
+                U–Th
+            </strong>
+
+            <small>
+                younger materials
+            </small>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     WHY IT MATTERS
+====================================================== -->
+
+<section class="reveal">
+
+    <div class="section-label">
+        09 / WHY IT MATTERS
+    </div>
+
+    <h2>
+        Knowing when changes
+        happened changes
+        what we understand.
+    </h2>
+
+    <div class="time-scale">
+
+        <div class="time-item">
+
+            <strong>
+                VOLCANOES
+            </strong>
+
+            <p>
+                When did an eruption occur?
+            </p>
+
+        </div>
+
+
+        <div class="time-item">
+
+            <strong>
+                MOUNTAINS
+            </strong>
+
+            <p>
+                When did geological structures form?
+            </p>
+
+        </div>
+
+
+        <div class="time-item">
+
+            <strong>
+                CLIMATE
+            </strong>
+
+            <p>
+                How has Earth's climate changed
+                through deep time?
+            </p>
+
+        </div>
+
+
+        <div class="time-item">
+
+            <strong>
+                LIFE
+            </strong>
+
+            <p>
+                When did major biological transitions
+                occur?
+            </p>
+
+        </div>
+
+
+        <div class="time-item">
+
+            <strong>
+                EARTH
+            </strong>
+
+            <p>
+                How has our planet evolved
+                over billions of years?
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     FINAL
+====================================================== -->
+
+<section class="final reveal">
+
+    <div class="section-label">
+        10 / DEEP TIME
+    </div>
+
+    <h2>
+
+        Your birthday measures
+        a few decades.
+
+        <br><br>
+
+        A mineral can remember
+        <strong>
+            billions of years.
+        </strong>
+
+    </h2>
+
+
+    <p>
+
+        Geochronology is our attempt
+        to read those memories.
+
+    </p>
+
+</section>
+
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+    DRAVYA
+
+    <br><br>
+
+    OBSERVE · DISTURB · CREATE
+
+    <br><br>
+
+    GEOCHRONOLOGY
+
+</footer>
+
+
+<!-- ======================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+
+/* =========================================================
+   SCROLL REVEAL
+========================================================= */
+
+const reveals =
+    document.querySelectorAll(
+        ".reveal"
+    );
+
+
+const observer =
+    new IntersectionObserver(
+
+        entries => {
+
+            entries.forEach(
+                entry => {
+
+                    if (
+                        entry.isIntersecting
+                    ) {
+
+                        entry.target
+                            .classList
+                            .add("visible");
+
+                    }
+
+                }
+            );
+
+        },
+
+        {
+            threshold: 0.12
+        }
+
+    );
+
+
+reveals.forEach(
+    element =>
+        observer.observe(element)
+);
+
+
+/* =========================================================
+   RADIOACTIVE DECAY VISUAL
+========================================================= */
+
+const bars =
+    document.getElementById(
+        "bars"
+    );
+
+const slider =
+    document.getElementById(
+        "decaySlider"
+    );
+
+
+const BAR_COUNT = 30;
+
+
+function createBars() {
+
+    bars.innerHTML = "";
+
+    for (
+        let i = 0;
+        i < BAR_COUNT;
+        i++
+    ) {
+
+        const bar =
+            document.createElement(
+                "div"
+            );
+
+        bar.className =
+            "bar";
+
+        bars.appendChild(
+            bar
+        );
+
+    }
+
+}
+
+
+function updateDecay() {
+
+    const t =
+        Number(
+            slider.value
+        ) / 100;
+
+
+    const barElements =
+        document.querySelectorAll(
+            ".bar"
+        );
+
+
+    barElements.forEach(
+        (bar, i) => {
+
+            /*
+             * Exponential decay.
+             *
+             * Each bar represents
+             * a population fraction.
+             */
+
+            const x =
+                i / BAR_COUNT;
+
+
+            const remaining =
+                Math.exp(
+                    -t * x * 5
+                );
+
+
+            const height =
+                25 +
+                remaining * 210;
+
+
+            bar.style.height =
+                height + "px";
+
+        }
+    );
+
+}
+
+
+createBars();
+
+updateDecay();
+
+
+slider.addEventListener(
+    "input",
+    updateDecay
+);
+
+
+</script>
+
+
+</body>
+</html>
