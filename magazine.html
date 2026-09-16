@@ -1,0 +1,1148 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DRAVYA MAGAZINE</title>
+
+<style>
+
+@font-face {
+    font-family: Minecraft;
+    src: url("assets/fonts/Minecraft.ttf");
+}
+
+:root {
+    --background: #030611;
+    --panel: rgba(8, 15, 32, 0.78);
+    --text: #edf4ff;
+    --muted: #8794ad;
+    --line: rgba(120, 170, 255, 0.18);
+    --accent: #79adff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--background);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+/* =========================================
+   FIELD
+========================================= */
+
+#field {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            rgba(35, 75, 150, 0.14),
+            rgba(3, 6, 17, 0.96) 75%
+        );
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 22px 6vw;
+
+    border-bottom: 1px solid var(--line);
+
+    background: rgba(3, 6, 17, 0.72);
+    backdrop-filter: blur(18px);
+}
+
+.logo {
+    font-family: Minecraft;
+    font-size: 28px;
+    letter-spacing: 5px;
+}
+
+nav {
+    display: flex;
+    gap: 28px;
+}
+
+nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 2px;
+    transition: 0.2s;
+}
+
+nav a:hover {
+    color: white;
+}
+
+/* =========================================
+   HERO
+========================================= */
+
+.hero {
+    width: min(1200px, 88%);
+    margin: 110px auto 90px;
+
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 60px;
+
+    align-items: center;
+}
+
+.issue-label {
+    color: var(--accent);
+    letter-spacing: 5px;
+    font-size: 11px;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-family: Minecraft;
+    font-size: clamp(60px, 10vw, 130px);
+    line-height: 0.85;
+    letter-spacing: 5px;
+    margin-bottom: 30px;
+}
+
+.hero-description {
+    max-width: 560px;
+    color: var(--muted);
+    line-height: 1.9;
+    font-size: 16px;
+}
+
+.button {
+    display: inline-block;
+
+    margin-top: 35px;
+
+    padding: 15px 25px;
+
+    border: 1px solid rgba(130, 180, 255, 0.4);
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    letter-spacing: 3px;
+
+    transition: 0.25s;
+}
+
+.button:hover {
+    background: rgba(90, 145, 240, 0.16);
+}
+
+/* =========================================
+   COVER
+========================================= */
+
+.cover {
+    min-height: 480px;
+
+    border: 1px solid var(--line);
+
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(100, 160, 255, 0.25),
+            transparent 45%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(30, 60, 120, 0.2),
+            rgba(5, 10, 25, 0.9)
+        );
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 30px;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.cover::before,
+.cover::after {
+    content: "";
+
+    position: absolute;
+
+    border: 1px solid rgba(120, 180, 255, 0.12);
+
+    border-radius: 50%;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+}
+
+.cover::before {
+    width: 380px;
+    height: 380px;
+}
+
+.cover::after {
+    width: 230px;
+    height: 230px;
+}
+
+.cover-top {
+    font-family: Minecraft;
+    letter-spacing: 4px;
+    font-size: 16px;
+}
+
+.cover-center {
+    text-align: center;
+    z-index: 2;
+}
+
+.cover-center h2 {
+    font-family: Minecraft;
+    font-size: 48px;
+    letter-spacing: 5px;
+}
+
+.cover-center p {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 3px;
+}
+
+.cover-bottom {
+    display: flex;
+    justify-content: space-between;
+
+    color: var(--muted);
+
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+/* =========================================
+   SECTIONS
+========================================= */
+
+section {
+    width: min(1200px, 88%);
+    margin: 120px auto;
+}
+
+.section-title {
+    font-family: Minecraft;
+    font-size: 32px;
+    letter-spacing: 4px;
+    margin-bottom: 35px;
+}
+
+.section-intro {
+    max-width: 650px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+/* =========================================
+   FEATURES
+========================================= */
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.feature {
+    min-height: 260px;
+
+    border: 1px solid var(--line);
+
+    background: var(--panel);
+
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    transition: 0.25s;
+}
+
+.feature:hover {
+    transform: translateY(-5px);
+    border-color: rgba(120, 180, 255, 0.45);
+}
+
+.feature-number {
+    color: var(--accent);
+    font-family: Minecraft;
+    font-size: 12px;
+}
+
+.feature h3 {
+    font-family: Minecraft;
+    font-size: 25px;
+    letter-spacing: 2px;
+    margin: 20px 0 12px;
+}
+
+.feature p {
+    color: var(--muted);
+    line-height: 1.7;
+    font-size: 13px;
+}
+
+.feature-type {
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+/* =========================================
+   THREE COLUMN
+========================================= */
+
+.triple {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.card {
+    border: 1px solid var(--line);
+    background: var(--panel);
+    padding: 30px;
+    min-height: 240px;
+
+    transition: 0.25s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+}
+
+.card-label {
+    color: var(--accent);
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+.card h3 {
+    font-family: Minecraft;
+    font-size: 23px;
+    margin: 25px 0 15px;
+}
+
+.card p {
+    color: var(--muted);
+    line-height: 1.7;
+    font-size: 13px;
+}
+
+/* =========================================
+   PUZZLE
+========================================= */
+
+.puzzle {
+    border: 1px solid var(--line);
+
+    padding: 50px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(60, 120, 220, 0.12),
+            transparent 60%
+        );
+
+    text-align: center;
+}
+
+.puzzle h3 {
+    font-family: Minecraft;
+    font-size: 35px;
+    letter-spacing: 3px;
+}
+
+.puzzle p {
+    max-width: 600px;
+    margin: 20px auto;
+
+    color: var(--muted);
+    line-height: 1.8;
+}
+
+/* =========================================
+   ARCHIVE
+========================================= */
+
+.archive {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.issue {
+    border: 1px solid var(--line);
+    padding: 25px;
+    background: var(--panel);
+    transition: 0.2s;
+}
+
+.issue:hover {
+    border-color: rgba(120, 180, 255, 0.4);
+}
+
+.issue-number {
+    color: var(--accent);
+    font-family: Minecraft;
+}
+
+.issue h3 {
+    margin-top: 20px;
+    font-size: 15px;
+}
+
+.issue p {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+    border-top: 1px solid var(--line);
+
+    padding: 40px 6vw;
+
+    display: flex;
+    justify-content: space-between;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    letter-spacing: 3px;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width: 800px) {
+
+    nav {
+        display: none;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    .triple {
+        grid-template-columns: 1fr;
+    }
+
+    .archive {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cover {
+        min-height: 400px;
+    }
+
+}
+
+@media(max-width: 500px) {
+
+    .archive {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        margin-top: 60px;
+    }
+
+    section {
+        margin: 80px auto;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<canvas id="field"></canvas>
+
+<div class="overlay"></div>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header>
+
+    <div class="logo">
+        DRAVYA
+    </div>
+
+    <nav>
+
+        <a href="#features">
+            FEATURES
+        </a>
+
+        <a href="#stories">
+            STORIES
+        </a>
+
+        <a href="#puzzles">
+            PUZZLES
+        </a>
+
+        <a href="#archive">
+            ARCHIVE
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- =========================================
+     HERO
+========================================= -->
+
+<div class="hero">
+
+    <div>
+
+        <div class="issue-label">
+            DRAVYA MAGAZINE · ISSUE 001
+        </div>
+
+        <h1>
+            THE<br>
+            FIELD
+        </h1>
+
+        <p class="hero-description">
+
+            Science, art, stories and strange ideas
+            from inside the field.
+
+            Every issue explores a different disturbance
+            in the world around us.
+
+        </p>
+
+        <a
+            href="#features"
+            class="button">
+
+            EXPLORE ISSUE
+
+        </a>
+
+    </div>
+
+
+    <!-- COVER -->
+
+    <div class="cover">
+
+        <div class="cover-top">
+            DRAVYA
+        </div>
+
+        <div class="cover-center">
+
+            <h2>
+                THE<br>
+                FIELD
+            </h2>
+
+            <p>
+                SCIENCE · ART · ENTERTAINMENT
+            </p>
+
+        </div>
+
+        <div class="cover-bottom">
+
+            <span>
+                ISSUE 001
+            </span>
+
+            <span>
+                2026
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     FEATURES
+========================================= -->
+
+<section id="features">
+
+    <h2 class="section-title">
+        FEATURES
+    </h2>
+
+    <p class="section-intro">
+
+        Long-form explorations of physics, astronomy,
+        mathematics, technology and the strange
+        structures hidden inside everyday reality.
+
+    </p>
+
+
+    <div class="features">
+
+
+        <article class="feature">
+
+            <div>
+
+                <div class="feature-number">
+                    01
+                </div>
+
+                <h3>
+                    THE LANGUAGE OF THE UNIVERSE
+                </h3>
+
+                <p>
+                    What if mathematics isn't merely a
+                    language humans invented, but a way
+                    of describing the structure of nature?
+                </p>
+
+            </div>
+
+            <div class="feature-type">
+                PHYSICS
+            </div>
+
+        </article>
+
+
+        <article class="feature">
+
+            <div>
+
+                <div class="feature-number">
+                    02
+                </div>
+
+                <h3>
+                    WHAT IS MATTER?
+                </h3>
+
+                <p>
+                    From atoms to quantum fields:
+                    follow the question of what it means
+                    for something to exist.
+                </p>
+
+            </div>
+
+            <div class="feature-type">
+                FUNDAMENTAL PHYSICS
+            </div>
+
+        </article>
+
+
+        <article class="feature">
+
+            <div>
+
+                <div class="feature-number">
+                    03
+                </div>
+
+                <h3>
+                    COSMIC CALENDAR
+                </h3>
+
+                <p>
+                    Compress the history of the Universe
+                    into a single cosmic year.
+                </p>
+
+            </div>
+
+            <div class="feature-type">
+                COSMOLOGY
+            </div>
+
+        </article>
+
+
+        <article class="feature">
+
+            <div>
+
+                <div class="feature-number">
+                    04
+                </div>
+
+                <h3>
+                    THE ART OF SYMMETRY
+                </h3>
+
+                <p>
+                    Explore how equations, geometry and
+                    symmetry become visual forms.
+                </p>
+
+            </div>
+
+            <div class="feature-type">
+                MATHEMATICS · ART
+            </div>
+
+        </article>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     STORIES / ART / EXPERIMENTS
+========================================= -->
+
+<section id="stories">
+
+    <h2 class="section-title">
+        INSIDE THE FIELD
+    </h2>
+
+
+    <div class="triple">
+
+
+        <article class="card">
+
+            <div class="card-label">
+                SHORT FICTION
+            </div>
+
+            <h3>
+                THE RED MOON
+            </h3>
+
+            <p>
+                A signal appears where no signal
+                should exist.
+
+                Someone is listening.
+            </p>
+
+            <a href="#" class="button">
+                READ
+            </a>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-label">
+                ART
+            </div>
+
+            <h3>
+                FIELD / 001
+            </h3>
+
+            <p>
+                Mathematical structures translated
+                into visual disturbances.
+            </p>
+
+            <a href="#" class="button">
+                VIEW
+            </a>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-label">
+                EXPERIMENT
+            </div>
+
+            <h3>
+                BUILD A DETECTOR
+            </h3>
+
+            <p>
+                Can you detect something you cannot
+                directly see?
+            </p>
+
+            <a href="#" class="button">
+                EXPLORE
+            </a>
+
+        </article>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     PUZZLE
+========================================= -->
+
+<section id="puzzles">
+
+    <h2 class="section-title">
+        DISTURB THE FIELD
+    </h2>
+
+
+    <div class="puzzle">
+
+        <h3>
+            THE PUZZLE
+        </h3>
+
+        <p>
+
+            Three particles enter a detector.
+
+            One leaves no visible trace.
+
+            One deposits energy.
+
+            One creates a shower.
+
+            Can you determine what happened?
+
+        </p>
+
+        <a href="#" class="button">
+            BEGIN PUZZLE
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     ARCHIVE
+========================================= -->
+
+<section id="archive">
+
+    <h2 class="section-title">
+        MAGAZINE ARCHIVE
+    </h2>
+
+
+    <div class="archive">
+
+
+        <div class="issue">
+
+            <div class="issue-number">
+                001
+            </div>
+
+            <h3>
+                THE FIELD
+            </h3>
+
+            <p>
+                September 2026
+            </p>
+
+        </div>
+
+
+        <div class="issue">
+
+            <div class="issue-number">
+                002
+            </div>
+
+            <h3>
+                MATTER
+            </h3>
+
+            <p>
+                Coming soon
+            </p>
+
+        </div>
+
+
+        <div class="issue">
+
+            <div class="issue-number">
+                003
+            </div>
+
+            <h3>
+                TIME
+            </h3>
+
+            <p>
+                Coming soon
+            </p>
+
+        </div>
+
+
+        <div class="issue">
+
+            <div class="issue-number">
+                004
+            </div>
+
+            <h3>
+                SPACE
+            </h3>
+
+            <p>
+                Coming soon
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+
+<footer>
+
+    <span>
+        DRAVYA MAGAZINE
+    </span>
+
+    <span>
+        OBSERVE · DISTURB · CREATE
+    </span>
+
+</footer>
+
+
+<!-- =========================================
+     FIELD ANIMATION
+========================================= -->
+
+<script>
+
+const canvas =
+    document.getElementById("field");
+
+const ctx =
+    canvas.getContext("2d");
+
+let width;
+let height;
+let time = 0;
+
+
+function resize() {
+
+    width =
+        canvas.width =
+        window.innerWidth;
+
+    height =
+        canvas.height =
+        window.innerHeight;
+
+}
+
+window.addEventListener(
+    "resize",
+    resize
+);
+
+resize();
+
+
+function drawField() {
+
+    ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    const cx =
+        width / 2;
+
+    const cy =
+        height / 2;
+
+
+    for (
+        let ring = 0;
+        ring < 20;
+        ring++
+    ) {
+
+        ctx.beginPath();
+
+
+        const radius =
+            60 + ring * 48;
+
+
+        for (
+            let angle = 0;
+            angle < Math.PI * 2;
+            angle += 0.035
+        ) {
+
+            const disturbance =
+                Math.sin(
+                    angle * 5
+                    + time
+                    + ring * 0.35
+                ) * 10;
+
+
+            const r =
+                radius +
+                disturbance;
+
+
+            const x =
+                cx +
+                Math.cos(angle) * r;
+
+
+            const y =
+                cy +
+                Math.sin(angle) * r;
+
+
+            if (angle === 0) {
+
+                ctx.moveTo(x, y);
+
+            } else {
+
+                ctx.lineTo(x, y);
+
+            }
+
+        }
+
+
+        ctx.strokeStyle =
+            `rgba(
+                90,
+                150,
+                255,
+                ${0.015 + ring * 0.002}
+            )`;
+
+        ctx.stroke();
+
+    }
+
+
+    time += 0.006;
+
+    requestAnimationFrame(
+        drawField
+    );
+
+}
+
+
+drawField();
+
+</script>
+
+
+</body>
+
+</html>
+```
