@@ -1,3 +1,19 @@
+/* =================================
+   INDEX — DRAVYA TITLE FONT ONLY
+   ================================= */
+
+@font-face {
+    font-family: "DRAVYA-INDEX";
+    src: url("assets/fonts/Dark.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.index-dravya-title {
+    font-family: "DRAVYA-INDEX" !important;
+}
+
 @font-face {
     font-family: "DRAVYA-DARK";
     src: url("assets/fonts/SuperKeys.ttf") format("truetype");
