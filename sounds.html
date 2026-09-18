@@ -1,16 +1,19 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>DRAVYA — Sounds</title>
 
     <meta name="description"
-        content="DRAVYA Sounds — music, perturbations and sonic states by Addy.">
+          content="DRAVYA Sounds — music by Addy.">
 
     <link rel="icon" type="image/png" href="assets/logo.png">
+
 
     <style>
 
@@ -18,7 +21,20 @@
            DRAVYA — SOUNDS
            ========================================================= */
 
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+        @font-face {
+            font-family: "Germania";
+            src: url("assets/fonts/GermaniaOne-Regular.ttf")
+                 format("truetype");
+
+            font-weight: normal;
+            font-style: normal;
+        }
+
+
+        /* =========================================================
+           RESET
+           ========================================================= */
 
         * {
             margin: 0;
@@ -26,15 +42,22 @@
             box-sizing: border-box;
         }
 
+
         html {
             scroll-behavior: smooth;
         }
 
+
         body {
-            font-family: 'Inter', Arial, sans-serif;
+
+            font-family: "Germania", serif;
+
             background: #02050b;
-            color: #ffffff;
+
+            color: white;
+
             min-height: 100vh;
+
             overflow-x: hidden;
         }
 
@@ -44,7 +67,9 @@
            ========================================================= */
 
         #background-video {
+
             position: fixed;
+
             inset: 0;
 
             width: 100%;
@@ -55,40 +80,45 @@
             z-index: -3;
 
             filter:
-                brightness(0.48)
+                brightness(0.42)
                 contrast(1.15)
                 saturate(1.15);
         }
 
 
-        /* Dark field over the video */
+        /* =========================================================
+           VIDEO OVERLAY
+           ========================================================= */
 
         .video-overlay {
+
             position: fixed;
+
             inset: 0;
 
             background:
-                radial-gradient(
-                    circle at center,
-                    rgba(0, 25, 55, 0.18),
-                    rgba(0, 0, 0, 0.78)
+
+                linear-gradient(
+                    rgba(0, 0, 0, 0.30),
+                    rgba(0, 0, 0, 0.72)
                 );
 
             z-index: -2;
         }
 
 
-        /* Subtle blue atmospheric layer */
-
         .field-layer {
+
             position: fixed;
+
             inset: 0;
 
             background:
+
                 radial-gradient(
-                    circle at 50% 45%,
-                    rgba(20, 90, 180, 0.08),
-                    transparent 55%
+                    circle at center,
+                    rgba(30, 110, 210, 0.10),
+                    transparent 60%
                 );
 
             pointer-events: none;
@@ -102,6 +132,7 @@
            ========================================================= */
 
         nav {
+
             position: fixed;
 
             top: 0;
@@ -109,50 +140,64 @@
 
             width: 100%;
 
-            padding: 24px 42px;
+            padding: 25px 42px;
 
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
 
-            z-index: 10;
+            z-index: 20;
 
             background:
+
                 linear-gradient(
                     to bottom,
-                    rgba(0,0,0,0.45),
+                    rgba(0,0,0,0.55),
                     transparent
                 );
 
             backdrop-filter: blur(3px);
         }
 
+
         .nav-logo {
-            font-size: 17px;
-            letter-spacing: 0.35em;
-            font-weight: 500;
+
+            font-size: 20px;
+
+            letter-spacing: 0.22em;
         }
+
 
         .nav-links {
+
             display: flex;
-            gap: 28px;
+
+            gap: 30px;
         }
 
+
         .nav-links a {
-            color: rgba(255,255,255,0.75);
+
+            color: rgba(255,255,255,0.78);
 
             text-decoration: none;
 
-            font-size: 12px;
-            letter-spacing: 0.16em;
+            font-size: 14px;
 
-            text-transform: uppercase;
+            letter-spacing: 0.10em;
 
             transition: 0.3s ease;
         }
 
+
         .nav-links a:hover {
-            color: #ffffff;
+
+            color: white;
+
+            text-shadow:
+                0 0 12px rgba(120,190,255,0.8);
         }
 
 
@@ -161,11 +206,13 @@
            ========================================================= */
 
         main {
-            width: min(1100px, 92%);
+
+            width: min(1000px, 90%);
 
             margin: auto;
 
             padding-top: 150px;
+
             padding-bottom: 100px;
         }
 
@@ -175,299 +222,262 @@
            ========================================================= */
 
         .hero {
+
             text-align: center;
 
-            padding: 50px 0 100px;
+            padding:
+
+                55px 0
+                70px;
         }
 
-        .hero-small {
-            font-size: 11px;
-
-            letter-spacing: 0.45em;
-
-            text-transform: uppercase;
-
-            color: rgba(255,255,255,0.58);
-
-            margin-bottom: 22px;
-        }
 
         .hero h1 {
-            font-size: clamp(55px, 10vw, 120px);
 
-            font-weight: 300;
+            font-size:
 
-            letter-spacing: 0.16em;
+                clamp(
+                    70px,
+                    13vw,
+                    150px
+                );
 
-            line-height: 0.95;
+            font-weight: normal;
 
-            margin-left: 0.16em;
+            letter-spacing: 0.08em;
+
+            line-height: 1;
+
+            text-shadow:
+
+                0 0 25px
+                rgba(80,160,255,0.20);
         }
+
 
         .hero-subtitle {
-            margin-top: 30px;
 
-            font-size: 13px;
+            margin-top: 28px;
 
-            letter-spacing: 0.22em;
+            font-size: 17px;
 
-            text-transform: uppercase;
+            letter-spacing: 0.15em;
 
-            color: rgba(255,255,255,0.68);
+            opacity: 0.72;
         }
 
+
         .hero-description {
-            max-width: 620px;
 
-            margin: 26px auto 0;
+            max-width: 650px;
 
-            font-size: 14px;
+            margin:
+
+                28px auto
+                0;
+
+            font-size: 15px;
 
             line-height: 1.8;
 
-            color: rgba(255,255,255,0.65);
+            letter-spacing: 0.04em;
+
+            opacity: 0.62;
         }
 
 
         /* =========================================================
-           RELEASE
+           PERTURBATION
            ========================================================= */
 
         .release {
+
+            text-align: center;
+
             margin-top: 20px;
         }
 
-        .release-heading {
-            text-align: center;
 
-            margin-bottom: 42px;
+        .release-title {
+
+            font-size: 42px;
+
+            letter-spacing: 0.10em;
+
+            margin-bottom: 10px;
         }
 
-        .release-heading .label {
-            font-size: 10px;
 
-            letter-spacing: 0.35em;
+        .release-info {
 
-            text-transform: uppercase;
+            font-size: 15px;
 
-            color: rgba(255,255,255,0.45);
-        }
+            letter-spacing: 0.10em;
 
-        .release-heading h2 {
-            margin-top: 12px;
+            opacity: 0.62;
 
-            font-size: 30px;
-
-            font-weight: 400;
-
-            letter-spacing: 0.12em;
-        }
-
-        .release-heading p {
-            margin-top: 12px;
-
-            font-size: 12px;
-
-            color: rgba(255,255,255,0.55);
-
-            letter-spacing: 0.08em;
+            margin-bottom: 45px;
         }
 
 
         /* =========================================================
-           TRACK CARDS
+           STREAMING CONTAINER
            ========================================================= */
 
-        .tracks {
+        .stream-box {
+
+            width: 100%;
+
+            padding:
+
+                50px 40px
+                55px;
+
+            background:
+
+                rgba(0, 8, 18, 0.48);
+
+            border:
+
+                1px solid
+                rgba(255,255,255,0.15);
+
+            backdrop-filter: blur(16px);
+
+            box-shadow:
+
+                0 20px 80px
+                rgba(0,0,0,0.30);
+        }
+
+
+        .stream-title {
+
+            font-size: 22px;
+
+            letter-spacing: 0.13em;
+
+            margin-bottom: 35px;
+        }
+
+
+        /* =========================================================
+           PLATFORM GRID
+           ========================================================= */
+
+        .platform-grid {
+
             display: grid;
 
             grid-template-columns:
-                repeat(2, minmax(0, 1fr));
 
-            gap: 18px;
+                repeat(
+                    2,
+                    minmax(0, 1fr)
+                );
+
+            gap: 12px;
         }
 
-        .track {
-            position: relative;
-
-            min-height: 190px;
-
-            padding: 30px;
-
-            display: flex;
-
-            flex-direction: column;
-
-            justify-content: space-between;
-
-            border: 1px solid rgba(255,255,255,0.13);
-
-            background:
-                rgba(0, 8, 18, 0.50);
-
-            backdrop-filter: blur(14px);
-
-            transition:
-                transform 0.35s ease,
-                border-color 0.35s ease,
-                background 0.35s ease;
-        }
-
-        .track:hover {
-            transform: translateY(-5px);
-
-            border-color:
-                rgba(110,190,255,0.45);
-
-            background:
-                rgba(5, 25, 48, 0.60);
-        }
-
-        .track-number {
-            font-size: 10px;
-
-            letter-spacing: 0.25em;
-
-            color: rgba(255,255,255,0.38);
-        }
-
-        .track-name {
-            margin-top: 25px;
-
-            font-size: 21px;
-
-            font-weight: 400;
-
-            letter-spacing: 0.04em;
-        }
-
-        .track-state {
-            margin-top: 7px;
-
-            font-size: 10px;
-
-            text-transform: uppercase;
-
-            letter-spacing: 0.22em;
-
-            color: rgba(120,190,255,0.70);
-        }
-
-
-        /* =========================================================
-           STREAM BUTTONS
-           ========================================================= */
-
-        .platforms {
-            display: flex;
-
-            flex-wrap: wrap;
-
-            gap: 7px;
-
-            margin-top: 28px;
-        }
 
         .platform {
-            display: inline-flex;
+
+            position: relative;
+
+            display: flex;
 
             align-items: center;
 
-            justify-content: center;
+            justify-content: space-between;
 
-            min-height: 32px;
+            min-height: 58px;
 
-            padding: 0 13px;
+            padding:
 
-            border: 1px solid rgba(255,255,255,0.18);
+                0 22px;
 
-            color: rgba(255,255,255,0.80);
+            border:
+
+                1px solid
+                rgba(255,255,255,0.16);
+
+            color: white;
 
             text-decoration: none;
 
-            font-size: 9px;
+            font-size: 16px;
 
-            letter-spacing: 0.08em;
-
-            text-transform: uppercase;
-
-            transition: 0.25s ease;
-
-            background: rgba(255,255,255,0.025);
-        }
-
-        .platform:hover {
-            border-color:
-                rgba(110,190,255,0.65);
-
-            color: #ffffff;
+            letter-spacing: 0.06em;
 
             background:
-                rgba(60,130,210,0.15);
+
+                rgba(255,255,255,0.025);
+
+            transition:
+
+                transform 0.25s ease,
+                border-color 0.25s ease,
+                background 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+
+        .platform::after {
+
+            content: "↗";
+
+            font-size: 18px;
+
+            opacity: 0.55;
+
+            transition: 0.25s ease;
+        }
+
+
+        .platform:hover {
+
+            transform:
+                translateY(-3px);
+
+            border-color:
+
+                rgba(100,190,255,0.65);
+
+            background:
+
+                rgba(40,110,190,0.16);
+
+            box-shadow:
+
+                0 0 25px
+                rgba(40,130,230,0.15);
+        }
+
+
+        .platform:hover::after {
+
+            opacity: 1;
+
+            transform:
+                translate(2px,-2px);
         }
 
 
         /* =========================================================
-           FULL RELEASE
+           AVAILABLE ON
            ========================================================= */
 
-        .full-release {
-            margin-top: 90px;
+        .availability {
 
-            padding: 55px 35px;
+            margin-top: 25px;
 
             text-align: center;
 
-            border-top:
-                1px solid rgba(255,255,255,0.12);
-
-            border-bottom:
-                1px solid rgba(255,255,255,0.12);
-
-            background:
-                rgba(0, 8, 18, 0.35);
-
-            backdrop-filter: blur(12px);
-        }
-
-        .full-release .small {
-            font-size: 10px;
-
-            letter-spacing: 0.35em;
-
-            color: rgba(255,255,255,0.45);
-
-            text-transform: uppercase;
-        }
-
-        .full-release h3 {
-            margin-top: 14px;
-
-            font-size: 26px;
-
-            font-weight: 400;
-
-            letter-spacing: 0.10em;
-        }
-
-        .full-release p {
-            margin-top: 15px;
-
             font-size: 13px;
 
-            color: rgba(255,255,255,0.58);
-        }
+            letter-spacing: 0.08em;
 
-        .full-platforms {
-            display: flex;
-
-            flex-wrap: wrap;
-
-            justify-content: center;
-
-            gap: 9px;
-
-            margin-top: 30px;
+            opacity: 0.48;
         }
 
 
@@ -476,33 +486,38 @@
            ========================================================= */
 
         footer {
+
             text-align: center;
 
-            margin-top: 100px;
+            margin-top: 110px;
         }
+
 
         .observer {
-            font-size: 10px;
 
-            letter-spacing: 0.28em;
+            font-size: 13px;
 
-            color: rgba(255,255,255,0.38);
+            letter-spacing: 0.15em;
 
-            text-transform: uppercase;
+            opacity: 0.45;
         }
+
 
         .observer span {
-            color: rgba(255,255,255,0.70);
+
+            opacity: 0.85;
         }
 
+
         .footer-mark {
-            margin-top: 28px;
 
-            font-size: 10px;
+            margin-top: 25px;
 
-            letter-spacing: 0.30em;
+            font-size: 14px;
 
-            color: rgba(255,255,255,0.25);
+            letter-spacing: 0.25em;
+
+            opacity: 0.30;
         }
 
 
@@ -512,44 +527,99 @@
 
         @media (max-width: 700px) {
 
+
             nav {
-                padding: 20px;
+
+                padding:
+
+                    20px;
             }
+
+
+            .nav-logo {
+
+                font-size: 17px;
+            }
+
 
             .nav-links {
-                gap: 15px;
+
+                gap: 14px;
             }
+
 
             .nav-links a {
-                font-size: 9px;
+
+                font-size: 11px;
             }
 
+
             main {
+
                 padding-top: 120px;
             }
 
-            .hero {
-                padding-bottom: 70px;
-            }
 
             .hero h1 {
-                font-size: 52px;
+
+                font-size: 70px;
             }
 
-            .tracks {
+
+            .hero-subtitle {
+
+                font-size: 14px;
+            }
+
+
+            .hero-description {
+
+                font-size: 13px;
+
+                padding:
+
+                    0 10px;
+            }
+
+
+            .release-title {
+
+                font-size: 32px;
+            }
+
+
+            .stream-box {
+
+                padding:
+
+                    35px 20px
+                    40px;
+            }
+
+
+            .platform-grid {
+
                 grid-template-columns: 1fr;
             }
 
-            .track {
-                min-height: 180px;
+
+            .platform {
+
+                min-height: 55px;
+
+                font-size: 14px;
             }
 
-            .full-release {
-                padding: 40px 20px;
+
+            footer {
+
+                margin-top: 80px;
             }
+
         }
 
     </style>
+
 </head>
 
 
@@ -574,8 +644,11 @@
 
     </video>
 
+
     <div class="video-overlay"></div>
+
     <div class="field-layer"></div>
+
 
 
     <!-- =========================================================
@@ -588,22 +661,23 @@
             DRAVYA
         </div>
 
+
         <div class="nav-links">
 
             <a href="index.html">
-                Home
+                HOME
             </a>
 
             <a href="sounds.html">
-                Sounds
+                SOUNDS
             </a>
 
             <a href="art.html">
-                Art
+                ART
             </a>
 
             <a href="fiction.html">
-                Fiction
+                FICTION
             </a>
 
         </div>
@@ -611,34 +685,33 @@
     </nav>
 
 
+
     <!-- =========================================================
-         CONTENT
+         MAIN
          ========================================================= -->
 
     <main>
 
 
-        <!-- HERO -->
+        <!-- =====================================================
+             SOUNDS
+             ===================================================== -->
 
         <section class="hero">
-
-            <div class="hero-small">
-                DRAVYA FIELD
-            </div>
 
             <h1>
                 SOUNDS
             </h1>
 
+
             <div class="hero-subtitle">
-                Observe · Disturb · Create
+
+                DRAVYA / AUDIO
+
             </div>
 
+
             <p class="hero-description">
-
-                Sound is another excitation of the field.
-
-                <br>
 
                 Music, rhythm, noise and silence —
                 disturbances propagating through DRAVYA.
@@ -650,102 +723,153 @@
 
 
         <!-- =====================================================
-             PERTURBATION
+             CURRENT RELEASE
              ===================================================== -->
 
         <section class="release">
 
-            <div class="release-heading">
 
-                <div class="label">
-                    RELEASE / 001
+            <div class="release-title">
+
+                PERTURBATION
+
+            </div>
+
+
+            <div class="release-info">
+
+                DRAVYA / ADDY
+
+            </div>
+
+
+
+            <!-- =================================================
+                 STREAMING PLATFORMS
+                 ================================================= -->
+
+            <div class="stream-box">
+
+
+                <div class="stream-title">
+
+                    LISTEN
+
                 </div>
 
-                <h2>
-                    PERTURBATION
-                </h2>
 
-                <p>
-                    Four tracks · Four states · One field
-                </p>
+                <div class="platform-grid">
+
+
+                    <!-- SPOTIFY -->
+
+                    <a
+                        class="platform"
+                        href="https://open.spotify.com/album/1mGaUPvNOITy7iHRRi4wYW?si=LFa5I10zRtGdklEtWLtR9g"
+                        target="_blank"
+                        rel="noopener noreferrer">
+
+                        Spotify
+
+                    </a>
+
+
+
+                    <!-- APPLE MUSIC -->
+
+                    <a
+                        class="platform"
+                        href="https://music.apple.com/us/album/perturbation-ep/6807654715"
+                        target="_blank"
+                        rel="noopener noreferrer">
+
+                        Apple Music
+
+                    </a>
+
+
+
+                    <!-- YOUTUBE MUSIC -->
+
+                    <a
+                        class="platform"
+                        href="https://music.youtube.com/playlist?list=OLAK5uy_ki6GIRLyc_9V3c_Rg7Yy2FG7MGb-Wykzs&si=SO2tWB5mS8BAN7jv"
+                        target="_blank"
+                        rel="noopener noreferrer">
+
+                        YouTube Music
+
+                    </a>
+
+
+
+                    <!-- AMAZON MUSIC -->
+
+                    <a
+                        class="platform"
+                        href="https://music.amazon.in/albums/B0HHHHHF2Q?marketplaceId=A21TJRUUN4KGV&musicTerritory=IN&ref=dm_sh_DpyaGZuSx7Qm8rjHodnANMTvq"
+                        target="_blank"
+                        rel="noopener noreferrer">
+
+                        Amazon Music
+
+                    </a>
+
+
+
+                    <!-- JIOSAAVN -->
+
+                    <a
+                        class="platform"
+                        href="https://www.jiosaavn.com/album/perturbation/NMyABBMvlmo_"
+                        target="_blank"
+                        rel="noopener noreferrer">
+
+                        JioSaavn
+
+                    </a>
+
+
+
+                    <!-- GAANA -->
+
+                    <a
+                        class="platform"
+                        href="https://gaana.com/album/perturbation-GWwLRPqLbp"
+                        target="_blank"
+                        rel="noopener noreferrer">
+
+                        Gaana
+
+                    </a>
+
+
+
+                    <!-- SOUNDCLOUD -->
+
+                    <a
+                        class="platform"
+                        href="https://soundcloud.com/dravya-music/sets/perturbation-1?si=6a2443d0a6934356acb8995ec80d8424&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+                        target="_blank"
+                        rel="noopener noreferrer">
+
+                        SoundCloud
+
+                    </a>
+
+
+                </div>
+
+
+                <div class="availability">
+
+                    Available on streaming platforms
+
+                </div>
+
 
             </div>
 
-
-            <div class="tracks">
-
-
-
-
-        <!-- =====================================================
-             FULL RELEASE
-             ===================================================== -->
-
-        <section class="full-release">
-
-            <div class="small">
-                STREAM THE RELEASE
-            </div>
-
-            <h3>
-                PERTURBATION
-            </h3>
-
-            <p>
-                Available across streaming platforms.
-            </p>
-
-
-            <div class="full-platforms">
-
-                <a class="platform"
-                   href="https://open.spotify.com/album/1mGaUPvNOITy7iHRRi4wYW?si=LFa5I10zRtGdklEtWLtR9g"
-                   target="_blank">
-                    Spotify
-                </a>
-
-                <a class="platform"
-                   href="https://music.apple.com/us/album/perturbation-ep/6807654715"
-                   target="_blank">
-                    Apple Music
-                </a>
-
-                <a class="platform"
-                   href="https://music.youtube.com/playlist?list=OLAK5uy_ki6GIRLyc_9V3c_Rg7Yy2FG7MGb-Wykzs&si=SO2tWB5mS8BAN7jv"
-                   target="_blank">
-                    YouTube Music
-                </a>
-
-                <a class="platform"
-                   href="https://music.amazon.in/albums/B0HHHHHF2Q?marketplaceId=A21TJRUUN4KGV&musicTerritory=IN&ref=dm_sh_DpyaGZuSx7Qm8rjHodnANMTvq"
-                   target="_blank">
-                    Amazon Music
-                </a>
-
-                <a class="platform"
-                   href="https://www.jiosaavn.com/album/perturbation/NMyABBMvlmo_"
-                   target="_blank">
-                    JioSaavn
-                </a>
-
-                <a class="platform"
-                   href="https://gaana.com/album/perturbation-GWwLRPqLbp"
-                   target="_blank">
-                    Gaana
-                </a>
-
-
-            
-
-                <a class="platform"
-                   href="https://soundcloud.com/dravya-music/sets/perturbation-1?si=6a2443d0a6934356acb8995ec80d8424&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-                   target="_blank">
-                    SoundCloud
-                </a>
-
-            
-
-            </div>
 
         </section>
 
@@ -758,12 +882,17 @@
         <footer>
 
             <div class="observer">
+
                 Observer:
                 <span>@aadityateja</span>
+
             </div>
 
+
             <div class="footer-mark">
+
                 DRAVYA
+
             </div>
 
         </footer>
@@ -772,23 +901,30 @@
     </main>
 
 
+
     <!-- =========================================================
-         VIDEO FALLBACK / PERFORMANCE
+         VIDEO AUTOPLAY
          ========================================================= -->
 
     <script>
 
         const video =
-            document.getElementById("background-video");
+            document.getElementById(
+                "background-video"
+            );
+
 
         video.play().catch(() => {
-            // Some mobile browsers block autoplay.
-            // The page remains functional without it.
+
+            // Autoplay may be blocked
+            // by some browsers.
+
         });
 
     </script>
 
 
 </body>
+
 </html>
-```
+
