@@ -10,9 +10,11 @@
     font-display: swap;
 }
 
+
 .index-dravya-title {
     font-family: "DRAVYA-INDEX" !important;
 }
+
 
 @font-face {
     font-family: "DRAVYA-DARK";
@@ -22,14 +24,17 @@
     font-display: swap;
 }
 
+
 :root {
     --dravya-font: "DRAVYA-DARK";
 }
+
 
 html,
 body {
     font-family: "DRAVYA-DARK", sans-serif;
 }
+
 
 *,
 *::before,
@@ -37,37 +42,30 @@ body {
     font-family: "DRAVYA-DARK", sans-serif;
 }
 
+
 /* ==========================================================
    02 — RESET
    ========================================================== */
 
 * {
-
     margin: 0;
-
     padding: 0;
-
     box-sizing: border-box;
 
     font-family:
         var(--dravya-font) !important;
-
 }
 
 
 html,
 body {
-
     width: 100%;
-
     height: 100%;
 
     margin: 0;
-
     padding: 0;
 
     overflow: hidden;
-
 }
 
 
@@ -75,17 +73,7 @@ body {
    03 — BACKGROUND VIDEO
    ========================================================== */
 
-/*
-   THIS IS THE ACTUAL DRAVYA BACKGROUND.
-
-   File:
-   assets/dravya_vacuum_fluctuation_10s.mp4
-
-   Nothing is added over it.
-*/
-
 .background-video {
-
     position: fixed;
 
     top: 0;
@@ -99,7 +87,6 @@ body {
     z-index: 0;
 
     pointer-events: none;
-
 }
 
 
@@ -107,13 +94,7 @@ body {
    04 — BACKGROUND OVERLAY
    ========================================================== */
 
-/*
-   No overlay.
-   The MP4 is shown directly.
-*/
-
 .background-overlay {
-
     position: fixed;
 
     inset: 0;
@@ -126,7 +107,6 @@ body {
     z-index: 1;
 
     pointer-events: none;
-
 }
 
 
@@ -135,25 +115,21 @@ body {
    ========================================================== */
 
 .dravyafield {
-
     position: relative;
 
     z-index: 2;
 
     width: 100vw;
-
     height: 100vh;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     padding: 40px;
 
     overflow: hidden;
-
 }
 
 
@@ -162,13 +138,11 @@ body {
    ========================================================== */
 
 .content {
-
     width: 100%;
 
     max-width: 1050px;
 
     text-align: center;
-
 }
 
 
@@ -177,7 +151,6 @@ body {
    ========================================================== */
 
 .title {
-
     margin: 0;
 
     color: #ffffff;
@@ -195,16 +168,26 @@ body {
 
     letter-spacing:
         0.02em;
+}
 
+
+.index-dravya-title {
+    display: block;
+
+    text-align: center;
+
+    width: 100%;
+
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
 /* ==========================================================
-   08 — OBSERVE. DISTURB. CREATE.
+   08 — TAGLINE
    ========================================================== */
 
 .tagline {
-
     margin-top: 35px;
 
     margin-bottom: 60px;
@@ -224,7 +207,6 @@ body {
         0.12em;
 
     opacity: 0.9;
-
 }
 
 
@@ -233,7 +215,6 @@ body {
    ========================================================== */
 
 .description {
-
     width: 100%;
 
     max-width: 850px;
@@ -256,121 +237,174 @@ body {
         0.025em;
 
     opacity: 0.82;
-
 }
 
 
 /* ==========================================================
-   10 — SOUNDS / ART / SHORT FICTION
+   10 — CREATIVE LINKS
    ========================================================== */
 
 .creative-links {
-
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     gap: 55px;
 
     margin-bottom: 48px;
-
 }
 
 
 .creative-links a {
-
     color: #ffffff;
 
     text-decoration: none;
 
-    font-size:
-        1.3rem;
+    font-size: 1.3rem;
 
-    letter-spacing:
-        1em;
+    letter-spacing: 1em;
 
     opacity: 0.9;
 
     transition:
         opacity 0.3s ease;
-
 }
 
 
 .creative-links a:hover {
-
     opacity: 0.5;
-
 }
 
 
 /* ==========================================================
-   11 — INSTAGRAM / YOUTUBE
+   11 — SOCIAL LINKS
    ========================================================== */
 
 .social-links {
-
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     gap: 40px;
-
 }
 
 
 .social-links a {
-
     color: #ffffff;
 
     text-decoration: none;
 
-    font-size:
-        0.9rem;
+    font-size: 0.9rem;
 
-    letter-spacing:
-        0.16em;
+    letter-spacing: 0.16em;
 
     opacity: 0.7;
 
     transition:
         opacity 0.3s ease;
-
 }
 
 
 .social-links a:hover {
-
     opacity: 1;
-
 }
 
 
 /* ==========================================================
-   12 — MOBILE
+   12 — ENTER THE DRAVYA FIELD
+   ========================================================== */
+
+.field-entry {
+    margin-top: 5px;
+
+    text-align: center;
+}
+
+
+.enter-field {
+    display: inline-block;
+
+    padding: 24px 48px;
+
+    border: 1px solid
+        rgba(255, 255, 255, 0.55);
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 32px;
+
+    letter-spacing: 5px;
+
+    background:
+        rgba(0, 0, 0, 0.18);
+
+    transition:
+        all 0.3s ease;
+}
+
+
+.enter-field:hover {
+    background:
+        rgba(20, 80, 150, 0.22);
+
+    border-color:
+        rgba(150, 210, 255, 0.75);
+
+    box-shadow:
+        0 0 30px
+        rgba(80, 160, 255, 0.18);
+
+    transform:
+        translateY(-3px);
+}
+
+
+.enter-field:active {
+    transform:
+        translateY(0);
+}
+
+
+/* ==========================================================
+   13 — MOBILE
    ========================================================== */
 
 @media (max-width: 700px) {
 
     .dravyafield {
-
         padding: 25px;
-
     }
 
 
     .content {
+        width: 100%;
+        max-width: none;
 
-        max-width: 100%;
-
+        text-align: center;
     }
 
 
-    .title {
+    /*
+       IMPORTANT:
+       The title gets its own full-width
+       centering box on mobile.
+    */
+
+    .index-dravya-title {
+        position: relative;
+
+        left: 50%;
+
+        width: 100vw;
+
+        margin-left: -50vw;
+        margin-right: 0;
+
+        text-align: center;
 
         font-size:
             clamp(
@@ -379,297 +413,146 @@ body {
                 9rem
             );
 
-        letter-spacing:
-            0.02em;
+        line-height: 0.8;
 
+        letter-spacing: 0.02em;
+
+        transform: none;
     }
 
 
     .tagline {
-
         margin-top: 28px;
 
         margin-bottom: 42px;
 
-        font-size:
-            1.05rem;
+        font-size: 1.05rem;
 
-        letter-spacing:
-            0.09em;
-
+        letter-spacing: 0.09em;
     }
 
 
     .description {
-
         max-width: 92%;
 
-        margin-bottom: 42px;
+        margin:
+            0 auto 42px auto;
 
-        font-size:
-            0.95rem;
+        font-size: 0.95rem;
 
         line-height: 1.65;
-
     }
 
 
-    .creative-links {
-
-        gap: 25px;
-
-        margin-bottom: 38px;
-
-    }
-
-
-    .creative-links a {
-
-        font-size:
-            0.85rem;
-
-        letter-spacing:
-            0.11em;
-
-    }
-
-
-    .social-links {
-
-        gap: 28px;
-
-    }
-
-
-    .social-links a {
-
-        font-size:
-            0.75rem;
-
-    }
-
-}
-
-
-/* ==========================================================
-   13 — SMALL PHONES
-   ========================================================== */
-@media (max-width: 420px) {
-
-    .title.index-dravya-title {
-        font-size: 4.5rem;
+    .field-entry {
         width: 100%;
-        margin-left: auto;
-        margin-right: auto;
+
         text-align: center;
     }
 
-}
-
-
-    .tagline {
-
-        font-size:
-            0.85rem;
-
-        margin-top:
-            25px;
-
-        margin-bottom:
-            32px;
-
-    }
-
-
-    .description {
-
-        font-size:
-            0.82rem;
-
-        margin-bottom:
-            32px;
-
-    }
-
-
-    .creative-links {
-
-        gap:
-            17px;
-
-        margin-bottom:
-            30px;
-
-    }
-
-
-    .creative-links a {
-
-        font-size:
-            0.7rem;
-
-    }
-
-
-    .social-links {
-
-        gap:
-            22px;
-
-    }
-
-
-    .social-links a {
-
-        font-size:
-            0.65rem;
-
-    }
-
-}
-```
-```css
-/* =================================
-   ENTER THE DRAVYA FIELD
-   ================================= */
-/* =================================
-   ENTER THE DRAVYA FIELD
-   ================================= */
-
-.field-entry {
-
-    margin-top: 5px;   /* was 25px — moves the box upward */
-
-    text-align: center;
-
-}
-
-
-.enter-field {
-
-    display: inline-block;
-
-    padding: 24px 48px;
-
-    border: 1px solid rgba(255, 255, 255, 0.55);
-
-    color: #ffffff;
-
-    text-decoration: none;
-
-    font-size: 32px;   /* BIGGER TEXT */
-
-    letter-spacing: 5px;
-
-    background: rgba(0, 0, 0, 0.18);
-
-    transition:
-        all 0.3s ease;
-
-}
-
-
-.enter-field:hover {
-
-    background: rgba(20, 80, 150, 0.22);
-
-    border-color: rgba(150, 210, 255, 0.75);
-
-    box-shadow:
-        0 0 30px rgba(80, 160, 255, 0.18);
-
-    transform: translateY(-3px);
-
-}
-
-
-.enter-field:active {
-
-    transform: translateY(0);
-
-}
-
-
-/* =================================
-   MOBILE
-   ================================= */
-
-@media (max-width: 600px) {
 
     .enter-field {
-
         min-width: 280px;
+
+        max-width: 100%;
 
         padding: 18px 24px;
 
         font-size: 18px;
 
         letter-spacing: 3px;
+    }
 
+
+    .creative-links {
+        gap: 25px;
+
+        margin-bottom: 38px;
+    }
+
+
+    .creative-links a {
+        font-size: 0.85rem;
+
+        letter-spacing: 0.11em;
+    }
+
+
+    .social-links {
+        gap: 28px;
+    }
+
+
+    .social-links a {
+        font-size: 0.75rem;
     }
 
 }
 
 
-/* HOVER */
+/* ==========================================================
+   14 — SMALL PHONES
+   ========================================================== */
 
-.enter-field:hover {
-
-    background: rgba(20, 80, 150, 0.22);
-
-    border-color: rgba(150, 210, 255, 0.75);
-
-    box-shadow:
-        0 0 30px rgba(80, 160, 255, 0.18);
-
-    transform: translateY(-3px);
-}
-
-
-/* CLICK */
-
-.enter-field:active {
-
-    transform: translateY(0);
-
-}
-
-
-@media (max-width: 700px) {
+@media (max-width: 420px) {
 
     .dravyafield {
-        padding: 25px;
+        padding: 20px;
     }
 
-    .content {
-        width: 100%;
-        max-width: 100%;
-        text-align: center;
-    }
 
-    .title.index-dravya-title {
-        display: block;
-        width: 100%;
-        margin: 0 auto;
+    .index-dravya-title {
+        position: relative;
+
+        left: 50%;
+
+        width: 100vw;
+
+        margin-left: -50vw;
+
         text-align: center;
-        font-size: clamp(5rem, 23vw, 9rem);
+
+        font-size: 4.5rem;
+
         line-height: 0.8;
-        letter-spacing: 0.02em;
     }
+
 
     .tagline {
-        margin-top: 28px;
-        margin-bottom: 42px;
-        font-size: 1.05rem;
-        letter-spacing: 0.09em;
+        font-size: 0.85rem;
+
+        margin-top: 25px;
+
+        margin-bottom: 32px;
     }
+
 
     .description {
-        max-width: 92%;
-        margin: 0 auto 42px auto;
-        font-size: 0.95rem;
-        line-height: 1.65;
-    }
-}
-```
+        font-size: 0.82rem;
 
+        margin-bottom: 32px;
+    }
+
+
+    .creative-links {
+        gap: 17px;
+
+        margin-bottom: 30px;
+    }
+
+
+    .creative-links a {
+        font-size: 0.7rem;
+    }
+
+
+    .social-links {
+        gap: 22px;
+    }
+
+
+    .social-links a {
+        font-size: 0.65rem;
+    }
+
+}
