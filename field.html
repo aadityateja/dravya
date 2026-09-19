@@ -322,36 +322,40 @@
     }
 
     .hero-content {
-    width: min(900px, 100%);
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 100%;
+    max-width: 1200px;
+
     padding: 30px;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    box-sizing: border-box;
 
     text-align: center;
 }
 
-    .hero-kicker {
-        font-size: 10px;
-        letter-spacing: 0.55em;
-        color: #7180a0;
-        margin-bottom: 35px;
-    }
+.hero h1 {
+    display: block;
 
-    .hero h1 {
     width: 100%;
+
+    margin: 0 auto 40px auto;
+
+    padding: 0;
+
+    text-align: center;
 
     font-family: "Dark", Arial, sans-serif;
     font-size: clamp(55px, 11vw, 150px);
     font-weight: normal;
+
     letter-spacing: 0.08em;
     line-height: 0.9;
-
-    margin: 0 auto 40px auto;
-
-    text-align: center;
 
     text-shadow:
         0 0 50px rgba(35,90,255,0.22);
