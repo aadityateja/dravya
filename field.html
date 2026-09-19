@@ -322,9 +322,16 @@
     }
 
     .hero-content {
-        width: min(900px, 100%);
-        padding: 30px;
-    }
+    width: min(900px, 100%);
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
 
     .hero-kicker {
         font-size: 10px;
@@ -334,16 +341,21 @@
     }
 
     .hero h1 {
-        font-family: "Dark", Arial, sans-serif;
-        font-size: clamp(55px, 11vw, 150px);
-        font-weight: normal;
-        letter-spacing: 0.08em;
-        line-height: 0.9;
-        margin-bottom: 40px;
+    width: 100%;
 
-        text-shadow:
-            0 0 50px rgba(35,90,255,0.22);
-    }
+    font-family: "Dark", Arial, sans-serif;
+    font-size: clamp(55px, 11vw, 150px);
+    font-weight: normal;
+    letter-spacing: 0.08em;
+    line-height: 0.9;
+
+    margin: 0 auto 40px auto;
+
+    text-align: center;
+
+    text-shadow:
+        0 0 50px rgba(35,90,255,0.22);
+}
 
     .hero-description {
         width: min(620px, 100%);
