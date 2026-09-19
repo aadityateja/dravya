@@ -641,22 +641,29 @@ body {
 
 
 /* =================================
-   MOBILE
+   MOBILE — CENTER DRAVYA CONTENT
    ================================= */
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
 
-    .enter-field {
-
-        min-width: 240px;
-
-        padding: 16px 22px;
-
-        font-size: 12px;
-
-        letter-spacing: 0.12em;
-
+    .content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
+
+    .index-dravya-title {
+        width: 100%;
+        text-align: center;
+        margin-left: 0;
+        margin-right: 0;
+        left: auto;
+        right: auto;
+        transform: none;
+    }
+
+}
 
 }
 ```
