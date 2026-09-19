@@ -1,76 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>DRAVYA — The Field</title>
 
-<link rel="icon" type="image/png" href="assets/logo.png">
+<link
+    rel="icon"
+    type="image/png"
+    href="assets/logo.png"
+>
+
 
 <style>
 
+/* =========================================================
+   FONT
+========================================================= */
+
 @font-face {
+
     font-family: "Dark";
-    src: url("assets/HIGHLA2.TTF") format("truetype");
+
+    src:
+        url("assets/fonts/INTERDIM.TTF")
+        format("truetype");
+
 }
+
 
 :root {
+
     --blue: #1b55ff;
+
     --deep: #02050d;
+
     --text: #eef4ff;
+
     --muted: #8793aa;
-    --line: rgba(120,160,255,0.16);
+
+    --line:
+        rgba(120,160,255,0.16);
+
 }
+
 
 * {
+
     margin: 0;
+
     padding: 0;
+
     box-sizing: border-box;
+
 }
+
 
 html {
+
     scroll-behavior: smooth;
+
 }
 
+
 body {
-    background: var(--deep);
-    color: var(--text);
-    font-family: Arial, Helvetica, sans-serif;
+
+    background:
+        var(--deep);
+
+    color:
+        var(--text);
+
+    font-family:
+        Arial, Helvetica, sans-serif;
+
     overflow-x: hidden;
+
 }
+
 
 /* =========================================================
    CINEMATIC ENTRY
 ========================================================= */
 
 #entry {
+
     position: fixed;
+
     inset: 0;
+
     z-index: 1000;
+
     background: #000;
+
+    opacity: 1;
+
+    visibility: visible;
+
     transition:
         opacity 2.2s ease,
         visibility 2.2s ease;
+
 }
 
+
 #entry video {
+
     position: absolute;
+
     inset: 0;
 
     width: 100%;
+
     height: 100%;
 
     object-fit: cover;
+
     background: #000;
+
 }
 
+
 .entry-overlay {
+
     position: absolute;
+
     inset: 0;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     pointer-events: none;
@@ -81,91 +148,156 @@ body {
             transparent 20%,
             rgba(0,0,0,0.35) 100%
         );
+
 }
 
+
 .entry-title {
+
     position: absolute;
 
     top: 50%;
+
     left: 50%;
 
-    transform: translate(-50%, -50%);
+    transform:
+        translate(-50%, -50%);
 
-    font-family: "Dark", Arial, sans-serif;
+    width: 90%;
 
-    font-size: clamp(18px, 2vw, 30px);
-    letter-spacing: 0.38em;
+    font-family:
+        "Dark",
+        Arial,
+        sans-serif;
 
-    color: rgba(255,255,255,0.9);
+    font-size:
+        clamp(
+            18px,
+            2vw,
+            30px
+        );
+
+    letter-spacing:
+        0.38em;
+
+    color:
+        rgba(255,255,255,0.9);
 
     text-align: center;
 
     opacity: 0;
 
-    animation: entryTitle 4s ease forwards;
+    animation:
+        entryTitle 4s ease forwards;
+
 }
 
+
 .entry-subtitle {
+
     position: absolute;
 
     bottom: 8%;
 
     left: 50%;
-    transform: translateX(-50%);
+
+    transform:
+        translateX(-50%);
+
+    width: 90%;
 
     font-size: 10px;
-    letter-spacing: 0.45em;
 
-    color: rgba(255,255,255,0.55);
+    letter-spacing:
+        0.45em;
+
+    color:
+        rgba(255,255,255,0.55);
+
+    text-align: center;
 
     opacity: 0;
 
-    animation: entrySubtitle 5s ease 1.5s forwards;
+    animation:
+        entrySubtitle
+        5s ease
+        1.5s forwards;
+
 }
+
+
+/* =========================================================
+   ENTRY ANIMATIONS
+========================================================= */
 
 @keyframes entryTitle {
 
     0% {
+
         opacity: 0;
+
         letter-spacing: 0.7em;
+
     }
 
     30% {
+
         opacity: 1;
+
         letter-spacing: 0.38em;
+
     }
 
     75% {
+
         opacity: 1;
+
     }
 
     100% {
+
         opacity: 0;
+
     }
+
 }
+
 
 @keyframes entrySubtitle {
 
     0% {
+
         opacity: 0;
+
     }
 
     30% {
+
         opacity: 1;
+
     }
 
     75% {
+
         opacity: 1;
+
     }
 
     100% {
+
         opacity: 0;
+
     }
+
 }
 
+
 #entry.hidden {
+
     opacity: 0;
+
     visibility: hidden;
+
 }
 
 
@@ -174,6 +306,7 @@ body {
 ========================================================= */
 
 #field {
+
     position: relative;
 
     min-height: 100vh;
@@ -190,6 +323,7 @@ body {
             transparent 60%
         ),
         #02050d;
+
 }
 
 
@@ -198,7 +332,9 @@ body {
 ========================================================= */
 
 .field-noise {
+
     position: fixed;
+
     inset: 0;
 
     pointer-events: none;
@@ -211,9 +347,11 @@ body {
             transparent 0.5px
         );
 
-    background-size: 5px 5px;
+    background-size:
+        5px 5px;
 
     z-index: 1;
+
 }
 
 
@@ -222,18 +360,24 @@ body {
 ========================================================= */
 
 nav {
+
     position: fixed;
 
     top: 0;
+
     left: 0;
+
     right: 0;
 
     height: 76px;
 
-    padding: 0 5vw;
+    padding:
+        0 5vw;
 
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
     z-index: 50;
@@ -246,26 +390,39 @@ nav {
         );
 
     pointer-events: none;
+
 }
 
+
 .nav-logo {
-    font-family: "Dark", Arial, sans-serif;
+
+    font-family:
+        "Dark",
+        Arial,
+        sans-serif;
 
     font-size: 24px;
 
-    letter-spacing: 0.15em;
+    letter-spacing:
+        0.15em;
 
     pointer-events: auto;
+
 }
 
+
 .nav-right {
+
     font-size: 9px;
 
-    letter-spacing: 0.35em;
+    letter-spacing:
+        0.35em;
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
     pointer-events: auto;
+
 }
 
 
@@ -274,6 +431,7 @@ nav {
 ========================================================= */
 
 .hero {
+
     position: relative;
 
     height: 100vh;
@@ -281,87 +439,131 @@ nav {
     min-height: 700px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     text-align: center;
 
     z-index: 2;
+
 }
 
+
 .hero-content {
+
     max-width: 900px;
 
     padding: 30px;
+
 }
+
 
 .hero-kicker {
+
     font-size: 10px;
 
-    letter-spacing: 0.55em;
+    letter-spacing:
+        0.55em;
 
-    color: #7180a0;
+    color:
+        #7180a0;
 
     margin-bottom: 35px;
+
 }
 
-.hero h1 {
-    font-family: "Dark", Arial, sans-serif;
 
-    font-size: clamp(55px, 11vw, 150px);
+.hero h1 {
+
+    font-family:
+        "Dark",
+        Arial,
+        sans-serif;
+
+    font-size:
+        clamp(
+            55px,
+            11vw,
+            150px
+        );
 
     font-weight: normal;
 
-    letter-spacing: 0.08em;
+    letter-spacing:
+        0.08em;
 
     line-height: 0.9;
 
     margin-bottom: 40px;
 
     text-shadow:
-        0 0 50px rgba(35,90,255,0.22);
+        0 0 50px
+        rgba(35,90,255,0.22);
+
 }
 
+
 .hero-description {
+
     max-width: 620px;
 
     margin: auto;
 
-    color: #aab5ca;
+    color:
+        #aab5ca;
 
     font-size: 15px;
 
     line-height: 1.9;
 
     font-weight: 300;
+
 }
 
+
 .scroll-indicator {
+
     position: absolute;
 
     bottom: 35px;
+
     left: 50%;
 
-    transform: translateX(-50%);
+    transform:
+        translateX(-50%);
 
     font-size: 8px;
 
-    letter-spacing: 0.4em;
+    letter-spacing:
+        0.4em;
 
-    color: #59657d;
+    color:
+        #59657d;
 
-    animation: breathe 3s ease-in-out infinite;
+    animation:
+        breathe
+        3s ease-in-out
+        infinite;
+
 }
+
 
 @keyframes breathe {
 
-    0%,100% {
+    0%, 100% {
+
         opacity: 0.3;
+
     }
 
     50% {
+
         opacity: 1;
+
     }
+
 }
 
 
@@ -370,6 +572,7 @@ nav {
 ========================================================= */
 
 section {
+
     position: relative;
 
     min-height: 100vh;
@@ -379,55 +582,86 @@ section {
         8vw;
 
     display: flex;
+
     align-items: center;
 
     z-index: 2;
+
 }
 
+
 .section-inner {
+
     width: 100%;
+
     max-width: 1200px;
 
     margin: auto;
+
 }
+
 
 .section-number {
+
     font-size: 9px;
 
-    letter-spacing: 0.45em;
+    letter-spacing:
+        0.45em;
 
-    color: #50607d;
+    color:
+        #50607d;
 
     margin-bottom: 25px;
+
 }
 
+
 .section-title {
-    font-family: "Dark", Arial, sans-serif;
+
+    font-family:
+        "Dark",
+        Arial,
+        sans-serif;
 
     font-weight: normal;
 
-    font-size: clamp(42px, 7vw, 90px);
+    font-size:
+        clamp(
+            42px,
+            7vw,
+            90px
+        );
 
-    letter-spacing: 0.04em;
+    letter-spacing:
+        0.04em;
 
     line-height: 0.95;
 
     margin-bottom: 45px;
+
 }
 
+
 .section-text {
+
     max-width: 720px;
 
     font-size: 18px;
 
     line-height: 2;
 
-    color: #9daac0;
+    color:
+        #9daac0;
+
 }
 
+
 .section-text strong {
+
     color: white;
+
     font-weight: normal;
+
 }
 
 
@@ -436,38 +670,57 @@ section {
 ========================================================= */
 
 .why {
+
     background:
         radial-gradient(
             circle at 75% 50%,
             rgba(30,75,200,0.12),
             transparent 35%
         );
+
 }
 
+
 .field-symbol {
+
     position: absolute;
 
     right: 8vw;
+
     top: 50%;
 
-    width: min(28vw, 360px);
+    width:
+        min(28vw, 360px);
+
     aspect-ratio: 1;
 
-    transform: translateY(-50%);
+    transform:
+        translateY(-50%);
 
     border-radius: 50%;
 
-    border: 1px solid rgba(70,120,255,0.15);
+    border:
+        1px solid
+        rgba(70,120,255,0.15);
 
     box-shadow:
-        0 0 80px rgba(20,70,255,0.08),
-        inset 0 0 80px rgba(20,70,255,0.05);
+        0 0 80px
+        rgba(20,70,255,0.08),
 
-    animation: fieldPulse 7s ease-in-out infinite;
+        inset 0 0 80px
+        rgba(20,70,255,0.05);
+
+    animation:
+        fieldPulse
+        7s ease-in-out
+        infinite;
+
 }
+
 
 .field-symbol::before,
 .field-symbol::after {
+
     content: "";
 
     position: absolute;
@@ -476,38 +729,69 @@ section {
 
     border-radius: 50%;
 
-    border: 1px solid rgba(70,120,255,0.12);
+    border:
+        1px solid
+        rgba(70,120,255,0.12);
 
-    animation: fieldRotate 20s linear infinite;
+    animation:
+        fieldRotate
+        20s linear
+        infinite;
+
 }
 
+
 .field-symbol::after {
+
     inset: 25%;
 
     animation-duration: 12s;
-    animation-direction: reverse;
+
+    animation-direction:
+        reverse;
+
 }
+
 
 @keyframes fieldPulse {
 
-    0%,100% {
-        transform: translateY(-50%) scale(0.94);
+    0%, 100% {
+
+        transform:
+            translateY(-50%)
+            scale(0.94);
+
     }
 
     50% {
-        transform: translateY(-50%) scale(1.04);
+
+        transform:
+            translateY(-50%)
+            scale(1.04);
+
     }
+
 }
+
 
 @keyframes fieldRotate {
 
     from {
-        transform: rotate(0deg) scaleX(1);
+
+        transform:
+            rotate(0deg)
+            scaleX(1);
+
     }
 
     to {
-        transform: rotate(360deg) scaleX(1);
+
+        transform:
+            rotate(360deg)
+            scaleX(1);
+
     }
+
 }
 
 
@@ -516,6 +800,7 @@ section {
 ========================================================= */
 
 .worlds {
+
     background:
         linear-gradient(
             180deg,
@@ -523,9 +808,12 @@ section {
             #030815,
             #02050d
         );
+
 }
 
+
 .world-grid {
+
     display: grid;
 
     grid-template-columns:
@@ -535,41 +823,63 @@ section {
 
     margin-top: 70px;
 
-    background: var(--line);
+    background:
+        var(--line);
+
 }
 
+
 .world {
+
     position: relative;
 
     min-height: 390px;
 
-    padding: 45px 35px;
+    padding:
+        45px 35px;
 
-    background: rgba(2,6,16,0.94);
+    background:
+        rgba(2,6,16,0.94);
 
     overflow: hidden;
 
     transition:
         background 0.5s ease,
         transform 0.5s ease;
+
 }
+
 
 .world:hover {
-    background: rgba(10,25,65,0.8);
 
-    transform: translateY(-8px);
+    background:
+        rgba(10,25,65,0.8);
+
+    transform:
+        translateY(-8px);
+
 }
+
 
 .world-number {
+
     font-size: 9px;
 
-    letter-spacing: 0.4em;
+    letter-spacing:
+        0.4em;
 
-    color: #4c5c78;
+    color:
+        #4c5c78;
+
 }
 
+
 .world h3 {
-    font-family: "Dark", Arial, sans-serif;
+
+    font-family:
+        "Dark",
+        Arial,
+        sans-serif;
 
     font-weight: normal;
 
@@ -578,36 +888,53 @@ section {
     margin-top: 80px;
 
     margin-bottom: 25px;
+
 }
 
+
 .world p {
-    color: #7e8ba4;
+
+    color:
+        #7e8ba4;
 
     font-size: 14px;
 
     line-height: 1.8;
+
 }
 
+
 .world::after {
+
     content: "";
 
     position: absolute;
 
     width: 180px;
+
     height: 180px;
 
     right: -90px;
+
     bottom: -90px;
 
     border-radius: 50%;
 
-    border: 1px solid rgba(70,120,255,0.13);
+    border:
+        1px solid
+        rgba(70,120,255,0.13);
 
-    transition: transform 1s ease;
+    transition:
+        transform 1s ease;
+
 }
 
+
 .world:hover::after {
-    transform: scale(2.2);
+
+    transform:
+        scale(2.2);
+
 }
 
 
@@ -616,15 +943,19 @@ section {
 ========================================================= */
 
 .creator {
+
     background:
         radial-gradient(
             ellipse at 30% 50%,
             rgba(20,50,130,0.15),
             transparent 50%
         );
+
 }
 
+
 .creator-layout {
+
     display: grid;
 
     grid-template-columns:
@@ -633,55 +964,84 @@ section {
     gap: 100px;
 
     align-items: center;
+
 }
 
+
 .creator-mark {
+
     width: 260px;
+
     height: 260px;
 
-    border: 1px solid rgba(100,140,255,0.2);
+    border:
+        1px solid
+        rgba(100,140,255,0.2);
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     margin: auto;
 
-    transform: rotate(45deg);
+    transform:
+        rotate(45deg);
 
     box-shadow:
-        0 0 100px rgba(20,60,200,0.08);
+        0 0 100px
+        rgba(20,60,200,0.08);
+
 }
 
-.creator-mark span {
-    transform: rotate(-45deg);
 
-    font-family: "Dark", Arial, sans-serif;
+.creator-mark span {
+
+    transform:
+        rotate(-45deg);
+
+    font-family:
+        "Dark",
+        Arial,
+        sans-serif;
 
     font-size: 55px;
 
-    letter-spacing: 0.1em;
+    letter-spacing:
+        0.1em;
+
 }
 
+
 .creator-name {
-    font-family: "Dark", Arial, sans-serif;
+
+    font-family:
+        "Dark",
+        Arial,
+        sans-serif;
 
     font-size: 55px;
 
     font-weight: normal;
 
     margin-bottom: 25px;
+
 }
 
+
 .creator-role {
-    color: #6f7d96;
+
+    color:
+        #6f7d96;
 
     font-size: 10px;
 
-    letter-spacing: 0.4em;
+    letter-spacing:
+        0.4em;
 
     margin-bottom: 35px;
+
 }
 
 
@@ -690,6 +1050,7 @@ section {
 ========================================================= */
 
 .what {
+
     text-align: center;
 
     justify-content: center;
@@ -700,30 +1061,48 @@ section {
             rgba(20,65,190,0.15),
             transparent 45%
         );
+
 }
 
+
 .what .section-inner {
+
     display: flex;
 
     flex-direction: column;
 
     align-items: center;
+
 }
+
 
 .what .section-text {
+
     max-width: 760px;
+
 }
 
-.quote {
-    font-family: "Dark", Arial, sans-serif;
 
-    font-size: clamp(28px, 5vw, 60px);
+.quote {
+
+    font-family:
+        "Dark",
+        Arial,
+        sans-serif;
+
+    font-size:
+        clamp(
+            28px,
+            5vw,
+            60px
+        );
 
     line-height: 1.2;
 
     margin-top: 80px;
 
     max-width: 900px;
+
 }
 
 
@@ -732,10 +1111,14 @@ section {
 ========================================================= */
 
 .entertainment {
+
     min-height: 90vh;
+
 }
 
+
 .entertainment-links {
+
     display: flex;
 
     flex-wrap: wrap;
@@ -743,33 +1126,47 @@ section {
     gap: 12px;
 
     margin-top: 60px;
+
 }
 
+
 .entertainment-link {
-    border: 1px solid rgba(100,140,255,0.18);
 
-    padding: 20px 30px;
+    border:
+        1px solid
+        rgba(100,140,255,0.18);
 
-    color: #9daac0;
+    padding:
+        20px 30px;
+
+    color:
+        #9daac0;
 
     text-decoration: none;
 
     font-size: 10px;
 
-    letter-spacing: 0.3em;
+    letter-spacing:
+        0.3em;
 
     transition:
         border-color 0.4s ease,
         color 0.4s ease,
         background 0.4s ease;
+
 }
 
+
 .entertainment-link:hover {
+
     color: white;
 
-    border-color: rgba(100,150,255,0.6);
+    border-color:
+        rgba(100,150,255,0.6);
 
-    background: rgba(30,70,180,0.12);
+    background:
+        rgba(30,70,180,0.12);
+
 }
 
 
@@ -778,51 +1175,79 @@ section {
 ========================================================= */
 
 .end {
+
     min-height: 80vh;
 
     text-align: center;
 
     justify-content: center;
+
 }
 
+
 .end .section-inner {
+
     display: flex;
 
     flex-direction: column;
 
     align-items: center;
+
 }
 
-.end-title {
-    font-family: "Dark", Arial, sans-serif;
 
-    font-size: clamp(45px, 8vw, 100px);
+.end-title {
+
+    font-family:
+        "Dark",
+        Arial,
+        sans-serif;
+
+    font-size:
+        clamp(
+            45px,
+            8vw,
+            100px
+        );
 
     line-height: 0.95;
 
     margin-bottom: 40px;
+
 }
+
 
 .end-tagline {
+
     font-size: 10px;
 
-    letter-spacing: 0.5em;
+    letter-spacing:
+        0.5em;
 
-    color: #687690;
+    color:
+        #687690;
+
 }
 
+
 footer {
+
     padding: 60px;
 
     text-align: center;
 
     font-size: 8px;
 
-    letter-spacing: 0.35em;
+    letter-spacing:
+        0.35em;
 
-    color: #39445a;
+    color:
+        #39445a;
 
-    border-top: 1px solid rgba(100,140,255,0.08);
+    border-top:
+        1px solid
+        rgba(100,140,255,0.08);
+
 }
 
 
@@ -833,43 +1258,93 @@ footer {
 @media (max-width: 850px) {
 
     section {
+
         padding:
             120px 7vw;
+
     }
 
+
     .field-symbol {
+
         opacity: 0.3;
 
         right: -10vw;
 
         width: 55vw;
+
     }
+
 
     .world-grid {
+
         grid-template-columns: 1fr;
+
     }
 
+
     .creator-layout {
+
         grid-template-columns: 1fr;
 
         gap: 70px;
+
     }
+
 
     .creator-mark {
+
         width: 190px;
+
         height: 190px;
+
     }
+
 
     .creator-name {
+
         font-size: 42px;
+
     }
+
 
     .world {
+
         min-height: 300px;
+
     }
 
+
     .world h3 {
+
         margin-top: 50px;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE ENTRY TEXT
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .entry-title {
+
+        font-size: 14px;
+
+        letter-spacing: 0.25em;
+
+    }
+
+
+    .entry-subtitle {
+
+        font-size: 8px;
+
+        letter-spacing: 0.28em;
+
     }
 
 }
@@ -881,17 +1356,23 @@ footer {
 
 @media (prefers-reduced-motion: reduce) {
 
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
+    * {
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        scroll-behavior:
+            auto !important;
+
     }
 
 }
 
 </style>
+
 </head>
 
 
@@ -904,17 +1385,19 @@ footer {
 
 <div id="entry">
 
+
     <video
         id="entryVideo"
         autoplay
         muted
         playsinline
+        webkit-playsinline
         preload="auto"
     >
 
         <source
-            src="assets/0001-0600.mkv"
-            type="video/x-matroska"
+            src="assets/0001-0600.mp4"
+            type="video/mp4"
         >
 
     </video>
@@ -922,13 +1405,20 @@ footer {
 
     <div class="entry-overlay">
 
+
         <div class="entry-title">
+
             ENTERING THE DRAVYA FIELD
+
         </div>
 
+
         <div class="entry-subtitle">
+
             OBSERVE · DISTURB · CREATE
+
         </div>
+
 
     </div>
 
@@ -942,6 +1432,7 @@ footer {
 
 <main id="field">
 
+
     <div class="field-noise"></div>
 
 
@@ -950,11 +1441,16 @@ footer {
     <nav>
 
         <div class="nav-logo">
+
             DRAVYA
+
         </div>
 
+
         <div class="nav-right">
+
             THE FIELD
+
         </div>
 
     </nav>
@@ -967,15 +1463,23 @@ footer {
 
     <section class="hero">
 
+
         <div class="hero-content">
 
+
             <div class="hero-kicker">
+
                 THE FIELD
+
             </div>
 
+
             <h1>
+
                 DRAVYA
+
             </h1>
+
 
             <p class="hero-description">
 
@@ -984,12 +1488,16 @@ footer {
 
             </p>
 
+
         </div>
 
 
         <div class="scroll-indicator">
+
             ENTER THE FIELD ↓
+
         </div>
+
 
     </section>
 
@@ -1001,18 +1509,28 @@ footer {
 
     <section class="why">
 
+
         <div class="section-inner">
 
+
             <div class="section-number">
+
                 01 / WHY
+
             </div>
 
+
             <h2 class="section-title">
+
                 WHY<br>
+
                 DRAVYA?
+
             </h2>
 
+
             <div class="section-text">
+
 
                 <p>
 
@@ -1020,7 +1538,9 @@ footer {
 
                 </p>
 
+
                 <br>
+
 
                 <p>
 
@@ -1030,12 +1550,16 @@ footer {
 
                 </p>
 
+
                 <br>
+
 
                 <p>
 
                     <strong>
-                    DRAVYA is a space built around those questions.
+
+                        DRAVYA is a space built around those questions.
+
                     </strong>
 
                     A place where scientific curiosity can coexist
@@ -1043,6 +1567,7 @@ footer {
                     and experimentation.
 
                 </p>
+
 
             </div>
 
@@ -1061,32 +1586,44 @@ footer {
 
     <section class="worlds">
 
+
         <div class="section-inner">
 
+
             <div class="section-number">
+
                 02 / EXCITATIONS
+
             </div>
 
+
             <h2 class="section-title">
+
                 THREE<br>
+
                 DIRECTIONS.
+
             </h2>
 
 
             <div class="world-grid">
 
 
-                <!-- ART -->
-
                 <div class="world">
 
                     <div class="world-number">
+
                         01
+
                     </div>
 
+
                     <h3>
+
                         ART
+
                     </h3>
+
 
                     <p>
 
@@ -1098,17 +1635,22 @@ footer {
                 </div>
 
 
-                <!-- PHYSICS -->
 
                 <div class="world">
 
                     <div class="world-number">
+
                         02
+
                     </div>
 
+
                     <h3>
+
                         PHYSICS
+
                     </h3>
+
 
                     <p>
 
@@ -1121,17 +1663,22 @@ footer {
                 </div>
 
 
-                <!-- ENTERTAINMENT -->
 
                 <div class="world">
 
                     <div class="world-number">
+
                         03
+
                     </div>
 
+
                     <h3>
+
                         ENTERTAINMENT
+
                     </h3>
+
 
                     <p>
 
@@ -1158,7 +1705,9 @@ footer {
 
     <section class="creator">
 
+
         <div class="section-inner">
+
 
             <div class="creator-layout">
 
@@ -1166,7 +1715,9 @@ footer {
                 <div class="creator-mark">
 
                     <span>
+
                         A
+
                     </span>
 
                 </div>
@@ -1174,20 +1725,30 @@ footer {
 
                 <div>
 
+
                     <div class="section-number">
+
                         03 / CREATOR
+
                     </div>
+
 
                     <div class="creator-name">
+
                         ADDY
+
                     </div>
 
+
                     <div class="creator-role">
+
                         PHYSICIST · CREATOR · OBSERVER
+
                     </div>
 
 
                     <div class="section-text">
+
 
                         <p>
 
@@ -1197,7 +1758,9 @@ footer {
 
                         </p>
 
+
                         <br>
+
 
                         <p>
 
@@ -1206,7 +1769,9 @@ footer {
 
                         </p>
 
+
                         <br>
+
 
                         <p>
 
@@ -1215,7 +1780,9 @@ footer {
 
                         </p>
 
+
                         <br>
+
 
                         <p>
 
@@ -1224,13 +1791,16 @@ footer {
 
                         </p>
 
+
                         <br>
+
 
                         <p>
 
                             DRAVYA is where these things meet.
 
                         </p>
+
 
                     </div>
 
@@ -1250,19 +1820,28 @@ footer {
 
     <section class="what">
 
+
         <div class="section-inner">
 
+
             <div class="section-number">
+
                 04 / DRAVYA
+
             </div>
 
+
             <h2 class="section-title">
+
                 WHAT IS<br>
+
                 DRAVYA?
+
             </h2>
 
 
             <div class="section-text">
+
 
                 <p>
 
@@ -1272,7 +1851,9 @@ footer {
 
                 </p>
 
+
                 <br>
+
 
                 <p>
 
@@ -1281,7 +1862,9 @@ footer {
 
                 </p>
 
+
                 <br>
+
 
                 <p>
 
@@ -1290,6 +1873,7 @@ footer {
                     Not a single answer.
 
                 </p>
+
 
             </div>
 
@@ -1300,6 +1884,7 @@ footer {
                 when something disturbs it.”
 
             </div>
+
 
         </div>
 
@@ -1313,19 +1898,28 @@ footer {
 
     <section class="entertainment">
 
+
         <div class="section-inner">
 
+
             <div class="section-number">
+
                 05 / EXPERIENCE
+
             </div>
 
+
             <h2 class="section-title">
+
                 EXPERIENCE<br>
+
                 THE FIELD.
+
             </h2>
 
 
             <div class="section-text">
+
 
                 <p>
 
@@ -1333,7 +1927,9 @@ footer {
 
                 </p>
 
+
                 <br>
+
 
                 <p>
 
@@ -1345,31 +1941,42 @@ footer {
 
                 </p>
 
+
             </div>
 
 
             <div class="entertainment-links">
 
+
                 <a
                     class="entertainment-link"
                     href="sounds.html"
                 >
+
                     SOUNDS
+
                 </a>
+
 
                 <a
                     class="entertainment-link"
                     href="fiction.html"
                 >
+
                     FICTION
+
                 </a>
+
 
                 <a
                     class="entertainment-link"
                     href="museum.html"
                 >
+
                     MUSEUM
+
                 </a>
+
 
             </div>
 
@@ -1385,15 +1992,20 @@ footer {
 
     <section class="end">
 
+
         <div class="section-inner">
+
 
             <div class="end-title">
 
                 OBSERVE.<br>
+
                 DISTURB.<br>
+
                 CREATE.
 
             </div>
+
 
             <div class="end-tagline">
 
@@ -1412,6 +2024,7 @@ footer {
 
     </footer>
 
+
 </main>
 
 
@@ -1422,92 +2035,131 @@ footer {
    BLENDER CINEMATIC → FIELD TRANSITION
 ========================================================= */
 
-const entry = document.getElementById("entry");
-const video = document.getElementById("entryVideo");
+const entry =
+    document.getElementById("entry");
+
+const video =
+    document.getElementById("entryVideo");
 
 
-/*
-    Try to start playback.
+/* =========================================================
+   START VIDEO
+========================================================= */
 
-    Because the video is muted and playsinline,
-    browsers normally allow autoplay.
-*/
+function startVideo() {
 
-video.play().catch(() => {
+    const playPromise =
+        video.play();
 
-    /*
-        If autoplay is blocked, the user can still
-        interact with the page and the video can begin.
-    */
+    if (playPromise !== undefined) {
 
-    document.addEventListener(
-        "click",
-        () => {
-            video.play();
-        },
-        { once: true }
-    );
+        playPromise.catch(() => {
 
-});
+            /*
+               Mobile browsers can occasionally
+               delay playback until interaction.
+            */
 
+        });
 
-/*
-    When the Blender animation finishes,
-    fade the cinematic away.
+    }
 
-    The actual DRAVYA page is already underneath it,
-    so the transition feels continuous.
-*/
-
-video.addEventListener("ended", () => {
-
-    entry.classList.add("hidden");
-
-});
+}
 
 
-/*
-    Fallback:
+/* =========================================================
+   INITIAL PLAY
+========================================================= */
 
-    If the browser doesn't correctly fire "ended",
-    we can use the duration of the video.
+startVideo();
 
-    600 frames / 30 fps = approximately 20 seconds.
-*/
 
-setTimeout(() => {
+/* =========================================================
+   MOBILE / TOUCH FALLBACK
+========================================================= */
 
-    if (!entry.classList.contains("hidden")) {
+document.addEventListener(
+    "touchstart",
+    () => {
+
+        if (video.paused) {
+
+            startVideo();
+
+        }
+
+    },
+    {
+        once: true,
+        passive: true
+    }
+);
+
+
+/* =========================================================
+   VIDEO FINISHED
+========================================================= */
+
+video.addEventListener(
+    "ended",
+    () => {
 
         entry.classList.add("hidden");
 
     }
-
-}, 23000);
-
+);
 
 
 /* =========================================================
-   SMALL INTERACTION
+   FALLBACK
+   600 frames / 30 FPS ≈ 20 seconds
 ========================================================= */
 
-const worlds = document.querySelectorAll(".world");
+setTimeout(
+    () => {
 
-worlds.forEach((world) => {
+        if (
+            !entry.classList.contains("hidden")
+        ) {
 
-    world.addEventListener("mouseenter", () => {
+            entry.classList.add("hidden");
 
-        document.body.style.setProperty(
-            "--blue",
-            "#3974ff"
+        }
+
+    },
+    23000
+);
+
+
+/* =========================================================
+   WORLD INTERACTION
+========================================================= */
+
+const worlds =
+    document.querySelectorAll(".world");
+
+
+worlds.forEach(
+    (world) => {
+
+        world.addEventListener(
+            "mouseenter",
+            () => {
+
+                document.body.style.setProperty(
+                    "--blue",
+                    "#3974ff"
+                );
+
+            }
         );
 
-    });
-
-});
+    }
+);
 
 </script>
 
 
 </body>
+
 </html>
