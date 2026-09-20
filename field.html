@@ -7,26 +7,25 @@
 
 <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
 >
 
 <title>DRAVYA</title>
 
-<link
-    rel="icon"
-    type="image/png"
-    href="assets/logo.png"
->
+<link rel="icon" type="image/png" href="assets/logo.png">
 
 <style>
 
 /* =========================================================
-   FONT
+   DRAVYA FIELD — CINEMATIC ENTRY + STATIC FIELD
    ========================================================= */
 
 @font-face {
     font-family: "Dark";
     src: url("assets/fonts/INTERDIM.TTF") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 
 
@@ -34,28 +33,23 @@
    RESET
    ========================================================= */
 
-* {
-    margin: 0;
-    padding: 0;
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
-
-
-/* =========================================================
-   NO SCROLL — EVER
-   ========================================================= */
 
 html,
 body {
     width: 100%;
     height: 100%;
-
     margin: 0;
     padding: 0;
 
     overflow: hidden;
 
     overscroll-behavior: none;
+    touch-action: manipulation;
 
     background: #02050d;
 }
@@ -66,53 +60,25 @@ body {
    ========================================================= */
 
 body {
-    color: #eef4ff;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+    width: 100vw;
+    height: 100dvh;
+    overflow: hidden;
 }
 
 
 /* =========================================================
-   MAIN STATIC FIELD
+   ENTRY SCREEN
    ========================================================= */
 
-#field {
-    width: 100vw;
-    height: 100vh;
+#entry {
+    position: fixed;
 
+    inset: 0;
+
+    width: 100vw;
     height: 100dvh;
 
-    overflow: hidden;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    background:
-        radial-gradient(
-            ellipse at center top,
-            rgba(18,52,130,0.18),
-            transparent 55%
-        ),
-        #02050d;
-}
-
-
-/* =========================================================
-   VIDEO AREA
-   ========================================================= */
-
-.video-wrap {
-
-    width: 100%;
-    height: 58vh;
-
-    height: 58dvh;
-
-    min-height: 0;
+    z-index: 1000;
 
     display: flex;
     align-items: center;
@@ -120,40 +86,47 @@ body {
 
     overflow: hidden;
 
-    flex-shrink: 0;
+    background: #000;
+
+    opacity: 1;
+
+    transition:
+        opacity 1.6s ease,
+        visibility 1.6s ease;
 }
 
 
 /* =========================================================
-   VIDEO
+   ENTRY VIDEO
    ========================================================= */
 
-#fieldVideo {
+#entryVideo {
+    position: absolute;
 
-    display: block;
+    inset: 0;
 
     width: 100%;
     height: 100%;
 
     object-fit: contain;
-
     object-position: center center;
 
     background: #000;
+
+    display: block;
 }
 
 
 /* =========================================================
-   CONTENT
+   ENTRY DARK OVERLAY
    ========================================================= */
 
-.content {
+.entry-overlay {
+    position: absolute;
 
-    width: 100%;
+    inset: 0;
 
-    flex: 1;
-
-    min-height: 0;
+    z-index: 2;
 
     display: flex;
     flex-direction: column;
@@ -163,12 +136,193 @@ body {
 
     text-align: center;
 
-    padding:
-        1rem
-        1.5rem
-        1.5rem;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(0, 0, 0, 0.05) 0%,
+            rgba(0, 0, 0, 0.35) 100%
+        );
+}
+
+
+/* =========================================================
+   ENTER BUTTON
+   ========================================================= */
+
+.enter-field {
+    pointer-events: auto;
+
+    border: 1px solid rgba(255,255,255,0.55);
+
+    background: rgba(0,0,0,0.18);
+
+    color: white;
+
+    padding: 14px 28px;
+
+    font-family: "Dark", sans-serif;
+
+    font-size: clamp(12px, 1.2vw, 17px);
+
+    letter-spacing: 0.18em;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    backdrop-filter: blur(4px);
+
+    -webkit-backdrop-filter: blur(4px);
+
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease,
+        opacity 0.5s ease;
+}
+
+.enter-field:hover {
+    background: rgba(255,255,255,0.12);
+
+    border-color: white;
+
+    transform: scale(1.03);
+}
+
+.enter-field:active {
+    transform: scale(0.98);
+}
+
+
+/* =========================================================
+   ENTRY TEXT
+   ========================================================= */
+
+.entry-title {
+
+    margin-bottom: 22px;
+
+    color: white;
+
+    font-family: "Dark", sans-serif;
+
+    font-size: clamp(28px, 5vw, 72px);
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+
+    text-align: center;
+
+    line-height: 1.05;
+
+    text-shadow:
+        0 0 20px rgba(255,255,255,0.25);
+
+}
+
+
+/* =========================================================
+   VIDEO PLAYING STATE
+   ========================================================= */
+
+#entry.playing .enter-field {
+
+    opacity: 0;
+
+    pointer-events: none;
+
+}
+
+#entry.playing .entry-title {
+
+    opacity: 0;
+
+    transition: opacity 0.7s ease;
+
+}
+
+
+/* =========================================================
+   STATIC FIELD
+   ========================================================= */
+
+#field {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100dvh;
 
     overflow: hidden;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(18, 48, 92, 0.18),
+            transparent 45%
+        ),
+        #02050d;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 1.6s ease;
+
+}
+
+
+/* =========================================================
+   STATIC PAGE VISIBLE
+   ========================================================= */
+
+body.field-visible #field {
+
+    opacity: 1;
+
+    pointer-events: auto;
+
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.field-content {
+
+    width: 100%;
+
+    max-width: 1200px;
+
+    padding:
+        20px
+        clamp(20px, 5vw, 70px);
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
 }
 
 
@@ -178,34 +332,24 @@ body {
 
 .logo {
 
-    font-family: "Dark", Arial, sans-serif;
+    margin: 0;
 
-    font-size: clamp(
-        46px,
-        9vw,
-        105px
-    );
+    color: white;
+
+    font-family: "Dark", sans-serif;
+
+    font-size: clamp(52px, 9vw, 130px);
 
     font-weight: normal;
 
-    line-height: 0.9;
-
     letter-spacing: 0.08em;
+
+    line-height: 0.95;
 
     text-align: center;
 
     white-space: nowrap;
 
-    margin-bottom: clamp(
-        28px,
-        4vh,
-        48px
-    );
-
-    color: #eef4ff;
-
-    text-shadow:
-        0 0 45px rgba(35,90,255,0.20);
 }
 
 
@@ -215,17 +359,18 @@ body {
 
 .latest {
 
-    font-size: 8px;
+    margin-top: clamp(25px, 4vh, 45px);
 
-    letter-spacing: 0.42em;
+    color: rgba(255,255,255,0.72);
 
-    color: #59657d;
+    font-family: "Dark", sans-serif;
 
-    margin-bottom: 18px;
+    font-size: clamp(11px, 1vw, 15px);
 
-    text-align: center;
+    letter-spacing: 0.24em;
 
-    white-space: nowrap;
+    text-transform: uppercase;
+
 }
 
 
@@ -235,99 +380,79 @@ body {
 
 .links {
 
+    margin-top: clamp(18px, 3vh, 30px);
+
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
-    gap: clamp(
-        18px,
-        4vw,
-        55px
-    );
+    gap: clamp(20px, 4vw, 60px);
 
-    width: 100%;
+    flex-wrap: nowrap;
+
 }
 
-
-/* =========================================================
-   LINK
-   ========================================================= */
 
 .links a {
 
-    position: relative;
-
-    color: #9daac0;
+    color: white;
 
     text-decoration: none;
 
-    font-size: clamp(
-        9px,
-        1vw,
-        11px
-    );
+    font-family: "Dark", sans-serif;
 
-    letter-spacing: 0.32em;
+    font-size: clamp(15px, 1.4vw, 22px);
 
-    white-space: nowrap;
+    letter-spacing: 0.12em;
 
     transition:
-        color 0.3s ease,
-        opacity 0.3s ease;
-}
+        opacity 0.3s ease,
+        transform 0.3s ease;
 
-
-/* subtle underline */
-
-.links a::after {
-
-    content: "";
-
-    position: absolute;
-
-    left: 0;
-    bottom: -7px;
-
-    width: 0;
-    height: 1px;
-
-    background: rgba(120,160,255,0.7);
-
-    transition:
-        width 0.3s ease;
 }
 
 
 .links a:hover {
 
-    color: #ffffff;
-}
+    opacity: 0.6;
 
+    transform: translateY(-2px);
 
-.links a:hover::after {
-
-    width: 100%;
 }
 
 
 /* =========================================================
-   TABLET / SMALL LAPTOP
+   VERY LARGE DESKTOP
+   ========================================================= */
+
+@media (min-width: 1600px) {
+
+    .entry-title {
+        font-size: 78px;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
    ========================================================= */
 
 @media (max-width: 900px) {
 
-    .video-wrap {
-
-        height: 56dvh;
+    .entry-title {
+        font-size: clamp(25px, 7vw, 48px);
     }
 
-    .content {
+    .enter-field {
+        padding: 13px 24px;
+        font-size: 12px;
+    }
 
-        padding:
-            0.75rem
-            1rem
-            1.25rem;
+    .logo {
+        font-size: clamp(50px, 13vw, 90px);
     }
 
 }
@@ -339,107 +464,113 @@ body {
 
 @media (max-width: 600px) {
 
-    #field {
-
-        width: 100vw;
-        height: 100dvh;
-
-        overflow: hidden;
-    }
-
-
-    .video-wrap {
-
-        width: 100vw;
+    #entryVideo {
 
         /*
-         * Keep the video centered.
-         * It is allowed to have empty space rather
-         * than being cropped or distorted.
+         * Keep the entire video visible.
+         * No stretching.
+         * No cropping.
+         * No overflow.
          */
-
-        height: 53dvh;
-
-        display: flex;
-
-        align-items: center;
-        justify-content: center;
-
-        overflow: hidden;
-    }
-
-
-    #fieldVideo {
-
-        width: 100%;
-        height: 100%;
-
         object-fit: contain;
 
-        object-position: center center;
     }
 
 
-    .content {
-
-        width: 100vw;
-
-        flex: 1;
+    .entry-overlay {
 
         padding:
-            0.5rem
-            1.2rem
-            1rem;
+            env(safe-area-inset-top)
+            20px
+            env(safe-area-inset-bottom)
+            20px;
 
-        justify-content: center;
+    }
 
-        overflow: hidden;
+
+    .entry-title {
+
+        width: 100%;
+
+        max-width: 92vw;
+
+        font-size: clamp(25px, 9vw, 42px);
+
+        line-height: 1.08;
+
+        letter-spacing: 0.05em;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .enter-field {
+
+        max-width: 90vw;
+
+        padding: 13px 20px;
+
+        font-size: 10px;
+
+        letter-spacing: 0.15em;
+
+    }
+
+
+    .field-content {
+
+        width: 100%;
+
+        padding:
+            20px
+            18px
+            max(20px, env(safe-area-inset-bottom));
+
     }
 
 
     .logo {
 
-        font-size: clamp(
-            42px,
-            15vw,
-            78px
-        );
+        max-width: 100%;
 
-        letter-spacing: 0.07em;
+        font-size: clamp(48px, 15vw, 76px);
 
-        margin-bottom: 28px;
+        letter-spacing: 0.05em;
+
     }
 
 
     .latest {
 
-        font-size: 7px;
+        margin-top: 25px;
 
-        letter-spacing: 0.32em;
+        font-size: 10px;
 
-        margin-bottom: 18px;
+        letter-spacing: 0.20em;
+
     }
 
 
     .links {
 
-        gap: 22px;
+        margin-top: 18px;
 
-        flex-wrap: nowrap;
+        width: 100%;
+
+        gap: 0;
+
+        justify-content: space-between;
+
     }
 
 
     .links a {
 
-        font-size: 8px;
+        font-size: clamp(13px, 4vw, 17px);
 
-        letter-spacing: 0.22em;
-    }
+        letter-spacing: 0.08em;
 
-
-    .links a::after {
-
-        bottom: -6px;
     }
 
 }
@@ -451,75 +582,96 @@ body {
 
 @media (max-width: 380px) {
 
-    .video-wrap {
+    .entry-title {
 
-        height: 50dvh;
+        font-size: 23px;
+
     }
 
+    .enter-field {
+
+        font-size: 9px;
+
+        padding: 12px 17px;
+
+    }
 
     .logo {
 
-        font-size: 39px;
+        font-size: 46px;
 
-        margin-bottom: 24px;
     }
-
 
     .latest {
 
-        font-size: 6px;
+        margin-top: 20px;
 
-        letter-spacing: 0.25em;
     }
-
-
-    .links {
-
-        gap: 15px;
-    }
-
 
     .links a {
 
-        font-size: 7px;
+        font-size: 12px;
 
-        letter-spacing: 0.16em;
     }
 
 }
 
 
 /* =========================================================
-   LANDSCAPE PHONES
+   LANDSCAPE PHONE
    ========================================================= */
 
-@media
-    (max-height: 500px)
-    and (orientation: landscape) {
+@media (max-height: 500px) and (orientation: landscape) {
 
-    .video-wrap {
+    .entry-title {
 
-        height: 62dvh;
+        font-size: clamp(22px, 6vw, 40px);
+
+        margin-bottom: 12px;
+
     }
 
+    .enter-field {
+
+        padding: 10px 20px;
+
+    }
 
     .logo {
 
-        font-size: 35px;
+        font-size: clamp(42px, 11vw, 70px);
 
-        margin-bottom: 14px;
     }
-
 
     .latest {
 
-        margin-bottom: 10px;
+        margin-top: 15px;
+
     }
 
+    .links {
 
+        margin-top: 12px;
+
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY / REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    #entry,
+    #field,
+    .enter-field,
+    .entry-title,
     .links a {
 
-        font-size: 7px;
+        transition: none !important;
+
     }
 
 }
@@ -532,52 +684,58 @@ body {
 <body>
 
 
-<main id="field">
+<!-- =======================================================
+     CINEMATIC ENTRY
+     ======================================================= -->
+
+<section id="entry">
+
+    <video
+        id="entryVideo"
+        src="assets/0001-0600.mp4"
+        playsinline
+        preload="auto"
+        muted
+    ></video>
 
 
-    <!-- =====================================================
-         STATIC VIDEO
-         ===================================================== -->
+    <div class="entry-overlay">
 
-    <div class="video-wrap">
+        <div class="entry-title">
+            ENTER THE DRAVYA FIELD
+        </div>
 
-        <video
-            id="fieldVideo"
-            autoplay
-            muted
-            playsinline
-            webkit-playsinline
-            preload="auto"
+        <button
+            class="enter-field"
+            id="enterButton"
+            type="button"
         >
-
-            <source
-                src="assets/0001-0600.mp4"
-                type="video/mp4"
-            >
-
-        </video>
+            ENTER THE DRAVYA FIELD
+        </button>
 
     </div>
 
-
-    <!-- =====================================================
-         DRAVYA + LINKS
-         ===================================================== -->
-
-    <div class="content">
+</section>
 
 
-        <div class="logo">
+
+<!-- =======================================================
+     STATIC DRAVYA FIELD
+     ======================================================= -->
+
+<main id="field">
+
+    <div class="field-content">
+
+        <h1 class="logo">
             DRAVYA
-        </div>
-
+        </h1>
 
         <div class="latest">
             LATEST RELEASE
         </div>
 
-
-        <div class="links">
+        <nav class="links">
 
             <a href="sounds.html">
                 SOUNDS
@@ -591,33 +749,61 @@ body {
                 FICTION
             </a>
 
-        </div>
-
+        </nav>
 
     </div>
 
-
 </main>
+
 
 
 <script>
 
 /* =========================================================
-   VIDEO AUTOPLAY
+   DRAVYA FIELD ENTRY
    ========================================================= */
 
-const video =
-    document.getElementById("fieldVideo");
+const entry = document.getElementById("entry");
+const video = document.getElementById("entryVideo");
+const button = document.getElementById("enterButton");
 
 
-function startVideo() {
+let started = false;
+let finished = false;
 
-    const promise = video.play();
 
-    if (promise !== undefined) {
+/* =========================================================
+   START FIELD
+   ========================================================= */
 
-        promise.catch(() => {
-            /* Browser autoplay restriction */
+function startField() {
+
+    if (started) return;
+
+    started = true;
+
+    entry.classList.add("playing");
+
+    /*
+     * Attempt normal inline playback first.
+     */
+    const playPromise = video.play();
+
+    if (playPromise !== undefined) {
+
+        playPromise.catch(() => {
+
+            /*
+             * Some mobile browsers may require
+             * a second direct interaction.
+             * The click itself is already a user gesture,
+             * so retry immediately.
+             */
+
+            video.muted = true;
+
+            video.play().catch(() => {});
+
         });
 
     }
@@ -625,31 +811,97 @@ function startVideo() {
 }
 
 
-startVideo();
+/* =========================================================
+   ENTER BUTTON
+   ========================================================= */
+
+button.addEventListener("click", startField);
 
 
 /* =========================================================
-   MOBILE FALLBACK
+   VIDEO ENDED
    ========================================================= */
 
-document.addEventListener(
-    "touchstart",
-    () => {
+video.addEventListener("ended", finishField);
 
-        if (video.paused) {
-            startVideo();
-        }
 
-    },
-    {
-        once: true,
-        passive: true
+/* =========================================================
+   FINISH FIELD
+   ========================================================= */
+
+function finishField() {
+
+    if (finished) return;
+
+    finished = true;
+
+    /*
+     * First fade out the cinematic layer.
+     */
+    entry.style.opacity = "0";
+
+    /*
+     * Then reveal the static field at the same time,
+     * creating a smooth crossfade.
+     */
+    document.body.classList.add("field-visible");
+
+    /*
+     * Completely remove the video layer after
+     * the transition has finished.
+     */
+    setTimeout(() => {
+
+        entry.style.visibility = "hidden";
+        entry.style.pointerEvents = "none";
+
+        video.pause();
+
+    }, 1700);
+
+}
+
+
+/* =========================================================
+   SAFETY
+   ========================================================= */
+
+/*
+ * If the browser reports the video as already finished,
+ * still transition correctly.
+ */
+video.addEventListener("timeupdate", () => {
+
+    if (
+        video.duration &&
+        video.currentTime >= video.duration - 0.05
+    ) {
+
+        finishField();
+
     }
+
+});
+
+
+/*
+ * Prevent accidental scrolling from wheel/touch
+ * while keeping normal link clicks functional.
+ */
+window.addEventListener(
+    "wheel",
+    event => event.preventDefault(),
+    { passive: false }
+);
+
+window.addEventListener(
+    "touchmove",
+    event => event.preventDefault(),
+    { passive: false }
 );
 
 </script>
 
 
 </body>
-
 </html>
