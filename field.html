@@ -443,8 +443,9 @@ body.field-visible #field {
     width: 100%;
     max-width: 100%;
     font-size: clamp(42px, 12vw, 64px);
-    letter-spacing: 0.04em;
+    letter-spacing: 0.035em;
     text-align: center;
+    white-space: nowrap;
 }
 
 
@@ -488,12 +489,22 @@ body.field-visible #field {
    ========================================================= */
 
 @media (max-width: 380px) {
-
     .logo {
-
-        font-size: 45px;
-
+        width: 100%;
+        font-size: 38px;
+        letter-spacing: 0.03em;
+        text-align: center;
     }
+
+    .latest {
+        margin-top: 18px;
+        font-size: 9px;
+    }
+
+    .links a {
+        font-size: 11px;
+    }
+}
 
 
     .latest {
