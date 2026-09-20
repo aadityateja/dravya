@@ -7,10 +7,10 @@
 
 <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
 >
 
-<title>DRAVYA — The Field</title>
+<title>DRAVYA</title>
 
 <link
     rel="icon"
@@ -20,1175 +20,509 @@
 
 <style>
 
-    /* =========================================================
-       FONT
-    ========================================================= */
-
-    @font-face {
-        font-family: "Dark";
-        src: url("assets/fonts/INTERDIM.TTF") format("truetype");
-    }
-
-
-    /* =========================================================
-       ROOT
-    ========================================================= */
-
-    :root {
-        --blue: #1b55ff;
-        --deep: #02050d;
-        --text: #eef4ff;
-        --muted: #8793aa;
-        --line: rgba(120,160,255,0.16);
-
-        /* ONE COMMON PAGE GRID */
-        --page-width: 1200px;
-        --page-padding: 7vw;
-    }
-
-
-    /* =========================================================
-       RESET
-    ========================================================= */
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    html {
-        scroll-behavior: smooth;
-    }
-
-    body {
-        background: var(--deep);
-        color: var(--text);
-        font-family: Arial, Helvetica, sans-serif;
-        overflow-x: hidden;
-    }
-
-
-    /* =========================================================
-       CINEMATIC ENTRY
-    ========================================================= */
-
-    #entry {
-        position: fixed;
-        inset: 0;
-        z-index: 1000;
-        background: #000;
-        opacity: 1;
-        visibility: visible;
-        transition:
-            opacity 2.2s ease,
-            visibility 2.2s ease;
-    }
-
-    #entry video {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        background: #000;
-    }
-
-    .entry-overlay {
-        position: absolute;
-        inset: 0;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        pointer-events: none;
-
-        background:
-            radial-gradient(
-                circle at center,
-                transparent 20%,
-                rgba(0,0,0,0.35) 100%
-            );
-    }
-
-    .entry-title {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-
-        transform: translate(-50%, -50%);
-
-        width: 90%;
-
-        font-family: "Dark", Arial, sans-serif;
-        font-size: clamp(18px, 2vw, 30px);
-        letter-spacing: 0.38em;
-
-        color: rgba(255,255,255,0.9);
-
-        text-align: center;
-
-        opacity: 0;
-
-        animation:
-            entryTitle 4s ease forwards;
-    }
-
-    .entry-subtitle {
-        position: absolute;
-        bottom: 8%;
-        left: 50%;
-
-        transform: translateX(-50%);
-
-        width: 90%;
-
-        font-size: 10px;
-        letter-spacing: 0.45em;
-
-        color: rgba(255,255,255,0.55);
-
-        text-align: center;
-
-        opacity: 0;
-
-        animation:
-            entrySubtitle 5s ease 1.5s forwards;
-    }
-
-
-    /* =========================================================
-       ENTRY ANIMATIONS
-    ========================================================= */
-
-    @keyframes entryTitle {
-
-        0% {
-            opacity: 0;
-            letter-spacing: 0.7em;
-        }
-
-        30% {
-            opacity: 1;
-            letter-spacing: 0.38em;
-        }
-
-        75% {
-            opacity: 1;
-        }
-
-        100% {
-            opacity: 0;
-        }
-    }
-
-    @keyframes entrySubtitle {
-
-        0% {
-            opacity: 0;
-        }
-
-        30% {
-            opacity: 1;
-        }
-
-        75% {
-            opacity: 1;
-        }
-
-        100% {
-            opacity: 0;
-        }
-    }
-
-    #entry.hidden {
-        opacity: 0;
-        visibility: hidden;
-    }
-
-
-    /* =========================================================
-       MAIN FIELD
-    ========================================================= */
-
-    #field {
-        position: relative;
-        min-height: 100vh;
-
-        background:
-            radial-gradient(
-                ellipse at 50% 20%,
-                rgba(18,52,130,0.28),
-                transparent 55%
-            ),
-            radial-gradient(
-                ellipse at 50% 80%,
-                rgba(10,25,70,0.25),
-                transparent 60%
-            ),
-            #02050d;
-    }
-
-
-    /* =========================================================
-       NOISE
-    ========================================================= */
-
-    .field-noise {
-        position: fixed;
-        inset: 0;
-
-        pointer-events: none;
-
-        opacity: 0.035;
-
-        background-image:
-            radial-gradient(
-                rgba(255,255,255,0.7) 0.5px,
-                transparent 0.5px
-            );
-
-        background-size: 5px 5px;
-
-        z-index: 1;
-    }
-
-
-    /* =========================================================
-       NAVIGATION
-    ========================================================= */
-
-    nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-
-        height: 76px;
-
-        padding: 0 var(--page-padding);
-
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        z-index: 50;
-
-        background:
-            linear-gradient(
-                to bottom,
-                rgba(2,5,13,0.92),
-                rgba(2,5,13,0)
-            );
-
-        pointer-events: none;
-    }
-
-    .nav-logo {
-        font-family: "Dark", Arial, sans-serif;
-        font-size: 24px;
-        letter-spacing: 0.15em;
-
-        pointer-events: auto;
-    }
-
-    .nav-right {
-        font-size: 9px;
-        letter-spacing: 0.35em;
-        color: var(--muted);
-
-        pointer-events: auto;
-    }
-
-
-    /* =========================================================
-       HERO
-    ========================================================= */
-
-    .hero {
-        position: relative;
-
-        height: 100vh;
-        min-height: 700px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        text-align: center;
-
-        z-index: 2;
-    }
-
-    .hero-content {
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
-
-    width: 100%;
-    max-width: 1200px;
-
-    padding: 30px;
-
-    box-sizing: border-box;
-
-    text-align: center;
+/* =========================================================
+   FONT
+   ========================================================= */
+
+@font-face {
+    font-family: "Dark";
+    src: url("assets/fonts/INTERDIM.TTF") format("truetype");
 }
 
-.hero h1 {
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   NO SCROLL — EVER
+   ========================================================= */
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+
+    overscroll-behavior: none;
+
+    background: #02050d;
+}
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+body {
+    color: #eef4ff;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+
+/* =========================================================
+   MAIN STATIC FIELD
+   ========================================================= */
+
+#field {
+    width: 100vw;
+    height: 100vh;
+
+    height: 100dvh;
+
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background:
+        radial-gradient(
+            ellipse at center top,
+            rgba(18,52,130,0.18),
+            transparent 55%
+        ),
+        #02050d;
+}
+
+
+/* =========================================================
+   VIDEO AREA
+   ========================================================= */
+
+.video-wrap {
+
+    width: 100%;
+    height: 58vh;
+
+    height: 58dvh;
+
+    min-height: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   VIDEO
+   ========================================================= */
+
+#fieldVideo {
+
     display: block;
 
     width: 100%;
+    height: 100%;
 
-    margin: 0 auto 40px auto;
+    object-fit: contain;
 
-    padding: 0;
+    object-position: center center;
+
+    background: #000;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.content {
+
+    width: 100%;
+
+    flex: 1;
+
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
 
     text-align: center;
 
-    font-family: "Dark", Arial, sans-serif;
-    font-size: clamp(55px, 11vw, 150px);
-    font-weight: normal;
+    padding:
+        1rem
+        1.5rem
+        1.5rem;
 
-    letter-spacing: 0.08em;
-    line-height: 0.9;
-
-    text-shadow:
-        0 0 50px rgba(35,90,255,0.22);
+    overflow: hidden;
 }
 
-    .hero-description {
-        width: min(620px, 100%);
-        margin: 0 auto;
 
-        color: #aab5ca;
+/* =========================================================
+   DRAVYA
+   ========================================================= */
 
-        font-size: 15px;
-        line-height: 1.9;
-        font-weight: 300;
+.logo {
+
+    font-family: "Dark", Arial, sans-serif;
+
+    font-size: clamp(
+        46px,
+        9vw,
+        105px
+    );
+
+    font-weight: normal;
+
+    line-height: 0.9;
+
+    letter-spacing: 0.08em;
+
+    text-align: center;
+
+    white-space: nowrap;
+
+    margin-bottom: clamp(
+        28px,
+        4vh,
+        48px
+    );
+
+    color: #eef4ff;
+
+    text-shadow:
+        0 0 45px rgba(35,90,255,0.20);
+}
+
+
+/* =========================================================
+   LATEST RELEASE
+   ========================================================= */
+
+.latest {
+
+    font-size: 8px;
+
+    letter-spacing: 0.42em;
+
+    color: #59657d;
+
+    margin-bottom: 18px;
+
+    text-align: center;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+.links {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: clamp(
+        18px,
+        4vw,
+        55px
+    );
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   LINK
+   ========================================================= */
+
+.links a {
+
+    position: relative;
+
+    color: #9daac0;
+
+    text-decoration: none;
+
+    font-size: clamp(
+        9px,
+        1vw,
+        11px
+    );
+
+    letter-spacing: 0.32em;
+
+    white-space: nowrap;
+
+    transition:
+        color 0.3s ease,
+        opacity 0.3s ease;
+}
+
+
+/* subtle underline */
+
+.links a::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: -7px;
+
+    width: 0;
+    height: 1px;
+
+    background: rgba(120,160,255,0.7);
+
+    transition:
+        width 0.3s ease;
+}
+
+
+.links a:hover {
+
+    color: #ffffff;
+}
+
+
+.links a:hover::after {
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   TABLET / SMALL LAPTOP
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .video-wrap {
+
+        height: 56dvh;
     }
 
-    .scroll-indicator {
-        position: absolute;
-        bottom: 35px;
-        left: 50%;
+    .content {
 
-        transform: translateX(-50%);
-
-        font-size: 8px;
-        letter-spacing: 0.4em;
-        color: #59657d;
-
-        animation:
-            breathe 3s ease-in-out infinite;
+        padding:
+            0.75rem
+            1rem
+            1.25rem;
     }
 
-    @keyframes breathe {
+}
 
-        0%,
-        100% {
-            opacity: 0.3;
-        }
 
-        50% {
-            opacity: 1;
-        }
+/* =========================================================
+   PHONE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    #field {
+
+        width: 100vw;
+        height: 100dvh;
+
+        overflow: hidden;
     }
 
 
-    /* =========================================================
-       UNIVERSAL SECTION GRID
-    ========================================================= */
+    .video-wrap {
 
-    section {
-        position: relative;
+        width: 100vw;
 
-        min-height: 100vh;
+        /*
+         * Keep the video centered.
+         * It is allowed to have empty space rather
+         * than being cropped or distorted.
+         */
 
-        padding: 150px var(--page-padding);
+        height: 53dvh;
 
         display: flex;
+
         align-items: center;
+        justify-content: center;
 
-        z-index: 2;
-    }
-
-    /*
-        THIS IS THE IMPORTANT PART.
-        Every section now has exactly the same
-        maximum width and horizontal alignment.
-    */
-
-    .section-inner {
-        width: min(
-            var(--page-width),
-            100%
-        );
-
-        margin-left: auto;
-        margin-right: auto;
+        overflow: hidden;
     }
 
 
-    /* =========================================================
-       SECTION TYPOGRAPHY
-    ========================================================= */
+    #fieldVideo {
 
-    .section-number {
-        font-size: 9px;
-        letter-spacing: 0.45em;
-        color: #50607d;
-        margin-bottom: 25px;
+        width: 100%;
+        height: 100%;
+
+        object-fit: contain;
+
+        object-position: center center;
     }
 
-    .section-title {
-        font-family: "Dark", Arial, sans-serif;
-        font-weight: normal;
+
+    .content {
+
+        width: 100vw;
+
+        flex: 1;
+
+        padding:
+            0.5rem
+            1.2rem
+            1rem;
+
+        justify-content: center;
+
+        overflow: hidden;
+    }
+
+
+    .logo {
 
         font-size: clamp(
             42px,
-            7vw,
-            90px
+            15vw,
+            78px
         );
 
-        letter-spacing: 0.04em;
-        line-height: 0.95;
+        letter-spacing: 0.07em;
 
-        margin-bottom: 45px;
-    }
-
-    .section-text {
-        width: min(720px, 100%);
-
-        font-size: 18px;
-        line-height: 2;
-
-        color: #9daac0;
-    }
-
-    .section-text strong {
-        color: white;
-        font-weight: normal;
+        margin-bottom: 28px;
     }
 
 
-    /* =========================================================
-       WHY DRAVYA
-    ========================================================= */
+    .latest {
 
-    .why {
-        background:
-            radial-gradient(
-                circle at 75% 50%,
-                rgba(30,75,200,0.12),
-                transparent 35%
-            );
-    }
+        font-size: 7px;
 
-    .field-symbol {
-        position: absolute;
+        letter-spacing: 0.32em;
 
-        right: 8vw;
-        top: 50%;
-
-        width: min(28vw, 360px);
-        aspect-ratio: 1;
-
-        transform: translateY(-50%);
-
-        border-radius: 50%;
-        border: 1px solid rgba(70,120,255,0.15);
-
-        box-shadow:
-            0 0 80px rgba(20,70,255,0.08),
-            inset 0 0 80px rgba(20,70,255,0.05);
-
-        animation:
-            fieldPulse 7s ease-in-out infinite;
-    }
-
-    .field-symbol::before,
-    .field-symbol::after {
-        content: "";
-
-        position: absolute;
-        inset: 12%;
-
-        border-radius: 50%;
-        border: 1px solid rgba(70,120,255,0.12);
-
-        animation:
-            fieldRotate 20s linear infinite;
-    }
-
-    .field-symbol::after {
-        inset: 25%;
-
-        animation-duration: 12s;
-        animation-direction: reverse;
-    }
-
-    @keyframes fieldPulse {
-
-        0%,
-        100% {
-            transform:
-                translateY(-50%)
-                scale(0.94);
-        }
-
-        50% {
-            transform:
-                translateY(-50%)
-                scale(1.04);
-        }
-    }
-
-    @keyframes fieldRotate {
-
-        from {
-            transform: rotate(0deg);
-        }
-
-        to {
-            transform: rotate(360deg);
-        }
+        margin-bottom: 18px;
     }
 
 
-    /* =========================================================
-       THREE WORLDS
-    ========================================================= */
+    .links {
 
-    .worlds {
-        background:
-            linear-gradient(
-                180deg,
-                #02050d,
-                #030815,
-                #02050d
-            );
-    }
+        gap: 22px;
 
-    .world-grid {
-        width: 100%;
-
-        display: grid;
-        grid-template-columns:
-            repeat(3, minmax(0, 1fr));
-
-        gap: 1px;
-
-        margin-top: 70px;
-
-        background: var(--line);
-    }
-
-    .world {
-        position: relative;
-
-        min-height: 390px;
-
-        padding: 45px 35px;
-
-        background: rgba(2,6,16,0.94);
-
-        overflow: hidden;
-
-        transition:
-            background 0.5s ease,
-            transform 0.5s ease;
-    }
-
-    .world:hover {
-        background: rgba(10,25,65,0.8);
-        transform: translateY(-8px);
-    }
-
-    .world-number {
-        font-size: 9px;
-        letter-spacing: 0.4em;
-        color: #4c5c78;
-    }
-
-    .world h3 {
-        font-family: "Dark", Arial, sans-serif;
-        font-weight: normal;
-        font-size: 42px;
-
-        margin-top: 80px;
-        margin-bottom: 25px;
-    }
-
-    .world p {
-        color: #7e8ba4;
-        font-size: 14px;
-        line-height: 1.8;
-
-        max-width: 300px;
-    }
-
-    /* CARD DECORATION */
-
-    .world::after {
-        content: "";
-
-        position: absolute;
-
-        width: 180px;
-        height: 180px;
-
-        right: -90px;
-        bottom: -90px;
-
-        border-radius: 50%;
-        border: 1px solid rgba(70,120,255,0.13);
-
-        transition:
-            transform 1s ease;
-    }
-
-    .world:hover::after {
-        transform: scale(2.2);
+        flex-wrap: nowrap;
     }
 
 
-    /* =========================================================
-       CREATOR
-    ========================================================= */
-
-    .creator {
-        background:
-            radial-gradient(
-                ellipse at 30% 50%,
-                rgba(20,50,130,0.15),
-                transparent 50%
-            );
-    }
-
-    .creator-layout {
-        width: 100%;
-
-        display: grid;
-
-        grid-template-columns:
-            minmax(260px, 0.8fr)
-            minmax(0, 1.2fr);
-
-        gap: 100px;
-
-        align-items: center;
-    }
-
-    .creator-mark {
-        width: 260px;
-        height: 260px;
-
-        border: 1px solid rgba(100,140,255,0.2);
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        margin: auto;
-
-        transform: rotate(45deg);
-
-        box-shadow:
-            0 0 100px rgba(20,60,200,0.08);
-    }
-
-    .creator-mark span {
-        transform: rotate(-45deg);
-
-        font-family: "Dark", Arial, sans-serif;
-        font-size: 55px;
-        letter-spacing: 0.1em;
-    }
-
-    .creator-name {
-        font-family: "Dark", Arial, sans-serif;
-        font-size: 55px;
-        font-weight: normal;
-
-        margin-bottom: 25px;
-    }
-
-    .creator-role {
-        color: #6f7d96;
-        font-size: 10px;
-        letter-spacing: 0.4em;
-
-        margin-bottom: 35px;
-    }
-
-
-    /* =========================================================
-       WHAT IS DRAVYA
-    ========================================================= */
-
-    .what {
-        text-align: center;
-        justify-content: center;
-
-        background:
-            radial-gradient(
-                circle at center,
-                rgba(20,65,190,0.15),
-                transparent 45%
-            );
-    }
-
-    .what .section-inner {
-        display: flex;
-        flex-direction: column;
-
-        align-items: center;
-
-        text-align: center;
-    }
-
-    .what .section-text {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .quote {
-        font-family: "Dark", Arial, sans-serif;
-
-        font-size: clamp(
-            28px,
-            5vw,
-            60px
-        );
-
-        line-height: 1.2;
-
-        margin-top: 80px;
-
-        width: min(900px, 100%);
-    }
-
-
-    /* =========================================================
-       ENTERTAINMENT
-    ========================================================= */
-
-    .entertainment {
-        min-height: 90vh;
-    }
-
-    .entertainment-links {
-        display: flex;
-        flex-wrap: wrap;
-
-        gap: 12px;
-
-        margin-top: 60px;
-    }
-
-    .entertainment-link {
-        border: 1px solid rgba(100,140,255,0.18);
-
-        padding: 20px 30px;
-
-        color: #9daac0;
-
-        text-decoration: none;
-
-        font-size: 10px;
-        letter-spacing: 0.3em;
-
-        transition:
-            border-color 0.4s ease,
-            color 0.4s ease,
-            background 0.4s ease;
-    }
-
-    .entertainment-link:hover {
-        color: white;
-
-        border-color:
-            rgba(100,150,255,0.6);
-
-        background:
-            rgba(30,70,180,0.12);
-    }
-
-
-    /* =========================================================
-       END
-    ========================================================= */
-
-    .end {
-        min-height: 80vh;
-
-        text-align: center;
-        justify-content: center;
-    }
-
-    .end .section-inner {
-        display: flex;
-        flex-direction: column;
-
-        align-items: center;
-
-        text-align: center;
-    }
-
-    .end-title {
-        font-family: "Dark", Arial, sans-serif;
-
-        font-size: clamp(
-            45px,
-            8vw,
-            100px
-        );
-
-        line-height: 0.95;
-
-        margin-bottom: 40px;
-    }
-
-    .end-tagline {
-        font-size: 10px;
-        letter-spacing: 0.5em;
-        color: #687690;
-    }
-
-    footer {
-        padding: 60px;
-
-        text-align: center;
+    .links a {
 
         font-size: 8px;
-        letter-spacing: 0.35em;
 
-        color: #39445a;
-
-        border-top:
-            1px solid rgba(100,140,255,0.08);
+        letter-spacing: 0.22em;
     }
 
 
-    /* =========================================================
-       TABLET
-    ========================================================= */
+    .links a::after {
 
-    @media (max-width: 1000px) {
+        bottom: -6px;
+    }
 
-        :root {
-            --page-padding: 6vw;
-        }
+}
 
-        .creator-layout {
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-        }
 
-        .creator-mark {
-            width: 210px;
-            height: 210px;
-        }
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
 
-        .world {
-            padding: 40px 28px;
-        }
+@media (max-width: 380px) {
+
+    .video-wrap {
+
+        height: 50dvh;
     }
 
 
-    /* =========================================================
-       MOBILE
-    ========================================================= */
+    .logo {
 
-    @media (max-width: 850px) {
+        font-size: 39px;
 
-        :root {
-            --page-padding: 7vw;
-        }
-
-        section {
-            min-height: auto;
-            padding: 110px var(--page-padding);
-        }
-
-
-        /* HERO */
-
-        .hero {
-            min-height: 100svh;
-            padding: 100px var(--page-padding);
-        }
-
-        .hero-content {
-            padding: 0;
-        }
-
-        .hero h1 {
-            font-size: clamp(
-                55px,
-                17vw,
-                95px
-            );
-        }
-
-
-        /* WHY */
-
-        .why {
-            overflow: hidden;
-        }
-
-        .why .section-inner {
-            position: relative;
-            z-index: 2;
-        }
-
-        .field-symbol {
-            opacity: 0.18;
-            right: -18vw;
-            width: 65vw;
-        }
-
-
-        /* WORLDS */
-
-        .world-grid {
-            grid-template-columns: 1fr;
-            margin-top: 50px;
-        }
-
-        .world {
-            min-height: 300px;
-            padding: 35px 30px;
-        }
-
-        .world h3 {
-            margin-top: 55px;
-        }
-
-        .world p {
-            max-width: 500px;
-        }
-
-
-        /* CREATOR */
-
-        .creator-layout {
-            grid-template-columns: 1fr;
-            gap: 70px;
-
-            text-align: center;
-        }
-
-        .creator-mark {
-            width: 190px;
-            height: 190px;
-        }
-
-        .creator-name {
-            font-size: 42px;
-        }
-
-        .creator-role {
-            letter-spacing: 0.28em;
-        }
-
-        .creator .section-text {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-
-        /* ENTERTAINMENT */
-
-        .entertainment-links {
-            justify-content: center;
-        }
-
-        .entertainment-link {
-            flex: 1 1 140px;
-            text-align: center;
-        }
-
-
-        /* WHAT */
-
-        .what .section-title {
-            text-align: center;
-        }
+        margin-bottom: 24px;
     }
 
 
-    /* =========================================================
-       SMALL MOBILE
-    ========================================================= */
+    .latest {
 
-    @media (max-width: 600px) {
+        font-size: 6px;
 
-        :root {
-            --page-padding: 8vw;
-        }
-
-        section {
-            padding: 95px var(--page-padding);
-        }
-
-        nav {
-            height: 65px;
-        }
-
-        .nav-logo {
-            font-size: 19px;
-        }
-
-        .nav-right {
-            font-size: 7px;
-            letter-spacing: 0.25em;
-        }
-
-        .entry-title {
-            font-size: 14px;
-            letter-spacing: 0.25em;
-        }
-
-        .entry-subtitle {
-            font-size: 8px;
-            letter-spacing: 0.28em;
-        }
-
-        .section-number {
-            font-size: 8px;
-            margin-bottom: 20px;
-        }
-
-        .section-title {
-            font-size: clamp(
-                40px,
-                13vw,
-                65px
-            );
-
-            margin-bottom: 35px;
-        }
-
-        .section-text {
-            font-size: 16px;
-            line-height: 1.9;
-        }
-
-        .hero {
-            padding: 90px var(--page-padding);
-        }
-
-        .hero-kicker {
-            font-size: 8px;
-            letter-spacing: 0.4em;
-            margin-bottom: 25px;
-        }
-
-        .hero h1 {
-            font-size: 22vw;
-            margin-bottom: 30px;
-        }
-
-        .hero-description {
-            font-size: 14px;
-            line-height: 1.8;
-        }
-
-        .field-symbol {
-            right: -25vw;
-            width: 75vw;
-        }
-
-        .world {
-            min-height: 280px;
-            padding: 30px 25px;
-        }
-
-        .world h3 {
-            font-size: 34px;
-            margin-top: 45px;
-        }
-
-        .world p {
-            font-size: 13px;
-        }
-
-        .creator-layout {
-            gap: 55px;
-        }
-
-        .creator-mark {
-            width: 160px;
-            height: 160px;
-        }
-
-        .creator-mark span {
-            font-size: 42px;
-        }
-
-        .creator-name {
-            font-size: 38px;
-        }
-
-        .creator-role {
-            font-size: 8px;
-        }
-
-        .quote {
-            font-size: clamp(
-                26px,
-                8vw,
-                42px
-            );
-
-            margin-top: 60px;
-        }
-
-        .entertainment-links {
-            width: 100%;
-            flex-direction: column;
-        }
-
-        .entertainment-link {
-            width: 100%;
-            flex: none;
-        }
-
-        .end {
-            min-height: 75vh;
-        }
-
-        .end-title {
-            font-size: 15vw;
-        }
-
-        footer {
-            padding: 45px 20px;
-            font-size: 7px;
-            line-height: 1.8;
-        }
+        letter-spacing: 0.25em;
     }
 
 
-    /* =========================================================
-       REDUCED MOTION
-    ========================================================= */
+    .links {
 
-    @media (prefers-reduced-motion: reduce) {
-
-        * {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            scroll-behavior: auto !important;
-        }
+        gap: 15px;
     }
+
+
+    .links a {
+
+        font-size: 7px;
+
+        letter-spacing: 0.16em;
+    }
+
+}
+
+
+/* =========================================================
+   LANDSCAPE PHONES
+   ========================================================= */
+
+@media
+    (max-height: 500px)
+    and (orientation: landscape) {
+
+    .video-wrap {
+
+        height: 62dvh;
+    }
+
+
+    .logo {
+
+        font-size: 35px;
+
+        margin-bottom: 14px;
+    }
+
+
+    .latest {
+
+        margin-bottom: 10px;
+    }
+
+
+    .links a {
+
+        font-size: 7px;
+    }
+
+}
 
 </style>
 
@@ -1198,687 +532,92 @@
 <body>
 
 
-<!-- =======================================================
-     BLENDER CINEMATIC
-======================================================= -->
-
-<div id="entry">
+<main id="field">
 
 
-    <video
-        id="entryVideo"
-        autoplay
-        muted
-        playsinline
-        webkit-playsinline
-        preload="auto"
-    >
+    <!-- =====================================================
+         STATIC VIDEO
+         ===================================================== -->
 
-        <source
-            src="assets/0001-0600.mp4"
-            type="video/mp4"
+    <div class="video-wrap">
+
+        <video
+            id="fieldVideo"
+            autoplay
+            muted
+            playsinline
+            webkit-playsinline
+            preload="auto"
         >
 
-    </video>
+            <source
+                src="assets/0001-0600.mp4"
+                type="video/mp4"
+            >
+
+        </video>
+
+    </div>
 
 
-    <div class="entry-overlay">
+    <!-- =====================================================
+         DRAVYA + LINKS
+         ===================================================== -->
+
+    <div class="content">
 
 
-        <div class="entry-title">
-
-            ENTERING THE DRAVYA FIELD
-
+        <div class="logo">
+            DRAVYA
         </div>
 
 
-        <div class="entry-subtitle">
+        <div class="latest">
+            LATEST RELEASE
+        </div>
 
-            OBSERVE · DISTURB · CREATE
+
+        <div class="links">
+
+            <a href="sounds.html">
+                SOUNDS
+            </a>
+
+            <a href="art.html">
+                ART
+            </a>
+
+            <a href="fiction.html">
+                FICTION
+            </a>
 
         </div>
 
 
     </div>
 
-</div>
-
-
-
-<!-- =======================================================
-     MAIN FIELD
-======================================================= -->
-
-<main id="field">
-
-
-    <div class="field-noise"></div>
-
-
-    <!-- NAVIGATION -->
-
-    <nav>
-
-        <div class="nav-logo">
-
-            DRAVYA
-
-        </div>
-
-
-        <div class="nav-right">
-
-            THE FIELD
-
-        </div>
-
-    </nav>
-
-
-
-    <!-- ===================================================
-         HERO
-    ==================================================== -->
-
-    <section class="hero">
-
-
-        <div class="hero-content">
-
-
-            <div class="hero-kicker">
-
-                THE FIELD
-
-            </div>
-
-
-            <h1>
-
-                DRAVYA
-
-            </h1>
-
-
-            <p class="hero-description">
-
-                A field of ideas, expressions and disturbances —
-                where physics meets art, and curiosity becomes creation.
-
-            </p>
-
-
-        </div>
-
-
-        <div class="scroll-indicator">
-
-            ENTER THE FIELD ↓
-
-        </div>
-
-
-    </section>
-
-
-
-    <!-- ===================================================
-         WHY DRAVYA
-    ==================================================== -->
-
-    <section class="why">
-
-
-        <div class="section-inner">
-
-
-            <div class="section-number">
-
-                01 / WHY
-
-            </div>
-
-
-            <h2 class="section-title">
-
-                WHY<br>
-
-                DRAVYA?
-
-            </h2>
-
-
-            <div class="section-text">
-
-
-                <p>
-
-                    Everything begins with a question.
-
-                </p>
-
-
-                <br>
-
-
-                <p>
-
-                    What is matter?
-                    What is a field?
-                    What happens when something disturbs it?
-
-                </p>
-
-
-                <br>
-
-
-                <p>
-
-                    <strong>
-
-                        DRAVYA is a space built around those questions.
-
-                    </strong>
-
-                    A place where scientific curiosity can coexist
-                    with imagination, music, visual art, stories
-                    and experimentation.
-
-                </p>
-
-
-            </div>
-
-        </div>
-
-
-        <div class="field-symbol"></div>
-
-    </section>
-
-
-
-    <!-- ===================================================
-         ART / PHYSICS / ENTERTAINMENT
-    ==================================================== -->
-
-    <section class="worlds">
-
-
-        <div class="section-inner">
-
-
-            <div class="section-number">
-
-                02 / EXCITATIONS
-
-            </div>
-
-
-            <h2 class="section-title">
-
-                THREE<br>
-
-                DIRECTIONS.
-
-            </h2>
-
-
-            <div class="world-grid">
-
-
-                <div class="world">
-
-                    <div class="world-number">
-
-                        01
-
-                    </div>
-
-
-                    <h3>
-
-                        ART
-
-                    </h3>
-
-
-                    <p>
-
-                        Images, environments, visual experiments
-                        and worlds created from imagination.
-
-                    </p>
-
-                </div>
-
-
-
-                <div class="world">
-
-                    <div class="world-number">
-
-                        02
-
-                    </div>
-
-
-                    <h3>
-
-                        PHYSICS
-
-                    </h3>
-
-
-                    <p>
-
-                        Fields, particles, matter, space, time,
-                        the universe and the questions beneath
-                        what we observe.
-
-                    </p>
-
-                </div>
-
-
-
-                <div class="world">
-
-                    <div class="world-number">
-
-                        03
-
-                    </div>
-
-
-                    <h3>
-
-                        ENTERTAINMENT
-
-                    </h3>
-
-
-                    <p>
-
-                        Music, fiction, radio, experiments,
-                        stories and things made simply
-                        to be experienced.
-
-                    </p>
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ===================================================
-         CREATOR
-    ==================================================== -->
-
-    <section class="creator">
-
-
-        <div class="section-inner">
-
-
-            <div class="creator-layout">
-
-
-                <div class="creator-mark">
-
-                    <span>
-
-                        A
-
-                    </span>
-
-                </div>
-
-
-                <div>
-
-
-                    <div class="section-number">
-
-                        03 / CREATOR
-
-                    </div>
-
-
-                    <div class="creator-name">
-
-                        ADDY
-
-                    </div>
-
-
-                    <div class="creator-role">
-
-                        PHYSICIST · CREATOR · OBSERVER
-
-                    </div>
-
-
-                    <div class="section-text">
-
-
-                        <p>
-
-                            DRAVYA began as a personal attempt
-                            to bring different parts of creation
-                            into the same field.
-
-                        </p>
-
-
-                        <br>
-
-
-                        <p>
-
-                            Physics asks questions about the
-                            structure of reality.
-
-                        </p>
-
-
-                        <br>
-
-
-                        <p>
-
-                            Art asks us to experience it
-                            differently.
-
-                        </p>
-
-
-                        <br>
-
-
-                        <p>
-
-                            Stories and music allow those ideas
-                            to travel somewhere else entirely.
-
-                        </p>
-
-
-                        <br>
-
-
-                        <p>
-
-                            DRAVYA is where these things meet.
-
-                        </p>
-
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ===================================================
-         WHAT IS DRAVYA
-    ==================================================== -->
-
-    <section class="what">
-
-
-        <div class="section-inner">
-
-
-            <div class="section-number">
-
-                04 / DRAVYA
-
-            </div>
-
-
-            <h2 class="section-title">
-
-                WHAT IS<br>
-
-                DRAVYA?
-
-            </h2>
-
-
-            <div class="section-text">
-
-
-                <p>
-
-                    The word <strong>dravya</strong> has long been
-                    associated with substance, matter and that
-                    which exists.
-
-                </p>
-
-
-                <br>
-
-
-                <p>
-
-                    DRAVYA takes that idea and turns it into
-                    a creative field.
-
-                </p>
-
-
-                <br>
-
-
-                <p>
-
-                    Not a single discipline.
-                    Not a single medium.
-                    Not a single answer.
-
-                </p>
-
-
-            </div>
-
-
-            <div class="quote">
-
-                “A field becomes interesting
-                when something disturbs it.”
-
-            </div>
-
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ===================================================
-         ENTERTAINMENT
-    ==================================================== -->
-
-    <section class="entertainment">
-
-
-        <div class="section-inner">
-
-
-            <div class="section-number">
-
-                05 / EXPERIENCE
-
-            </div>
-
-
-            <h2 class="section-title">
-
-                EXPERIENCE<br>
-
-                THE FIELD.
-
-            </h2>
-
-
-            <div class="section-text">
-
-
-                <p>
-
-                    DRAVYA is not meant to be only read.
-
-                </p>
-
-
-                <br>
-
-
-                <p>
-
-                    Listen to it.
-                    Watch it.
-                    Read it.
-                    Explore it.
-                    Disturb it.
-
-                </p>
-
-
-            </div>
-
-
-            <div class="entertainment-links">
-
-
-                <a
-                    class="entertainment-link"
-                    href="sounds.html"
-                >
-
-                    SOUNDS
-
-                </a>
-
-
-                <a
-                    class="entertainment-link"
-                    href="fiction.html"
-                >
-
-                    FICTION
-
-                </a>
-
-
-                <a
-                    class="entertainment-link"
-                    href="museum.html"
-                >
-
-                    MUSEUM
-
-                </a>
-
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ===================================================
-         END
-    ==================================================== -->
-
-    <section class="end">
-
-
-        <div class="section-inner">
-
-
-            <div class="end-title">
-
-                OBSERVE.<br>
-
-                DISTURB.<br>
-
-                CREATE.
-
-            </div>
-
-
-            <div class="end-tagline">
-
-                THE FIELD REMAINS OPEN.
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <footer>
-
-        DRAVYA · OBSERVE · DISTURB · CREATE
-
-    </footer>
-
 
 </main>
-
 
 
 <script>
 
 /* =========================================================
-   BLENDER CINEMATIC → FIELD TRANSITION
-========================================================= */
-
-const entry =
-    document.getElementById("entry");
+   VIDEO AUTOPLAY
+   ========================================================= */
 
 const video =
-    document.getElementById("entryVideo");
+    document.getElementById("fieldVideo");
 
-
-/* =========================================================
-   START VIDEO
-========================================================= */
 
 function startVideo() {
 
-    const playPromise =
-        video.play();
+    const promise = video.play();
 
-    if (playPromise !== undefined) {
+    if (promise !== undefined) {
 
-        playPromise.catch(() => {
-
-            /*
-               Mobile browsers can occasionally
-               delay playback until interaction.
-            */
-
+        promise.catch(() => {
+            /* Browser autoplay restriction */
         });
 
     }
@@ -1886,93 +625,25 @@ function startVideo() {
 }
 
 
-/* =========================================================
-   INITIAL PLAY
-========================================================= */
-
 startVideo();
 
 
 /* =========================================================
-   MOBILE / TOUCH FALLBACK
-========================================================= */
+   MOBILE FALLBACK
+   ========================================================= */
 
 document.addEventListener(
     "touchstart",
     () => {
 
         if (video.paused) {
-
             startVideo();
-
         }
 
     },
     {
         once: true,
         passive: true
-    }
-);
-
-
-/* =========================================================
-   VIDEO FINISHED
-========================================================= */
-
-video.addEventListener(
-    "ended",
-    () => {
-
-        entry.classList.add("hidden");
-
-    }
-);
-
-
-/* =========================================================
-   FALLBACK
-   600 frames / 30 FPS ≈ 20 seconds
-========================================================= */
-
-setTimeout(
-    () => {
-
-        if (
-            !entry.classList.contains("hidden")
-        ) {
-
-            entry.classList.add("hidden");
-
-        }
-
-    },
-    23000
-);
-
-
-/* =========================================================
-   WORLD INTERACTION
-========================================================= */
-
-const worlds =
-    document.querySelectorAll(".world");
-
-
-worlds.forEach(
-    (world) => {
-
-        world.addEventListener(
-            "mouseenter",
-            () => {
-
-                document.body.style.setProperty(
-                    "--blue",
-                    "#3974ff"
-                );
-
-            }
-        );
-
     }
 );
 
