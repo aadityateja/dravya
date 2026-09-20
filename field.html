@@ -17,7 +17,13 @@
 <style>
 
 /* =========================================================
-   DRAVYA FIELD — CINEMATIC ENTRY + STATIC FIELD
+   DRAVYA FIELD
+   CINEMATIC VIDEO → STATIC FIELD
+   ========================================================= */
+
+
+/* =========================================================
+   FONT
    ========================================================= */
 
 @font-face {
@@ -30,47 +36,58 @@
 
 
 /* =========================================================
-   RESET
+   GLOBAL RESET
    ========================================================= */
 
 *,
 *::before,
 *::after {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
+
 
 html,
 body {
+
     width: 100%;
     height: 100%;
+
     margin: 0;
     padding: 0;
 
     overflow: hidden;
 
-    overscroll-behavior: none;
-    touch-action: manipulation;
-
     background: #02050d;
+
+    overscroll-behavior: none;
+
+    -webkit-overflow-scrolling: none;
+
 }
 
-
-/* =========================================================
-   PAGE
-   ========================================================= */
 
 body {
+
     width: 100vw;
     height: 100dvh;
+
     overflow: hidden;
+
+    position: fixed;
+
+    inset: 0;
+
 }
 
 
 /* =========================================================
-   ENTRY SCREEN
+   CINEMATIC VIDEO LAYER
    ========================================================= */
 
 #entry {
+
     position: fixed;
 
     inset: 0;
@@ -78,9 +95,10 @@ body {
     width: 100vw;
     height: 100dvh;
 
-    z-index: 1000;
+    z-index: 100;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -90,17 +108,23 @@ body {
 
     opacity: 1;
 
+    visibility: visible;
+
+    pointer-events: auto;
+
     transition:
-        opacity 1.6s ease,
-        visibility 1.6s ease;
+        opacity 1.8s ease,
+        visibility 1.8s ease;
+
 }
 
 
 /* =========================================================
-   ENTRY VIDEO
+   VIDEO
    ========================================================= */
 
 #entryVideo {
+
     position: absolute;
 
     inset: 0;
@@ -108,139 +132,17 @@ body {
     width: 100%;
     height: 100%;
 
-    object-fit: contain;
-    object-position: center center;
+    display: block;
 
     background: #000;
 
-    display: block;
-}
+    /*
+     * Desktop:
+     * fill the entire viewport.
+     */
+    object-fit: cover;
 
-
-/* =========================================================
-   ENTRY DARK OVERLAY
-   ========================================================= */
-
-.entry-overlay {
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 2;
-
-    display: flex;
-    flex-direction: column;
-
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-
-    pointer-events: none;
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(0, 0, 0, 0.05) 0%,
-            rgba(0, 0, 0, 0.35) 100%
-        );
-}
-
-
-/* =========================================================
-   ENTER BUTTON
-   ========================================================= */
-
-.enter-field {
-    pointer-events: auto;
-
-    border: 1px solid rgba(255,255,255,0.55);
-
-    background: rgba(0,0,0,0.18);
-
-    color: white;
-
-    padding: 14px 28px;
-
-    font-family: "Dark", sans-serif;
-
-    font-size: clamp(12px, 1.2vw, 17px);
-
-    letter-spacing: 0.18em;
-
-    text-transform: uppercase;
-
-    cursor: pointer;
-
-    backdrop-filter: blur(4px);
-
-    -webkit-backdrop-filter: blur(4px);
-
-    transition:
-        background 0.3s ease,
-        border-color 0.3s ease,
-        transform 0.3s ease,
-        opacity 0.5s ease;
-}
-
-.enter-field:hover {
-    background: rgba(255,255,255,0.12);
-
-    border-color: white;
-
-    transform: scale(1.03);
-}
-
-.enter-field:active {
-    transform: scale(0.98);
-}
-
-
-/* =========================================================
-   ENTRY TEXT
-   ========================================================= */
-
-.entry-title {
-
-    margin-bottom: 22px;
-
-    color: white;
-
-    font-family: "Dark", sans-serif;
-
-    font-size: clamp(28px, 5vw, 72px);
-
-    letter-spacing: 0.08em;
-
-    text-transform: uppercase;
-
-    text-align: center;
-
-    line-height: 1.05;
-
-    text-shadow:
-        0 0 20px rgba(255,255,255,0.25);
-
-}
-
-
-/* =========================================================
-   VIDEO PLAYING STATE
-   ========================================================= */
-
-#entry.playing .enter-field {
-
-    opacity: 0;
-
-    pointer-events: none;
-
-}
-
-#entry.playing .entry-title {
-
-    opacity: 0;
-
-    transition: opacity 0.7s ease;
+    object-position: center center;
 
 }
 
@@ -262,37 +164,39 @@ body {
 
     display: flex;
 
-    flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
 
     background:
         radial-gradient(
             circle at 50% 35%,
-            rgba(18, 48, 92, 0.18),
+            rgba(20, 52, 100, 0.18),
             transparent 45%
         ),
         #02050d;
 
     opacity: 0;
 
+    visibility: hidden;
+
     pointer-events: none;
 
     transition:
-        opacity 1.6s ease;
+        opacity 1.8s ease,
+        visibility 1.8s ease;
 
 }
 
 
 /* =========================================================
-   STATIC PAGE VISIBLE
+   FIELD VISIBLE
    ========================================================= */
 
 body.field-visible #field {
 
     opacity: 1;
+
+    visibility: visible;
 
     pointer-events: auto;
 
@@ -300,13 +204,12 @@ body.field-visible #field {
 
 
 /* =========================================================
-   CONTENT
+   FIELD CONTENT
    ========================================================= */
 
 .field-content {
 
     width: 100%;
-
     max-width: 1200px;
 
     padding:
@@ -318,7 +221,6 @@ body.field-visible #field {
     flex-direction: column;
 
     align-items: center;
-
     justify-content: center;
 
     text-align: center;
@@ -332,23 +234,21 @@ body.field-visible #field {
 
 .logo {
 
-    margin: 0;
-
-    color: white;
+    color: #ffffff;
 
     font-family: "Dark", sans-serif;
 
-    font-size: clamp(52px, 9vw, 130px);
+    font-size: clamp(55px, 9vw, 135px);
 
     font-weight: normal;
 
-    letter-spacing: 0.08em;
-
     line-height: 0.95;
 
-    text-align: center;
+    letter-spacing: 0.08em;
 
     white-space: nowrap;
+
+    text-align: center;
 
 }
 
@@ -359,17 +259,21 @@ body.field-visible #field {
 
 .latest {
 
-    margin-top: clamp(25px, 4vh, 45px);
+    margin-top: clamp(24px, 4vh, 42px);
 
     color: rgba(255,255,255,0.72);
 
     font-family: "Dark", sans-serif;
 
-    font-size: clamp(11px, 1vw, 15px);
+    font-size: clamp(10px, 1vw, 15px);
+
+    font-weight: normal;
 
     letter-spacing: 0.24em;
 
     text-transform: uppercase;
+
+    text-align: center;
 
 }
 
@@ -385,27 +289,28 @@ body.field-visible #field {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
-    gap: clamp(20px, 4vw, 60px);
+    gap: clamp(24px, 4vw, 65px);
 
-    flex-wrap: nowrap;
+    white-space: nowrap;
 
 }
 
 
 .links a {
 
-    color: white;
-
-    text-decoration: none;
+    color: #ffffff;
 
     font-family: "Dark", sans-serif;
 
-    font-size: clamp(15px, 1.4vw, 22px);
+    font-size: clamp(14px, 1.4vw, 22px);
+
+    font-weight: normal;
 
     letter-spacing: 0.12em;
+
+    text-decoration: none;
 
     transition:
         opacity 0.3s ease,
@@ -416,7 +321,7 @@ body.field-visible #field {
 
 .links a:hover {
 
-    opacity: 0.6;
+    opacity: 0.55;
 
     transform: translateY(-2px);
 
@@ -424,13 +329,24 @@ body.field-visible #field {
 
 
 /* =========================================================
-   VERY LARGE DESKTOP
+   DESKTOP
    ========================================================= */
 
-@media (min-width: 1600px) {
+@media (min-width: 901px) {
 
-    .entry-title {
-        font-size: 78px;
+    /*
+     * Desktop video fills the viewport.
+     * This creates the cinematic "entering the field"
+     * effect.
+     */
+
+    #entryVideo {
+
+        width: 100vw;
+        height: 100vh;
+
+        object-fit: cover;
+
     }
 
 }
@@ -440,80 +356,54 @@ body.field-visible #field {
    TABLET
    ========================================================= */
 
-@media (max-width: 900px) {
+@media (min-width: 601px) and (max-width: 900px) {
 
-    .entry-title {
-        font-size: clamp(25px, 7vw, 48px);
-    }
+    #entryVideo {
 
-    .enter-field {
-        padding: 13px 24px;
-        font-size: 12px;
+        width: 100vw;
+        height: 100dvh;
+
+        object-fit: cover;
+
     }
 
     .logo {
-        font-size: clamp(50px, 13vw, 90px);
+
+        font-size: clamp(55px, 12vw, 95px);
+
     }
 
 }
 
 
 /* =========================================================
-   PHONE
+   MOBILE
    ========================================================= */
 
 @media (max-width: 600px) {
 
+    /*
+     * IMPORTANT:
+     *
+     * On phones we do NOT use "cover".
+     *
+     * The full Blender video remains visible and centered.
+     * This prevents:
+     *
+     * - cropping
+     * - stretching
+     * - horizontal overflow
+     * - vertical overflow
+     */
+
     #entryVideo {
 
-        /*
-         * Keep the entire video visible.
-         * No stretching.
-         * No cropping.
-         * No overflow.
-         */
+        width: 100vw;
+        height: 100dvh;
+
         object-fit: contain;
 
-    }
-
-
-    .entry-overlay {
-
-        padding:
-            env(safe-area-inset-top)
-            20px
-            env(safe-area-inset-bottom)
-            20px;
-
-    }
-
-
-    .entry-title {
-
-        width: 100%;
-
-        max-width: 92vw;
-
-        font-size: clamp(25px, 9vw, 42px);
-
-        line-height: 1.08;
-
-        letter-spacing: 0.05em;
-
-        margin-bottom: 20px;
-
-    }
-
-
-    .enter-field {
-
-        max-width: 90vw;
-
-        padding: 13px 20px;
-
-        font-size: 10px;
-
-        letter-spacing: 0.15em;
+        object-position: center center;
 
     }
 
@@ -543,7 +433,7 @@ body.field-visible #field {
 
     .latest {
 
-        margin-top: 25px;
+        margin-top: 24px;
 
         font-size: 10px;
 
@@ -554,9 +444,9 @@ body.field-visible #field {
 
     .links {
 
-        margin-top: 18px;
-
         width: 100%;
+
+        margin-top: 18px;
 
         gap: 0;
 
@@ -577,36 +467,26 @@ body.field-visible #field {
 
 
 /* =========================================================
-   VERY SMALL PHONES
+   SMALL PHONES
    ========================================================= */
 
 @media (max-width: 380px) {
 
-    .entry-title {
-
-        font-size: 23px;
-
-    }
-
-    .enter-field {
-
-        font-size: 9px;
-
-        padding: 12px 17px;
-
-    }
-
     .logo {
 
-        font-size: 46px;
+        font-size: 45px;
 
     }
+
 
     .latest {
 
         margin-top: 20px;
 
+        font-size: 9px;
+
     }
+
 
     .links a {
 
@@ -618,24 +498,24 @@ body.field-visible #field {
 
 
 /* =========================================================
-   LANDSCAPE PHONE
+   LANDSCAPE PHONES
    ========================================================= */
 
-@media (max-height: 500px) and (orientation: landscape) {
+@media (
+    max-height: 500px
+) and (
+    orientation: landscape
+) {
 
-    .entry-title {
+    #entryVideo {
 
-        font-size: clamp(22px, 6vw, 40px);
+        width: 100vw;
+        height: 100dvh;
 
-        margin-bottom: 12px;
+        object-fit: contain;
 
     }
 
-    .enter-field {
-
-        padding: 10px 20px;
-
-    }
 
     .logo {
 
@@ -643,11 +523,13 @@ body.field-visible #field {
 
     }
 
+
     .latest {
 
-        margin-top: 15px;
+        margin-top: 14px;
 
     }
+
 
     .links {
 
@@ -659,18 +541,16 @@ body.field-visible #field {
 
 
 /* =========================================================
-   ACCESSIBILITY / REDUCED MOTION
+   REDUCED MOTION
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
     #entry,
     #field,
-    .enter-field,
-    .entry-title,
     .links a {
 
-        transition: none !important;
+        transition: none;
 
     }
 
@@ -685,7 +565,10 @@ body.field-visible #field {
 
 
 <!-- =======================================================
-     CINEMATIC ENTRY
+     CINEMATIC FIELD ENTRY
+
+     THIS STARTS AUTOMATICALLY WHEN FIELD.HTML OPENS.
+     THERE IS NO SECOND ENTER BUTTON.
      ======================================================= -->
 
 <section id="entry">
@@ -693,27 +576,11 @@ body.field-visible #field {
     <video
         id="entryVideo"
         src="assets/0001-0600.mp4"
+        autoplay
+        muted
         playsinline
         preload="auto"
-        muted
     ></video>
-
-
-    <div class="entry-overlay">
-
-        <div class="entry-title">
-            ENTER THE DRAVYA FIELD
-        </div>
-
-        <button
-            class="enter-field"
-            id="enterButton"
-            type="button"
-        >
-            ENTER THE DRAVYA FIELD
-        </button>
-
-    </div>
 
 </section>
 
@@ -721,6 +588,8 @@ body.field-visible #field {
 
 <!-- =======================================================
      STATIC DRAVYA FIELD
+
+     THIS APPEARS ONLY AFTER THE VIDEO FINISHES.
      ======================================================= -->
 
 <main id="field">
@@ -731,9 +600,11 @@ body.field-visible #field {
             DRAVYA
         </h1>
 
+
         <div class="latest">
             LATEST RELEASE
         </div>
+
 
         <nav class="links">
 
@@ -760,33 +631,21 @@ body.field-visible #field {
 <script>
 
 /* =========================================================
-   DRAVYA FIELD ENTRY
+   DRAVYA FIELD — VIDEO TRANSITION
    ========================================================= */
 
 const entry = document.getElementById("entry");
 const video = document.getElementById("entryVideo");
-const button = document.getElementById("enterButton");
 
-
-let started = false;
 let finished = false;
 
 
 /* =========================================================
-   START FIELD
+   START VIDEO
    ========================================================= */
 
-function startField() {
+function startVideo() {
 
-    if (started) return;
-
-    started = true;
-
-    entry.classList.add("playing");
-
-    /*
-     * Attempt normal inline playback first.
-     */
     const playPromise = video.play();
 
     if (playPromise !== undefined) {
@@ -794,10 +653,8 @@ function startField() {
         playPromise.catch(() => {
 
             /*
-             * Some mobile browsers may require
-             * a second direct interaction.
-             * The click itself is already a user gesture,
-             * so retry immediately.
+             * Some browsers may block autoplay temporarily.
+             * The video is muted, so retrying is safe.
              */
 
             video.muted = true;
@@ -812,21 +669,7 @@ function startField() {
 
 
 /* =========================================================
-   ENTER BUTTON
-   ========================================================= */
-
-button.addEventListener("click", startField);
-
-
-/* =========================================================
-   VIDEO ENDED
-   ========================================================= */
-
-video.addEventListener("ended", finishField);
-
-
-/* =========================================================
-   FINISH FIELD
+   VIDEO FINISHED
    ========================================================= */
 
 function finishField() {
@@ -835,73 +678,130 @@ function finishField() {
 
     finished = true;
 
-    /*
-     * First fade out the cinematic layer.
-     */
-    entry.style.opacity = "0";
 
     /*
-     * Then reveal the static field at the same time,
-     * creating a smooth crossfade.
+     * Begin static page immediately underneath.
      */
     document.body.classList.add("field-visible");
 
+
     /*
-     * Completely remove the video layer after
-     * the transition has finished.
+     * Fade the cinematic video away.
      */
+    entry.style.opacity = "0";
+
+    entry.style.pointerEvents = "none";
+
+
+    /*
+     * After the fade completes,
+     * completely hide the cinematic layer.
+     */
+
     setTimeout(() => {
 
         entry.style.visibility = "hidden";
-        entry.style.pointerEvents = "none";
 
         video.pause();
 
-    }, 1700);
+    }, 1900);
 
 }
 
 
 /* =========================================================
-   SAFETY
+   NORMAL END EVENT
    ========================================================= */
 
-/*
- * If the browser reports the video as already finished,
- * still transition correctly.
- */
-video.addEventListener("timeupdate", () => {
+video.addEventListener(
+    "ended",
+    finishField
+);
 
-    if (
-        video.duration &&
-        video.currentTime >= video.duration - 0.05
-    ) {
 
-        finishField();
+/* =========================================================
+   SAFETY END DETECTION
+   ========================================================= */
+
+video.addEventListener(
+    "timeupdate",
+    () => {
+
+        if (
+            video.duration &&
+            video.currentTime >= video.duration - 0.08
+        ) {
+
+            finishField();
+
+        }
 
     }
+);
 
-});
+
+/* =========================================================
+   AUTOPLAY
+   ========================================================= */
+
+window.addEventListener(
+    "load",
+    startVideo
+);
 
 
-/*
- * Prevent accidental scrolling from wheel/touch
- * while keeping normal link clicks functional.
- */
+/* =========================================================
+   ABSOLUTELY NO SCROLLING
+   ========================================================= */
+
 window.addEventListener(
     "wheel",
-    event => event.preventDefault(),
+    event => {
+        event.preventDefault();
+    },
     { passive: false }
 );
 
+
 window.addEventListener(
     "touchmove",
-    event => event.preventDefault(),
+    event => {
+        event.preventDefault();
+    },
     { passive: false }
+);
+
+
+/* =========================================================
+   PREVENT TOUCH GESTURES FROM MOVING THE PAGE
+   ========================================================= */
+
+document.addEventListener(
+    "gesturestart",
+    event => {
+        event.preventDefault();
+    }
+);
+
+
+document.addEventListener(
+    "gesturechange",
+    event => {
+        event.preventDefault();
+    }
+);
+
+
+document.addEventListener(
+    "gestureend",
+    event => {
+        event.preventDefault();
+    }
 );
 
 </script>
 
 
 </body>
+
 </html>
