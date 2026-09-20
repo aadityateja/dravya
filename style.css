@@ -417,25 +417,25 @@ body {
     /* ---------- DRAVYA ---------- */
 
     .index-dravya-title {
-        position: static;
+    position: static;
 
-        width: 100%;
-        max-width: 100%;
+    width: 100%;
+    max-width: 100%;
 
-        margin: 0 auto;
+    margin: 0 auto;
 
-        display: block;
+    display: block;
 
-        text-align: center;
+    text-align: center;
 
-        font-size: clamp(5rem, 23vw, 9rem);
+    font-size: 38px;
 
-        line-height: 0.8;
+    line-height: 0.8;
 
-        letter-spacing: 0.02em;
+    letter-spacing: 0.02em;
 
-        transform: none;
-    }
+    transform: none;
+}
 
 
     /* ---------- TAGLINE ---------- */
@@ -585,7 +585,7 @@ body {
 
         margin: 0 auto;
 
-        font-size: 4.5rem;
+        font-size: 38px;
 
         line-height: 0.8;
 
