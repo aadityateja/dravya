@@ -1,217 +1,260 @@
-/* =====================================================
-   ADDY — TRAJECTORY CV
-   cv.js
-===================================================== */
+/* ============================================================
+   DRAVYA — CHAOS THEORY CV
+   Camera follows a single continuous trajectory.
+
+   The trajectory is inspired by the geometry of a Lorenz-style
+   chaotic system. It is a visual metaphor, not a claim that
+   a human life literally follows the Lorenz equations.
+============================================================ */
+
+
+/* ============================================================
+   GSAP
+============================================================ */
 
 gsap.registerPlugin(ScrollTrigger);
 
 
-/* =====================================================
-   ELEMENTS
-===================================================== */
+/* ============================================================
+   DOM
+============================================================ */
 
-const svg = document.getElementById("trajectorySvg");
-const lifePath = document.getElementById("lifePath");
-const ghostPath = document.getElementById("ghostPath");
+const svg = document.getElementById("trajectory-svg");
+const world = document.getElementById("world");
+const path = document.getElementById("life-path");
 const observer = document.getElementById("observer");
+const nodesGroup = document.getElementById("nodes");
 
-const eventInfo = document.getElementById("eventInfo");
-const eventYear = document.querySelector(".event-year");
-const eventTitle = document.querySelector(".event-title");
-const eventDescription = document.querySelector(".event-description");
+const eventCard = document.getElementById("event-card");
+const eventDate = document.getElementById("event-date");
+const eventTitle = document.getElementById("event-title");
+const eventDescription = document.getElementById("event-description");
 
-const progressText = document.getElementById("progressText");
+const traceCounter = document.getElementById("trace-counter");
+const yearReadout = document.getElementById("year-readout");
 
 
-/* =====================================================
-   TIMELINE
-===================================================== */
+/* ============================================================
+   CANVAS
+============================================================ */
 
-const events = [
+const VIEW_W = 2000;
+const VIEW_H = 1200;
+
+
+/* ============================================================
+   LIFE EVENTS
+============================================================ */
+
+const EVENTS = [
 
     {
         year: "1999",
-        title: "MYSORE",
-        description: "Born in Mysore.",
-        t: 0.00
+        title: "Born in Mysore",
+        description: "The trajectory begins."
     },
 
     {
         year: "2015",
-        title: "10TH GRADE",
-        description: "87.52% · Distinction · No tuition.",
-        t: 0.075
+        title: "10th Grade",
+        description: "Completed 10th grade with 87.52%. No tuitions. Distinction."
+    },
+
+    {
+        year: "Mar 2017",
+        title: "Pre-University",
+        description: "Completed PUC with 63% in Physics, Chemistry, Mathematics and Electronics."
+    },
+
+    {
+        year: "Aug 2017",
+        title: "B.Sc. Physics · Mathematics · Electronics",
+        description: "Joined Yuvaraja College, Mysore."
     },
 
     {
         year: "2017",
-        title: "PRE-UNIVERSITY",
-        description: "Physics · Chemistry · Mathematics · Electronics — 63%.",
-        t: 0.14
+        title: "First Semester Physics",
+        description: "Failed first-semester Physics."
     },
 
     {
-        year: "2017",
-        title: "B.Sc. PHYSICS",
-        description: "Physics · Mathematics · Electronics · Yuvaraja College, Mysore.",
-        t: 0.19
+        year: "Aug 2018",
+        title: "Part-Time Job",
+        description: "Joined a part-time job."
     },
 
     {
-        year: "2017",
-        title: "FIRST SETBACK",
-        description: "1st semester Physics — failed.",
-        t: 0.23
+        year: "Feb 2019",
+        title: "Another Setback",
+        description: "Quit the job. Failed 3rd-semester Physics and the 1st-semester Physics re-exam."
     },
 
     {
-        year: "2018",
-        title: "PART-TIME WORK",
-        description: "Joined a part-time job.",
-        t: 0.27
-    },
-
-    {
-        year: "2019",
-        title: "ANOTHER SETBACK",
-        description: "Quit the job. 3rd semester Physics and 1st semester re-exam Physics — failed.",
-        t: 0.32
-    },
-
-    {
-        year: "2019",
+        year: "Mar 2019",
         title: "SWASTAIN",
-        description: "Music band formed. Jam sessions · Battle of Bands · College performances.",
-        t: 0.37
+        description: "Formed a music band. Jam sessions, Battle of Bands competitions and performances at various college events."
     },
 
     {
-        year: "2020",
-        title: "FINAL PERFORMANCE",
-        description: "SWASTAIN — final performance.",
-        t: 0.42
+        year: "Feb 2020",
+        title: "Final SWASTAIN Performance",
+        description: "The band's final performance."
     },
 
     {
-        year: "2020",
-        title: "LOCKDOWN",
-        description: "March 2020. The world stopped.",
-        t: 0.45
+        year: "Mar 2020",
+        title: "Lockdown",
+        description: "The world stopped."
     },
 
     {
-        year: "2020",
-        title: "EDITOR",
-        description: "Joined a Kannada local news channel as an editor.",
-        t: 0.48
+        year: "Apr 2020",
+        title: "Editor",
+        description: "Joined a Kannada local news channel as an editor."
     },
 
     {
-        year: "2020",
-        title: "SOURCE HUB",
-        description: "Joined a night-shift job.",
-        t: 0.53
+        year: "Jun 2020",
+        title: "Quit",
+        description: "Left the editing job."
     },
 
     {
-        year: "2021",
-        title: "ANOTHER TURN",
-        description: "Quit. Joined another call-center role later that year.",
-        t: 0.57
+        year: "Jul 2020",
+        title: "Final-Year Exams",
+        description: "Completed the final-year examinations."
     },
 
     {
-        year: "2021",
-        title: "DIYА SYSTEMS",
-        description: "Joined Diya Systems.",
-        t: 0.61
+        year: "Nov 2020",
+        title: "Source Hub",
+        description: "Joined a night-shift job at Source Hub."
     },
 
     {
-        year: "2022",
-        title: "MOVE ON",
-        description: "Left Diya Systems.",
-        t: 0.65
+        year: "Feb 2021",
+        title: "Quit",
+        description: "Left Source Hub."
     },
 
     {
-        year: "2023",
-        title: "BANGALORE",
-        description: "Moved to Bangalore.",
-        t: 0.69
+        year: "Mar 2021",
+        title: "At Home",
+        description: "A period spent at home."
     },
 
     {
-        year: "2023",
-        title: "CONCENTRIX",
-        description: "Joined Concentrix.",
-        t: 0.72
+        year: "Apr 2021",
+        title: "Another Call Center Job",
+        description: "Joined another call center job."
     },
 
     {
-        year: "2024",
-        title: "HAMPI",
-        description: "Quit Concentrix. Took a solo trip to Hampi.",
-        t: 0.76
+        year: "Jul 2021",
+        title: "Quit",
+        description: "Left the job."
     },
 
     {
-        year: "2024",
-        title: "M.Sc. PHYSICS",
-        description: "Joined Ramaiah University of Applied Sciences.",
-        t: 0.80
+        year: "Oct 2021",
+        title: "Diya Systems",
+        description: "Joined Diya Systems and worked there for 10 months."
     },
 
     {
-        year: "SEMESTER I",
-        title: "6.7",
-        description: "The return to physics begins.",
-        t: 0.825
+        year: "Aug 2022",
+        title: "Quit Diya Systems",
+        description: "Left Diya Systems."
     },
 
     {
-        year: "SEMESTER II",
-        title: "6.8",
-        description: "Continuing the trajectory.",
-        t: 0.845
+        year: "Apr 2023",
+        title: "Bangalore",
+        description: "Moved to Bangalore."
     },
 
     {
-        year: "SEMESTER III",
-        title: "8.1",
-        description: "The trajectory begins to accelerate.",
-        t: 0.875
+        year: "Jun 2023",
+        title: "Concentrix",
+        description: "Joined Concentrix and worked there for one year."
     },
 
     {
-        year: "SEMESTER IV",
-        title: "8.4",
-        description: "The line enters experimental high-energy physics.",
-        t: 0.90
+        year: "Jun 2024",
+        title: "Quit",
+        description: "Left Concentrix."
+    },
+
+    {
+        year: "Jul 2024",
+        title: "Hampi",
+        description: "A solo trip to Hampi."
+    },
+
+    {
+        year: "Aug 2024",
+        title: "Ramaiah University",
+        description: "Joined Ramaiah University for an M.Sc. in Physics."
+    },
+
+    {
+        year: "Sep 2024",
+        title: "M.Sc. Physics Begins",
+        description: "College started. The trajectory entered a new region."
+    },
+
+    {
+        year: "Sem 1",
+        title: "CGPA 6.7",
+        description: "First semester of the M.Sc. Physics programme."
+    },
+
+    {
+        year: "Sem 2",
+        title: "CGPA 6.8",
+        description: "Second semester of the M.Sc. Physics programme."
+    },
+
+    {
+        year: "Sem 3",
+        title: "CGPA 8.1",
+        description: "Third semester of the M.Sc. Physics programme."
+    },
+
+    {
+        year: "Sem 4",
+        title: "CGPA 8.4",
+        description: "Fourth semester of the M.Sc. Physics programme."
     },
 
     {
         year: "2026",
-        title: "M.Sc. THESIS",
-        description: "Experimental High-Energy Physics · Neutron-induced hadronic shower development in a Zero Degree Calorimeter.",
-        t: 0.94
+        title: "Experimental High-Energy Physics",
+        description: "M.Sc. thesis in experimental high-energy physics."
     },
 
     {
-        year: "JUNE 2026",
+        year: "Jun 2026",
         title: "NAXXATRA",
-        description: "Research & Teaching Fellow.",
-        t: 1.00
+        description: "Joined Naxxatra as a Research & Teaching Fellow."
     }
 
 ];
 
 
-/* =====================================================
-   LORENZ-STYLE TRAJECTORY
-===================================================== */
+/* ============================================================
+   TRAJECTORY GENERATION
+   ------------------------------------------------------------
+   Lorenz system:
+       dx/dt = σ(y-x)
+       dy/dt = x(ρ-z)-y
+       dz/dt = xy-βz
 
-function generateTrajectory() {
+   We project x/y into 2D.
+============================================================ */
+
+function generateLorenz(points = 12000) {
 
     let x = 0.1;
     let y = 0;
@@ -223,11 +266,22 @@ function generateTrajectory() {
 
     const dt = 0.005;
 
-    const points = [];
+    const raw = [];
 
-    const total = 8500;
+    // Remove the initial transient.
+    for (let i = 0; i < 1500; i++) {
 
-    for (let i = 0; i < total; i++) {
+        const dx = sigma * (y - x);
+        const dy = x * (rho - z) - y;
+        const dz = x * y - beta * z;
+
+        x += dx * dt;
+        y += dy * dt;
+        z += dz * dt;
+    }
+
+
+    for (let i = 0; i < points; i++) {
 
         const dx = sigma * (y - x);
         const dy = x * (rho - z) - y;
@@ -237,46 +291,22 @@ function generateTrajectory() {
         y += dy * dt;
         z += dz * dt;
 
-        if (i > 500) {
-            points.push({
-                x,
-                y,
-                z
-            });
-        }
-
+        raw.push({
+            x,
+            y,
+            z
+        });
     }
 
-
-    /*
-        We don't want the classic Lorenz butterfly
-        to be immediately obvious.
-
-        We rotate and compress the coordinates
-        into a cinematic 2D trajectory.
-    */
-
-    const projected = points.map(p => {
-
-        const px =
-            p.x * 26 +
-            p.z * 1.8;
-
-        const py =
-            p.y * 19 -
-            p.z * 0.6;
-
-        return {
-            x: px,
-            y: py
-        };
-
-    });
+    return raw;
+}
 
 
-    /*
-        Normalize.
-    */
+/* ============================================================
+   NORMALIZE TRAJECTORY
+============================================================ */
+
+function normalizeTrajectory(raw) {
 
     let minX = Infinity;
     let maxX = -Infinity;
@@ -284,7 +314,7 @@ function generateTrajectory() {
     let minY = Infinity;
     let maxY = -Infinity;
 
-    projected.forEach(p => {
+    raw.forEach(p => {
 
         minX = Math.min(minX, p.x);
         maxX = Math.max(maxX, p.x);
@@ -295,112 +325,286 @@ function generateTrajectory() {
     });
 
 
-    const width = 1200;
-    const height = 700;
+    const padding = 120;
 
-    const margin = 70;
+    const targetW = VIEW_W - padding * 2;
+    const targetH = VIEW_H - padding * 2;
 
-    const normalized = projected.map(p => {
 
-        const nx =
-            margin +
-            ((p.x - minX) / (maxX - minX)) *
-            (width - margin * 2);
+    const rangeX = maxX - minX;
+    const rangeY = maxY - minY;
 
-        const ny =
-            margin +
-            ((p.y - minY) / (maxY - minY)) *
-            (height - margin * 2);
+
+    const scale = Math.min(
+        targetW / rangeX,
+        targetH / rangeY
+    );
+
+
+    return raw.map(p => {
 
         return {
-            x: nx + 100,
-            y: ny + 100
+
+            x:
+                (p.x - minX) * scale
+                + padding
+                + (targetW - rangeX * scale) / 2,
+
+            y:
+                (p.y - minY) * scale
+                + padding
+                + (targetH - rangeY * scale) / 2
+
         };
 
     });
 
-
-    return normalized;
-
 }
 
 
-const points = generateTrajectory();
-
-
-/* =====================================================
+/* ============================================================
    BUILD SVG PATH
-===================================================== */
+============================================================ */
 
-function buildPath(points) {
+const rawTrajectory = generateLorenz();
+const trajectory = normalizeTrajectory(rawTrajectory);
 
-    let d = "";
+let pathData = "";
 
-    points.forEach((p, i) => {
+trajectory.forEach((p, i) => {
 
-        if (i === 0) {
+    if (i === 0) {
 
-            d += `M ${p.x} ${p.y}`;
+        pathData += `M ${p.x} ${p.y}`;
 
-        } else {
+    } else {
 
-            d += ` L ${p.x} ${p.y}`;
+        pathData += ` L ${p.x} ${p.y}`;
 
-        }
+    }
 
-    });
+});
 
-    return d;
-
-}
-
-
-const pathData = buildPath(points);
-
-lifePath.setAttribute("d", pathData);
-ghostPath.setAttribute("d", pathData);
+path.setAttribute("d", pathData);
 
 
-/* =====================================================
+/* ============================================================
    PATH LENGTH
-===================================================== */
+============================================================ */
 
-const pathLength = lifePath.getTotalLength();
-
-lifePath.style.strokeDasharray = pathLength;
-lifePath.style.strokeDashoffset = pathLength;
-
-ghostPath.style.strokeDasharray = pathLength;
+const PATH_LENGTH = path.getTotalLength();
 
 
-/* =====================================================
-   PATH HELPERS
-===================================================== */
+/* ============================================================
+   EVENT POSITIONS
+   ------------------------------------------------------------
+   Events are distributed across the single trajectory.
+============================================================ */
 
-function pointAt(t) {
+const eventProgress = EVENTS.map((event, index) => {
+
+    if (index === 0) return 0;
+
+    if (index === EVENTS.length - 1) return 1;
+
+    // Slightly nonlinear distribution.
+    const linear = index / (EVENTS.length - 1);
+
+    return (
+        linear * 0.88 +
+        Math.sin(linear * Math.PI) * 0.08
+    );
+
+});
+
+
+/* ============================================================
+   CREATE NODES
+============================================================ */
+
+EVENTS.forEach((event, index) => {
+
+    const distance =
+        PATH_LENGTH *
+        eventProgress[index];
+
+    const point =
+        path.getPointAtLength(distance);
+
+    const node =
+        document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "circle"
+        );
+
+    node.setAttribute("class", "event-node");
+
+    if (
+        index === 0 ||
+        index === EVENTS.length - 1
+    ) {
+        node.classList.add("major");
+    }
+
+    node.setAttribute("cx", point.x);
+    node.setAttribute("cy", point.y);
+
+    node.setAttribute(
+        "r",
+        index === EVENTS.length - 1
+            ? "9"
+            : "5"
+    );
+
+    nodesGroup.appendChild(node);
+
+});
+
+
+/* ============================================================
+   CAMERA
+============================================================ */
+
+const CAMERA_SCALE = 5.2;
+
+
+/*
+    Calculate tangent angle at a point on the trajectory.
+*/
+
+function getCameraData(progress) {
 
     const distance =
         Math.max(
             0,
             Math.min(
-                pathLength,
-                t * pathLength
+                PATH_LENGTH,
+                PATH_LENGTH * progress
             )
         );
 
-    return lifePath.getPointAtLength(distance);
+
+    const sample = 3;
+
+    const p =
+        path.getPointAtLength(distance);
+
+    const p1 =
+        path.getPointAtLength(
+            Math.max(0, distance - sample)
+        );
+
+    const p2 =
+        path.getPointAtLength(
+            Math.min(PATH_LENGTH, distance + sample)
+        );
+
+
+    const dx = p2.x - p1.x;
+    const dy = p2.y - p1.y;
+
+    const angle =
+        Math.atan2(dy, dx)
+        * 180 / Math.PI;
+
+
+    return {
+        point: p,
+        angle
+    };
 
 }
 
 
-/* =====================================================
-   EVENT DISPLAY
-===================================================== */
+/* ============================================================
+   CAMERA TRANSFORM
+============================================================ */
+
+function setCamera(
+    progress,
+    scale = CAMERA_SCALE,
+    rotationMultiplier = 1
+) {
+
+    const camera =
+        getCameraData(progress);
+
+    const x = camera.point.x;
+    const y = camera.point.y;
+
+    const angle =
+        camera.angle *
+        rotationMultiplier;
+
+
+    /*
+        Current point becomes the center
+        of the viewport.
+
+        The world rotates with the trajectory.
+    */
+
+    const transform = `
+        translate(
+            ${VIEW_W / 2}
+            ${VIEW_H / 2}
+        )
+        rotate(
+            ${-angle}
+        )
+        scale(
+            ${scale}
+        )
+        translate(
+            ${-x}
+            ${-y}
+        )
+    `;
+
+    world.setAttribute(
+        "transform",
+        transform
+    );
+
+
+    observer.setAttribute(
+        "cx",
+        x
+    );
+
+    observer.setAttribute(
+        "cy",
+        y
+    );
+
+}
+
+
+/* ============================================================
+   INITIAL CAMERA
+============================================================ */
+
+setCamera(
+    0,
+    CAMERA_SCALE,
+    0.55
+);
+
+
+/* ============================================================
+   EVENT CARD
+============================================================ */
 
 let currentEvent = -1;
 
-
 function showEvent(index) {
+
+    if (
+        index < 0 ||
+        index >= EVENTS.length
+    ) {
+        return;
+    }
 
     if (index === currentEvent) {
         return;
@@ -408,239 +612,244 @@ function showEvent(index) {
 
     currentEvent = index;
 
-    if (index < 0) {
-        return;
-    }
+    const event = EVENTS[index];
 
-    const event = events[index];
 
-    gsap.killTweensOf(eventInfo);
+    gsap.killTweensOf(eventCard);
 
-    gsap.to(eventInfo, {
-        opacity: 0,
-        y: 10,
-        duration: 0.15,
-        ease: "power2.out",
-        onComplete: () => {
+    gsap.to(
+        eventCard,
+        {
+            opacity: 0,
+            duration: 0.18,
+            ease: "power2.out",
+            onComplete: () => {
 
-            eventYear.textContent = event.year;
-            eventTitle.textContent = event.title;
-            eventDescription.textContent = event.description;
+                eventDate.textContent =
+                    event.year;
 
-            gsap.fromTo(
-                eventInfo,
-                {
-                    opacity: 0,
-                    y: 10
-                },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.5,
-                    ease: "power3.out"
-                }
-            );
+                eventTitle.textContent =
+                    event.title;
 
+                eventDescription.textContent =
+                    event.description;
+
+                traceCounter.textContent =
+                    `TRACE ${String(index + 1).padStart(2, "0")} / ${String(EVENTS.length).padStart(2, "0")}`;
+
+                yearReadout.textContent =
+                    event.year;
+
+
+                gsap.to(
+                    eventCard,
+                    {
+                        opacity: 1,
+                        duration: 0.5,
+                        ease: "power2.out"
+                    }
+                );
+
+            }
         }
-    });
+    );
 
 }
 
 
-/* =====================================================
-   DETERMINE CURRENT EVENT
-===================================================== */
-
-function getEventForProgress(progress) {
-
-    let active = 0;
-
-    events.forEach((event, index) => {
-
-        if (progress >= event.t) {
-            active = index;
-        }
-
-    });
-
-    return active;
-
-}
-
-
-/* =====================================================
-   INITIAL EVENT
-===================================================== */
+/* ============================================================
+   START EVENT
+============================================================ */
 
 showEvent(0);
 
 
-/* =====================================================
-   MAIN SCROLL ANIMATION
-===================================================== */
+/* ============================================================
+   SCROLL → STORY PROGRESS
+============================================================ */
 
-const trajectoryState = {
-    progress: 0,
-    zoom: 1
-};
+/*
+    Every event gets:
 
+        travel
+        ↓
+        deceleration
+        ↓
+        reading hold
 
-const journeyTimeline = gsap.timeline({
+    The page keeps scrolling physically, but the camera
+    remains on the node during the reading interval.
+*/
 
-    scrollTrigger: {
+function getStoryState(rawProgress) {
 
-        trigger: ".journey",
+    const maxFollow = 0.91;
 
-        start: "top top",
-
-        end: "bottom bottom",
-
-        scrub: 1.5,
-
-        pin: false,
-
-        onUpdate: self => {
-
-            const progress = self.progress;
-
-            /*
-                First ~86%:
-                Follow the trajectory.
-
-                Final ~14%:
-                Begin pulling camera away.
-            */
-
-            const followProgress =
-                Math.min(
-                    1,
-                    progress / 0.86
-                );
+    const p =
+        Math.min(
+            1,
+            rawProgress / maxFollow
+        );
 
 
-            trajectoryState.progress = followProgress;
+    const segments =
+        EVENTS.length - 1;
+
+    const scaled =
+        p * segments;
+
+    let segment =
+        Math.floor(scaled);
+
+    segment =
+        Math.max(
+            0,
+            Math.min(
+                segments - 1,
+                segment
+            )
+        );
 
 
-            /*
-                Draw the line.
-            */
-
-            const drawLength =
-                pathLength *
-                followProgress;
-
-            lifePath.style.strokeDashoffset =
-                pathLength - drawLength;
+    let local =
+        scaled - segment;
 
 
-            /*
-                Find observer position.
-            */
+    /*
+        0 → 0.72
 
-            const point =
-                pointAt(followProgress);
+        Camera travels.
 
-            observer.setAttribute(
-                "cx",
-                point.x
+        0.72 → 1
+
+        Camera stays at the next node.
+    */
+
+    const travelEnd = 0.72;
+
+    let trajectoryProgress;
+
+
+    if (local < travelEnd) {
+
+        const travelProgress =
+            local / travelEnd;
+
+        /*
+            Power easing creates
+            acceleration/deceleration.
+        */
+
+        const eased =
+            gsap.parseEase(
+                "power3.inOut"
+            )(travelProgress);
+
+
+        trajectoryProgress =
+            gsap.utils.interpolate(
+                eventProgress[segment],
+                eventProgress[segment + 1],
+                eased
             );
 
-            observer.setAttribute(
-                "cy",
-                point.y
+    } else {
+
+        trajectoryProgress =
+            eventProgress[segment + 1];
+
+    }
+
+
+    const isHolding =
+        local >= travelEnd;
+
+
+    return {
+        trajectoryProgress,
+        segment,
+        local,
+        isHolding
+    };
+
+}
+
+
+/* ============================================================
+   JOURNEY SCROLL
+============================================================ */
+
+ScrollTrigger.create({
+
+    trigger: ".journey",
+
+    start: "top top",
+    end: "bottom bottom",
+
+    scrub: 1.35,
+
+    onUpdate: self => {
+
+        const state =
+            getStoryState(
+                self.progress
             );
 
 
-            /*
-                Current event.
-            */
+        /*
+            Camera follows the line.
+        */
 
-            const eventIndex =
-                getEventForProgress(
-                    followProgress
-                );
-
-            showEvent(eventIndex);
-
-
-            /*
-                Display year / progress.
-            */
-
-            const event =
-                events[eventIndex];
-
-            progressText.textContent =
-                event.year;
+        setCamera(
+            state.trajectoryProgress,
+            CAMERA_SCALE,
+            0.55
+        );
 
 
-            /*
-                CAMERA BEHAVIOUR
-            */
+        /*
+            Show the next event only
+            when the camera has arrived
+            and entered its reading hold.
+        */
 
-            if (progress < 0.86) {
+        if (state.isHolding) {
 
-                /*
-                    Following mode.
-                */
+            showEvent(
+                state.segment + 1
+            );
 
-                const zoom =
-                    2.0 -
-                    followProgress * 0.55;
+            eventCard.style.opacity = "1";
 
-                gsap.set(svg, {
-                    scale: zoom
-                });
-
-                gsap.set(observer, {
-                    opacity: 1
-                });
-
-                gsap.set(eventInfo, {
-                    opacity: 1
-                });
-
-            } else {
-
-                /*
-                    FINAL ZOOM OUT.
-
-                    This is the important transition.
-                */
-
-                const revealProgress =
-                    (progress - 0.86) /
-                    0.14;
+        }
 
 
-                const zoom =
-                    1.45 -
-                    revealProgress * 0.75;
+        /*
+            During travel, keep information
+            subtle rather than instantly
+            swapping.
+        */
+
+        else {
+
+            eventCard.style.opacity =
+                "0.28";
+
+        }
 
 
-                gsap.set(svg, {
-                    scale: zoom
-                });
+        /*
+            At the very end of the follow
+            phase, make sure Naxxatra is visible.
+        */
 
+        if (self.progress >= 0.905) {
 
-                /*
-                    The observer becomes less
-                    important as the whole system
-                    comes into view.
-                */
+            showEvent(
+                EVENTS.length - 1
+            );
 
-                gsap.set(observer, {
-                    opacity:
-                        1 - revealProgress
-                });
-
-
-                gsap.set(eventInfo, {
-                    opacity:
-                        1 - revealProgress
-                });
-
-            }
+            eventCard.style.opacity = "1";
 
         }
 
@@ -649,95 +858,286 @@ const journeyTimeline = gsap.timeline({
 });
 
 
-/* =====================================================
-   FINAL REVEAL
-===================================================== */
+/* ============================================================
+   REVEAL CAMERA
+============================================================ */
 
-gsap.to(".reveal-content", {
+const revealData = {
 
-    opacity: 1,
+    centerX: 0,
+    centerY: 0,
+    fitScale: 1
 
-    y: 0,
-
-    duration: 1.2,
-
-    scrollTrigger: {
-
-        trigger: ".reveal",
-
-        start: "top 65%",
-
-        end: "top 30%",
-
-        scrub: true
-
-    }
-
-});
+};
 
 
-/* =====================================================
-   INTRO FADE
-===================================================== */
+/* ============================================================
+   FULL TRAJECTORY BOUNDS
+============================================================ */
 
-gsap.to(".intro-content", {
+function calculateRevealBounds() {
 
-    opacity: 0,
+    const box =
+        path.getBBox();
 
-    scale: 0.85,
+    revealData.centerX =
+        box.x + box.width / 2;
 
-    scrollTrigger: {
-
-        trigger: ".intro",
-
-        start: "top top",
-
-        end: "bottom top",
-
-        scrub: true
-
-    }
-
-});
+    revealData.centerY =
+        box.y + box.height / 2;
 
 
-/* =====================================================
-   RESPONSIVE SVG
-===================================================== */
+    const padding = 120;
 
-function refreshTrajectory() {
+    const scaleX =
+        (VIEW_W - padding) /
+        box.width;
 
-    ScrollTrigger.refresh();
+    const scaleY =
+        (VIEW_H - padding) /
+        box.height;
+
+
+    /*
+        Slightly smaller than maximum
+        fit so the whole shape breathes.
+    */
+
+    revealData.fitScale =
+        Math.min(
+            scaleX,
+            scaleY
+        ) * 0.72;
 
 }
 
 
-window.addEventListener(
-    "resize",
-    refreshTrajectory
-);
+calculateRevealBounds();
 
 
-/* =====================================================
-   SMALL PARALLAX EFFECT
-===================================================== */
+/* ============================================================
+   FULL REVEAL TRANSFORM
+============================================================ */
 
-gsap.to(".stars", {
+function setRevealCamera(progress) {
 
-    yPercent: -15,
+    /*
+        Follow camera starts zoomed in.
+        Then pulls away.
 
-    ease: "none",
+        Camera:
+            local point
+              ↓
+            whole trajectory
+    */
 
-    scrollTrigger: {
 
-        trigger: "#cv",
+    const endScale =
+        revealData.fitScale;
 
-        start: "top top",
 
-        end: "bottom bottom",
+    const scale =
+        gsap.utils.interpolate(
+            CAMERA_SCALE,
+            endScale,
+            progress
+        );
 
-        scrub: true
+
+    const camera =
+        getCameraData(1);
+
+
+    const currentX =
+        gsap.utils.interpolate(
+            camera.point.x,
+            revealData.centerX,
+            progress
+        );
+
+    const currentY =
+        gsap.utils.interpolate(
+            camera.point.y,
+            revealData.centerY,
+            progress
+        );
+
+
+    /*
+        Rotation gradually disappears.
+    */
+
+    const rotation =
+        gsap.utils.interpolate(
+            -camera.angle * 0.55,
+            0,
+            progress
+        );
+
+
+    const transform = `
+        translate(
+            ${VIEW_W / 2}
+            ${VIEW_H / 2}
+        )
+        rotate(
+            ${rotation}
+        )
+        scale(
+            ${scale}
+        )
+        translate(
+            ${-currentX}
+            ${-currentY}
+        )
+    `;
+
+
+    world.setAttribute(
+        "transform",
+        transform
+    );
+
+
+    /*
+        Fade the event card while
+        revealing the complete system.
+    */
+
+    eventCard.style.opacity =
+        String(
+            Math.max(
+                0,
+                1 - progress * 2
+            )
+        );
+
+
+    /*
+        Once zoomed out, remove observer emphasis.
+    */
+
+    observer.style.opacity =
+        String(
+            Math.max(
+                0,
+                1 - progress * 2.5
+            )
+        );
+
+}
+
+
+/* ============================================================
+   REVEAL SCROLL
+============================================================ */
+
+ScrollTrigger.create({
+
+    trigger: ".reveal",
+
+    start: "top top",
+    end: "bottom bottom",
+
+    scrub: 1.5,
+
+    onUpdate: self => {
+
+        setRevealCamera(
+            self.progress
+        );
 
     }
 
 });
+
+
+/* ============================================================
+   REVEAL TEXT FADE
+============================================================ */
+
+gsap.fromTo(
+
+    ".reveal-copy",
+
+    {
+        opacity: 1
+    },
+
+    {
+        opacity: 0,
+
+        scrollTrigger: {
+
+            trigger: ".reveal",
+
+            start: "top top",
+
+            end: "35% top",
+
+            scrub: true
+
+        }
+
+    }
+
+);
+
+
+/* ============================================================
+   EXPLANATION REVEAL
+============================================================ */
+
+gsap.from(
+    ".chaos-explanation .explanation-inner",
+
+    {
+        opacity: 0,
+        y: 80,
+
+        scrollTrigger: {
+
+            trigger: ".chaos-explanation",
+
+            start: "top 75%",
+
+            end: "top 30%",
+
+            scrub: true
+
+        }
+
+    }
+
+);
+
+
+/* ============================================================
+   RESIZE
+============================================================ */
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        calculateRevealBounds();
+
+        ScrollTrigger.refresh();
+
+    }
+);
+
+
+/* ============================================================
+   OPTIONAL: REDUCED MOTION
+============================================================ */
+
+if (
+    window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches
+) {
+
+    gsap.globalTimeline.timeScale(0.5);
+
+}
