@@ -1,592 +1,958 @@
 /* ============================================================
-   ADDY CV ENGINE
-   Scroll = movement through a 2D field
+   ADDY — CHAOTIC TRAJECTORY ENGINE
+
+   The entire CV lives on one chaotic trajectory.
+
+   The user starts zoomed into the system.
+
+   They follow the trajectory.
+
+   NAXXATRA is near the end.
+
+   After NAXXATRA the camera zooms out.
+
+   The complete Lorenz attractor is finally revealed.
 ============================================================ */
+
 
 (() => {
 
     "use strict";
 
 
-    /* =========================================================
+    /* ========================================================
        ELEMENTS
-    ========================================================== */
+    ========================================================= */
 
-    const scrollTrack = document.getElementById("cv-scroll");
-    const world = document.getElementById("cv-world");
-    const timeline = document.getElementById("timeline");
+    const canvas =
+        document.getElementById("chaos-canvas");
 
-    const progressFill =
-        document.querySelector(".cv-progress-fill");
+    const ctx =
+        canvas.getContext("2d");
 
-    const currentYear =
-        document.getElementById("current-year");
+    const scrollSpace =
+        document.getElementById("scroll-space");
 
-    const coordX =
-        document.getElementById("coord-x");
+    const progressBar =
+        document.getElementById("progress-bar");
 
-    const coordY =
-        document.getElementById("coord-y");
+    const hudYear =
+        document.getElementById("hud-year");
 
-    const loader =
-        document.getElementById("cv-loader");
+    const eventCard =
+        document.getElementById("event-card");
 
+    const eventIndex =
+        document.getElementById("event-index");
 
-    /* =========================================================
-       STATE
-    ========================================================== */
+    const eventDate =
+        document.getElementById("event-date");
 
-    let scrollProgress = 0;
+    const eventTitle =
+        document.getElementById("event-title");
 
-    let targetX = 350;
-    let targetY = 500;
+    const eventDescription =
+        document.getElementById("event-description");
 
-    let currentX = 350;
-    let currentY = 500;
+    const trajectoryPosition =
+        document.getElementById(
+            "trajectory-position"
+        );
 
-    let ticking = false;
+    const reveal =
+        document.getElementById("reveal");
 
-
-    /* =========================================================
-       TIMELINE NODES
-    ========================================================== */
-
-    const nodes =
-        [...document.querySelectorAll(".cv-node")];
-
-    const nodeData =
-        nodes.map(node => ({
-            element: node,
-            x: Number(node.dataset.x),
-            y: Number(node.dataset.y),
-            year: node.dataset.year
-        }));
+    const revealContent =
+        document.querySelector(
+            ".reveal-content"
+        );
 
 
-    /* =========================================================
-       PATH WAYPOINTS
-    ========================================================== */
+    /* ========================================================
+       CANVAS
+    ========================================================= */
 
-    const waypoints = [
-
-        { x: 350,  y: 500 },
-
-        { x: 1800, y: 500 },
-
-        { x: 3500, y: 500 },
-
-        { x: 5000, y: 1500 },
-
-        { x: 5000, y: 2200 },
-
-        { x: 3500, y: 3400 },
-
-        { x: 1700, y: 3400 },
-
-        { x: 500,  y: 3400 },
-
-        { x: 500,  y: 4700 },
-
-        { x: 1800, y: 5200 },
-
-        { x: 3300, y: 5200 },
-
-        { x: 5000, y: 5200 },
-
-        { x: 5000, y: 6700 },
-
-        { x: 3500, y: 7600 },
-
-        { x: 1700, y: 7600 }
-
-    ];
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
 
 
-    /* =========================================================
-       INTERPOLATION
-    ========================================================== */
+    function resizeCanvas() {
 
-    function easeInOut(t) {
-
-        return t < 0.5
-            ? 2 * t * t
-            : 1 - Math.pow(-2 * t + 2, 2) / 2;
-
-    }
-
-
-    function interpolate(a, b, t) {
-
-        return {
-            x: a.x + (b.x - a.x) * t,
-            y: a.y + (b.y - a.y) * t
-        };
-
-    }
-
-
-    function getCameraPosition(progress) {
-
-        const maxIndex =
-            waypoints.length - 1;
-
-        const scaled =
-            progress * maxIndex;
-
-        const index =
+        dpr =
             Math.min(
-                Math.floor(scaled),
-                maxIndex - 1
+                window.devicePixelRatio || 1,
+                2
             );
 
-        const local =
-            scaled - index;
+        width =
+            window.innerWidth;
 
-        const eased =
-            easeInOut(local);
+        height =
+            window.innerHeight;
 
-        return interpolate(
-            waypoints[index],
-            waypoints[index + 1],
-            eased
+        canvas.width =
+            width * dpr;
+
+        canvas.height =
+            height * dpr;
+
+        canvas.style.width =
+            width + "px";
+
+        canvas.style.height =
+            height + "px";
+
+        ctx.setTransform(
+            dpr,
+            0,
+            0,
+            dpr,
+            0,
+            0
         );
 
     }
 
 
-    /* =========================================================
-       SCROLL
-    ========================================================== */
+    window.addEventListener(
+        "resize",
+        resizeCanvas
+    );
 
-    function updateScroll() {
+    resizeCanvas();
+
+
+    /* ========================================================
+       LORENZ ATTRACTOR
+    ========================================================= */
+
+    /*
+       Lorenz equations:
+
+       dx/dt = sigma(y-x)
+       dy/dt = x(rho-z)-y
+       dz/dt = xy-beta*z
+
+       Standard chaotic parameters.
+    */
+
+    const sigma = 10;
+    const rho = 28;
+    const beta = 8 / 3;
+
+    const dt = 0.005;
+
+    const totalPoints = 18000;
+
+    const trajectory = [];
+
+    let x = 0.1;
+    let y = 0;
+    let z = 0;
+
+
+    for (
+        let i = 0;
+        i < totalPoints;
+        i++
+    ) {
+
+        const dx =
+            sigma * (y - x);
+
+        const dy =
+            x * (rho - z) - y;
+
+        const dz =
+            x * y - beta * z;
+
+
+        x += dx * dt;
+        y += dy * dt;
+        z += dz * dt;
+
+
+        trajectory.push({
+            x,
+            y,
+            z
+        });
+
+    }
+
+
+    /* ========================================================
+       NORMALISE TRAJECTORY
+    ========================================================= */
+
+    let minX = Infinity;
+    let maxX = -Infinity;
+
+    let minY = Infinity;
+    let maxY = -Infinity;
+
+
+    trajectory.forEach(point => {
+
+        minX =
+            Math.min(
+                minX,
+                point.x
+            );
+
+        maxX =
+            Math.max(
+                maxX,
+                point.x
+            );
+
+        minY =
+            Math.min(
+                minY,
+                point.y
+            );
+
+        maxY =
+            Math.max(
+                maxY,
+                point.y
+            );
+
+    });
+
+
+    const normalized =
+        trajectory.map(point => {
+
+            return {
+
+                x:
+                    (point.x - minX) /
+                    (maxX - minX),
+
+                y:
+                    (point.y - minY) /
+                    (maxY - minY)
+
+            };
+
+        });
+
+
+    /* ========================================================
+       EVENT DATA
+    ========================================================= */
+
+    const events = [
+
+        {
+            progress: 0.02,
+            date: "1999",
+            title: "MYSORE",
+            description:
+                "The trajectory begins."
+        },
+
+        {
+            progress: 0.075,
+            date: "2015",
+            title: "10TH GRADE",
+            description:
+                "87.52% · Distinction · No tuition."
+        },
+
+        {
+            progress: 0.13,
+            date: "2017",
+            title: "PCME",
+            description:
+                "Physics · Chemistry · Mathematics · Electronics."
+        },
+
+        {
+            progress: 0.19,
+            date: "AUG 2017",
+            title: "B.Sc. PHYSICS",
+            description:
+                "Physics · Mathematics · Electronics · Yuvaraja College."
+        },
+
+        {
+            progress: 0.25,
+            date: "2017 — 2019",
+            title: "SYSTEM INSTABILITY",
+            description:
+                "Physics failures. The trajectory did not terminate."
+        },
+
+        {
+            progress: 0.32,
+            date: "MAR 2019",
+            title: "SWASTAIN",
+            description:
+                "Music band. Jam sessions · Battle of Bands · College events."
+        },
+
+        {
+            progress: 0.38,
+            date: "FEB 2020",
+            title: "FINAL PERFORMANCE",
+            description:
+                "The final SWASTAIN performance."
+        },
+
+        {
+            progress: 0.42,
+            date: "21 MAR 2020",
+            title: "LOCKDOWN",
+            description:
+                "The world stopped."
+        },
+
+        {
+            progress: 0.50,
+            date: "2020 — 2024",
+            title: "WORK",
+            description:
+                "News · Source Hub · Call centre · Diya Systems · Concentrix."
+        },
+
+        {
+            progress: 0.58,
+            date: "APR 2023",
+            title: "BANGALORE",
+            description:
+                "A new environment."
+        },
+
+        {
+            progress: 0.62,
+            date: "JUL 2024",
+            title: "HAMPI",
+            description:
+                "A solo trip. A change in direction."
+        },
+
+        {
+            progress: 0.68,
+            date: "AUG 2024",
+            title: "M.Sc. PHYSICS",
+            description:
+                "Ramaiah University of Applied Sciences."
+        },
+
+        {
+            progress: 0.75,
+            date: "2025 — 2026",
+            title: "RESEARCH",
+            description:
+                "Experimental high energy physics · detector data · machine learning."
+        },
+
+        {
+            progress: 0.84,
+            date: "JUN 2026",
+            title: "NAXXATRA",
+            description:
+                "Research & Teaching Fellow."
+        }
+
+    ];
+
+
+    /* ========================================================
+       STATE
+    ========================================================= */
+
+    let scrollProgress = 0;
+
+    let smoothProgress = 0;
+
+    let currentEvent = -1;
+
+    let mouseX = 0.5;
+    let mouseY = 0.5;
+
+
+    /* ========================================================
+       GET SCROLL PROGRESS
+    ========================================================= */
+
+    function updateScrollProgress() {
 
         const maxScroll =
-            scrollTrack.offsetHeight -
+            scrollSpace.offsetHeight -
             window.innerHeight;
+
+        scrollProgress =
+            maxScroll > 0
+                ? window.scrollY / maxScroll
+                : 0;
 
         scrollProgress =
             Math.max(
                 0,
                 Math.min(
                     1,
-                    window.scrollY / maxScroll
+                    scrollProgress
                 )
             );
-
-        const position =
-            getCameraPosition(scrollProgress);
-
-        targetX = position.x;
-        targetY = position.y;
-
-        progressFill.style.width =
-            `${scrollProgress * 100}%`;
-
-        ticking = false;
 
     }
 
 
     window.addEventListener(
         "scroll",
-        () => {
-
-            if (!ticking) {
-
-                requestAnimationFrame(updateScroll);
-
-                ticking = true;
-
-            }
-
-        },
+        updateScrollProgress,
         { passive: true }
     );
 
 
-    /* =========================================================
-       CAMERA
-    ========================================================== */
+    /* ========================================================
+       EVENT
+    ========================================================= */
+
+    function getCurrentEvent(progress) {
+
+        let selected = events[0];
+
+        for (
+            let i = 0;
+            i < events.length;
+            i++
+        ) {
+
+            if (
+                progress >=
+                events[i].progress
+            ) {
+
+                selected =
+                    events[i];
+
+            }
+
+        }
+
+        return selected;
+
+    }
+
+
+    function updateEvent(progress) {
+
+        const selected =
+            getCurrentEvent(progress);
+
+        const index =
+            events.indexOf(selected);
+
+
+        if (index === currentEvent) {
+            return;
+        }
+
+
+        currentEvent = index;
+
+
+        eventCard.classList.add("fade");
+
+
+        setTimeout(() => {
+
+            eventIndex.textContent =
+                String(index + 1)
+                    .padStart(2, "0");
+
+            eventDate.textContent =
+                selected.date;
+
+            eventTitle.textContent =
+                selected.title;
+
+            eventDescription.textContent =
+                selected.description;
+
+            hudYear.textContent =
+                selected.date;
+
+            eventCard.classList.remove(
+                "fade"
+            );
+
+        }, 250);
+
+    }
+
+
+    /* ========================================================
+       TRAJECTORY POINT
+    ========================================================= */
+
+    function getPoint(progress) {
+
+        const index =
+            Math.floor(
+                progress *
+                (normalized.length - 1)
+            );
+
+        return normalized[
+            Math.max(
+                0,
+                Math.min(
+                    normalized.length - 1,
+                    index
+                )
+            )
+        ];
+
+    }
+
+
+    /* ========================================================
+       DRAW TRAJECTORY
+    ========================================================= */
+
+    function drawTrajectory(
+        progress,
+        zoom
+    ) {
+
+        ctx.save();
+
+        ctx.clearRect(
+            0,
+            0,
+            width,
+            height
+        );
+
+
+        /*
+         * At the beginning we're extremely
+         * zoomed into the attractor.
+         *
+         * Therefore only a small local section
+         * is visible.
+         */
+
+        const current =
+            getPoint(progress);
+
+
+        const centerX =
+            width / 2;
+
+        const centerY =
+            height / 2;
+
+
+        /*
+         * Full attractor dimensions.
+         */
+
+        const baseSize =
+            Math.min(
+                width,
+                height
+            ) * 0.75;
+
+
+        const localZoom =
+            zoom;
+
+
+        /*
+         * Camera movement.
+         */
+
+        const cameraOffsetX =
+            (current.x - 0.5) *
+            baseSize *
+            localZoom;
+
+        const cameraOffsetY =
+            (current.y - 0.5) *
+            baseSize *
+            localZoom;
+
+
+        /*
+         * We draw a limited section while
+         * travelling.
+         *
+         * Once reveal begins, the full system
+         * appears.
+         */
+
+        let start;
+        let end;
+
+
+        if (progress < 0.88) {
+
+            const currentIndex =
+                Math.floor(
+                    progress *
+                    (normalized.length - 1)
+                );
+
+            const visiblePoints =
+                900;
+
+            start =
+                Math.max(
+                    0,
+                    currentIndex -
+                    visiblePoints
+                );
+
+            end =
+                Math.min(
+                    normalized.length - 1,
+                    currentIndex +
+                    200
+                );
+
+        } else {
+
+            /*
+             * Reveal the entire attractor.
+             */
+
+            start = 0;
+
+            end =
+                normalized.length - 1;
+
+        }
+
+
+        ctx.beginPath();
+
+
+        for (
+            let i = start;
+            i <= end;
+            i++
+        ) {
+
+            const point =
+                normalized[i];
+
+
+            const px =
+                centerX +
+                (
+                    point.x -
+                    current.x
+                ) *
+                baseSize *
+                localZoom;
+
+
+            const py =
+                centerY +
+                (
+                    point.y -
+                    current.y
+                ) *
+                baseSize *
+                localZoom;
+
+
+            if (i === start) {
+
+                ctx.moveTo(
+                    px,
+                    py
+                );
+
+            } else {
+
+                ctx.lineTo(
+                    px,
+                    py
+                );
+
+            }
+
+        }
+
+
+        /*
+         * Glow layer.
+         */
+
+        ctx.strokeStyle =
+            "rgba(184,255,61,.08)";
+
+        ctx.lineWidth = 9;
+
+        ctx.shadowBlur = 30;
+
+        ctx.shadowColor =
+            "rgba(184,255,61,.35)";
+
+        ctx.stroke();
+
+
+        /*
+         * Main trajectory.
+         */
+
+        ctx.strokeStyle =
+            "rgba(184,255,61,.85)";
+
+        ctx.lineWidth = 2;
+
+        ctx.shadowBlur = 0;
+
+        ctx.stroke();
+
+
+        /*
+         * Current position.
+         */
+
+        ctx.beginPath();
+
+        ctx.arc(
+            centerX,
+            centerY,
+            7,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle =
+            "#ffffff";
+
+        ctx.shadowBlur = 25;
+
+        ctx.shadowColor =
+            "#b8ff3d";
+
+        ctx.fill();
+
+
+        ctx.restore();
+
+    }
+
+
+    /* ========================================================
+       ZOOM LOGIC
+    ========================================================= */
+
+    function getZoom(progress) {
+
+        /*
+         * Travel phase:
+         *
+         * Extremely zoomed in.
+         */
+
+        if (progress < 0.84) {
+
+            return 5.5;
+
+        }
+
+
+        /*
+         * NAXXATRA → REVEAL
+         *
+         * This is the important part.
+         *
+         * The user keeps scrolling after Naxxatra
+         * and the camera physically pulls away.
+         */
+
+        const revealProgress =
+            (progress - 0.84) /
+            0.16;
+
+
+        const eased =
+            revealProgress *
+            revealProgress *
+            (3 - 2 * revealProgress);
+
+
+        return (
+            5.5 -
+            eased * 4.5
+        );
+
+    }
+
+
+    /* ========================================================
+       REVEAL OPACITY
+    ========================================================= */
+
+    function updateReveal(progress) {
+
+        if (progress < 0.84) {
+
+            reveal.style.opacity = "0";
+
+            return;
+
+        }
+
+
+        const revealProgress =
+            (progress - 0.84) /
+            0.16;
+
+
+        const opacity =
+            Math.min(
+                1,
+                revealProgress * 1.5
+            );
+
+
+        reveal.style.opacity =
+            opacity;
+
+
+        const scale =
+            0.75 +
+            revealProgress * 0.25;
+
+
+        revealContent.style.transform =
+            `scale(${scale})`;
+
+    }
+
+
+    /* ========================================================
+       FINAL RENDER
+    ========================================================= */
 
     function render() {
 
         /*
-         * Camera is the centre of the screen.
-         *
-         * The entire timeline moves opposite
-         * to the camera position.
+         * Smooth camera movement.
          */
 
-        currentX +=
-            (targetX - currentX) * 0.08;
-
-        currentY +=
-            (targetY - currentY) * 0.08;
-
-
-        const centerX =
-            window.innerWidth / 2;
-
-        const centerY =
-            window.innerHeight / 2;
+        smoothProgress +=
+            (
+                scrollProgress -
+                smoothProgress
+            ) * 0.08;
 
 
-        const translateX =
-            centerX - currentX;
-
-        const translateY =
-            centerY - currentY;
+        const progress =
+            smoothProgress;
 
 
-        /*
-         * Slight depth/parallax.
-         */
-
-        const parallax =
-            Math.sin(scrollProgress * Math.PI * 8)
-            * 15;
+        const zoom =
+            getZoom(progress);
 
 
-        world.style.transform =
-            `translate3d(
-                ${translateX}px,
-                ${translateY + parallax}px,
-                0
-            )`;
+        drawTrajectory(
+            progress,
+            zoom
+        );
 
 
-        coordX.textContent =
-            Math.round(currentX)
+        updateEvent(
+            progress
+        );
+
+
+        updateReveal(
+            progress
+        );
+
+
+        progressBar.style.width =
+            `${progress * 100}%`;
+
+
+        trajectoryPosition.textContent =
+            `${Math.round(progress * 100)
                 .toString()
-                .padStart(3, "0");
-
-        coordY.textContent =
-            Math.round(currentY)
-                .toString()
-                .padStart(3, "0");
+                .padStart(2, "0")}%`;
 
 
-        updateActiveNode();
-
-
-        requestAnimationFrame(render);
+        requestAnimationFrame(
+            render
+        );
 
     }
 
 
-    /* =========================================================
-       ACTIVE NODE
-    ========================================================== */
-
-    function updateActiveNode() {
-
-        let closest = null;
-        let closestDistance = Infinity;
-
-        nodeData.forEach(data => {
-
-            const dx =
-                data.x - currentX;
-
-            const dy =
-                data.y - currentY;
-
-            const distance =
-                Math.sqrt(
-                    dx * dx +
-                    dy * dy
-                );
-
-            if (distance < closestDistance) {
-
-                closestDistance = distance;
-                closest = data;
-
-            }
-
-        });
-
-
-        nodes.forEach(node => {
-
-            node.classList.remove("active");
-
-        });
-
-
-        if (closest) {
-
-            closest.element.classList.add("active");
-
-            currentYear.textContent =
-                closest.year;
-
-        }
-
-    }
-
-
-    /* =========================================================
-       SEMESTER MODAL
-    ========================================================== */
-
-    const modal =
-        document.getElementById("semester-modal");
-
-    const modalSemester =
-        document.getElementById("modal-semester");
-
-    const modalScore =
-        document.getElementById("modal-score");
-
-    const modalDescription =
-        document.getElementById("modal-description");
-
-    const modalClose =
-        document.getElementById("modal-close");
-
-
-    const semesterData = {
-
-        1: {
-            label: "SEM 01",
-            score: "6.70"
-        },
-
-        2: {
-            label: "SEM 02",
-            score: "6.80"
-        },
-
-        3: {
-            label: "SEM 03",
-            score: "8.10"
-        },
-
-        4: {
-            label: "SEM 04",
-            score: "8.40"
-        }
-
-    };
-
-
-    document
-        .querySelectorAll(".semester-grid button")
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                event => {
-
-                    event.stopPropagation();
-
-                    const semester =
-                        button.dataset.sem;
-
-                    const data =
-                        semesterData[semester];
-
-                    modalSemester.textContent =
-                        data.label;
-
-                    modalScore.textContent =
-                        data.score;
-
-                    modalDescription.textContent =
-                        "M.Sc. Physics · Academic Record";
-
-                    modal.classList.add("open");
-
-                }
-            );
-
-        });
-
-
-    modalClose.addEventListener(
-        "click",
-        () => {
-
-            modal.classList.remove("open");
-
-        }
-    );
-
-
-    modal.addEventListener(
-        "click",
-        event => {
-
-            if (event.target === modal) {
-
-                modal.classList.remove("open");
-
-            }
-
-        }
-    );
-
-
-    /* =========================================================
-       KEYBOARD
-    ========================================================== */
-
-    window.addEventListener(
-        "keydown",
-        event => {
-
-            if (
-                event.key === "Escape" &&
-                modal.classList.contains("open")
-            ) {
-
-                modal.classList.remove("open");
-
-            }
-
-        }
-    );
-
-
-    /* =========================================================
+    /* ========================================================
        MOUSE PARALLAX
-    ========================================================== */
-
-    let mouseX = 0;
-    let mouseY = 0;
-
-    let mouseTargetX = 0;
-    let mouseTargetY = 0;
-
+    ========================================================= */
 
     window.addEventListener(
         "mousemove",
         event => {
 
-            mouseTargetX =
-                (event.clientX /
-                    window.innerWidth - 0.5)
-                * 20;
+            mouseX =
+                event.clientX /
+                window.innerWidth;
 
-            mouseTargetY =
-                (event.clientY /
-                    window.innerHeight - 0.5)
-                * 20;
+            mouseY =
+                event.clientY /
+                window.innerHeight;
 
         }
     );
 
 
-    function mouseRender() {
-
-        mouseX +=
-            (mouseTargetX - mouseX) * 0.05;
-
-        mouseY +=
-            (mouseTargetY - mouseY) * 0.05;
-
-
-        timeline.style.marginLeft =
-            `${mouseX}px`;
-
-        timeline.style.marginTop =
-            `${mouseY}px`;
-
-
-        requestAnimationFrame(mouseRender);
-
-    }
-
-
-    /* =========================================================
-       TOUCH / MOBILE
-    ========================================================== */
-
-    let touchStartY = 0;
-
-    window.addEventListener(
-        "touchstart",
-        event => {
-
-            touchStartY =
-                event.touches[0].clientY;
-
-        },
-        { passive: true }
-    );
-
-
-    window.addEventListener(
-        "touchmove",
-        event => {
-
-            const currentTouchY =
-                event.touches[0].clientY;
-
-            const delta =
-                touchStartY - currentTouchY;
-
-            if (Math.abs(delta) > 10) {
-
-                window.scrollBy(
-                    0,
-                    delta * 0.35
-                );
-
-                touchStartY =
-                    currentTouchY;
-
-            }
-
-        },
-        { passive: true }
-    );
-
-
-    /* =========================================================
+    /* ========================================================
        LOADER
-    ========================================================== */
+    ========================================================= */
 
     window.addEventListener(
         "load",
         () => {
 
-            setTimeout(
-                () => {
+            setTimeout(() => {
 
-                    loader.classList.add("loaded");
+                document
+                    .getElementById("loader")
+                    .classList
+                    .add("loaded");
 
-                },
-                1200
-            );
+            }, 1400);
 
         }
     );
 
 
-    /* =========================================================
+    /* ========================================================
        INITIALISE
-    ========================================================== */
+    ========================================================= */
 
-    updateScroll();
+    updateScrollProgress();
 
     render();
 
-    mouseRender();
-
-
-    /* =========================================================
-       CONSOLE
-    ========================================================== */
 
     console.log(
-        "%cADDY — FIELD LOG",
-        "font-size:20px;font-weight:bold;"
+        "%cADDY — CHAOTIC TRAJECTORY",
+        `
+        font-size:24px;
+        font-weight:bold;
+        color:#b8ff3d;
+        `
     );
 
     console.log(
-        "Scroll through the trajectory."
+        "The entire trajectory is generated from a Lorenz chaotic system."
     );
+
 
 })();
