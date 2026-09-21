@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Interactive CV — Addy"
+    >
+
+    <title>ADDY — FIELD LOG</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =====================================================
+         LOADING / ENTRY
+    ====================================================== -->
+
+    <div id="loader">
+
+        <div class="loader-grid"></div>
+
+        <div class="loader-content">
+
+            <div class="loader-label">
+                PERSONAL FIELD LOG
+            </div>
+
+            <div class="loader-name">
+                ADDY
+            </div>
+
+            <div class="loader-status">
+                <span id="loaderText">INITIALISING...</span>
+            </div>
+
+            <div class="loader-line">
+                <span id="loaderProgress"></span>
+            </div>
+
+            <button id="enterButton">
+                ENTER THE FIELD
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FIXED INTERFACE
+    ====================================================== -->
+
+    <header class="topbar">
+
+        <div class="brand">
+            <span class="brand-dot"></span>
+            ADDY / FIELD LOG
+        </div>
+
+        <div class="top-status">
+            <span class="status-dot"></span>
+            SYSTEM ONLINE
+        </div>
+
+        <button
+            class="menu-button"
+            id="menuButton"
+            aria-label="Open navigation"
+        >
+            MENU
+        </button>
+
+    </header>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <nav id="navigation">
+
+        <div class="nav-inner">
+
+            <div class="nav-heading">
+                FIELD MAP
+            </div>
+
+            <button data-target="origin">01 / ORIGIN</button>
+            <button data-target="education">02 / EDUCATION</button>
+            <button data-target="instability">03 / INSTABILITY</button>
+            <button data-target="music">04 / MUSIC</button>
+            <button data-target="work">05 / WORK</button>
+            <button data-target="turn">06 / THE TURN</button>
+            <button data-target="physics">07 / PHYSICS</button>
+            <button data-target="research">08 / RESEARCH</button>
+            <button data-target="naxxatra">09 / NAXXATRA</button>
+            <button data-target="present">10 / PRESENT</button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main id="main">
+
+
+        <!-- =================================================
+             HERO
+        ================================================== -->
+
+        <section class="hero">
+
+            <div class="hero-grid"></div>
+
+            <div class="hero-orbit orbit-one"></div>
+            <div class="hero-orbit orbit-two"></div>
+            <div class="hero-orbit orbit-three"></div>
+
+            <div class="hero-particle particle-one"></div>
+            <div class="hero-particle particle-two"></div>
+            <div class="hero-particle particle-three"></div>
+
+            <div class="hero-content">
+
+                <div class="eyebrow">
+                    PERSONAL FIELD LOG / 1999 — PRESENT
+                </div>
+
+                <h1>
+                    ADDY
+                </h1>
+
+                <div class="hero-title">
+                    NUCLEAR PHYSICS RESEARCHER
+                </div>
+
+                <p class="hero-description">
+                    A non-linear trajectory through physics,
+                    research, music, work and creation.
+                </p>
+
+                <div class="hero-actions">
+
+                    <button
+                        class="primary-button"
+                        data-scroll="origin"
+                    >
+                        BEGIN JOURNEY
+                    </button>
+
+                    <a
+                        href="#research"
+                        class="text-button"
+                    >
+                        VIEW RESEARCH →
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="hero-meta">
+
+                <div>
+                    <span>ORIGIN</span>
+                    <strong>MYSORE, INDIA</strong>
+                </div>
+
+                <div>
+                    <span>FIELD</span>
+                    <strong>PHYSICS / RESEARCH</strong>
+                </div>
+
+                <div>
+                    <span>STATE</span>
+                    <strong>ACTIVE</strong>
+                </div>
+
+            </div>
+
+            <div class="scroll-indicator">
+                <span>SCROLL TO EXPLORE</span>
+                <div class="scroll-line"></div>
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ORIGIN
+        ================================================== -->
+
+        <section
+            class="timeline-section"
+            id="origin"
+        >
+
+            <div class="section-number">
+                01
+            </div>
+
+            <div class="section-label">
+                ORIGIN
+            </div>
+
+            <div class="timeline-content">
+
+                <div class="year-large">
+                    1999
+                </div>
+
+                <div class="timeline-card">
+
+                    <div class="card-label">
+                        INITIAL CONDITION
+                    </div>
+
+                    <h2>
+                        MYSORE
+                    </h2>
+
+                    <p>
+                        Born in Mysore, India.
+                    </p>
+
+                    <div class="coordinate">
+                        ORIGIN POINT / 01
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             EDUCATION
+        ================================================== -->
+
+        <section
+            class="timeline-section education-section"
+            id="education"
+        >
+
+            <div class="section-number">
+                02
+            </div>
+
+            <div class="section-label">
+                EDUCATION
+            </div>
+
+            <div class="education-track">
+
+                <article class="education-node">
+
+                    <div class="node-year">
+                        2015
+                    </div>
+
+                    <div class="node-marker"></div>
+
+                    <div class="node-content">
+
+                        <div class="card-label">
+                            SCHOOL
+                        </div>
+
+                        <h2>10TH GRADE</h2>
+
+                        <p>
+                            Completed with distinction.
+                        </p>
+
+                        <div class="metric">
+                            <strong>87.52%</strong>
+                            <span>RESULT</span>
+                        </div>
+
+                        <div class="small-note">
+                            NO PRIVATE TUITION
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <article class="education-node">
+
+                    <div class="node-year">
+                        2017
+                    </div>
+
+                    <div class="node-marker"></div>
+
+                    <div class="node-content">
+
+                        <div class="card-label">
+                            PRE-UNIVERSITY
+                        </div>
+
+                        <h2>
+                            PCME
+                        </h2>
+
+                        <p>
+                            Physics · Chemistry · Mathematics · Electronics
+                        </p>
+
+                        <div class="metric">
+                            <strong>63%</strong>
+                            <span>RESULT</span>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <article class="education-node">
+
+                    <div class="node-year">
+                        2017
+                    </div>
+
+                    <div class="node-marker"></div>
+
+                    <div class="node-content">
+
+                        <div class="card-label">
+                            UNIVERSITY
+                        </div>
+
+                        <h2>
+                            B.Sc.
+                        </h2>
+
+                        <p>
+                            Physics · Mathematics · Electronics
+                        </p>
+
+                        <p class="muted">
+                            Yuvaraja College, Mysore
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             INSTABILITY
+        ================================================== -->
+
+        <section
+            class="glitch-section"
+            id="instability"
+        >
+
+            <div class="glitch-bg"></div>
+
+            <div class="glitch-content">
+
+                <div class="section-number">
+                    03
+                </div>
+
+                <div class="card-label">
+                    SYSTEM EVENT / 2017 — 2019
+                </div>
+
+                <h2>
+                    SYSTEM<br>
+                    INSTABILITY
+                </h2>
+
+                <p>
+                    The first trajectory through physics
+                    did not follow a straight line.
+                </p>
+
+                <div class="event-list">
+
+                    <div class="event">
+                        <span>2017</span>
+                        <strong>
+                            Physics — Semester I
+                        </strong>
+                        <small>
+                            Failed
+                        </small>
+                    </div>
+
+                    <div class="event">
+                        <span>2019</span>
+                        <strong>
+                            Physics — Semester III
+                        </strong>
+                        <small>
+                            Failed
+                        </small>
+                    </div>
+
+                    <div class="event">
+                        <span>2019</span>
+                        <strong>
+                            Semester I Re-examination
+                        </strong>
+                        <small>
+                            Failed
+                        </small>
+                    </div>
+
+                </div>
+
+                <div class="glitch-footer">
+                    TRAJECTORY NOT TERMINATED.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             MUSIC
+        ================================================== -->
+
+        <section
+            class="music-section"
+            id="music"
+        >
+
+            <div class="music-visual">
+
+                <div class="sound-ring ring-a"></div>
+                <div class="sound-ring ring-b"></div>
+                <div class="sound-ring ring-c"></div>
+
+                <div class="sound-core">
+                    SWASTAIN
+                </div>
+
+            </div>
+
+            <div class="music-content">
+
+                <div class="section-number">
+                    04
+                </div>
+
+                <div class="section-label">
+                    MUSIC
+                </div>
+
+                <div class="year-large">
+                    2019
+                </div>
+
+                <h2>
+                    SWASTAIN
+                </h2>
+
+                <p>
+                    Formed a music band and entered
+                    a completely different field.
+                </p>
+
+                <div class="music-events">
+
+                    <span>JAM SESSIONS</span>
+                    <span>BATTLE OF BANDS</span>
+                    <span>COLLEGE EVENTS</span>
+                    <span>LIVE PERFORMANCES</span>
+
+                </div>
+
+                <div class="music-end">
+                    FINAL PERFORMANCE / FEB 2020
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             LOCKDOWN
+        ================================================== -->
+
+        <section class="lockdown-section">
+
+            <div class="lockdown-year">
+                2020
+            </div>
+
+            <div class="lockdown-title">
+                <span>THE WORLD</span>
+                <strong>STOPPED.</strong>
+            </div>
+
+            <div class="lockdown-date">
+                MARCH 21 / LOCKDOWN
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             WORK
+        ================================================== -->
+
+        <section
+            class="work-section"
+            id="work"
+        >
+
+            <div class="section-number">
+                05
+            </div>
+
+            <div class="section-label">
+                WORK
+            </div>
+
+            <div class="work-intro">
+
+                <h2>
+                    THE<br>
+                    WORK YEARS
+                </h2>
+
+                <p>
+                    A period of employment, experimentation
+                    and figuring things out outside academia.
+                </p>
+
+            </div>
+
+            <div class="work-timeline">
+
+                <div class="work-item">
+
+                    <div class="work-year">
+                        APR 2020
+                    </div>
+
+                    <div class="work-line"></div>
+
+                    <div class="work-info">
+
+                        <h3>
+                            EDITOR
+                        </h3>
+
+                        <p>
+                            Kannada local news channel
+                        </p>
+
+                        <span>
+                            JUN 2020 / LEFT
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="work-item">
+
+                    <div class="work-year">
+                        NOV 2020
+                    </div>
+
+                    <div class="work-line"></div>
+
+                    <div class="work-info">
+
+                        <h3>
+                            SOURCE HUB
+                        </h3>
+
+                        <p>
+                            Night-shift employment
+                        </p>
+
+                        <span>
+                            FEB 2021 / LEFT
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="work-item">
+
+                    <div class="work-year">
+                        APR 2021
+                    </div>
+
+                    <div class="work-line"></div>
+
+                    <div class="work-info">
+
+                        <h3>
+                            CALL CENTRE
+                        </h3>
+
+                        <p>
+                            Customer support / operations
+                        </p>
+
+                        <span>
+                            JUL 2021 / LEFT
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="work-item">
+
+                    <div class="work-year">
+                        OCT 2021
+                    </div>
+
+                    <div class="work-line"></div>
+
+                    <div class="work-info">
+
+                        <h3>
+                            DIYA SYSTEMS
+                        </h3>
+
+                        <p>
+                            Professional employment
+                        </p>
+
+                        <span>
+                            10 MONTHS
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="work-item">
+
+                    <div class="work-year">
+                        AUG 2022
+                    </div>
+
+                    <div class="work-line"></div>
+
+                    <div class="work-info">
+
+                        <h3>
+                            EXIT
+                        </h3>
+
+                        <p>
+                            Diya Systems
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="work-item">
+
+                    <div class="work-year">
+                        JUN 2023
+                    </div>
+
+                    <div class="work-line"></div>
+
+                    <div class="work-info">
+
+                        <h3>
+                            CONCENTRIX
+                        </h3>
+
+                        <p>
+                            Professional employment
+                        </p>
+
+                        <span>
+                            1 YEAR
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             THE TURN
+        ================================================== -->
+
+        <section
+            class="turn-section"
+            id="turn"
+        >
+
+            <div class="turn-background"></div>
+
+            <div class="turn-content">
+
+                <div class="section-number">
+                    06
+                </div>
+
+                <div class="card-label">
+                    JULY 2024
+                </div>
+
+                <h2>
+                    HAMPI
+                </h2>
+
+                <p>
+                    A solo trip.
+                </p>
+
+                <div class="turn-line"></div>
+
+                <div class="turn-message">
+                    SOMETHING<br>
+                    CHANGED.
+                </div>
+
+                <div class="turn-next">
+                    AUGUST 2024
+                    <strong>RETURN TO PHYSICS</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PHYSICS
+        ================================================== -->
+
+        <section
+            class="physics-section"
+            id="physics"
+        >
+
+            <div class="section-number">
+                07
+            </div>
+
+            <div class="section-label">
+                SECOND BEGINNING
+            </div>
+
+            <div class="physics-heading">
+
+                <div class="card-label">
+                    AUGUST / SEPTEMBER 2024
+                </div>
+
+                <h2>
+                    M.Sc.<br>
+                    PHYSICS
+                </h2>
+
+                <p>
+                    Ramaiah University of Applied Sciences
+                </p>
+
+            </div>
+
+            <div class="semester-field">
+
+                <article class="semester">
+
+                    <div class="semester-index">
+                        SEM 01
+                    </div>
+
+                    <div class="semester-cgpa">
+                        6.70
+                    </div>
+
+                    <div class="semester-label">
+                        CGPA
+                    </div>
+
+                    <button class="details-button">
+                        SUBJECTS / PAPERS +
+                    </button>
+
+                </article>
+
+
+                <article class="semester">
+
+                    <div class="semester-index">
+                        SEM 02
+                    </div>
+
+                    <div class="semester-cgpa">
+                        6.80
+                    </div>
+
+                    <div class="semester-label">
+                        CGPA
+                    </div>
+
+                    <button class="details-button">
+                        SUBJECTS / PAPERS +
+                    </button>
+
+                </article>
+
+
+                <article class="semester">
+
+                    <div class="semester-index">
+                        SEM 03
+                    </div>
+
+                    <div class="semester-cgpa">
+                        8.10
+                    </div>
+
+                    <div class="semester-label">
+                        CGPA
+                    </div>
+
+                    <button class="details-button">
+                        SUBJECTS / PAPERS +
+                    </button>
+
+                </article>
+
+
+                <article class="semester">
+
+                    <div class="semester-index">
+                        SEM 04
+                    </div>
+
+                    <div class="semester-cgpa">
+                        8.40
+                    </div>
+
+                    <div class="semester-label">
+                        CGPA
+                    </div>
+
+                    <button class="details-button">
+                        SUBJECTS / PAPERS +
+                    </button>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             RESEARCH
+        ================================================== -->
+
+        <section
+            class="research-section"
+            id="research"
+        >
+
+            <div class="research-grid"></div>
+
+            <div class="section-number">
+                08
+            </div>
+
+            <div class="section-label">
+                RESEARCH
+            </div>
+
+            <div class="research-content">
+
+                <div class="research-tag">
+                    THESIS / EXPERIMENTAL HIGH ENERGY PHYSICS
+                </div>
+
+                <h2>
+                    NEUTRON
+                    <br>
+                    → SHOWER
+                    <br>
+                    → DATA
+                </h2>
+
+                <p>
+                    Study of neutron-induced hadronic shower
+                    development in a Zero Degree Calorimeter
+                    using machine learning techniques.
+                </p>
+
+                <div class="research-object">
+
+                    <div class="detector-layer layer-1"></div>
+                    <div class="detector-layer layer-2"></div>
+                    <div class="detector-layer layer-3"></div>
+                    <div class="detector-layer layer-4"></div>
+                    <div class="detector-layer layer-5"></div>
+
+                    <div class="detector-particle"></div>
+
+                </div>
+
+                <div class="research-meta">
+
+                    <div>
+                        <span>DOMAIN</span>
+                        <strong>HIGH ENERGY PHYSICS</strong>
+                    </div>
+
+                    <div>
+                        <span>METHOD</span>
+                        <strong>MACHINE LEARNING</strong>
+                    </div>
+
+                    <div>
+                        <span>DETECTOR</span>
+                        <strong>ZERO DEGREE CALORIMETER</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             NAXXATRA
+        ================================================== -->
+
+        <section
+            class="naxxatra-section"
+            id="naxxatra"
+        >
+
+            <div class="star-field"></div>
+
+            <div class="naxxatra-content">
+
+                <div class="section-number">
+                    09
+                </div>
+
+                <div class="section-label">
+                    SCIENCE / EDUCATION
+                </div>
+
+                <div class="card-label">
+                    JUNE 2026
+                </div>
+
+                <h2>
+                    NAXXATRA
+                </h2>
+
+                <div class="naxxatra-role">
+                    RESEARCH & TEACHING FELLOW
+                </div>
+
+                <p>
+                    Research, teaching and science
+                    communication.
+                </p>
+
+                <div class="naxxatra-nodes">
+
+                    <div>
+                        <span>01</span>
+                        <strong>RESEARCH</strong>
+                    </div>
+
+                    <div>
+                        <span>02</span>
+                        <strong>TEACHING</strong>
+                    </div>
+
+                    <div>
+                        <span>03</span>
+                        <strong>SCIENCE COMMUNICATION</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PRESENT
+        ================================================== -->
+
+        <section
+            class="present-section"
+            id="present"
+        >
+
+            <div class="present-grid"></div>
+
+            <div class="present-content">
+
+                <div class="section-number">
+                    10
+                </div>
+
+                <div class="section-label">
+                    CURRENT STATE
+                </div>
+
+                <h2>
+                    THE TRAJECTORY
+                    <br>
+                    CONTINUES.
+                </h2>
+
+                <div class="state-grid">
+
+                    <div class="state">
+                        <span>PHYSICS</span>
+                        <strong>ACTIVE</strong>
+                    </div>
+
+                    <div class="state">
+                        <span>RESEARCH</span>
+                        <strong>ACTIVE</strong>
+                    </div>
+
+                    <div class="state">
+                        <span>TEACHING</span>
+                        <strong>ACTIVE</strong>
+                    </div>
+
+                    <div class="state">
+                        <span>MUSIC</span>
+                        <strong>ACTIVE</strong>
+                    </div>
+
+                    <div class="state">
+                        <span>CREATIVE WORK</span>
+                        <strong>ACTIVE</strong>
+                    </div>
+
+                    <div class="state">
+                        <span>DRAVYA</span>
+                        <strong>ACTIVE</strong>
+                    </div>
+
+                </div>
+
+                <div class="present-actions">
+
+                    <a href="#" class="primary-button">
+                        CONNECT
+                    </a>
+
+                    <a href="#" class="text-button">
+                        DOWNLOAD CV →
+                    </a>
+
+                </div>
+
+            </div>
+
+            <footer>
+
+                <div>
+                    ADDY / FIELD LOG
+                </div>
+
+                <div>
+                    OBSERVE · DISTURB · CREATE
+                </div>
+
+                <div>
+                    1999 — PRESENT
+                </div>
+
+            </footer>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         DETAIL MODAL
+    ====================================================== -->
+
+    <div
+        id="modal"
+        class="modal"
+        aria-hidden="true"
+    >
+
+        <div class="modal-backdrop"></div>
+
+        <div class="modal-window">
+
+            <button
+                id="modalClose"
+                class="modal-close"
+            >
+                CLOSE ×
+            </button>
+
+            <div class="modal-number">
+                SUBJECT FIELD
+            </div>
+
+            <h2 id="modalTitle">
+                SEMESTER
+            </h2>
+
+            <div id="modalBody">
+                Subjects will be added here.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SCRIPT
+    ====================================================== -->
+
+    <script src="script.js"></script>
+
+</body>
+</html>
