@@ -1,441 +1,592 @@
-/* ==========================================================
-   ADDY — FIELD LOG
-   V1 INTERACTION ENGINE
-========================================================== */
+/* ============================================================
+   ADDY CV ENGINE
+   Scroll = movement through a 2D field
+============================================================ */
+
+(() => {
+
+    "use strict";
 
 
-/* ==========================================================
-   LOADER
-========================================================== */
+    /* =========================================================
+       ELEMENTS
+    ========================================================== */
 
-const loader = document.getElementById("loader");
-const loaderText = document.getElementById("loaderText");
-const loaderProgress = document.getElementById("loaderProgress");
-const enterButton = document.getElementById("enterButton");
+    const scrollTrack = document.getElementById("cv-scroll");
+    const world = document.getElementById("cv-world");
+    const timeline = document.getElementById("timeline");
 
-let progress = 0;
+    const progressFill =
+        document.querySelector(".cv-progress-fill");
 
-const loaderMessages = [
-    "INITIALISING FIELD...",
-    "LOADING TRAJECTORY...",
-    "CALIBRATING TIMELINE...",
-    "MAPPING EVENTS...",
-    "SYSTEM READY."
-];
+    const currentYear =
+        document.getElementById("current-year");
 
-const loaderInterval = setInterval(() => {
+    const coordX =
+        document.getElementById("coord-x");
 
-    progress += Math.random() * 12;
+    const coordY =
+        document.getElementById("coord-y");
 
-    if (progress >= 100) {
-        progress = 100;
-        clearInterval(loaderInterval);
+    const loader =
+        document.getElementById("cv-loader");
+
+
+    /* =========================================================
+       STATE
+    ========================================================== */
+
+    let scrollProgress = 0;
+
+    let targetX = 350;
+    let targetY = 500;
+
+    let currentX = 350;
+    let currentY = 500;
+
+    let ticking = false;
+
+
+    /* =========================================================
+       TIMELINE NODES
+    ========================================================== */
+
+    const nodes =
+        [...document.querySelectorAll(".cv-node")];
+
+    const nodeData =
+        nodes.map(node => ({
+            element: node,
+            x: Number(node.dataset.x),
+            y: Number(node.dataset.y),
+            year: node.dataset.year
+        }));
+
+
+    /* =========================================================
+       PATH WAYPOINTS
+    ========================================================== */
+
+    const waypoints = [
+
+        { x: 350,  y: 500 },
+
+        { x: 1800, y: 500 },
+
+        { x: 3500, y: 500 },
+
+        { x: 5000, y: 1500 },
+
+        { x: 5000, y: 2200 },
+
+        { x: 3500, y: 3400 },
+
+        { x: 1700, y: 3400 },
+
+        { x: 500,  y: 3400 },
+
+        { x: 500,  y: 4700 },
+
+        { x: 1800, y: 5200 },
+
+        { x: 3300, y: 5200 },
+
+        { x: 5000, y: 5200 },
+
+        { x: 5000, y: 6700 },
+
+        { x: 3500, y: 7600 },
+
+        { x: 1700, y: 7600 }
+
+    ];
+
+
+    /* =========================================================
+       INTERPOLATION
+    ========================================================== */
+
+    function easeInOut(t) {
+
+        return t < 0.5
+            ? 2 * t * t
+            : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
     }
 
-    loaderProgress.style.width = `${progress}%`;
 
-    const index = Math.min(
-        Math.floor(progress / 20),
-        loaderMessages.length - 1
-    );
+    function interpolate(a, b, t) {
 
-    loaderText.textContent = loaderMessages[index];
+        return {
+            x: a.x + (b.x - a.x) * t,
+            y: a.y + (b.y - a.y) * t
+        };
 
-}, 150);
-
-
-/* ==========================================================
-   ENTER
-========================================================== */
-
-enterButton.addEventListener("click", () => {
-
-    loader.classList.add("hidden");
-
-    window.scrollTo({
-        top: 0,
-        behavior: "instant"
-    });
-
-});
+    }
 
 
-/* ==========================================================
-   NAVIGATION
-========================================================== */
+    function getCameraPosition(progress) {
 
-const menuButton = document.getElementById("menuButton");
-const navigation = document.getElementById("navigation");
+        const maxIndex =
+            waypoints.length - 1;
 
-menuButton.addEventListener("click", () => {
+        const scaled =
+            progress * maxIndex;
 
-    navigation.classList.toggle("open");
-
-    menuButton.textContent =
-        navigation.classList.contains("open")
-            ? "CLOSE"
-            : "MENU";
-
-});
-
-
-const navButtons =
-    document.querySelectorAll(
-        ".nav-inner button"
-    );
-
-navButtons.forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        const target =
-            document.getElementById(
-                button.dataset.target
+        const index =
+            Math.min(
+                Math.floor(scaled),
+                maxIndex - 1
             );
 
-        navigation.classList.remove("open");
+        const local =
+            scaled - index;
 
-        menuButton.textContent = "MENU";
+        const eased =
+            easeInOut(local);
 
-        if (target) {
+        return interpolate(
+            waypoints[index],
+            waypoints[index + 1],
+            eased
+        );
 
-            target.scrollIntoView({
-                behavior: "smooth"
-            });
-
-        }
-
-    });
-
-});
+    }
 
 
-/* ==========================================================
-   GENERIC SCROLL BUTTONS
-========================================================== */
+    /* =========================================================
+       SCROLL
+    ========================================================== */
 
-document
-    .querySelectorAll("[data-scroll]")
-    .forEach(button => {
+    function updateScroll() {
 
-        button.addEventListener("click", () => {
+        const maxScroll =
+            scrollTrack.offsetHeight -
+            window.innerHeight;
 
-            const target =
-                document.getElementById(
-                    button.dataset.scroll
+        scrollProgress =
+            Math.max(
+                0,
+                Math.min(
+                    1,
+                    window.scrollY / maxScroll
+                )
+            );
+
+        const position =
+            getCameraPosition(scrollProgress);
+
+        targetX = position.x;
+        targetY = position.y;
+
+        progressFill.style.width =
+            `${scrollProgress * 100}%`;
+
+        ticking = false;
+
+    }
+
+
+    window.addEventListener(
+        "scroll",
+        () => {
+
+            if (!ticking) {
+
+                requestAnimationFrame(updateScroll);
+
+                ticking = true;
+
+            }
+
+        },
+        { passive: true }
+    );
+
+
+    /* =========================================================
+       CAMERA
+    ========================================================== */
+
+    function render() {
+
+        /*
+         * Camera is the centre of the screen.
+         *
+         * The entire timeline moves opposite
+         * to the camera position.
+         */
+
+        currentX +=
+            (targetX - currentX) * 0.08;
+
+        currentY +=
+            (targetY - currentY) * 0.08;
+
+
+        const centerX =
+            window.innerWidth / 2;
+
+        const centerY =
+            window.innerHeight / 2;
+
+
+        const translateX =
+            centerX - currentX;
+
+        const translateY =
+            centerY - currentY;
+
+
+        /*
+         * Slight depth/parallax.
+         */
+
+        const parallax =
+            Math.sin(scrollProgress * Math.PI * 8)
+            * 15;
+
+
+        world.style.transform =
+            `translate3d(
+                ${translateX}px,
+                ${translateY + parallax}px,
+                0
+            )`;
+
+
+        coordX.textContent =
+            Math.round(currentX)
+                .toString()
+                .padStart(3, "0");
+
+        coordY.textContent =
+            Math.round(currentY)
+                .toString()
+                .padStart(3, "0");
+
+
+        updateActiveNode();
+
+
+        requestAnimationFrame(render);
+
+    }
+
+
+    /* =========================================================
+       ACTIVE NODE
+    ========================================================== */
+
+    function updateActiveNode() {
+
+        let closest = null;
+        let closestDistance = Infinity;
+
+        nodeData.forEach(data => {
+
+            const dx =
+                data.x - currentX;
+
+            const dy =
+                data.y - currentY;
+
+            const distance =
+                Math.sqrt(
+                    dx * dx +
+                    dy * dy
                 );
 
-            if (target) {
+            if (distance < closestDistance) {
 
-                target.scrollIntoView({
-                    behavior: "smooth"
-                });
+                closestDistance = distance;
+                closest = data;
 
             }
 
         });
 
-    });
+
+        nodes.forEach(node => {
+
+            node.classList.remove("active");
+
+        });
 
 
-/* ==========================================================
-   SEMESTER DATA
-========================================================== */
+        if (closest) {
 
-const semesterData = {
+            closest.element.classList.add("active");
 
-    "SEM 01": [
-        "Subjects / papers to be added.",
-        "Semester CGPA: 6.70"
-    ],
+            currentYear.textContent =
+                closest.year;
 
-    "SEM 02": [
-        "Subjects / papers to be added.",
-        "Semester CGPA: 6.80"
-    ],
+        }
 
-    "SEM 03": [
-        "Subjects / papers to be added.",
-        "Semester CGPA: 8.10"
-    ],
-
-    "SEM 04": [
-        "Subjects / papers to be added.",
-        "Semester CGPA: 8.40",
-        "Thesis: Experimental High Energy Physics"
-    ]
-
-};
+    }
 
 
-/* ==========================================================
-   MODAL
-========================================================== */
+    /* =========================================================
+       SEMESTER MODAL
+    ========================================================== */
 
-const modal = document.getElementById("modal");
-const modalClose = document.getElementById("modalClose");
-const modalTitle = document.getElementById("modalTitle");
-const modalBody = document.getElementById("modalBody");
+    const modal =
+        document.getElementById("semester-modal");
 
-document
-    .querySelectorAll(".details-button")
-    .forEach((button, index) => {
+    const modalSemester =
+        document.getElementById("modal-semester");
 
-        button.addEventListener("click", () => {
+    const modalScore =
+        document.getElementById("modal-score");
 
-            const semester =
-                `SEM 0${index + 1}`;
+    const modalDescription =
+        document.getElementById("modal-description");
 
-            const data =
-                semesterData[semester];
+    const modalClose =
+        document.getElementById("modal-close");
 
-            modalTitle.textContent = semester;
 
-            modalBody.innerHTML =
-                data
-                    .map(item => `<p>${item}</p>`)
-                    .join("");
+    const semesterData = {
 
-            modal.classList.add("open");
+        1: {
+            label: "SEM 01",
+            score: "6.70"
+        },
 
-            modal.setAttribute(
-                "aria-hidden",
-                "false"
+        2: {
+            label: "SEM 02",
+            score: "6.80"
+        },
+
+        3: {
+            label: "SEM 03",
+            score: "8.10"
+        },
+
+        4: {
+            label: "SEM 04",
+            score: "8.40"
+        }
+
+    };
+
+
+    document
+        .querySelectorAll(".semester-grid button")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                event => {
+
+                    event.stopPropagation();
+
+                    const semester =
+                        button.dataset.sem;
+
+                    const data =
+                        semesterData[semester];
+
+                    modalSemester.textContent =
+                        data.label;
+
+                    modalScore.textContent =
+                        data.score;
+
+                    modalDescription.textContent =
+                        "M.Sc. Physics · Academic Record";
+
+                    modal.classList.add("open");
+
+                }
             );
 
         });
 
-    });
 
-
-function closeModal() {
-
-    modal.classList.remove("open");
-
-    modal.setAttribute(
-        "aria-hidden",
-        "true"
-    );
-
-}
-
-
-modalClose.addEventListener(
-    "click",
-    closeModal
-);
-
-
-document
-    .querySelector(".modal-backdrop")
-    .addEventListener(
+    modalClose.addEventListener(
         "click",
-        closeModal
-    );
+        () => {
 
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if (
-            event.key === "Escape" &&
-            modal.classList.contains("open")
-        ) {
-
-            closeModal();
+            modal.classList.remove("open");
 
         }
-
-    }
-);
-
-
-/* ==========================================================
-   PARALLAX / MOUSE FIELD
-========================================================== */
-
-const particles =
-    document.querySelectorAll(
-        ".hero-particle"
     );
 
-document.addEventListener(
-    "mousemove",
-    event => {
 
-        const x =
-            (event.clientX /
-                window.innerWidth - .5);
+    modal.addEventListener(
+        "click",
+        event => {
 
-        const y =
-            (event.clientY /
-                window.innerHeight - .5);
+            if (event.target === modal) {
 
-        particles.forEach(
-            (particle, index) => {
-
-                const strength =
-                    (index + 1) * 15;
-
-                particle.style.transform =
-                    `translate(
-                        ${x * strength}px,
-                        ${y * strength}px
-                    )`;
+                modal.classList.remove("open");
 
             }
-        );
 
-    }
-);
-
-
-/* ==========================================================
-   SCROLL REVEALS
-========================================================== */
-
-const revealElements =
-    document.querySelectorAll(
-        ".timeline-card, " +
-        ".education-node, " +
-        ".event, " +
-        ".work-item, " +
-        ".semester, " +
-        ".research-meta div, " +
-        ".state"
+        }
     );
 
 
-const revealObserver =
-    new IntersectionObserver(
-        entries => {
+    /* =========================================================
+       KEYBOARD
+    ========================================================== */
 
-            entries.forEach(entry => {
+    window.addEventListener(
+        "keydown",
+        event => {
 
-                if (
-                    entry.isIntersecting
-                ) {
+            if (
+                event.key === "Escape" &&
+                modal.classList.contains("open")
+            ) {
 
-                    entry.target.classList.add(
-                        "visible"
-                    );
+                modal.classList.remove("open");
 
-                }
+            }
 
-            });
+        }
+    );
+
+
+    /* =========================================================
+       MOUSE PARALLAX
+    ========================================================== */
+
+    let mouseX = 0;
+    let mouseY = 0;
+
+    let mouseTargetX = 0;
+    let mouseTargetY = 0;
+
+
+    window.addEventListener(
+        "mousemove",
+        event => {
+
+            mouseTargetX =
+                (event.clientX /
+                    window.innerWidth - 0.5)
+                * 20;
+
+            mouseTargetY =
+                (event.clientY /
+                    window.innerHeight - 0.5)
+                * 20;
+
+        }
+    );
+
+
+    function mouseRender() {
+
+        mouseX +=
+            (mouseTargetX - mouseX) * 0.05;
+
+        mouseY +=
+            (mouseTargetY - mouseY) * 0.05;
+
+
+        timeline.style.marginLeft =
+            `${mouseX}px`;
+
+        timeline.style.marginTop =
+            `${mouseY}px`;
+
+
+        requestAnimationFrame(mouseRender);
+
+    }
+
+
+    /* =========================================================
+       TOUCH / MOBILE
+    ========================================================== */
+
+    let touchStartY = 0;
+
+    window.addEventListener(
+        "touchstart",
+        event => {
+
+            touchStartY =
+                event.touches[0].clientY;
 
         },
-        {
-            threshold: .12
-        }
+        { passive: true }
     );
 
 
-revealElements.forEach(
-    element => {
+    window.addEventListener(
+        "touchmove",
+        event => {
 
-        revealObserver.observe(element);
+            const currentTouchY =
+                event.touches[0].clientY;
 
-    }
-);
+            const delta =
+                touchStartY - currentTouchY;
 
+            if (Math.abs(delta) > 10) {
 
-/* ==========================================================
-   ACTIVE SECTION
-========================================================== */
+                window.scrollBy(
+                    0,
+                    delta * 0.35
+                );
 
-const sections =
-    document.querySelectorAll(
-        "main section[id]"
-    );
+                touchStartY =
+                    currentTouchY;
 
-
-const sectionObserver =
-    new IntersectionObserver(
-        entries => {
-
-            entries.forEach(entry => {
-
-                if (
-                    entry.isIntersecting
-                ) {
-
-                    document.body.dataset.section =
-                        entry.target.id;
-
-                }
-
-            });
+            }
 
         },
-        {
-            threshold: .45
+        { passive: true }
+    );
+
+
+    /* =========================================================
+       LOADER
+    ========================================================== */
+
+    window.addEventListener(
+        "load",
+        () => {
+
+            setTimeout(
+                () => {
+
+                    loader.classList.add("loaded");
+
+                },
+                1200
+            );
+
         }
     );
 
 
-sections.forEach(
-    section => {
+    /* =========================================================
+       INITIALISE
+    ========================================================== */
 
-        sectionObserver.observe(section);
+    updateScroll();
 
-    }
-);
+    render();
 
-
-/* ==========================================================
-   SMOOTH HOVER EFFECT
-========================================================== */
-
-document
-    .querySelectorAll(
-        ".education-node, " +
-        ".work-item, " +
-        ".semester, " +
-        ".state"
-    )
-    .forEach(element => {
-
-        element.addEventListener(
-            "mouseenter",
-            () => {
-
-                element.style.transition =
-                    "transform .4s ease";
-
-                element.style.transform =
-                    "translateX(8px)";
-
-            }
-        );
-
-        element.addEventListener(
-            "mouseleave",
-            () => {
-
-                element.style.transform =
-                    "translateX(0)";
-
-            }
-        );
-
-    });
+    mouseRender();
 
 
-/* ==========================================================
-   CONSOLE
-========================================================== */
+    /* =========================================================
+       CONSOLE
+    ========================================================== */
 
-console.log(
-    "%cADDY / FIELD LOG",
-    "font-size:20px;font-weight:bold;"
-);
+    console.log(
+        "%cADDY — FIELD LOG",
+        "font-size:20px;font-weight:bold;"
+    );
 
-console.log(
-    "Trajectory loaded."
-);
+    console.log(
+        "Scroll through the trajectory."
+    );
 
-console.log(
-    "Next module: THREE.JS / GLB"
-);
+})();
