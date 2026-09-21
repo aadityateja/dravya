@@ -1,1581 +1,732 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
-<title>The Landscape — DRAVYA</title>
-
-<link rel="icon" type="image/png" href="assets/logo.png">
-
-<style>
-
-@font-face {
-    font-family: "Germania";
-    src: url("assets/GermaniaOne-Regular.ttf") format("truetype");
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html,
-body {
-    width: 100%;
-    min-height: 100%;
-}
-
-body {
-    background: #05070d;
-    color: #ffffff;
-    font-family: "Germania", Georgia, serif;
-    overflow-x: hidden;
-}
-
-
-/* =========================================
-   BACKGROUND
-========================================= */
-
-.background {
-    position: fixed;
-    inset: 0;
-    z-index: -10;
-
-    background:
-        radial-gradient(
-            circle at 50% 35%,
-            rgba(35, 60, 110, 0.16),
-            transparent 48%
-        ),
-        radial-gradient(
-            circle at 15% 85%,
-            rgba(20, 45, 90, 0.10),
-            transparent 40%
-        ),
-        #05070d;
-}
-
-.noise {
-    position: fixed;
-    inset: 0;
-
-    z-index: -5;
-
-    pointer-events: none;
-
-    opacity: 0.035;
-
-    background-image:
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
-}
-
-
-/* =========================================
-   NAVIGATION
-========================================= */
-
-nav {
-    position: fixed;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-
-    padding: 28px 42px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    z-index: 100;
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(5, 7, 13, 0.9),
-            transparent
-        );
-}
-
-.logo {
-    color: white;
-
-    text-decoration: none;
-
-    font-size: 26px;
-
-    letter-spacing: 0.16em;
-}
-
-.nav-right {
-    display: flex;
-
-    align-items: center;
-
-    gap: 25px;
-}
-
-.nav-link {
-    color: rgba(255,255,255,0.58);
-
-    text-decoration: none;
-
-    font-family: Arial, sans-serif;
-
-    font-size: 11px;
-
-    letter-spacing: 0.14em;
-
-    transition: color 0.3s ease;
-}
-
-.nav-link:hover {
-    color: white;
-}
-
-
-/* =========================================
-   EXPERIENCE
-========================================= */
-
-.experience {
-    width: min(1500px, 94%);
-
-    margin: auto;
-
-    padding-top: 110px;
-
-    padding-bottom: 80px;
-}
-
-
-/* =========================================
-   HEADER
-========================================= */
-
-.header {
-    padding: 45px 0 25px;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: flex-end;
-
-    gap: 30px;
-}
-
-.eyebrow {
-    font-family: Arial, sans-serif;
-
-    font-size: 10px;
-
-    letter-spacing: 0.22em;
-
-    color: rgba(255,255,255,0.38);
-
-    margin-bottom: 13px;
-}
-
-.header h1 {
-    font-size: clamp(50px, 7vw, 100px);
-
-    font-weight: normal;
-
-    line-height: 0.9;
-
-    letter-spacing: 0.03em;
-}
-
-.header-description {
-    max-width: 390px;
-
-    font-family: Arial, sans-serif;
-
-    font-size: 13px;
-
-    line-height: 1.8;
-
-    color: rgba(255,255,255,0.48);
-}
-
-
-/* =========================================
-   3D VIEWER
-========================================= */
-
-.viewer-shell {
-    position: relative;
-
-    width: 100%;
-
-    height: min(72vh, 760px);
-
-    min-height: 500px;
-
-    border:
-        1px solid rgba(255,255,255,0.11);
-
-    background:
-        radial-gradient(
-            circle at 50% 45%,
-            rgba(35,65,120,0.14),
-            rgba(3,5,10,0.75)
-        );
-
-    overflow: hidden;
-}
-
-#viewer {
-    position: absolute;
-
-    inset: 0;
-
-    width: 100%;
-    height: 100%;
-}
-
-#viewer canvas {
-    display: block;
-
-    width: 100% !important;
-    height: 100% !important;
-}
-
-
-/* =========================================
-   VIEWER TOP LABEL
-========================================= */
-
-.viewer-label {
-    position: absolute;
-
-    top: 24px;
-    left: 26px;
-
-    z-index: 10;
-
-    pointer-events: none;
-
-    font-family: Arial, sans-serif;
-
-    font-size: 10px;
-
-    letter-spacing: 0.18em;
-
-    color: rgba(255,255,255,0.38);
-}
-
-
-/* =========================================
-   VIEWER STATUS
-========================================= */
-
-.status {
-    position: absolute;
-
-    top: 24px;
-    right: 26px;
-
-    z-index: 10;
-
-    pointer-events: none;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    font-family: Arial, sans-serif;
-
-    font-size: 9px;
-
-    letter-spacing: 0.14em;
-
-    color: rgba(255,255,255,0.38);
-}
-
-.status-dot {
-    width: 5px;
-    height: 5px;
-
-    border-radius: 50%;
-
-    background: rgba(255,255,255,0.55);
-}
-
-
-/* =========================================
-   LOADING
-========================================= */
-
-.loading {
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 20;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    flex-direction: column;
-
-    gap: 16px;
-
-    background: #05070d;
-
-    transition:
-        opacity 0.8s ease,
-        visibility 0.8s ease;
-}
-
-.loading.hidden {
-    opacity: 0;
-
-    visibility: hidden;
-
-    pointer-events: none;
-}
-
-.loading-title {
-    font-size: 17px;
-
-    letter-spacing: 0.12em;
-}
-
-.loading-subtitle {
-    font-family: Arial, sans-serif;
-
-    font-size: 9px;
-
-    letter-spacing: 0.18em;
-
-    color: rgba(255,255,255,0.35);
-}
-
-
-/* =========================================
-   CONTROLS
-========================================= */
-
-.controls {
-    position: absolute;
-
-    left: 24px;
-    bottom: 24px;
-
-    z-index: 15;
-
-    display: flex;
-
-    gap: 8px;
-}
-
-.control-button {
-    min-width: 44px;
-    min-height: 38px;
-
-    padding: 8px 13px;
-
-    border:
-        1px solid rgba(255,255,255,0.15);
-
-    background:
-        rgba(5,7,13,0.65);
-
-    color: rgba(255,255,255,0.62);
-
-    font-family: Arial, sans-serif;
-
-    font-size: 9px;
-
-    letter-spacing: 0.10em;
-
-    cursor: pointer;
-
-    transition:
-        background 0.3s ease,
-        border-color 0.3s ease,
-        color 0.3s ease;
-}
-
-.control-button:hover {
-    color: white;
-
-    border-color:
-        rgba(255,255,255,0.4);
-
-    background:
-        rgba(255,255,255,0.08);
-}
-
-
-/* =========================================
-   INSTRUCTION
-========================================= */
-
-.instructions {
-    position: absolute;
-
-    right: 25px;
-    bottom: 27px;
-
-    z-index: 10;
-
-    pointer-events: none;
-
-    font-family: Arial, sans-serif;
-
-    font-size: 9px;
-
-    letter-spacing: 0.12em;
-
-    color: rgba(255,255,255,0.32);
-}
-
-
-/* =========================================
-   CONCEPT
-========================================= */
-
-.concept {
-    display: grid;
-
-    grid-template-columns:
-        minmax(220px, 0.65fr)
-        minmax(0, 1.35fr);
-
-    gap: 90px;
-
-    padding: 110px 8% 80px;
-}
-
-.concept-label {
-    font-family: Arial, sans-serif;
-
-    font-size: 10px;
-
-    letter-spacing: 0.2em;
-
-    color: rgba(255,255,255,0.34);
-}
-
-.concept-content h2 {
-    font-size: clamp(32px, 4vw, 58px);
-
-    font-weight: normal;
-
-    line-height: 1.05;
-
-    margin-bottom: 30px;
-}
-
-.concept-content p {
-    max-width: 760px;
-
-    font-family: Arial, sans-serif;
-
-    font-size: 15px;
-
-    line-height: 1.95;
-
-    color: rgba(255,255,255,0.55);
-
-    margin-bottom: 20px;
-}
-
-
-/* =========================================
-   OBSERVATION
-========================================= */
-
-.observation {
-    width: 84%;
-
-    margin: 0 auto;
-
-    padding: 65px 0;
-
-    border-top:
-        1px solid rgba(255,255,255,0.08);
-
-    border-bottom:
-        1px solid rgba(255,255,255,0.08);
-}
-
-.observation-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    gap: 40px;
-}
-
-.observation-item span {
-    display: block;
-
-    font-family: Arial, sans-serif;
-
-    font-size: 9px;
-
-    letter-spacing: 0.17em;
-
-    color: rgba(255,255,255,0.32);
-
-    margin-bottom: 13px;
-}
-
-.observation-item strong {
-    font-size: 23px;
-
-    font-weight: normal;
-
-    letter-spacing: 0.04em;
-}
-
-
-/* =========================================
-   FOOTER
-========================================= */
-
-footer {
-    width: 84%;
-
-    margin: auto;
-
-    padding: 45px 0 65px;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    font-family: Arial, sans-serif;
-
-    font-size: 9px;
-
-    letter-spacing: 0.14em;
-
-    color: rgba(255,255,255,0.28);
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 800px) {
-
-    nav {
-        padding: 22px 24px;
-    }
-
-    .logo {
-        font-size: 21px;
-    }
-
-    .nav-right {
-        gap: 15px;
-    }
-
-    .experience {
-        width: 92%;
-
-        padding-top: 85px;
-    }
-
-    .header {
-        display: block;
-
-        padding-top: 35px;
-    }
-
-    .header h1 {
-        font-size: 58px;
-    }
-
-    .header-description {
-        margin-top: 25px;
-    }
-
-    .viewer-shell {
-        height: 65vh;
-
-        min-height: 440px;
-    }
-
-    .instructions {
-        display: none;
-    }
-
-    .concept {
-        grid-template-columns: 1fr;
-
-        gap: 30px;
-
-        padding:
-            75px 4% 65px;
-    }
-
-    .observation {
-        width: 92%;
-    }
-
-    .observation-grid {
-        grid-template-columns: 1fr;
-
-        gap: 28px;
-    }
-
-    footer {
-        width: 92%;
-
-        flex-direction: column;
-
-        gap: 14px;
-    }
-
-}
-
-@media (max-width: 500px) {
-
-    .nav-right {
-        display: none;
-    }
-
-    .header h1 {
-        font-size: 50px;
-    }
-
-    .viewer-shell {
-        height: 60vh;
-
-        min-height: 400px;
-    }
-
-    .controls {
-        left: 15px;
-        bottom: 15px;
-    }
-
-    .viewer-label {
-        left: 16px;
-        top: 17px;
-    }
-
-    .status {
-        right: 16px;
-        top: 17px;
-    }
-
-}
-
-
-/* =========================================
-   REDUCED MOTION
-========================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-    * {
-        scroll-behavior: auto !important;
-    }
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Landscapes — DRAVYA</title>
+
+    <style>
+        @font-face {
+            font-family: "Germania";
+            src: url("assets/GermaniaOne-Regular.ttf") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            background:
+                radial-gradient(
+                    circle at 50% 35%,
+                    rgba(25, 55, 120, 0.18),
+                    transparent 45%
+                ),
+                #02040b;
+
+            color: #e9efff;
+            font-family: "Germania", serif;
+            overflow-x: hidden;
+        }
+
+        /* ---------------- HEADER ---------------- */
+
+        header {
+            width: 100%;
+            padding: 35px 50px 10px;
+            text-align: center;
+        }
+
+        .brand {
+            font-size: 1.4rem;
+            letter-spacing: 0.3em;
+            opacity: 0.75;
+        }
+
+        h1 {
+            margin-top: 14px;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            letter-spacing: 0.12em;
+            font-weight: normal;
+        }
+
+        .subtitle {
+            margin-top: 10px;
+            font-size: 1rem;
+            letter-spacing: 0.18em;
+            opacity: 0.5;
+        }
+
+        /* ---------------- GALLERY ---------------- */
+
+        .gallery {
+            width: min(1250px, 92vw);
+            margin: 55px auto 70px;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .model-card {
+            position: relative;
+
+            height: 430px;
+
+            border: 1px solid rgba(130, 160, 220, 0.18);
+            border-radius: 18px;
+
+            background:
+                radial-gradient(
+                    circle at 50% 45%,
+                    rgba(30, 65, 145, 0.12),
+                    rgba(2, 4, 11, 0.85)
+                );
+
+            overflow: hidden;
+
+            cursor: pointer;
+
+            transition:
+                border-color 0.4s ease,
+                box-shadow 0.4s ease,
+                transform 0.4s ease;
+        }
+
+        .model-card:hover {
+            border-color: rgba(100, 160, 255, 0.65);
+
+            box-shadow:
+                0 0 30px rgba(40, 100, 255, 0.18),
+                inset 0 0 30px rgba(40, 100, 255, 0.06);
+
+            transform: translateY(-4px);
+        }
+
+        .canvas-container {
+            position: absolute;
+            inset: 0;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* ---------------- TITLES ---------------- */
+
+        .model-info {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 25px;
+
+            text-align: center;
+
+            pointer-events: none;
+        }
+
+        .model-title {
+            font-size: 1.6rem;
+            letter-spacing: 0.16em;
+        }
+
+        .model-hint {
+            margin-top: 7px;
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            opacity: 0.4;
+        }
+
+        /* ---------------- FOOTER ---------------- */
+
+        footer {
+            text-align: center;
+            padding: 10px 20px 40px;
+
+            font-size: 0.8rem;
+            letter-spacing: 0.22em;
+            opacity: 0.35;
+        }
+
+        /* ---------------- MOBILE ---------------- */
+
+        @media (max-width: 850px) {
+            header {
+                padding: 28px 20px 5px;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+                width: min(500px, 88vw);
+                gap: 25px;
+                margin-top: 40px;
+            }
+
+            .model-card {
+                height: 390px;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
-<div class="background"></div>
-
-<div class="noise"></div>
-
-
-<!-- =====================================
-     NAVIGATION
-===================================== -->
-
-<nav>
-
-    <a
-        href="index.html"
-        class="logo"
-    >
-        DRAVYA
-    </a>
-
-    <div class="nav-right">
-
-        <a
-            href="landscapes.html"
-            class="nav-link"
-        >
-            ← LANDSCAPES
-        </a>
-
-        <a
-            href="field.html"
-            class="nav-link"
-        >
-            FIELD
-        </a>
-
-    </div>
-
-</nav>
-
-
-<!-- =====================================
-     EXPERIENCE
-===================================== -->
-
-<main class="experience">
-
-
-    <!-- HEADER -->
-
-    <header class="header">
-
-        <div>
-
-            <div class="eyebrow">
-                01 / 03 · 3D EXPLORATION
-            </div>
-
-            <h1>
-                THE<br>
-                LANDSCAPE
-            </h1>
-
-        </div>
-
-        <div class="header-description">
-
-            A space built from geometry, form,
-            light and imagined physical laws.
-
-            <br><br>
-
-            Do not simply look at it.
-            Enter it.
-
-        </div>
-
+    <header>
+        <div class="brand">DRAVYA</div>
+        <h1>LANDSCAPES</h1>
+        <div class="subtitle">OBSERVE · DISTURB · CREATE</div>
     </header>
 
 
-    <!-- =================================
-         3D VIEWER
-    ================================= -->
+    <main class="gallery">
 
-    <section class="viewer-shell">
-
+        <!-- LANDSCAPE -->
         <div
-            class="viewer-label"
+            class="model-card"
+            data-model="landscapes/ld.glb"
+            data-link="landscape.html"
+            tabindex="0"
+            role="button"
+            aria-label="Open Landscape"
         >
-            DRAVYA / LANDSCAPE
+            <div class="canvas-container"></div>
+
+            <div class="model-info">
+                <div class="model-title">LANDSCAPE</div>
+                <div class="model-hint">ENTER</div>
+            </div>
         </div>
 
 
+        <!-- POND -->
         <div
-            class="status"
+            class="model-card"
+            data-model="landscapes/pond.glb"
+            data-link="pond.html"
+            tabindex="0"
+            role="button"
+            aria-label="Open Pond"
         >
+            <div class="canvas-container"></div>
 
-            <span
-                class="status-dot"
-                id="statusDot"
-            ></span>
-
-            <span id="statusText">
-                LOADING
-            </span>
-
+            <div class="model-info">
+                <div class="model-title">POND</div>
+                <div class="model-hint">ENTER</div>
+            </div>
         </div>
 
 
+        <!-- CAVE -->
         <div
-            id="viewer"
-        ></div>
-
-
-        <!-- LOADING -->
-
-        <div
-            class="loading"
-            id="loading"
+            class="model-card"
+            data-model="landscapes/cave.glb"
+            data-link="cave.html"
+            tabindex="0"
+            role="button"
+            aria-label="Open Cave"
         >
+            <div class="canvas-container"></div>
 
-            <div class="loading-title">
-                ENTERING THE LANDSCAPE
+            <div class="model-info">
+                <div class="model-title">CAVE</div>
+                <div class="model-hint">ENTER</div>
             </div>
-
-            <div class="loading-subtitle">
-                PREPARING 3D ENVIRONMENT
-            </div>
-
         </div>
 
+    </main>
 
-        <!-- CONTROLS -->
 
-        <div class="controls">
+    <footer>
+        A FIELD OF PLACES
+    </footer>
 
-            <button
-                type="button"
-                class="control-button"
-                id="resetButton"
-            >
-                RESET
-            </button>
 
-            <button
-                type="button"
-                class="control-button"
-                id="rotationButton"
-            >
-                PAUSE
-            </button>
+    <script type="module">
 
-        </div>
+        import * as THREE from
+            "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
 
+        import { GLTFLoader } from
+            "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/GLTFLoader.js";
 
-        <div class="instructions">
-            DRAG · ROTATE &nbsp;&nbsp; SCROLL · ZOOM &nbsp;&nbsp; RIGHT DRAG · PAN
-        </div>
 
-    </section>
+        const loader = new GLTFLoader();
 
+        const cards = document.querySelectorAll(".model-card");
 
-    <!-- =================================
-         CONCEPT
-    ================================= -->
+        const viewers = [];
 
-    <section class="concept">
 
-        <div class="concept-label">
-            THE CONCEPT
-        </div>
+        /* ------------------------------------------------
+           CREATE ONE SMALL 3D VIEWER FOR EACH MODEL
+        ------------------------------------------------ */
 
-        <div class="concept-content">
+        cards.forEach((card) => {
 
-            <h2>
-                A landscape is not
-                merely a place.
-            </h2>
+            const container =
+                card.querySelector(".canvas-container");
 
-            <p>
-                It is a system of relationships.
-                Geometry becomes terrain. Light becomes
-                atmosphere. Empty space becomes distance.
-                Every surface describes something about
-                the world that contains it.
-            </p>
+            const modelPath =
+                card.dataset.model;
 
-            <p>
-                This landscape is an experiment in
-                constructing a world from simple forms
-                and allowing the observer to decide
-                how that world should be understood.
-            </p>
+            const link =
+                card.dataset.link;
 
-            <p>
-                The model is not a photograph of a place.
-                It is an interpretation of one — a small
-                environment where physical space becomes
-                a medium for imagination.
-            </p>
 
-        </div>
+            /* SCENE */
 
-    </section>
+            const scene = new THREE.Scene();
 
+            scene.background = null;
 
-    <!-- =================================
-         OBSERVATION
-    ================================= -->
 
-    <section class="observation">
+            /* CAMERA */
 
-        <div class="observation-grid">
-
-            <div class="observation-item">
-
-                <span>
-                    MEDIUM
-                </span>
-
-                <strong>
-                    3D / DIGITAL
-                </strong>
-
-            </div>
-
-
-            <div class="observation-item">
-
-                <span>
-                    ELEMENT
-                </span>
-
-                <strong>
-                    SPACE
-                </strong>
-
-            </div>
-
-
-            <div class="observation-item">
-
-                <span>
-                    ACTION
-                </span>
-
-                <strong>
-                    EXPLORE
-                </strong>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-</main>
-
-
-<!-- =====================================
-     FOOTER
-===================================== -->
-
-<footer>
-
-    <span>
-        OBSERVE · DISTURB · CREATE
-    </span>
-
-    <span>
-        DRAVYA / 01
-    </span>
-
-</footer>
-
-
-<!-- =====================================
-     THREE.JS
-===================================== -->
-
-<script type="module">
-
-import * as THREE from
-    "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
-
-import { GLTFLoader } from
-    "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/GLTFLoader.js";
-
-import { OrbitControls } from
-    "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/controls/OrbitControls.js";
-
-
-/* =========================================
-   ELEMENTS
-========================================= */
-
-const viewer =
-    document.getElementById("viewer");
-
-const loading =
-    document.getElementById("loading");
-
-const statusText =
-    document.getElementById("statusText");
-
-const statusDot =
-    document.getElementById("statusDot");
-
-const resetButton =
-    document.getElementById("resetButton");
-
-const rotationButton =
-    document.getElementById("rotationButton");
-
-
-/* =========================================
-   SCENE
-========================================= */
-
-const scene =
-    new THREE.Scene();
-
-
-/* =========================================
-   CAMERA
-========================================= */
-
-const camera =
-    new THREE.PerspectiveCamera(
-        35,
-        viewer.clientWidth /
-        viewer.clientHeight,
-        0.01,
-        2000
-    );
-
-
-/* =========================================
-   RENDERER
-========================================= */
-
-const renderer =
-    new THREE.WebGLRenderer({
-        antialias: true,
-        alpha: true
-    });
-
-renderer.setPixelRatio(
-    Math.min(window.devicePixelRatio, 2)
-);
-
-renderer.setSize(
-    viewer.clientWidth,
-    viewer.clientHeight
-);
-
-renderer.outputColorSpace =
-    THREE.SRGBColorSpace;
-
-renderer.toneMapping =
-    THREE.ACESFilmicToneMapping;
-
-renderer.toneMappingExposure =
-    1.15;
-
-viewer.appendChild(
-    renderer.domElement
-);
-
-
-/* =========================================
-   CONTROLS
-========================================= */
-
-const controls =
-    new OrbitControls(
-        camera,
-        renderer.domElement
-    );
-
-controls.enableDamping = true;
-
-controls.dampingFactor = 0.055;
-
-controls.enablePan = true;
-
-controls.enableZoom = true;
-
-controls.minDistance = 1;
-
-controls.maxDistance = 100;
-
-controls.rotateSpeed = 0.65;
-
-controls.zoomSpeed = 0.8;
-
-controls.panSpeed = 0.6;
-
-
-/* =========================================
-   LIGHTING
-========================================= */
-
-const ambient =
-    new THREE.HemisphereLight(
-        0xffffff,
-        0x111522,
-        2.2
-    );
-
-scene.add(
-    ambient
-);
-
-
-const keyLight =
-    new THREE.DirectionalLight(
-        0xffffff,
-        3.2
-    );
-
-keyLight.position.set(
-    6,
-    10,
-    7
-);
-
-scene.add(
-    keyLight
-);
-
-
-const fillLight =
-    new THREE.DirectionalLight(
-        0x7f9dff,
-        1.5
-    );
-
-fillLight.position.set(
-    -8,
-    4,
-    -6
-);
-
-scene.add(
-    fillLight
-);
-
-
-const rimLight =
-    new THREE.DirectionalLight(
-        0xffffff,
-        1.2
-    );
-
-rimLight.position.set(
-    0,
-    5,
-    -10
-);
-
-scene.add(
-    rimLight
-);
-
-
-/* =========================================
-   MODEL
-========================================= */
-
-const loader =
-    new GLTFLoader();
-
-let model = null;
-
-let rotationEnabled = true;
-
-let initialCameraPosition =
-    new THREE.Vector3();
-
-let initialTarget =
-    new THREE.Vector3();
-
-
-loader.load(
-
-    "landscapes/ld.glb",
-
-    function(gltf) {
-
-        model =
-            gltf.scene;
-
-
-        /* ---------------------------------
-           FIND MODEL BOUNDS
-        --------------------------------- */
-
-        const originalBox =
-            new THREE.Box3()
-                .setFromObject(model);
-
-        const originalSize =
-            originalBox.getSize(
-                new THREE.Vector3()
-            );
-
-        const originalCenter =
-            originalBox.getCenter(
-                new THREE.Vector3()
-            );
-
-
-        /* ---------------------------------
-           CENTER MODEL
-        --------------------------------- */
-
-        model.position.sub(
-            originalCenter
-        );
-
-
-        /* ---------------------------------
-           NORMALIZE SCALE
-        --------------------------------- */
-
-        const maxDimension =
-            Math.max(
-                originalSize.x,
-                originalSize.y,
-                originalSize.z
-            );
-
-
-        if (
-            Number.isFinite(maxDimension) &&
-            maxDimension > 0
-        ) {
-
-            const desiredSize = 10;
-
-            const scale =
-                desiredSize /
-                maxDimension;
-
-            model.scale.setScalar(
-                scale
-            );
-
-        }
-
-
-        /* ---------------------------------
-           RECENTER AFTER SCALING
-        --------------------------------- */
-
-        const centeredBox =
-            new THREE.Box3()
-                .setFromObject(model);
-
-        const centeredCenter =
-            centeredBox.getCenter(
-                new THREE.Vector3()
-            );
-
-        model.position.sub(
-            centeredCenter
-        );
-
-
-        scene.add(
-            model
-        );
-
-
-        /* ---------------------------------
-           FINAL BOUNDS
-        --------------------------------- */
-
-        const finalBox =
-            new THREE.Box3()
-                .setFromObject(model);
-
-        const finalSize =
-            finalBox.getSize(
-                new THREE.Vector3()
-            );
-
-        const radius =
-            Math.max(
-                finalSize.length() * 0.5,
-                1
-            );
-
-
-        /* ---------------------------------
-           CAMERA
-        --------------------------------- */
-
-        camera.position.set(
-            radius * 0.9,
-            radius * 0.55,
-            radius * 1.65
-        );
-
-
-        controls.target.set(
-            0,
-            0,
-            0
-        );
-
-
-        camera.lookAt(
-            controls.target
-        );
-
-
-        controls.minDistance =
-            Math.max(radius * 0.55, 0.5);
-
-        controls.maxDistance =
-            Math.max(radius * 5, 10);
-
-
-        /* ---------------------------------
-           SAVE RESET STATE
-        --------------------------------- */
-
-        initialCameraPosition.copy(
-            camera.position
-        );
-
-        initialTarget.copy(
-            controls.target
-        );
-
-
-        controls.update();
-
-
-        /* ---------------------------------
-           STATUS
-        --------------------------------- */
-
-        statusText.textContent =
-            "READY";
-
-        statusDot.style.opacity =
-            "1";
-
-
-        loading.classList.add(
-            "hidden"
-        );
-
-    },
-
-    function(xhr) {
-
-        if (
-            xhr.total &&
-            Number.isFinite(xhr.loaded) &&
-            Number.isFinite(xhr.total)
-        ) {
-
-            const percentage =
-                Math.round(
-                    (xhr.loaded /
-                    xhr.total) * 100
+            const camera =
+                new THREE.PerspectiveCamera(
+                    35,
+                    1,
+                    0.01,
+                    100
                 );
 
-            statusText.textContent =
-                percentage + "%";
+            camera.position.set(
+                0,
+                1.1,
+                5.5
+            );
+
+
+            /* RENDERER */
+
+            const renderer =
+                new THREE.WebGLRenderer({
+                    antialias: true,
+                    alpha: true
+                });
+
+            renderer.setPixelRatio(
+                Math.min(window.devicePixelRatio, 2)
+            );
+
+            renderer.outputColorSpace =
+                THREE.SRGBColorSpace;
+
+            renderer.toneMapping =
+                THREE.ACESFilmicToneMapping;
+
+            renderer.toneMappingExposure = 1.15;
+
+            container.appendChild(
+                renderer.domElement
+            );
+
+
+            /* LIGHTING */
+
+            const ambient =
+                new THREE.HemisphereLight(
+                    0x9fbaff,
+                    0x050712,
+                    2.2
+                );
+
+            scene.add(ambient);
+
+
+            const keyLight =
+                new THREE.DirectionalLight(
+                    0xffffff,
+                    3
+                );
+
+            keyLight.position.set(
+                4,
+                6,
+                5
+            );
+
+            scene.add(keyLight);
+
+
+            const fillLight =
+                new THREE.DirectionalLight(
+                    0x416cff,
+                    1.5
+                );
+
+            fillLight.position.set(
+                -4,
+                2,
+                -3
+            );
+
+            scene.add(fillLight);
+
+
+            /* VIEWER STATE */
+
+            const viewer = {
+                card,
+                scene,
+                camera,
+                renderer,
+                model: null,
+                hovered: false
+            };
+
+            viewers.push(viewer);
+
+
+            /* ------------------------------------------------
+               LOAD GLB
+            ------------------------------------------------ */
+
+            loader.load(
+                modelPath,
+
+                (gltf) => {
+
+                    const model = gltf.scene;
+
+                    viewer.model = model;
+
+
+                    /* FIND MODEL SIZE */
+
+                    const box =
+                        new THREE.Box3()
+                            .setFromObject(model);
+
+                    const size =
+                        box.getSize(
+                            new THREE.Vector3()
+                        );
+
+                    const center =
+                        box.getCenter(
+                            new THREE.Vector3()
+                        );
+
+
+                    /* CENTER MODEL */
+
+                    model.position.sub(center);
+
+
+                    /* NORMALIZE SIZE */
+
+                    const largestDimension =
+                        Math.max(
+                            size.x,
+                            size.y,
+                            size.z
+                        );
+
+                    const targetSize = 3.0;
+
+                    const scale =
+                        targetSize /
+                        largestDimension;
+
+                    model.scale.setScalar(scale);
+
+
+                    scene.add(model);
+
+
+                    /* FACE MODEL TOWARD VIEWER */
+
+                    model.rotation.y =
+                        Math.PI * 0.15;
+
+
+                    /*
+                       Store original material
+                       values for the hover glow.
+                    */
+
+                    model.traverse((object) => {
+
+                        if (!object.isMesh)
+                            return;
+
+                        const materials =
+                            Array.isArray(object.material)
+                                ? object.material
+                                : [object.material];
+
+
+                        materials.forEach((material) => {
+
+                            if (!material.userData)
+                                material.userData = {};
+
+
+                            if (
+                                material.emissive &&
+                                !material.userData.originalEmissive
+                            ) {
+
+                                material.userData.originalEmissive =
+                                    material.emissive.clone();
+
+                                material.userData.originalIntensity =
+                                    material.emissiveIntensity || 0;
+                            }
+
+                        });
+
+                    });
+
+                },
+
+                undefined,
+
+                (error) => {
+
+                    console.error(
+                        "Could not load:",
+                        modelPath,
+                        error
+                    );
+
+                }
+            );
+
+
+            /* ------------------------------------------------
+               RESIZE
+            ------------------------------------------------ */
+
+            function resize() {
+
+                const width =
+                    container.clientWidth;
+
+                const height =
+                    container.clientHeight;
+
+
+                if (!width || !height)
+                    return;
+
+
+                camera.aspect =
+                    width / height;
+
+                camera.updateProjectionMatrix();
+
+
+                renderer.setSize(
+                    width,
+                    height,
+                    false
+                );
+            }
+
+
+            const resizeObserver =
+                new ResizeObserver(resize);
+
+            resizeObserver.observe(container);
+
+            resize();
+
+
+            /* ------------------------------------------------
+               HOVER
+            ------------------------------------------------ */
+
+            card.addEventListener(
+                "pointerenter",
+                () => {
+
+                    viewer.hovered = true;
+
+                    setGlow(
+                        viewer.model,
+                        true
+                    );
+
+                }
+            );
+
+
+            card.addEventListener(
+                "pointerleave",
+                () => {
+
+                    viewer.hovered = false;
+
+                    setGlow(
+                        viewer.model,
+                        false
+                    );
+
+                }
+            );
+
+
+            /* ------------------------------------------------
+               CLICK
+            ------------------------------------------------ */
+
+            card.addEventListener(
+                "click",
+                () => {
+
+                    window.location.href =
+                        link;
+
+                }
+            );
+
+
+            /* KEYBOARD */
+
+            card.addEventListener(
+                "keydown",
+                (event) => {
+
+                    if (
+                        event.key === "Enter" ||
+                        event.key === " "
+                    ) {
+
+                        event.preventDefault();
+
+                        window.location.href =
+                            link;
+
+                    }
+
+                }
+            );
+
+        });
+
+
+        /* ------------------------------------------------
+           MODEL GLOW
+        ------------------------------------------------ */
+
+        function setGlow(model, enabled) {
+
+            if (!model)
+                return;
+
+
+            model.traverse((object) => {
+
+                if (!object.isMesh)
+                    return;
+
+
+                const materials =
+                    Array.isArray(object.material)
+                        ? object.material
+                        : [object.material];
+
+
+                materials.forEach((material) => {
+
+                    if (
+                        !material.emissive
+                    )
+                        return;
+
+
+                    if (!material.userData.originalEmissive)
+                        return;
+
+
+                    if (enabled) {
+
+                        material.emissive.set(
+                            0.12,
+                            0.25,
+                            0.9
+                        );
+
+                        material.emissiveIntensity =
+                            1.15;
+
+                    } else {
+
+                        material.emissive.copy(
+                            material.userData.originalEmissive
+                        );
+
+                        material.emissiveIntensity =
+                            material.userData.originalIntensity;
+
+                    }
+
+                    material.needsUpdate = true;
+
+                });
+
+            });
 
         }
 
-    },
 
-    function(error) {
+        /* ------------------------------------------------
+           ANIMATION
+        ------------------------------------------------ */
 
-        console.error(
-            "GLB loading error:",
-            error
-        );
+        function animate() {
 
+            requestAnimationFrame(
+                animate
+            );
 
-        statusText.textContent =
-            "ERROR";
 
-        statusDot.style.opacity =
-            "0.35";
+            viewers.forEach((viewer) => {
 
+                if (
+                    viewer.model &&
+                    !viewer.hovered
+                ) {
 
-        loading.querySelector(
-            ".loading-title"
-        ).textContent =
-            "UNABLE TO LOAD LANDSCAPE";
+                    /*
+                       Slow autonomous rotation.
+                    */
 
+                    viewer.model.rotation.y +=
+                        0.0025;
 
-        loading.querySelector(
-            ".loading-subtitle"
-        ).textContent =
-            "CHECK LANDSCAPES / LD.GLB";
+                }
 
 
-    }
+                viewer.renderer.render(
+                    viewer.scene,
+                    viewer.camera
+                );
 
-);
+            });
 
+        }
 
-/* =========================================
-   RESET
-========================================= */
 
-resetButton.addEventListener(
-    "click",
-    function() {
+        animate();
 
-        if (!model) return;
-
-        camera.position.copy(
-            initialCameraPosition
-        );
-
-        controls.target.copy(
-            initialTarget
-        );
-
-        model.rotation.set(
-            0,
-            0,
-            0
-        );
-
-        controls.update();
-
-    }
-);
-
-
-/* =========================================
-   AUTO ROTATION
-========================================= */
-
-rotationButton.addEventListener(
-    "click",
-    function() {
-
-        rotationEnabled =
-            !rotationEnabled;
-
-        rotationButton.textContent =
-            rotationEnabled
-                ? "PAUSE"
-                : "ROTATE";
-
-    }
-);
-
-
-/* =========================================
-   PAUSE AUTO ROTATION WHILE
-   USER INTERACTS
-========================================= */
-
-let userInteracting = false;
-
-renderer.domElement.addEventListener(
-    "pointerdown",
-    function() {
-
-        userInteracting = true;
-
-    }
-);
-
-window.addEventListener(
-    "pointerup",
-    function() {
-
-        userInteracting = false;
-
-    }
-);
-
-
-/* =========================================
-   RESIZE
-========================================= */
-
-function resize() {
-
-    const width =
-        viewer.clientWidth;
-
-    const height =
-        viewer.clientHeight;
-
-
-    if (
-        width <= 0 ||
-        height <= 0
-    ) {
-        return;
-    }
-
-
-    camera.aspect =
-        width / height;
-
-    camera.updateProjectionMatrix();
-
-
-    renderer.setSize(
-        width,
-        height
-    );
-
-}
-
-window.addEventListener(
-    "resize",
-    resize
-);
-
-
-/* =========================================
-   ANIMATION
-========================================= */
-
-const reducedMotion =
-    window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-
-function animate() {
-
-    requestAnimationFrame(
-        animate
-    );
-
-
-    if (
-        model &&
-        rotationEnabled &&
-        !userInteracting &&
-        !reducedMotion
-    ) {
-
-        model.rotation.y +=
-            0.0018;
-
-    }
-
-
-    controls.update();
-
-
-    renderer.render(
-        scene,
-        camera
-    );
-
-}
-
-
-animate();
-
-</script>
+    </script>
 
 </body>
-
 </html>
 
