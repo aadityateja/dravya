@@ -1,51 +1,88 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Landscapes — DRAVYA</title>
 
-<!-- THREE.JS IMPORT MAP -->
+
+<!-- =====================================================
+     THREE.JS IMPORT MAP
+===================================================== -->
+
 <script type="importmap">
 {
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
-  }
+    "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+    }
 }
 </script>
 
+
 <style>
 
+/* =====================================================
+   FONT
+===================================================== */
+
 @font-face {
+
     font-family: "Germania";
-    src: url("assets/GermaniaOne-Regular.ttf") format("truetype");
+
+    src:
+        url("assets/GermaniaOne-Regular.ttf")
+        format("truetype");
+
 }
 
+
+/* =====================================================
+   RESET
+===================================================== */
+
 * {
+
     margin: 0;
     padding: 0;
+
     box-sizing: border-box;
+
 }
+
 
 html,
 body {
+
     width: 100%;
+
     min-height: 100%;
+
     background: #020611;
+
     color: white;
-    font-family: "Germania", Arial, sans-serif;
+
+    font-family:
+        "Germania",
+        Arial,
+        sans-serif;
+
     overflow-x: hidden;
+
 }
 
 
-/* =========================================================
+/* =====================================================
    BACKGROUND VIDEO
-========================================================= */
+===================================================== */
 
 #background-video {
+
     position: fixed;
+
     inset: 0;
 
     width: 100%;
@@ -59,10 +96,14 @@ body {
         brightness(0.55)
         contrast(1.15)
         saturate(1.05);
+
 }
 
+
 .background-overlay {
+
     position: fixed;
+
     inset: 0;
 
     z-index: -5;
@@ -70,20 +111,23 @@ body {
     pointer-events: none;
 
     background:
+
         radial-gradient(
             circle at center,
-            rgba(2, 12, 30, 0.10) 0%,
-            rgba(0, 4, 15, 0.45) 65%,
+            rgba(5, 20, 45, 0.08) 0%,
+            rgba(0, 5, 18, 0.42) 60%,
             rgba(0, 2, 10, 0.82) 100%
         );
+
 }
 
 
-/* =========================================================
+/* =====================================================
    HEADER
-========================================================= */
+===================================================== */
 
 header {
+
     position: relative;
 
     width: 100%;
@@ -94,52 +138,73 @@ header {
         10px;
 
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
 
     z-index: 20;
 
     pointer-events: none;
+
 }
+
 
 .logo {
+
     font-size: 25px;
+
     letter-spacing: 5px;
+
 }
+
 
 .page-title {
+
     font-size: 22px;
+
     letter-spacing: 7px;
+
 }
+
 
 .tagline {
+
     font-size: 14px;
+
     letter-spacing: 3px;
+
     opacity: 0.65;
+
 }
 
 
-/* =========================================================
-   MAIN EXHIBITION SPACE
-========================================================= */
+/* =====================================================
+   MAIN PATH
+===================================================== */
 
 .landscape-path {
 
     position: relative;
 
-    width: min(1500px, 100%);
+    width:
+        min(1500px, 100%);
 
     min-height: 1750px;
 
     margin: 0 auto;
 
-    padding: 30px 40px 150px;
+    padding:
+        30px
+        40px
+        150px;
+
 }
 
 
-/* =========================================================
+/* =====================================================
    MODEL ITEMS
-========================================================= */
+===================================================== */
 
 .landscape-item {
 
@@ -152,55 +217,63 @@ header {
     z-index: 10;
 
     transition:
-        transform 0.5s ease,
-        filter 0.5s ease;
+        transform 0.45s ease,
+        filter 0.45s ease;
+
 }
 
 
-/* =========================================================
-   ZIG-ZAG POSITIONS
-========================================================= */
+/* =====================================================
+   ZIG-ZAG
+===================================================== */
 
 .landscape-item.landscape {
 
     left: 0;
 
     top: 70px;
+
 }
+
 
 .landscape-item.pond {
 
     right: 0;
 
     top: 600px;
+
 }
+
 
 .landscape-item.cave {
 
     left: 0;
 
     top: 1130px;
+
 }
 
 
-/* =========================================================
-   3D VIEWER
-========================================================= */
+/* =====================================================
+   VIEWER
+
+   Large and identical for every model.
+===================================================== */
 
 .viewer {
 
     position: relative;
 
     width: 620px;
+
     height: 520px;
 
     overflow: visible;
 
     background: transparent;
+
 }
 
-
-/* Canvas fills viewer */
 
 .viewer canvas {
 
@@ -209,17 +282,19 @@ header {
     inset: 0;
 
     width: 100% !important;
+
     height: 100% !important;
 
     display: block;
 
     pointer-events: none;
+
 }
 
 
-/* =========================================================
-   MODEL LABEL
-========================================================= */
+/* =====================================================
+   TITLES
+===================================================== */
 
 .model-title {
 
@@ -242,23 +317,32 @@ header {
     transition:
         opacity 0.4s ease,
         text-shadow 0.4s ease;
+
 }
 
 
-/* =========================================================
-   HOVER EFFECT
-   IMPORTANT:
-   ROTATION DOES NOT STOP
-========================================================= */
+/* =====================================================
+   HOVER
+
+   Rotation DOES NOT stop.
+===================================================== */
 
 .landscape-item:hover {
 
     transform: scale(1.035);
 
     filter:
-        drop-shadow(0 0 18px rgba(90,170,255,0.65))
-        drop-shadow(0 0 45px rgba(40,100,255,0.30));
+        drop-shadow(
+            0 0 18px
+            rgba(90,170,255,0.65)
+        )
+        drop-shadow(
+            0 0 45px
+            rgba(40,100,255,0.30)
+        );
+
 }
+
 
 .landscape-item:hover .model-title {
 
@@ -268,12 +352,13 @@ header {
         0 0 12px rgba(160,220,255,0.9),
         0 0 30px rgba(70,150,255,0.65),
         0 0 60px rgba(40,100,255,0.35);
+
 }
 
 
-/* =========================================================
-   SMALL INSTRUCTION
-========================================================= */
+/* =====================================================
+   INSTRUCTION
+===================================================== */
 
 .instruction {
 
@@ -292,37 +377,52 @@ header {
     letter-spacing: 4px;
 
     opacity: 0.35;
+
 }
 
 
-/* =========================================================
+/* =====================================================
    MOBILE
-========================================================= */
+===================================================== */
 
 @media (max-width: 900px) {
 
     header {
 
-        padding: 25px 25px 10px;
+        padding:
+            25px
+            25px
+            10px;
 
         flex-direction: column;
 
         gap: 12px;
 
         text-align: center;
+
     }
+
 
     .logo {
+
         font-size: 21px;
+
     }
+
 
     .page-title {
+
         font-size: 18px;
+
         letter-spacing: 5px;
+
     }
 
+
     .tagline {
+
         font-size: 11px;
+
     }
 
 
@@ -342,6 +442,7 @@ header {
         align-items: center;
 
         gap: 80px;
+
     }
 
 
@@ -356,7 +457,9 @@ header {
         right: auto;
         top: auto;
 
-        width: min(94vw, 620px);
+        width:
+            min(94vw, 620px);
+
     }
 
 
@@ -364,26 +467,54 @@ header {
 
         width: 100%;
 
-        height: min(80vw, 520px);
+        height:
+            min(80vw, 520px);
+
     }
 
 
     .model-title {
 
         font-size: 21px;
+
     }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 500px) {
+
+    .viewer {
+
+        height: 400px;
+
+    }
+
+    .model-title {
+
+        font-size: 18px;
+
+        letter-spacing: 5px;
+
+    }
+
 }
 
 </style>
+
 </head>
 
 
 <body>
 
 
-<!-- =======================================================
+<!-- =====================================================
      BACKGROUND
-======================================================= -->
+===================================================== -->
 
 <video
     id="background-video"
@@ -393,18 +524,22 @@ header {
     playsinline
     preload="auto"
 >
+
     <source
         src="assets/dravya_vacuum_fluctuation_10s.mp4"
         type="video/mp4"
     >
+
 </video>
+
 
 <div class="background-overlay"></div>
 
 
-<!-- =======================================================
+
+<!-- =====================================================
      HEADER
-======================================================= -->
+===================================================== -->
 
 <header>
 
@@ -423,18 +558,19 @@ header {
 </header>
 
 
-<!-- =======================================================
+
+<!-- =====================================================
      EXHIBITION
-======================================================= -->
+===================================================== -->
 
 <main>
 
 <div class="landscape-path">
 
 
-    <!-- ===================================================
+    <!-- =================================================
          LANDSCAPE
-    ==================================================== -->
+    ================================================== -->
 
     <div
         class="landscape-item landscape"
@@ -451,9 +587,10 @@ header {
     </div>
 
 
-    <!-- ===================================================
+
+    <!-- =================================================
          POND
-    ==================================================== -->
+    ================================================== -->
 
     <div
         class="landscape-item pond"
@@ -470,9 +607,10 @@ header {
     </div>
 
 
-    <!-- ===================================================
+
+    <!-- =================================================
          CAVE
-    ==================================================== -->
+    ================================================== -->
 
     <div
         class="landscape-item cave"
@@ -489,8 +627,11 @@ header {
     </div>
 
 
+
     <div class="instruction">
+
         HOVER TO OBSERVE · CLICK TO ENTER
+
     </div>
 
 
@@ -499,9 +640,10 @@ header {
 </main>
 
 
-<!-- =======================================================
+
+<!-- =====================================================
      THREE.JS
-======================================================= -->
+===================================================== -->
 
 <script type="module">
 
@@ -511,82 +653,136 @@ import { GLTFLoader }
     from "three/addons/loaders/GLTFLoader.js";
 
 
-/* =========================================================
-   GLOBAL LOADER
-========================================================= */
+/* =====================================================
+   LOADER
+===================================================== */
 
-const loader = new GLTFLoader();
+const loader =
+    new GLTFLoader();
 
 
-/* =========================================================
-   CREATE EACH MODEL
-========================================================= */
+
+/* =====================================================
+   UNIVERSAL VISUAL SIZE
+===================================================== */
+
+/*
+    THIS is the important part.
+
+    Every GLB gets normalized to the SAME
+    visual maximum dimension.
+
+    So even if:
+
+        landscape.glb = huge
+        pond.glb      = tiny
+        cave.glb      = medium
+
+    they will appear approximately the
+    same size on screen.
+*/
+
+const VISUAL_MODEL_SIZE = 5.5;
+
+
+
+/* =====================================================
+   CREATE MODEL VIEWER
+===================================================== */
 
 document
 .querySelectorAll(".landscape-item")
 .forEach((item) => {
 
+
     const viewer =
         item.querySelector(".viewer");
 
+
     const modelPath =
         item.dataset.model;
+
 
     const destination =
         item.dataset.link;
 
 
-    /* =====================================================
+
+    /* =================================================
        SCENE
-    ====================================================== */
+    ================================================== */
 
     const scene =
         new THREE.Scene();
 
 
-    /* =====================================================
+
+    /* =================================================
        CAMERA
-    ====================================================== */
+
+       HIGH / ABOVE VIEW
+    ================================================== */
 
     const camera =
         new THREE.PerspectiveCamera(
-            32,
+
+            38,
+
             viewer.clientWidth /
             viewer.clientHeight,
+
             0.01,
+
             1000
+
         );
 
 
-    /* =====================================================
+
+    /* =================================================
        RENDERER
-    ====================================================== */
+    ================================================== */
 
     const renderer =
         new THREE.WebGLRenderer({
+
             antialias: true,
+
             alpha: true,
-            powerPreference: "high-performance"
+
+            powerPreference:
+                "high-performance"
+
         });
 
 
     renderer.setPixelRatio(
-        Math.min(window.devicePixelRatio, 2)
+        Math.min(
+            window.devicePixelRatio,
+            2
+        )
     );
 
+
     renderer.setSize(
+
         viewer.clientWidth,
+
         viewer.clientHeight
+
     );
+
 
     renderer.outputColorSpace =
         THREE.SRGBColorSpace;
 
+
     renderer.toneMapping =
         THREE.ACESFilmicToneMapping;
 
+
     renderer.toneMappingExposure =
-        1.25;
+        1.3;
 
 
     viewer.appendChild(
@@ -594,68 +790,73 @@ document
     );
 
 
-    /* =====================================================
+
+    /* =================================================
        LIGHTING
-    ====================================================== */
+    ================================================== */
 
     const ambient =
         new THREE.AmbientLight(
             0xffffff,
-            2.2
+            2.4
         );
 
     scene.add(ambient);
 
 
-    const keyLight =
+
+    const sun =
         new THREE.DirectionalLight(
             0xffffff,
-            4.0
+            4.5
         );
 
-    keyLight.position.set(
+    sun.position.set(
         5,
-        8,
-        6
+        10,
+        5
     );
 
-    scene.add(keyLight);
+    scene.add(sun);
 
 
-    const fillLight =
+
+    const blueFill =
         new THREE.DirectionalLight(
-            0x7db7ff,
-            2.5
+            0x73aaff,
+            2.2
         );
 
-    fillLight.position.set(
+    blueFill.position.set(
         -6,
-        3,
+        5,
         -5
     );
 
-    scene.add(fillLight);
+    scene.add(blueFill);
+
 
 
     const topLight =
         new THREE.PointLight(
-            0x8cc8ff,
-            25,
-            30
+            0x9ed5ff,
+            22,
+            40
         );
 
     topLight.position.set(
         0,
-        8,
-        4
+        10,
+        2
     );
 
     scene.add(topLight);
 
 
-    /* =====================================================
+
+    /* =================================================
        MODEL GROUP
-    ====================================================== */
+    ================================================== */
 
     const modelGroup =
         new THREE.Group();
@@ -663,30 +864,32 @@ document
     scene.add(modelGroup);
 
 
-    /* =====================================================
+
+    /* =================================================
        LOAD GLB
-    ====================================================== */
+    ================================================== */
 
     loader.load(
 
         modelPath,
 
+
         (gltf) => {
+
 
             const model =
                 gltf.scene;
 
 
-            /* =============================================
-               ADD MODEL
-            ============================================== */
-
-            modelGroup.add(model);
+            modelGroup.add(
+                model
+            );
 
 
-            /* =============================================
-               FIND ORIGINAL BOUNDS
-            ============================================== */
+
+            /* =========================================
+               ORIGINAL BOUNDING BOX
+            ========================================== */
 
             const box =
                 new THREE.Box3()
@@ -694,15 +897,15 @@ document
 
 
             const center =
-                new THREE.Vector3();
-
-            box.getCenter(center);
+                box.getCenter(
+                    new THREE.Vector3()
+                );
 
 
             const size =
-                new THREE.Vector3();
-
-            box.getSize(size);
+                box.getSize(
+                    new THREE.Vector3()
+                );
 
 
             const maxDimension =
@@ -713,54 +916,45 @@ document
                 );
 
 
-            /* =============================================
+
+            /* =========================================
                CENTER MODEL
-            ============================================== */
-
-            model.position.x -= center.x;
-            model.position.y -= center.y;
-            model.position.z -= center.z;
-
-
-            /* =============================================
-               BIG SCALE
-               
-               This is intentionally MUCH larger
-               than the previous version.
-            ============================================== */
-
-            const targetSize = 5.8;
-
-            const scale =
-                targetSize /
-                maxDimension;
-
-            model.scale.setScalar(scale);
-
-
-            /* =============================================
-               RE-CENTER AFTER SCALE
-            ============================================== */
-
-            const scaledBox =
-                new THREE.Box3()
-                .setFromObject(model);
-
-            const scaledCenter =
-                new THREE.Vector3();
-
-            scaledBox.getCenter(
-                scaledCenter
-            );
+            ========================================== */
 
             model.position.sub(
-                scaledCenter
+                center
             );
 
 
-            /* =============================================
-               CAMERA FRAMING
-            ============================================== */
+
+            /* =========================================
+               SAME SIZE FOR EVERY MODEL
+            ========================================== */
+
+            const scale =
+                VISUAL_MODEL_SIZE /
+                maxDimension;
+
+
+            model.scale.setScalar(
+                scale
+            );
+
+
+
+            /* =========================================
+               UPDATE WORLD MATRICES
+            ========================================== */
+
+            model.updateMatrixWorld(
+                true
+            );
+
+
+
+            /* =========================================
+               FINAL BOUNDS
+            ========================================== */
 
             const finalBox =
                 new THREE.Box3()
@@ -768,22 +962,18 @@ document
 
 
             const finalSize =
-                new THREE.Vector3();
-
-            finalBox.getSize(
-                finalSize
-            );
+                finalBox.getSize(
+                    new THREE.Vector3()
+                );
 
 
             const finalCenter =
-                new THREE.Vector3();
-
-            finalBox.getCenter(
-                finalCenter
-            );
+                finalBox.getCenter(
+                    new THREE.Vector3()
+                );
 
 
-            const largest =
+            const finalLargest =
                 Math.max(
                     finalSize.x,
                     finalSize.y,
@@ -791,50 +981,70 @@ document
                 );
 
 
-            /*
-             * Camera distance calculated from
-             * the actual model dimensions.
-             *
-             * This prevents clipping.
-             */
 
-            const fov =
-                camera.fov *
-                Math.PI /
-                180;
+            /* =========================================
+               IMPORTANT:
+
+               CAMERA IS ABOVE THE MODEL
+            ========================================== */
+
+            const horizontalDistance =
+                finalLargest * 0.95;
 
 
-            let cameraDistance =
-                (largest / 2) /
-                Math.tan(fov / 2);
+            const verticalDistance =
+                finalLargest * 1.35;
 
-
-            cameraDistance *= 1.18;
 
 
             camera.position.set(
-                0,
-                largest * 0.08,
-                cameraDistance
+
+                horizontalDistance * 0.38,
+
+                verticalDistance,
+
+                horizontalDistance
+
             );
 
+
+
+            /* =========================================
+               LOOK DOWN AT MODEL
+            ========================================== */
 
             camera.lookAt(
                 finalCenter
             );
 
 
-            /* =============================================
-               SLIGHT MODEL TILT
-            ============================================== */
+
+            camera.near =
+                finalLargest * 0.01;
+
+
+            camera.far =
+                finalLargest * 20;
+
+
+            camera.updateProjectionMatrix();
+
+
+
+            /* =========================================
+               VERY SLIGHT INITIAL TILT
+            ========================================== */
 
             model.rotation.x =
-                THREE.MathUtils.degToRad(-3);
+                THREE.MathUtils.degToRad(
+                    -2
+                );
 
 
-            /* =============================================
-               STORE ORIGINAL MATERIAL DATA
-            ============================================== */
+
+            /* =========================================
+               MATERIAL SETUP
+            ========================================== */
 
             model.traverse(
                 (child) => {
@@ -844,26 +1054,47 @@ document
                         child.material
                     ) {
 
+
+                        /*
+                           Clone material so
+                           hover glow does not
+                           affect other objects.
+                        */
+
                         child.material =
                             child.material.clone();
 
-                        child.userData.originalEmissive =
-                            child.material.emissive
-                            ? child.material.emissive.clone()
-                            : new THREE.Color(0x000000);
 
-                        child.userData.originalEmissiveIntensity =
-                            child.material.emissiveIntensity
-                            ?? 0;
+
+                        if (
+                            child.material.emissive
+                        ) {
+
+                            child.userData
+                                .originalEmissive =
+                                child.material
+                                    .emissive
+                                    .clone();
+
+
+                            child.userData
+                                .originalEmissiveIntensity =
+                                child.material
+                                    .emissiveIntensity
+                                    ?? 0;
+
+                        }
+
                     }
 
                 }
             );
 
 
-            /* =============================================
+
+            /* =========================================
                ANIMATION
-            ============================================== */
+            ========================================== */
 
             function animate() {
 
@@ -873,15 +1104,11 @@ document
 
 
                 /*
-                 * VERY SLOW ROTATION.
-                 *
-                 * Importantly:
-                 * this ALWAYS runs.
-                 *
-                 * Hover does NOT stop rotation.
-                 */
+                   Rotation NEVER stops.
+                */
 
-                model.rotation.y += 0.00065;
+                model.rotation.y +=
+                    0.00065;
 
 
                 renderer.render(
@@ -895,13 +1122,15 @@ document
             animate();
 
 
-            /* =============================================
-               HOVER HIGHLIGHT
-            ============================================== */
+
+            /* =========================================
+               HOVER GLOW
+            ========================================== */
 
             item.addEventListener(
                 "mouseenter",
                 () => {
+
 
                     model.traverse(
                         (child) => {
@@ -912,11 +1141,16 @@ document
                                 child.material.emissive
                             ) {
 
-                                child.material.emissive
-                                    .set(0x3d8cff);
+                                child.material
+                                    .emissive
+                                    .set(
+                                        0x4c9dff
+                                    );
 
-                                child.material.emissiveIntensity =
-                                    0.35;
+
+                                child.material
+                                    .emissiveIntensity =
+                                    0.28;
 
                             }
 
@@ -925,12 +1159,14 @@ document
 
                 }
             );
+
 
 
             item.addEventListener(
                 "mouseleave",
                 () => {
 
+
                     model.traverse(
                         (child) => {
 
@@ -940,14 +1176,25 @@ document
                                 child.material.emissive
                             ) {
 
-                                child.material.emissive.copy(
+                                if (
                                     child.userData
                                         .originalEmissive
-                                );
+                                ) {
 
-                                child.material.emissiveIntensity =
-                                    child.userData
-                                        .originalEmissiveIntensity;
+                                    child.material
+                                        .emissive
+                                        .copy(
+                                            child.userData
+                                                .originalEmissive
+                                        );
+
+
+                                    child.material
+                                        .emissiveIntensity =
+                                        child.userData
+                                            .originalEmissiveIntensity;
+
+                                }
 
                             }
 
@@ -958,9 +1205,10 @@ document
             );
 
 
-            /* =============================================
+
+            /* =========================================
                CLICK
-            ============================================== */
+            ========================================== */
 
             item.addEventListener(
                 "click",
@@ -975,21 +1223,17 @@ document
         },
 
 
-        /* ===============================================
-           LOADING
-        ================================================ */
-
         undefined,
 
 
-        /* ===============================================
+        /* =============================================
            ERROR
-        ================================================ */
+        ============================================== */
 
         (error) => {
 
             console.error(
-                "Could not load:",
+                "GLB loading error:",
                 modelPath,
                 error
             );
@@ -999,32 +1243,34 @@ document
     );
 
 
-    /* =====================================================
+
+    /* =================================================
        RESIZE
-    ====================================================== */
+    ================================================== */
 
-    const resize =
-        () => {
+    function resize() {
 
-            const width =
-                viewer.clientWidth;
-
-            const height =
-                viewer.clientHeight;
+        const width =
+            viewer.clientWidth;
 
 
-            camera.aspect =
-                width / height;
-
-            camera.updateProjectionMatrix();
+        const height =
+            viewer.clientHeight;
 
 
-            renderer.setSize(
-                width,
-                height
-            );
+        camera.aspect =
+            width / height;
 
-        };
+
+        camera.updateProjectionMatrix();
+
+
+        renderer.setSize(
+            width,
+            height
+        );
+
+    }
 
 
     window.addEventListener(
@@ -1035,9 +1281,10 @@ document
 });
 
 
-/* =========================================================
+
+/* =====================================================
    BACKGROUND VIDEO
-========================================================= */
+===================================================== */
 
 const video =
     document.getElementById(
@@ -1047,12 +1294,15 @@ const video =
 
 video.play()
 .catch(() => {
+
     console.log(
-        "Autoplay waiting for browser permission."
+        "Browser waiting for autoplay permission."
     );
+
 });
 
 </script>
 
 </body>
 </html>
+```
