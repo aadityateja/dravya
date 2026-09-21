@@ -1,513 +1,1148 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Landscapes — DRAVYA</title>
 
+
+    <!-- =====================================================
+         THREE.JS IMPORT MAP
+    ====================================================== -->
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+        }
+    }
+    </script>
+
+
     <style>
+
+        /* =====================================================
+           FONT
+        ====================================================== */
+
         @font-face {
-            font-family: Germania;
-            src: url("assets/fonts/GermaniaOne-Regular.ttf");
+            font-family: "Germania";
+            src: url("assets/GermaniaOne-Regular.ttf") format("truetype");
+            font-weight: normal;
+            font-style: normal;
         }
 
+
+        /* =====================================================
+           RESET
+        ====================================================== */
+
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
+
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
 
         body {
             background: #02040b;
             color: white;
-            font-family: Germania, serif;
-            min-height: 100vh;
+
+            font-family: "Germania", serif;
+
             overflow-x: hidden;
         }
 
-        header {
-            text-align: center;
-            padding: 45px 20px 20px;
-        }
 
-        .brand {
-            font-size: 1.2rem;
-            letter-spacing: 0.3em;
-            opacity: 0.6;
-        }
+        /* =====================================================
+           BACKGROUND VIDEO
+        ====================================================== */
 
-        h1 {
-            margin-top: 12px;
-            font-size: 4rem;
-            font-weight: normal;
-            letter-spacing: 0.12em;
-        }
+        #background-video {
 
-        .gallery {
-            width: 90%;
-            max-width: 1200px;
-            margin: 45px auto;
+            position: fixed;
 
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 35px;
-        }
+            inset: 0;
 
-        .item {
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .viewer {
             width: 100%;
-            height: 350px;
+            height: 100%;
 
-            border: 1px solid rgba(120, 150, 220, 0.2);
-            border-radius: 18px;
+            object-fit: cover;
+
+            z-index: -3;
+
+            pointer-events: none;
+        }
+
+
+        /* =====================================================
+           DARK OVERLAY
+        ====================================================== */
+
+        .background-overlay {
+
+            position: fixed;
+
+            inset: 0;
 
             background:
                 radial-gradient(
-                    circle,
-                    rgba(30, 70, 150, 0.15),
-                    transparent 70%
+                    circle at center,
+                    rgba(2, 8, 25, 0.18),
+                    rgba(0, 0, 5, 0.65)
                 );
 
-            overflow: hidden;
+            z-index: -2;
 
-            transition: 0.4s ease;
+            pointer-events: none;
         }
 
-        .item:hover .viewer {
-            border-color: rgba(100, 170, 255, 0.8);
 
-            box-shadow:
-                0 0 35px rgba(50, 120, 255, 0.35);
-        }
+        /* =====================================================
+           HEADER
+        ====================================================== */
 
-        canvas {
+        header {
+
+            position: relative;
+
+            z-index: 5;
+
             width: 100%;
+
+            padding-top: 45px;
+
+            text-align: center;
+
+            pointer-events: none;
+        }
+
+
+        .brand {
+
+            font-size: 1.25rem;
+
+            letter-spacing: 0.35em;
+
+            opacity: 0.7;
+        }
+
+
+        h1 {
+
+            margin-top: 12px;
+
+            font-size: clamp(
+                3rem,
+                7vw,
+                5.5rem
+            );
+
+            font-weight: normal;
+
+            letter-spacing: 0.12em;
+
+            text-shadow:
+                0 0 20px rgba(50, 120, 255, 0.25);
+        }
+
+
+        .subtitle {
+
+            margin-top: 8px;
+
+            font-size: 0.9rem;
+
+            letter-spacing: 0.2em;
+
+            opacity: 0.45;
+        }
+
+
+        /* =====================================================
+           LANDSCAPE PATH
+        ====================================================== */
+
+        .landscape-path {
+
+            position: relative;
+
+            width: 100%;
+
+            max-width: 1200px;
+
+            margin: 40px auto 100px;
+
+            min-height: 1350px;
+        }
+
+
+        /* =====================================================
+           INDIVIDUAL OBJECT
+        ====================================================== */
+
+        .landscape-item {
+
+            position: absolute;
+
+            width: 360px;
+
+            text-align: center;
+
+            cursor: pointer;
+
+            z-index: 3;
+
+            transition:
+                transform 0.5s ease;
+        }
+
+
+        /* =====================================================
+           POSITIONS
+        ====================================================== */
+
+        .landscape-item.landscape {
+
+            left: 3%;
+
+            top: 40px;
+        }
+
+
+        .landscape-item.pond {
+
+            right: 3%;
+
+            top: 470px;
+        }
+
+
+        .landscape-item.cave {
+
+            left: 3%;
+
+            top: 900px;
+        }
+
+
+        /* =====================================================
+           3D VIEWER
+        ====================================================== */
+
+        .viewer {
+
+            width: 360px;
+
+            height: 330px;
+
+            background: transparent;
+
+            overflow: visible;
+
+            position: relative;
+        }
+
+
+        .viewer canvas {
+
+            width: 100%;
+
             height: 100%;
+
             display: block;
         }
 
-        h2 {
-            margin-top: 18px;
-            font-size: 1.5rem;
+
+        /* =====================================================
+           TITLE
+        ====================================================== */
+
+        .object-title {
+
+            margin-top: 0;
+
+            font-size: 1.65rem;
+
+            letter-spacing: 0.16em;
+
             font-weight: normal;
-            letter-spacing: 0.15em;
+
+            text-shadow:
+                0 0 15px rgba(0, 0, 0, 0.8);
         }
 
-        .hint {
-            margin-top: 6px;
+
+        .object-enter {
+
+            margin-top: 7px;
+
+            font-size: 0.72rem;
+
+            letter-spacing: 0.22em;
+
+            opacity: 0.4;
+
+            transition:
+                opacity 0.4s ease;
+        }
+
+
+        /* =====================================================
+           HOVER
+        ====================================================== */
+
+        .landscape-item:hover {
+
+            transform: scale(1.035);
+        }
+
+
+        .landscape-item:hover .viewer {
+
+            filter:
+                drop-shadow(
+                    0 0 10px
+                    rgba(80, 150, 255, 0.9)
+                )
+
+                drop-shadow(
+                    0 0 28px
+                    rgba(40, 100, 255, 0.55)
+                )
+
+                drop-shadow(
+                    0 0 55px
+                    rgba(30, 80, 255, 0.3)
+                );
+        }
+
+
+        .landscape-item:hover .object-enter {
+
+            opacity: 0.9;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        footer {
+
+            position: relative;
+
+            z-index: 5;
+
+            text-align: center;
+
+            padding-bottom: 45px;
+
             font-size: 0.75rem;
-            letter-spacing: 0.15em;
+
+            letter-spacing: 0.25em;
+
             opacity: 0.35;
         }
 
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
         @media (max-width: 800px) {
-            .gallery {
-                grid-template-columns: 1fr;
-                max-width: 500px;
+
+            header {
+
+                padding-top: 30px;
             }
 
+
             h1 {
+
                 font-size: 3rem;
             }
+
+
+            .landscape-path {
+
+                width: 100%;
+
+                min-height: auto;
+
+                margin-top: 30px;
+
+                padding-bottom: 40px;
+            }
+
+
+            .landscape-item,
+            .landscape-item.landscape,
+            .landscape-item.pond,
+            .landscape-item.cave {
+
+                position: relative;
+
+                top: auto;
+                left: auto;
+                right: auto;
+
+                width: 90%;
+
+                max-width: 400px;
+
+                margin: 0 auto 90px;
+            }
+
+
+            .viewer {
+
+                width: 100%;
+
+                height: 300px;
+            }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
-<header>
-    <div class="brand">DRAVYA</div>
-    <h1>LANDSCAPES</h1>
-</header>
 
+    <!-- =====================================================
+         BACKGROUND VIDEO
+    ====================================================== -->
 
-<div class="gallery">
+    <video
+        id="background-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+    >
 
-    <div class="item" data-model="landscapes/ld.glb" data-page="landscape.html">
-        <div class="viewer"></div>
-        <h2>LANDSCAPE</h2>
-        <div class="hint">ENTER</div>
-    </div>
+        <source
+            src="assets/dravya_vacuum_fluctuation_10s.mp4"
+            type="video/mp4"
+        >
 
+    </video>
 
-    <div class="item" data-model="landscapes/pond.glb" data-page="pond.html">
-        <div class="viewer"></div>
-        <h2>POND</h2>
-        <div class="hint">ENTER</div>
-    </div>
 
+    <div class="background-overlay"></div>
 
-    <div class="item" data-model="landscapes/cave.glb" data-page="cave.html">
-        <div class="viewer"></div>
-        <h2>CAVE</h2>
-        <div class="hint">ENTER</div>
-    </div>
 
-</div>
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
 
+    <header>
 
-<script type="importmap">
-{
-    "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
-    }
-}
-</script>
+        <div class="brand">
+            DRAVYA
+        </div>
 
-<script type="module">
+        <h1>
+            LANDSCAPES
+        </h1>
 
-import * as THREE from "three";
+        <div class="subtitle">
+            OBSERVE · DISTURB · CREATE
+        </div>
 
-import { GLTFLoader } from
-"three/addons/loaders/GLTFLoader.js";
+    </header>
 
-const loader = new GLTFLoader();
 
-const items = document.querySelectorAll(".item");
+    <!-- =====================================================
+         LANDSCAPES
+    ====================================================== -->
 
+    <main class="landscape-path">
 
-items.forEach(item => {
 
-    const container =
-        item.querySelector(".viewer");
+        <!-- =================================================
+             LANDSCAPE
+        ================================================== -->
 
-    const file =
-        item.dataset.model;
+        <div
+            class="landscape-item landscape"
+            data-model="landscapes/ld.glb"
+            data-page="landscape.html"
+        >
 
-    const scene =
-        new THREE.Scene();
+            <div class="viewer"></div>
 
+            <div class="object-title">
+                LANDSCAPE
+            </div>
 
-    /* CAMERA */
+            <div class="object-enter">
+                ENTER
+            </div>
 
-    const camera =
-        new THREE.PerspectiveCamera(
-            35,
-            container.clientWidth /
-            container.clientHeight,
-            0.01,
-            1000
-        );
+        </div>
 
 
-    camera.position.set(
-        0,
-        2,
-        7
-    );
+        <!-- =================================================
+             POND
+        ================================================== -->
 
+        <div
+            class="landscape-item pond"
+            data-model="landscapes/pond.glb"
+            data-page="pond.html"
+        >
 
-    /* RENDERER */
+            <div class="viewer"></div>
 
-    const renderer =
-        new THREE.WebGLRenderer({
-            antialias: true,
-            alpha: true
-        });
+            <div class="object-title">
+                POND
+            </div>
 
+            <div class="object-enter">
+                ENTER
+            </div>
 
-    renderer.setPixelRatio(
-        Math.min(window.devicePixelRatio, 2)
-    );
+        </div>
 
-    renderer.setSize(
-        container.clientWidth,
-        container.clientHeight
-    );
 
-    renderer.outputColorSpace =
-        THREE.SRGBColorSpace;
+        <!-- =================================================
+             CAVE
+        ================================================== -->
 
-    renderer.toneMapping =
-        THREE.ACESFilmicToneMapping;
+        <div
+            class="landscape-item cave"
+            data-model="landscapes/cave.glb"
+            data-page="cave.html"
+        >
 
-    renderer.toneMappingExposure = 1.2;
+            <div class="viewer"></div>
 
-    container.appendChild(
-        renderer.domElement
-    );
+            <div class="object-title">
+                CAVE
+            </div>
 
+            <div class="object-enter">
+                ENTER
+            </div>
 
-    /* LIGHTS */
+        </div>
 
-    scene.add(
-        new THREE.HemisphereLight(
-            0xffffff,
-            0x111122,
-            3
-        )
-    );
 
+    </main>
 
-    const light =
-        new THREE.DirectionalLight(
-            0xffffff,
-            4
-        );
 
-    light.position.set(
-        5,
-        8,
-        5
-    );
+    <footer>
 
-    scene.add(light);
+        DRAVYA · A FIELD OF PLACES
 
+    </footer>
 
-    const blueLight =
-        new THREE.PointLight(
-            0x3366ff,
-            3,
-            20
-        );
 
-    blueLight.position.set(
-        -4,
-        2,
-        4
-    );
+    <!-- =====================================================
+         THREE.JS
+    ====================================================== -->
 
-    scene.add(blueLight);
+    <script type="module">
 
+        import * as THREE from "three";
 
-    let model = null;
-    let rotating = true;
+        import {
+            GLTFLoader
+        } from "three/addons/loaders/GLTFLoader.js";
 
 
-    /* LOAD GLB */
+        /* =====================================================
+           LOADER
+        ====================================================== */
 
-    loader.load(
+        const loader =
+            new GLTFLoader();
 
-        file,
 
-        gltf => {
+        /* =====================================================
+           ALL LANDSCAPES
+        ====================================================== */
 
-            model = gltf.scene;
-
-            scene.add(model);
-
-
-            /*
-             * Find the actual size of
-             * the loaded GLB.
-             */
-
-            const box =
-                new THREE.Box3()
-                    .setFromObject(model);
-
-
-            const size =
-                box.getSize(
-                    new THREE.Vector3()
-                );
-
-
-            const center =
-                box.getCenter(
-                    new THREE.Vector3()
-                );
-
-
-            /*
-             * Move model to origin.
-             */
-
-            model.position.x -= center.x;
-            model.position.y -= center.y;
-            model.position.z -= center.z;
-
-
-            /*
-             * Make all three models
-             * approximately the same size.
-             */
-
-            const largest =
-                Math.max(
-                    size.x,
-                    size.y,
-                    size.z
-                );
-
-
-            if (largest > 0) {
-
-                const scale =
-                    3 / largest;
-
-                model.scale.setScalar(scale);
-
-            }
-
-
-            console.log(
-                "Loaded:",
-                file
+        const items =
+            document.querySelectorAll(
+                ".landscape-item"
             );
 
-        },
+
+        /* =====================================================
+           CREATE VIEWER
+        ====================================================== */
+
+        items.forEach((item) => {
 
 
-        undefined,
-
-
-        error => {
-
-            console.error(
-                "GLB ERROR:",
-                file,
-                error
-            );
-
-        }
-
-    );
-
-
-    /* HOVER */
-
-    item.addEventListener(
-        "mouseenter",
-        () => {
-
-            rotating = false;
-
-            if (model) {
-
-                model.traverse(
-                    object => {
-
-                        if (
-                            object.isMesh &&
-                            object.material &&
-                            object.material.emissive
-                        ) {
-
-                            object.material.emissive
-                                .set(0.1, 0.25, 1);
-
-                            object.material
-                                .emissiveIntensity = 1.2;
-
-                        }
-
-                    }
+            const container =
+                item.querySelector(
+                    ".viewer"
                 );
 
-            }
 
-        }
-    );
-
-
-    item.addEventListener(
-        "mouseleave",
-        () => {
-
-            rotating = true;
-
-            if (model) {
-
-                model.traverse(
-                    object => {
-
-                        if (
-                            object.isMesh &&
-                            object.material &&
-                            object.material.emissive
-                        ) {
-
-                            object.material.emissive
-                                .set(0, 0, 0);
-
-                            object.material
-                                .emissiveIntensity = 0;
-
-                        }
-
-                    }
-                );
-
-            }
-
-        }
-    );
+            const modelPath =
+                item.dataset.model;
 
 
-    /* CLICK */
-
-    item.addEventListener(
-        "click",
-        () => {
-
-            window.location.href =
+            const targetPage =
                 item.dataset.page;
 
-        }
-    );
+
+            /* -------------------------------------------------
+               SCENE
+            ------------------------------------------------- */
+
+            const scene =
+                new THREE.Scene();
 
 
-    /* ANIMATION */
+            /* -------------------------------------------------
+               CAMERA
+            ------------------------------------------------- */
 
-    function animate() {
-
-        requestAnimationFrame(
-            animate
-        );
-
-
-        if (
-            model &&
-            rotating
-        ) {
-
-            model.rotation.y += 0.003;
-
-        }
+            const camera =
+                new THREE.PerspectiveCamera(
+                    32,
+                    container.clientWidth /
+                    container.clientHeight,
+                    0.01,
+                    1000
+                );
 
 
-        renderer.render(
-            scene,
-            camera
-        );
-
-    }
-
-
-    animate();
+            camera.position.set(
+                0,
+                1.5,
+                7
+            );
 
 
-    /* RESIZE */
+            /* -------------------------------------------------
+               RENDERER
+            ------------------------------------------------- */
 
-    window.addEventListener(
-        "resize",
-        () => {
+            const renderer =
+                new THREE.WebGLRenderer({
 
-            camera.aspect =
-                container.clientWidth /
-                container.clientHeight;
+                    antialias: true,
 
-            camera.updateProjectionMatrix();
+                    alpha: true
+
+                });
+
+
+            renderer.setPixelRatio(
+                Math.min(
+                    window.devicePixelRatio,
+                    2
+                )
+            );
+
 
             renderer.setSize(
                 container.clientWidth,
                 container.clientHeight
             );
 
-        }
-    );
 
-});
+            renderer.outputColorSpace =
+                THREE.SRGBColorSpace;
 
-</script>
+
+            renderer.toneMapping =
+                THREE.ACESFilmicToneMapping;
+
+
+            renderer.toneMappingExposure =
+                1.25;
+
+
+            container.appendChild(
+                renderer.domElement
+            );
+
+
+            /* -------------------------------------------------
+               LIGHTING
+            ------------------------------------------------- */
+
+            const hemisphere =
+                new THREE.HemisphereLight(
+                    0xffffff,
+                    0x080b20,
+                    3
+                );
+
+
+            scene.add(
+                hemisphere
+            );
+
+
+            const mainLight =
+                new THREE.DirectionalLight(
+                    0xffffff,
+                    4
+                );
+
+
+            mainLight.position.set(
+                5,
+                8,
+                5
+            );
+
+
+            scene.add(
+                mainLight
+            );
+
+
+            const blueLight =
+                new THREE.PointLight(
+                    0x3366ff,
+                    4,
+                    20
+                );
+
+
+            blueLight.position.set(
+                -4,
+                3,
+                4
+            );
+
+
+            scene.add(
+                blueLight
+            );
+
+
+            /* -------------------------------------------------
+               MODEL
+            ------------------------------------------------- */
+
+            let model = null;
+
+
+            /* -------------------------------------------------
+               ROTATION
+            ------------------------------------------------- */
+
+            let rotating = true;
+
+
+            /* -------------------------------------------------
+               LOAD GLB
+            ------------------------------------------------- */
+
+            loader.load(
+
+                modelPath,
+
+
+                (gltf) => {
+
+                    model =
+                        gltf.scene;
+
+
+                    scene.add(
+                        model
+                    );
+
+
+                    /* -----------------------------------------
+                       GET BOUNDING BOX
+                    ----------------------------------------- */
+
+                    const box =
+                        new THREE.Box3()
+                            .setFromObject(
+                                model
+                            );
+
+
+                    const size =
+                        box.getSize(
+                            new THREE.Vector3()
+                        );
+
+
+                    const center =
+                        box.getCenter(
+                            new THREE.Vector3()
+                        );
+
+
+                    /* -----------------------------------------
+                       CENTER MODEL
+                    ----------------------------------------- */
+
+                    model.position.sub(
+                        center
+                    );
+
+
+                    /* -----------------------------------------
+                       NORMALIZE MODEL SIZE
+                    ----------------------------------------- */
+
+                    const largest =
+                        Math.max(
+                            size.x,
+                            size.y,
+                            size.z
+                        );
+
+
+                    if (largest > 0) {
+
+                        const scale =
+                            3.0 / largest;
+
+
+                        model.scale.setScalar(
+                            scale
+                        );
+
+                    }
+
+
+                    /* -----------------------------------------
+                       MAKE SURE MATERIALS WORK WITH LIGHTING
+                    ----------------------------------------- */
+
+                    model.traverse(
+                        (object) => {
+
+                            if (
+                                object.isMesh &&
+                                object.material
+                            ) {
+
+                                const materials =
+                                    Array.isArray(
+                                        object.material
+                                    )
+                                    ?
+                                    object.material
+                                    :
+                                    [
+                                        object.material
+                                    ];
+
+
+                                materials.forEach(
+                                    (material) => {
+
+                                        material.needsUpdate =
+                                            true;
+
+                                    }
+                                );
+
+                            }
+
+                        }
+                    );
+
+
+                    console.log(
+                        "Loaded GLB:",
+                        modelPath
+                    );
+
+                },
+
+
+                undefined,
+
+
+                (error) => {
+
+                    console.error(
+                        "GLB failed:",
+                        modelPath,
+                        error
+                    );
+
+                }
+
+            );
+
+
+            /* =================================================
+               HOVER ENTER
+            ================================================= */
+
+            item.addEventListener(
+                "mouseenter",
+                () => {
+
+                    rotating = false;
+
+
+                    if (!model)
+                        return;
+
+
+                    model.traverse(
+                        (object) => {
+
+                            if (
+                                !object.isMesh ||
+                                !object.material
+                            )
+                                return;
+
+
+                            const materials =
+                                Array.isArray(
+                                    object.material
+                                )
+                                ?
+                                object.material
+                                :
+                                [
+                                    object.material
+                                ];
+
+
+                            materials.forEach(
+                                (material) => {
+
+                                    if (
+                                        material.emissive
+                                    ) {
+
+                                        material.emissive.set(
+                                            0.08,
+                                            0.2,
+                                            1.0
+                                        );
+
+
+                                        material.emissiveIntensity =
+                                            1.2;
+
+                                    }
+
+                                }
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+            /* =================================================
+               HOVER LEAVE
+            ================================================= */
+
+            item.addEventListener(
+                "mouseleave",
+                () => {
+
+                    rotating = true;
+
+
+                    if (!model)
+                        return;
+
+
+                    model.traverse(
+                        (object) => {
+
+                            if (
+                                !object.isMesh ||
+                                !object.material
+                            )
+                                return;
+
+
+                            const materials =
+                                Array.isArray(
+                                    object.material
+                                )
+                                ?
+                                object.material
+                                :
+                                [
+                                    object.material
+                                ];
+
+
+                            materials.forEach(
+                                (material) => {
+
+                                    if (
+                                        material.emissive
+                                    ) {
+
+                                        material.emissive.set(
+                                            0,
+                                            0,
+                                            0
+                                        );
+
+
+                                        material.emissiveIntensity =
+                                            0;
+
+                                    }
+
+                                }
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+            /* =================================================
+               CLICK
+            ================================================= */
+
+            item.addEventListener(
+                "click",
+                () => {
+
+                    window.location.href =
+                        targetPage;
+
+                }
+            );
+
+
+            /* =================================================
+               ANIMATION
+            ================================================= */
+
+            function animate() {
+
+                requestAnimationFrame(
+                    animate
+                );
+
+
+                if (
+                    model &&
+                    rotating
+                ) {
+
+                    /*
+                     * VERY SLOW ROTATION
+                     */
+
+                    model.rotation.y +=
+                        0.0007;
+
+                }
+
+
+                renderer.render(
+                    scene,
+                    camera
+                );
+
+            }
+
+
+            animate();
+
+
+            /* =================================================
+               RESIZE
+            ================================================= */
+
+            const resizeObserver =
+                new ResizeObserver(
+                    () => {
+
+                        const width =
+                            container.clientWidth;
+
+
+                        const height =
+                            container.clientHeight;
+
+
+                        if (
+                            !width ||
+                            !height
+                        )
+                            return;
+
+
+                        camera.aspect =
+                            width / height;
+
+
+                        camera.updateProjectionMatrix();
+
+
+                        renderer.setSize(
+                            width,
+                            height,
+                            false
+                        );
+
+                    }
+                );
+
+
+            resizeObserver.observe(
+                container
+            );
+
+        });
+
+
+        /* =====================================================
+           FORCE BACKGROUND VIDEO PLAY
+        ====================================================== */
+
+        const video =
+            document.getElementById(
+                "background-video"
+            );
+
+
+        video.play().catch(
+            () => {
+
+                console.log(
+                    "Background video will start after interaction."
+                );
+
+            }
+        );
+
+    </script>
 
 </body>
 </html>
-```
+
