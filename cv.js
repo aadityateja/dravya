@@ -1,141 +1,221 @@
-/* ============================================================
-   ADDY — CHAOTIC TRAJECTORY ENGINE
+/* =====================================================
+   ADDY — TRAJECTORY CV
+   cv.js
+===================================================== */
 
-   The entire CV lives on one chaotic trajectory.
-
-   The user starts zoomed into the system.
-
-   They follow the trajectory.
-
-   NAXXATRA is near the end.
-
-   After NAXXATRA the camera zooms out.
-
-   The complete Lorenz attractor is finally revealed.
-============================================================ */
+gsap.registerPlugin(ScrollTrigger);
 
 
-(() => {
+/* =====================================================
+   ELEMENTS
+===================================================== */
 
-    "use strict";
+const svg = document.getElementById("trajectorySvg");
+const lifePath = document.getElementById("lifePath");
+const ghostPath = document.getElementById("ghostPath");
+const observer = document.getElementById("observer");
 
+const eventInfo = document.getElementById("eventInfo");
+const eventYear = document.querySelector(".event-year");
+const eventTitle = document.querySelector(".event-title");
+const eventDescription = document.querySelector(".event-description");
 
-    /* ========================================================
-       ELEMENTS
-    ========================================================= */
-
-    const canvas =
-        document.getElementById("chaos-canvas");
-
-    const ctx =
-        canvas.getContext("2d");
-
-    const scrollSpace =
-        document.getElementById("scroll-space");
-
-    const progressBar =
-        document.getElementById("progress-bar");
-
-    const hudYear =
-        document.getElementById("hud-year");
-
-    const eventCard =
-        document.getElementById("event-card");
-
-    const eventIndex =
-        document.getElementById("event-index");
-
-    const eventDate =
-        document.getElementById("event-date");
-
-    const eventTitle =
-        document.getElementById("event-title");
-
-    const eventDescription =
-        document.getElementById("event-description");
-
-    const trajectoryPosition =
-        document.getElementById(
-            "trajectory-position"
-        );
-
-    const reveal =
-        document.getElementById("reveal");
-
-    const revealContent =
-        document.querySelector(
-            ".reveal-content"
-        );
+const progressText = document.getElementById("progressText");
 
 
-    /* ========================================================
-       CANVAS
-    ========================================================= */
+/* =====================================================
+   TIMELINE
+===================================================== */
 
-    let width = 0;
-    let height = 0;
-    let dpr = 1;
+const events = [
 
+    {
+        year: "1999",
+        title: "MYSORE",
+        description: "Born in Mysore.",
+        t: 0.00
+    },
 
-    function resizeCanvas() {
+    {
+        year: "2015",
+        title: "10TH GRADE",
+        description: "87.52% · Distinction · No tuition.",
+        t: 0.075
+    },
 
-        dpr =
-            Math.min(
-                window.devicePixelRatio || 1,
-                2
-            );
+    {
+        year: "2017",
+        title: "PRE-UNIVERSITY",
+        description: "Physics · Chemistry · Mathematics · Electronics — 63%.",
+        t: 0.14
+    },
 
-        width =
-            window.innerWidth;
+    {
+        year: "2017",
+        title: "B.Sc. PHYSICS",
+        description: "Physics · Mathematics · Electronics · Yuvaraja College, Mysore.",
+        t: 0.19
+    },
 
-        height =
-            window.innerHeight;
+    {
+        year: "2017",
+        title: "FIRST SETBACK",
+        description: "1st semester Physics — failed.",
+        t: 0.23
+    },
 
-        canvas.width =
-            width * dpr;
+    {
+        year: "2018",
+        title: "PART-TIME WORK",
+        description: "Joined a part-time job.",
+        t: 0.27
+    },
 
-        canvas.height =
-            height * dpr;
+    {
+        year: "2019",
+        title: "ANOTHER SETBACK",
+        description: "Quit the job. 3rd semester Physics and 1st semester re-exam Physics — failed.",
+        t: 0.32
+    },
 
-        canvas.style.width =
-            width + "px";
+    {
+        year: "2019",
+        title: "SWASTAIN",
+        description: "Music band formed. Jam sessions · Battle of Bands · College performances.",
+        t: 0.37
+    },
 
-        canvas.style.height =
-            height + "px";
+    {
+        year: "2020",
+        title: "FINAL PERFORMANCE",
+        description: "SWASTAIN — final performance.",
+        t: 0.42
+    },
 
-        ctx.setTransform(
-            dpr,
-            0,
-            0,
-            dpr,
-            0,
-            0
-        );
+    {
+        year: "2020",
+        title: "LOCKDOWN",
+        description: "March 2020. The world stopped.",
+        t: 0.45
+    },
 
+    {
+        year: "2020",
+        title: "EDITOR",
+        description: "Joined a Kannada local news channel as an editor.",
+        t: 0.48
+    },
+
+    {
+        year: "2020",
+        title: "SOURCE HUB",
+        description: "Joined a night-shift job.",
+        t: 0.53
+    },
+
+    {
+        year: "2021",
+        title: "ANOTHER TURN",
+        description: "Quit. Joined another call-center role later that year.",
+        t: 0.57
+    },
+
+    {
+        year: "2021",
+        title: "DIYА SYSTEMS",
+        description: "Joined Diya Systems.",
+        t: 0.61
+    },
+
+    {
+        year: "2022",
+        title: "MOVE ON",
+        description: "Left Diya Systems.",
+        t: 0.65
+    },
+
+    {
+        year: "2023",
+        title: "BANGALORE",
+        description: "Moved to Bangalore.",
+        t: 0.69
+    },
+
+    {
+        year: "2023",
+        title: "CONCENTRIX",
+        description: "Joined Concentrix.",
+        t: 0.72
+    },
+
+    {
+        year: "2024",
+        title: "HAMPI",
+        description: "Quit Concentrix. Took a solo trip to Hampi.",
+        t: 0.76
+    },
+
+    {
+        year: "2024",
+        title: "M.Sc. PHYSICS",
+        description: "Joined Ramaiah University of Applied Sciences.",
+        t: 0.80
+    },
+
+    {
+        year: "SEMESTER I",
+        title: "6.7",
+        description: "The return to physics begins.",
+        t: 0.825
+    },
+
+    {
+        year: "SEMESTER II",
+        title: "6.8",
+        description: "Continuing the trajectory.",
+        t: 0.845
+    },
+
+    {
+        year: "SEMESTER III",
+        title: "8.1",
+        description: "The trajectory begins to accelerate.",
+        t: 0.875
+    },
+
+    {
+        year: "SEMESTER IV",
+        title: "8.4",
+        description: "The line enters experimental high-energy physics.",
+        t: 0.90
+    },
+
+    {
+        year: "2026",
+        title: "M.Sc. THESIS",
+        description: "Experimental High-Energy Physics · Neutron-induced hadronic shower development in a Zero Degree Calorimeter.",
+        t: 0.94
+    },
+
+    {
+        year: "JUNE 2026",
+        title: "NAXXATRA",
+        description: "Research & Teaching Fellow.",
+        t: 1.00
     }
 
-
-    window.addEventListener(
-        "resize",
-        resizeCanvas
-    );
-
-    resizeCanvas();
+];
 
 
-    /* ========================================================
-       LORENZ ATTRACTOR
-    ========================================================= */
+/* =====================================================
+   LORENZ-STYLE TRAJECTORY
+===================================================== */
 
-    /*
-       Lorenz equations:
+function generateTrajectory() {
 
-       dx/dt = sigma(y-x)
-       dy/dt = x(rho-z)-y
-       dz/dt = xy-beta*z
-
-       Standard chaotic parameters.
-    */
+    let x = 0.1;
+    let y = 0;
+    let z = 0;
 
     const sigma = 10;
     const rho = 28;
@@ -143,48 +223,60 @@
 
     const dt = 0.005;
 
-    const totalPoints = 18000;
+    const points = [];
 
-    const trajectory = [];
+    const total = 8500;
 
-    let x = 0.1;
-    let y = 0;
-    let z = 0;
+    for (let i = 0; i < total; i++) {
 
-
-    for (
-        let i = 0;
-        i < totalPoints;
-        i++
-    ) {
-
-        const dx =
-            sigma * (y - x);
-
-        const dy =
-            x * (rho - z) - y;
-
-        const dz =
-            x * y - beta * z;
-
+        const dx = sigma * (y - x);
+        const dy = x * (rho - z) - y;
+        const dz = x * y - beta * z;
 
         x += dx * dt;
         y += dy * dt;
         z += dz * dt;
 
-
-        trajectory.push({
-            x,
-            y,
-            z
-        });
+        if (i > 500) {
+            points.push({
+                x,
+                y,
+                z
+            });
+        }
 
     }
 
 
-    /* ========================================================
-       NORMALISE TRAJECTORY
-    ========================================================= */
+    /*
+        We don't want the classic Lorenz butterfly
+        to be immediately obvious.
+
+        We rotate and compress the coordinates
+        into a cinematic 2D trajectory.
+    */
+
+    const projected = points.map(p => {
+
+        const px =
+            p.x * 26 +
+            p.z * 1.8;
+
+        const py =
+            p.y * 19 -
+            p.z * 0.6;
+
+        return {
+            x: px,
+            y: py
+        };
+
+    });
+
+
+    /*
+        Normalize.
+    */
 
     let minX = Infinity;
     let maxX = -Infinity;
@@ -192,767 +284,460 @@
     let minY = Infinity;
     let maxY = -Infinity;
 
+    projected.forEach(p => {
 
-    trajectory.forEach(point => {
+        minX = Math.min(minX, p.x);
+        maxX = Math.max(maxX, p.x);
 
-        minX =
-            Math.min(
-                minX,
-                point.x
-            );
-
-        maxX =
-            Math.max(
-                maxX,
-                point.x
-            );
-
-        minY =
-            Math.min(
-                minY,
-                point.y
-            );
-
-        maxY =
-            Math.max(
-                maxY,
-                point.y
-            );
+        minY = Math.min(minY, p.y);
+        maxY = Math.max(maxY, p.y);
 
     });
 
 
-    const normalized =
-        trajectory.map(point => {
-
-            return {
-
-                x:
-                    (point.x - minX) /
-                    (maxX - minX),
-
-                y:
-                    (point.y - minY) /
-                    (maxY - minY)
-
-            };
-
-        });
-
-
-    /* ========================================================
-       EVENT DATA
-    ========================================================= */
-
-    const events = [
-
-        {
-            progress: 0.02,
-            date: "1999",
-            title: "MYSORE",
-            description:
-                "The trajectory begins."
-        },
-
-        {
-            progress: 0.075,
-            date: "2015",
-            title: "10TH GRADE",
-            description:
-                "87.52% · Distinction · No tuition."
-        },
-
-        {
-            progress: 0.13,
-            date: "2017",
-            title: "PCME",
-            description:
-                "Physics · Chemistry · Mathematics · Electronics."
-        },
-
-        {
-            progress: 0.19,
-            date: "AUG 2017",
-            title: "B.Sc. PHYSICS",
-            description:
-                "Physics · Mathematics · Electronics · Yuvaraja College."
-        },
-
-        {
-            progress: 0.25,
-            date: "2017 — 2019",
-            title: "SYSTEM INSTABILITY",
-            description:
-                "Physics failures. The trajectory did not terminate."
-        },
-
-        {
-            progress: 0.32,
-            date: "MAR 2019",
-            title: "SWASTAIN",
-            description:
-                "Music band. Jam sessions · Battle of Bands · College events."
-        },
-
-        {
-            progress: 0.38,
-            date: "FEB 2020",
-            title: "FINAL PERFORMANCE",
-            description:
-                "The final SWASTAIN performance."
-        },
-
-        {
-            progress: 0.42,
-            date: "21 MAR 2020",
-            title: "LOCKDOWN",
-            description:
-                "The world stopped."
-        },
-
-        {
-            progress: 0.50,
-            date: "2020 — 2024",
-            title: "WORK",
-            description:
-                "News · Source Hub · Call centre · Diya Systems · Concentrix."
-        },
-
-        {
-            progress: 0.58,
-            date: "APR 2023",
-            title: "BANGALORE",
-            description:
-                "A new environment."
-        },
+    const width = 1200;
+    const height = 700;
 
-        {
-            progress: 0.62,
-            date: "JUL 2024",
-            title: "HAMPI",
-            description:
-                "A solo trip. A change in direction."
-        },
+    const margin = 70;
 
-        {
-            progress: 0.68,
-            date: "AUG 2024",
-            title: "M.Sc. PHYSICS",
-            description:
-                "Ramaiah University of Applied Sciences."
-        },
+    const normalized = projected.map(p => {
 
-        {
-            progress: 0.75,
-            date: "2025 — 2026",
-            title: "RESEARCH",
-            description:
-                "Experimental high energy physics · detector data · machine learning."
-        },
+        const nx =
+            margin +
+            ((p.x - minX) / (maxX - minX)) *
+            (width - margin * 2);
 
-        {
-            progress: 0.84,
-            date: "JUN 2026",
-            title: "NAXXATRA",
-            description:
-                "Research & Teaching Fellow."
-        }
+        const ny =
+            margin +
+            ((p.y - minY) / (maxY - minY)) *
+            (height - margin * 2);
 
-    ];
+        return {
+            x: nx + 100,
+            y: ny + 100
+        };
 
+    });
 
-    /* ========================================================
-       STATE
-    ========================================================= */
 
-    let scrollProgress = 0;
+    return normalized;
 
-    let smoothProgress = 0;
+}
 
-    let currentEvent = -1;
 
-    let mouseX = 0.5;
-    let mouseY = 0.5;
+const points = generateTrajectory();
 
 
-    /* ========================================================
-       GET SCROLL PROGRESS
-    ========================================================= */
+/* =====================================================
+   BUILD SVG PATH
+===================================================== */
 
-    function updateScrollProgress() {
+function buildPath(points) {
 
-        const maxScroll =
-            scrollSpace.offsetHeight -
-            window.innerHeight;
+    let d = "";
 
-        scrollProgress =
-            maxScroll > 0
-                ? window.scrollY / maxScroll
-                : 0;
+    points.forEach((p, i) => {
 
-        scrollProgress =
-            Math.max(
-                0,
-                Math.min(
-                    1,
-                    scrollProgress
-                )
-            );
+        if (i === 0) {
 
-    }
-
-
-    window.addEventListener(
-        "scroll",
-        updateScrollProgress,
-        { passive: true }
-    );
-
-
-    /* ========================================================
-       EVENT
-    ========================================================= */
-
-    function getCurrentEvent(progress) {
-
-        let selected = events[0];
-
-        for (
-            let i = 0;
-            i < events.length;
-            i++
-        ) {
-
-            if (
-                progress >=
-                events[i].progress
-            ) {
-
-                selected =
-                    events[i];
-
-            }
-
-        }
-
-        return selected;
-
-    }
-
-
-    function updateEvent(progress) {
-
-        const selected =
-            getCurrentEvent(progress);
-
-        const index =
-            events.indexOf(selected);
-
-
-        if (index === currentEvent) {
-            return;
-        }
-
-
-        currentEvent = index;
-
-
-        eventCard.classList.add("fade");
-
-
-        setTimeout(() => {
-
-            eventIndex.textContent =
-                String(index + 1)
-                    .padStart(2, "0");
-
-            eventDate.textContent =
-                selected.date;
-
-            eventTitle.textContent =
-                selected.title;
-
-            eventDescription.textContent =
-                selected.description;
-
-            hudYear.textContent =
-                selected.date;
-
-            eventCard.classList.remove(
-                "fade"
-            );
-
-        }, 250);
-
-    }
-
-
-    /* ========================================================
-       TRAJECTORY POINT
-    ========================================================= */
-
-    function getPoint(progress) {
-
-        const index =
-            Math.floor(
-                progress *
-                (normalized.length - 1)
-            );
-
-        return normalized[
-            Math.max(
-                0,
-                Math.min(
-                    normalized.length - 1,
-                    index
-                )
-            )
-        ];
-
-    }
-
-
-    /* ========================================================
-       DRAW TRAJECTORY
-    ========================================================= */
-
-    function drawTrajectory(
-        progress,
-        zoom
-    ) {
-
-        ctx.save();
-
-        ctx.clearRect(
-            0,
-            0,
-            width,
-            height
-        );
-
-
-        /*
-         * At the beginning we're extremely
-         * zoomed into the attractor.
-         *
-         * Therefore only a small local section
-         * is visible.
-         */
-
-        const current =
-            getPoint(progress);
-
-
-        const centerX =
-            width / 2;
-
-        const centerY =
-            height / 2;
-
-
-        /*
-         * Full attractor dimensions.
-         */
-
-        const baseSize =
-            Math.min(
-                width,
-                height
-            ) * 0.75;
-
-
-        const localZoom =
-            zoom;
-
-
-        /*
-         * Camera movement.
-         */
-
-        const cameraOffsetX =
-            (current.x - 0.5) *
-            baseSize *
-            localZoom;
-
-        const cameraOffsetY =
-            (current.y - 0.5) *
-            baseSize *
-            localZoom;
-
-
-        /*
-         * We draw a limited section while
-         * travelling.
-         *
-         * Once reveal begins, the full system
-         * appears.
-         */
-
-        let start;
-        let end;
-
-
-        if (progress < 0.88) {
-
-            const currentIndex =
-                Math.floor(
-                    progress *
-                    (normalized.length - 1)
-                );
-
-            const visiblePoints =
-                900;
-
-            start =
-                Math.max(
-                    0,
-                    currentIndex -
-                    visiblePoints
-                );
-
-            end =
-                Math.min(
-                    normalized.length - 1,
-                    currentIndex +
-                    200
-                );
+            d += `M ${p.x} ${p.y}`;
 
         } else {
 
-            /*
-             * Reveal the entire attractor.
-             */
-
-            start = 0;
-
-            end =
-                normalized.length - 1;
+            d += ` L ${p.x} ${p.y}`;
 
         }
 
+    });
 
-        ctx.beginPath();
+    return d;
+
+}
 
 
-        for (
-            let i = start;
-            i <= end;
-            i++
-        ) {
+const pathData = buildPath(points);
+
+lifePath.setAttribute("d", pathData);
+ghostPath.setAttribute("d", pathData);
+
+
+/* =====================================================
+   PATH LENGTH
+===================================================== */
+
+const pathLength = lifePath.getTotalLength();
+
+lifePath.style.strokeDasharray = pathLength;
+lifePath.style.strokeDashoffset = pathLength;
+
+ghostPath.style.strokeDasharray = pathLength;
+
+
+/* =====================================================
+   PATH HELPERS
+===================================================== */
+
+function pointAt(t) {
+
+    const distance =
+        Math.max(
+            0,
+            Math.min(
+                pathLength,
+                t * pathLength
+            )
+        );
+
+    return lifePath.getPointAtLength(distance);
+
+}
+
+
+/* =====================================================
+   EVENT DISPLAY
+===================================================== */
+
+let currentEvent = -1;
+
+
+function showEvent(index) {
+
+    if (index === currentEvent) {
+        return;
+    }
+
+    currentEvent = index;
+
+    if (index < 0) {
+        return;
+    }
+
+    const event = events[index];
+
+    gsap.killTweensOf(eventInfo);
+
+    gsap.to(eventInfo, {
+        opacity: 0,
+        y: 10,
+        duration: 0.15,
+        ease: "power2.out",
+        onComplete: () => {
+
+            eventYear.textContent = event.year;
+            eventTitle.textContent = event.title;
+            eventDescription.textContent = event.description;
+
+            gsap.fromTo(
+                eventInfo,
+                {
+                    opacity: 0,
+                    y: 10
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    ease: "power3.out"
+                }
+            );
+
+        }
+    });
+
+}
+
+
+/* =====================================================
+   DETERMINE CURRENT EVENT
+===================================================== */
+
+function getEventForProgress(progress) {
+
+    let active = 0;
+
+    events.forEach((event, index) => {
+
+        if (progress >= event.t) {
+            active = index;
+        }
+
+    });
+
+    return active;
+
+}
+
+
+/* =====================================================
+   INITIAL EVENT
+===================================================== */
+
+showEvent(0);
+
+
+/* =====================================================
+   MAIN SCROLL ANIMATION
+===================================================== */
+
+const trajectoryState = {
+    progress: 0,
+    zoom: 1
+};
+
+
+const journeyTimeline = gsap.timeline({
+
+    scrollTrigger: {
+
+        trigger: ".journey",
+
+        start: "top top",
+
+        end: "bottom bottom",
+
+        scrub: 1.5,
+
+        pin: false,
+
+        onUpdate: self => {
+
+            const progress = self.progress;
+
+            /*
+                First ~86%:
+                Follow the trajectory.
+
+                Final ~14%:
+                Begin pulling camera away.
+            */
+
+            const followProgress =
+                Math.min(
+                    1,
+                    progress / 0.86
+                );
+
+
+            trajectoryState.progress = followProgress;
+
+
+            /*
+                Draw the line.
+            */
+
+            const drawLength =
+                pathLength *
+                followProgress;
+
+            lifePath.style.strokeDashoffset =
+                pathLength - drawLength;
+
+
+            /*
+                Find observer position.
+            */
 
             const point =
-                normalized[i];
+                pointAt(followProgress);
+
+            observer.setAttribute(
+                "cx",
+                point.x
+            );
+
+            observer.setAttribute(
+                "cy",
+                point.y
+            );
 
 
-            const px =
-                centerX +
-                (
-                    point.x -
-                    current.x
-                ) *
-                baseSize *
-                localZoom;
+            /*
+                Current event.
+            */
 
-
-            const py =
-                centerY +
-                (
-                    point.y -
-                    current.y
-                ) *
-                baseSize *
-                localZoom;
-
-
-            if (i === start) {
-
-                ctx.moveTo(
-                    px,
-                    py
+            const eventIndex =
+                getEventForProgress(
+                    followProgress
                 );
+
+            showEvent(eventIndex);
+
+
+            /*
+                Display year / progress.
+            */
+
+            const event =
+                events[eventIndex];
+
+            progressText.textContent =
+                event.year;
+
+
+            /*
+                CAMERA BEHAVIOUR
+            */
+
+            if (progress < 0.86) {
+
+                /*
+                    Following mode.
+                */
+
+                const zoom =
+                    2.0 -
+                    followProgress * 0.55;
+
+                gsap.set(svg, {
+                    scale: zoom
+                });
+
+                gsap.set(observer, {
+                    opacity: 1
+                });
+
+                gsap.set(eventInfo, {
+                    opacity: 1
+                });
 
             } else {
 
-                ctx.lineTo(
-                    px,
-                    py
-                );
+                /*
+                    FINAL ZOOM OUT.
+
+                    This is the important transition.
+                */
+
+                const revealProgress =
+                    (progress - 0.86) /
+                    0.14;
+
+
+                const zoom =
+                    1.45 -
+                    revealProgress * 0.75;
+
+
+                gsap.set(svg, {
+                    scale: zoom
+                });
+
+
+                /*
+                    The observer becomes less
+                    important as the whole system
+                    comes into view.
+                */
+
+                gsap.set(observer, {
+                    opacity:
+                        1 - revealProgress
+                });
+
+
+                gsap.set(eventInfo, {
+                    opacity:
+                        1 - revealProgress
+                });
 
             }
 
         }
 
+    }
 
-        /*
-         * Glow layer.
-         */
-
-        ctx.strokeStyle =
-            "rgba(184,255,61,.08)";
-
-        ctx.lineWidth = 9;
-
-        ctx.shadowBlur = 30;
-
-        ctx.shadowColor =
-            "rgba(184,255,61,.35)";
-
-        ctx.stroke();
+});
 
 
-        /*
-         * Main trajectory.
-         */
+/* =====================================================
+   FINAL REVEAL
+===================================================== */
 
-        ctx.strokeStyle =
-            "rgba(184,255,61,.85)";
+gsap.to(".reveal-content", {
 
-        ctx.lineWidth = 2;
+    opacity: 1,
 
-        ctx.shadowBlur = 0;
+    y: 0,
 
-        ctx.stroke();
+    duration: 1.2,
 
+    scrollTrigger: {
 
-        /*
-         * Current position.
-         */
+        trigger: ".reveal",
 
-        ctx.beginPath();
+        start: "top 65%",
 
-        ctx.arc(
-            centerX,
-            centerY,
-            7,
-            0,
-            Math.PI * 2
-        );
+        end: "top 30%",
 
-        ctx.fillStyle =
-            "#ffffff";
-
-        ctx.shadowBlur = 25;
-
-        ctx.shadowColor =
-            "#b8ff3d";
-
-        ctx.fill();
-
-
-        ctx.restore();
+        scrub: true
 
     }
 
-
-    /* ========================================================
-       ZOOM LOGIC
-    ========================================================= */
-
-    function getZoom(progress) {
-
-        /*
-         * Travel phase:
-         *
-         * Extremely zoomed in.
-         */
-
-        if (progress < 0.84) {
-
-            return 5.5;
-
-        }
+});
 
 
-        /*
-         * NAXXATRA → REVEAL
-         *
-         * This is the important part.
-         *
-         * The user keeps scrolling after Naxxatra
-         * and the camera physically pulls away.
-         */
+/* =====================================================
+   INTRO FADE
+===================================================== */
 
-        const revealProgress =
-            (progress - 0.84) /
-            0.16;
+gsap.to(".intro-content", {
 
+    opacity: 0,
 
-        const eased =
-            revealProgress *
-            revealProgress *
-            (3 - 2 * revealProgress);
+    scale: 0.85,
 
+    scrollTrigger: {
 
-        return (
-            5.5 -
-            eased * 4.5
-        );
+        trigger: ".intro",
+
+        start: "top top",
+
+        end: "bottom top",
+
+        scrub: true
 
     }
 
-
-    /* ========================================================
-       REVEAL OPACITY
-    ========================================================= */
-
-    function updateReveal(progress) {
-
-        if (progress < 0.84) {
-
-            reveal.style.opacity = "0";
-
-            return;
-
-        }
+});
 
 
-        const revealProgress =
-            (progress - 0.84) /
-            0.16;
+/* =====================================================
+   RESPONSIVE SVG
+===================================================== */
+
+function refreshTrajectory() {
+
+    ScrollTrigger.refresh();
+
+}
 
 
-        const opacity =
-            Math.min(
-                1,
-                revealProgress * 1.5
-            );
+window.addEventListener(
+    "resize",
+    refreshTrajectory
+);
 
 
-        reveal.style.opacity =
-            opacity;
+/* =====================================================
+   SMALL PARALLAX EFFECT
+===================================================== */
 
+gsap.to(".stars", {
 
-        const scale =
-            0.75 +
-            revealProgress * 0.25;
+    yPercent: -15,
 
+    ease: "none",
 
-        revealContent.style.transform =
-            `scale(${scale})`;
+    scrollTrigger: {
 
-    }
+        trigger: "#cv",
 
+        start: "top top",
 
-    /* ========================================================
-       FINAL RENDER
-    ========================================================= */
+        end: "bottom bottom",
 
-    function render() {
-
-        /*
-         * Smooth camera movement.
-         */
-
-        smoothProgress +=
-            (
-                scrollProgress -
-                smoothProgress
-            ) * 0.08;
-
-
-        const progress =
-            smoothProgress;
-
-
-        const zoom =
-            getZoom(progress);
-
-
-        drawTrajectory(
-            progress,
-            zoom
-        );
-
-
-        updateEvent(
-            progress
-        );
-
-
-        updateReveal(
-            progress
-        );
-
-
-        progressBar.style.width =
-            `${progress * 100}%`;
-
-
-        trajectoryPosition.textContent =
-            `${Math.round(progress * 100)
-                .toString()
-                .padStart(2, "0")}%`;
-
-
-        requestAnimationFrame(
-            render
-        );
+        scrub: true
 
     }
 
-
-    /* ========================================================
-       MOUSE PARALLAX
-    ========================================================= */
-
-    window.addEventListener(
-        "mousemove",
-        event => {
-
-            mouseX =
-                event.clientX /
-                window.innerWidth;
-
-            mouseY =
-                event.clientY /
-                window.innerHeight;
-
-        }
-    );
-
-
-    /* ========================================================
-       LOADER
-    ========================================================= */
-
-    window.addEventListener(
-        "load",
-        () => {
-
-            setTimeout(() => {
-
-                document
-                    .getElementById("loader")
-                    .classList
-                    .add("loaded");
-
-            }, 1400);
-
-        }
-    );
-
-
-    /* ========================================================
-       INITIALISE
-    ========================================================= */
-
-    updateScrollProgress();
-
-    render();
-
-
-    console.log(
-        "%cADDY — CHAOTIC TRAJECTORY",
-        `
-        font-size:24px;
-        font-weight:bold;
-        color:#b8ff3d;
-        `
-    );
-
-    console.log(
-        "The entire trajectory is generated from a Lorenz chaotic system."
-    );
-
-
-})();
+});
