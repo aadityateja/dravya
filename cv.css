@@ -1,825 +1,510 @@
-/* ============================================================
-   ADDY — CHAOTIC TRAJECTORY CV
-   Completely independent from DRAVYA.
-============================================================ */
-
+/* =====================================================
+   ADDY — TRAJECTORY CV
+   cv.css
+===================================================== */
 
 :root {
+    --bg: #02040a;
+    --text: #f1f4ff;
+    --muted: rgba(220, 228, 255, 0.58);
+    --dim: rgba(220, 228, 255, 0.25);
 
-    --bg: #030405;
+    --line: #dfe7ff;
+    --accent: #8eb8ff;
 
-    --white: #f5f5f2;
-
-    --muted: #9da1a6;
-
-    --dim: #565a60;
-
-    --line: rgba(255,255,255,0.12);
-
-    --accent: #b8ff3d;
-
-    --danger: #ff5268;
-
+    --font: "Arial", "Helvetica Neue", sans-serif;
 }
 
 
-/* ============================================================
-   RESET
-============================================================ */
-
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
-html,
+
+html {
+    scroll-behavior: auto;
+}
+
+
 body {
-
-    margin: 0;
-    padding: 0;
-
-    width: 100%;
-    min-height: 100%;
-
     background: var(--bg);
-
-    color: var(--white);
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    color: var(--text);
+    font-family: var(--font);
     overflow-x: hidden;
-
-}
-
-body {
-
-    cursor: crosshair;
-
 }
 
 
-/* ============================================================
-   LOADER
-============================================================ */
+body::-webkit-scrollbar {
+    width: 5px;
+}
 
-#loader {
 
+body::-webkit-scrollbar-track {
+    background: #02040a;
+}
+
+
+body::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.25);
+}
+
+
+/* =====================================================
+   SPACE
+===================================================== */
+
+.space {
     position: fixed;
-
     inset: 0;
-
-    z-index: 9999;
-
-    background: #030405;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    transition:
-        opacity 1.2s ease,
-        visibility 1.2s ease;
-
-}
-
-#loader.loaded {
-
-    opacity: 0;
-
-    visibility: hidden;
-
-}
-
-.loader-inner {
-
-    width: min(650px, 85vw);
-
-}
-
-.loader-kicker {
-
-    font-family: monospace;
-
-    font-size: 16px;
-
-    letter-spacing: .18em;
-
-    color: var(--muted);
-
-}
-
-.loader-title {
-
-    margin-top: 18px;
-
-    font-size:
-        clamp(100px, 18vw, 220px);
-
-    line-height: .8;
-
-    letter-spacing: -.08em;
-
-}
-
-.loader-line {
-
-    height: 1px;
-
-    margin-top: 35px;
-
-    background: var(--accent);
-
-    transform-origin: left;
-
-    animation:
-        loadLine 2s ease forwards;
-
-}
-
-.loader-year {
-
-    margin-top: 18px;
-
-    font-family: monospace;
-
-    font-size: 16px;
-
-    color: var(--muted);
-
-}
-
-.loader-status {
-
-    margin-top: 70px;
-
-    font-family: monospace;
-
-    font-size: 15px;
-
-    color: var(--accent);
-
-    letter-spacing: .1em;
-
-}
-
-@keyframes loadLine {
-
-    from {
-        transform: scaleX(0);
-    }
-
-    to {
-        transform: scaleX(1);
-    }
-
-}
-
-
-/* ============================================================
-   HUD
-============================================================ */
-
-.hud {
-
-    position: fixed;
-
-    z-index: 500;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-
-    height: 82px;
-
-    padding:
-        0 36px;
-
-    display: flex;
-
-    align-items: center;
-
-    pointer-events: none;
-
-}
-
-.hud-left {
-
-    display: flex;
-
-    align-items: baseline;
-
-    gap: 18px;
-
-}
-
-.hud-left strong {
-
-    font-size: 17px;
-
-    letter-spacing: .15em;
-
-}
-
-.hud-left span {
-
-    font-family: monospace;
-
-    font-size: 13px;
-
-    color: var(--muted);
-
-    letter-spacing: .1em;
-
-}
-
-.hud-progress {
-
-    position: absolute;
-
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    width: min(420px, 40vw);
-
-    height: 2px;
-
+    z-index: -10;
     background:
-        rgba(255,255,255,.12);
-
-}
-
-.hud-progress-fill {
-
-    width: 0%;
-
-    height: 100%;
-
-    background:
-        var(--accent);
-
-}
-
-.hud-right {
-
-    margin-left: auto;
-
-}
-
-.hud-right span {
-
-    font-family: monospace;
-
-    font-size: 15px;
-
-    color: var(--accent);
-
-}
-
-.scroll-hint {
-
-    position: fixed;
-
-    z-index: 500;
-
-    left: 36px;
-
-    bottom: 30px;
-
-    font-family: monospace;
-
-    font-size: 13px;
-
-    letter-spacing: .12em;
-
-    color: var(--muted);
-
-}
-
-
-/* ============================================================
-   SCROLL SPACE
-============================================================ */
-
-#scroll-space {
-
-    position: relative;
-
-    height: 11000px;
-
-}
-
-
-/* ============================================================
-   WORLD
-============================================================ */
-
-#world {
-
-    position: fixed;
-
-    inset: 0;
-
-    overflow: hidden;
-
-    background:
-
         radial-gradient(
-            circle at center,
-            rgba(255,255,255,.025),
-            transparent 45%
+            ellipse at center,
+            rgba(20, 34, 70, 0.42) 0%,
+            rgba(3, 6, 15, 0.85) 48%,
+            #02040a 100%
         );
-
 }
 
 
-/* ============================================================
-   CANVAS
-============================================================ */
-
-#chaos-canvas {
-
+.stars {
     position: absolute;
-
     inset: 0;
-
-    width: 100%;
-
-    height: 100%;
-
-}
-
-
-/* ============================================================
-   SUBTLE FIELD GRID
-============================================================ */
-
-#world::before {
-
-    content: "";
-
-    position: absolute;
-
-    inset: -50%;
 
     background-image:
+        radial-gradient(circle, rgba(255,255,255,.55) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255,255,255,.28) 1px, transparent 1px);
 
-        linear-gradient(
-            rgba(255,255,255,.025) 1px,
-            transparent 1px
-        ),
+    background-size:
+        150px 150px,
+        270px 270px;
 
-        linear-gradient(
-            90deg,
-            rgba(255,255,255,.025) 1px,
-            transparent 1px
-        );
+    background-position:
+        20px 30px,
+        90px 140px;
 
-    background-size: 100px 100px;
+    opacity: .22;
+}
 
-    transform:
-        rotate(-4deg);
+
+.grain {
+    position: absolute;
+    inset: -50%;
+
+    opacity: .035;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
 
     pointer-events: none;
-
 }
 
 
-/* ============================================================
-   EVENT CARD
-============================================================ */
-
-.event-card {
-
-    position: absolute;
-
-    left: 50%;
-
-    top: 50%;
-
-    width: min(700px, 80vw);
-
-    transform:
-        translate(-50%, -50%);
-
-    pointer-events: none;
-
-    transition:
-        opacity .7s ease,
-        transform .7s ease;
-
-    opacity: 1;
-
-}
-
-.event-card.fade {
-
-    opacity: 0;
-
-    transform:
-        translate(-50%, -47%);
-
-}
-
-.event-index {
-
-    font-family: monospace;
-
-    font-size: 16px;
-
-    letter-spacing: .15em;
-
-    color: var(--accent);
-
-    margin-bottom: 18px;
-
-}
-
-.event-date {
-
-    font-family: monospace;
-
-    font-size: 18px;
-
-    color: var(--muted);
-
-    margin-bottom: 18px;
-
-}
-
-.event-title {
-
-    margin: 0;
-
-    font-size:
-        clamp(65px, 9vw, 145px);
-
-    line-height: .88;
-
-    letter-spacing: -.075em;
-
-    font-weight: 500;
-
-}
-
-.event-description {
-
-    margin-top: 28px;
-
-    max-width: 600px;
-
-    font-size:
-        clamp(20px, 2vw, 27px);
-
-    line-height: 1.4;
-
-    color: #d1d3d5;
-
-}
-
-
-/* ============================================================
-   CAMERA READOUT
-============================================================ */
-
-.camera-readout {
-
-    position: absolute;
-
-    right: 36px;
-
-    bottom: 30px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: flex-end;
-
-    gap: 8px;
-
-    font-family: monospace;
-
-}
-
-.camera-readout span {
-
-    font-size: 12px;
-
-    color: var(--muted);
-
-    letter-spacing: .15em;
-
-}
-
-.camera-readout strong {
-
-    font-size: 17px;
-
-    color: var(--accent);
-
-}
-
-
-/* ============================================================
-   REVEAL
-============================================================ */
-
+/* =====================================================
+   GENERAL
+===================================================== */
+
+.panel,
+.journey,
 .reveal {
+    position: relative;
+    width: 100%;
+}
 
-    position: absolute;
 
-    inset: 0;
+.micro {
+    font-size: clamp(0.7rem, 1vw, 0.9rem);
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
 
-    z-index: 50;
+
+/* =====================================================
+   INTRO
+===================================================== */
+
+.intro {
+    height: 100vh;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     text-align: center;
+}
+
+
+.intro-content {
+    transform: translateY(-3vh);
+}
+
+
+.intro h1 {
+    margin-top: 1.2rem;
+
+    font-size: clamp(5rem, 15vw, 13rem);
+
+    font-weight: 300;
+    letter-spacing: -.07em;
+
+    line-height: .85;
+}
+
+
+.intro p {
+    margin-top: 1.5rem;
+
+    font-size: clamp(1rem, 1.5vw, 1.4rem);
+
+    color: var(--muted);
+
+    letter-spacing: .18em;
+}
+
+
+.intro-line {
+    width: 90px;
+    height: 1px;
+
+    margin: 2rem auto;
+
+    background: rgba(255,255,255,.5);
+}
+
+
+.scroll-hint {
+    display: block;
+
+    margin-top: 8vh;
+
+    font-size: .72rem;
+
+    letter-spacing: .25em;
+
+    color: rgba(255,255,255,.35);
+
+    animation: pulseHint 2.5s infinite ease-in-out;
+}
+
+
+@keyframes pulseHint {
+
+    0%,
+    100% {
+        opacity: .25;
+        transform: translateY(0);
+    }
+
+    50% {
+        opacity: .8;
+        transform: translateY(6px);
+    }
+
+}
+
+
+/* =====================================================
+   JOURNEY
+===================================================== */
+
+.journey {
+    height: 750vh;
+}
+
+
+.trajectory-stage {
+    position: sticky;
+    top: 0;
+
+    height: 100vh;
+    width: 100%;
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#trajectorySvg {
+    width: 100%;
+    height: 100%;
+
+    overflow: visible;
+
+    transform-origin: center center;
+}
+
+
+/* =====================================================
+   PATH
+===================================================== */
+
+.ghost-path {
+    fill: none;
+
+    stroke: rgba(255,255,255,.045);
+
+    stroke-width: 1.5;
+}
+
+
+.life-path {
+    fill: none;
+
+    stroke: var(--line);
+
+    stroke-width: 2.2;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    filter:
+        drop-shadow(0 0 5px rgba(170,200,255,.28))
+        drop-shadow(0 0 15px rgba(120,160,255,.12));
+}
+
+
+/* =====================================================
+   OBSERVER
+===================================================== */
+
+#observer {
+    fill: #ffffff;
+
+    filter:
+        drop-shadow(0 0 5px rgba(255,255,255,.8))
+        drop-shadow(0 0 18px rgba(150,190,255,.8));
+}
+
+
+/* =====================================================
+   EVENT INFORMATION
+===================================================== */
+
+.event-info {
+    position: absolute;
+
+    left: 8vw;
+    top: 50%;
+
+    width: min(480px, 42vw);
+
+    transform: translateY(-50%);
 
     pointer-events: none;
-
-    opacity: 0;
-
 }
 
-.reveal-content {
 
-    width: min(900px, 90vw);
+.event-year {
+    font-size: clamp(1rem, 1.5vw, 1.35rem);
 
-    transform:
-        scale(.75);
+    letter-spacing: .18em;
 
-    transition:
-        transform .2s linear;
+    color: var(--accent);
 
+    margin-bottom: .8rem;
 }
 
-.reveal-kicker {
 
-    font-family: monospace;
+.event-title {
+    font-size: clamp(2rem, 4vw, 4.5rem);
 
-    font-size: 16px;
+    font-weight: 300;
+
+    line-height: 1;
+
+    letter-spacing: -.04em;
+}
+
+
+.event-description {
+    margin-top: 1.2rem;
+
+    max-width: 420px;
+
+    font-size: clamp(1rem, 1.25vw, 1.25rem);
+
+    line-height: 1.6;
+
+    color: var(--muted);
+}
+
+
+/* =====================================================
+   HUD
+===================================================== */
+
+.hud {
+    position: absolute;
+
+    bottom: 30px;
+
+    font-size: .65rem;
 
     letter-spacing: .2em;
 
-    color: var(--accent);
+    color: rgba(255,255,255,.32);
 
+    text-transform: uppercase;
 }
+
+
+.hud-left {
+    left: 35px;
+}
+
+
+.hud-right {
+    right: 35px;
+}
+
+
+/* =====================================================
+   REVEAL
+===================================================== */
+
+.reveal {
+    height: 150vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+
+.reveal-content {
+    opacity: 0;
+
+    transform: translateY(40px);
+}
+
 
 .reveal h2 {
+    margin-top: 1.2rem;
 
-    margin: 25px 0 0;
+    font-size: clamp(3rem, 8vw, 8rem);
 
-    font-size:
-        clamp(100px, 18vw, 250px);
+    font-weight: 300;
 
-    line-height: .8;
-
-    letter-spacing: -.09em;
-
-    font-weight: 500;
-
+    letter-spacing: -.06em;
 }
 
-.reveal-symbol {
-
-    margin-top: 25px;
-
-    font-size: 90px;
-
-    color: var(--accent);
-
-}
 
 .reveal p {
+    margin-top: 2rem;
 
-    max-width: 600px;
-
-    margin: 35px auto 0;
-
-    font-size:
-        clamp(20px, 2vw, 27px);
+    font-size: clamp(1.2rem, 2vw, 2rem);
 
     line-height: 1.5;
 
-    color: #c6c8ca;
-
-}
-
-.reveal-large {
-
-    font-size:
-        clamp(28px, 4vw, 50px) !important;
-
-    color: var(--white) !important;
-
-    letter-spacing: -.03em;
-
-}
-
-.reveal-final {
-
-    margin-top: 80px;
-
-    font-size:
-        clamp(40px, 7vw, 100px);
-
-    letter-spacing: -.06em;
-
-    color: var(--accent);
-
+    color: var(--muted);
 }
 
 
-/* ============================================================
-   SEMESTER MODAL
-============================================================ */
+.final-mark {
+    margin-top: 5rem;
 
-.semester-modal {
+    font-size: .75rem;
 
-    position: fixed;
+    letter-spacing: .3em;
 
-    inset: 0;
+    color: rgba(255,255,255,.45);
+}
 
-    z-index: 5000;
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+    min-height: 18vh;
+
+    padding: 2rem 5vw;
 
     display: flex;
 
     align-items: center;
 
-    justify-content: center;
+    justify-content: space-between;
 
-    background:
-        rgba(0,0,0,.8);
+    border-top: 1px solid rgba(255,255,255,.07);
 
-    backdrop-filter:
-        blur(18px);
+    font-size: .65rem;
 
-    opacity: 0;
+    letter-spacing: .18em;
 
-    visibility: hidden;
-
-    transition:
-        opacity .4s ease,
-        visibility .4s ease;
-
-}
-
-.semester-modal.open {
-
-    opacity: 1;
-
-    visibility: visible;
-
-}
-
-.semester-window {
-
-    position: relative;
-
-    width: min(600px, 88vw);
-
-    padding: 55px;
-
-    background: #080a0c;
-
-    border:
-        1px solid var(--line);
-
-}
-
-.close-button {
-
-    position: absolute;
-
-    right: 20px;
-    top: 15px;
-
-    border: 0;
-
-    background: none;
-
-    color: white;
-
-    font-size: 35px;
-
-    cursor: pointer;
-
-}
-
-.modal-kicker {
-
-    font-family: monospace;
-
-    font-size: 15px;
-
-    letter-spacing: .15em;
-
-    color: var(--muted);
-
-}
-
-.modal-semester {
-
-    margin-top: 35px;
-
-    font-family: monospace;
-
-    font-size: 18px;
-
-    color: var(--accent);
-
-}
-
-.modal-score {
-
-    margin-top: 10px;
-
-    font-size:
-        clamp(90px, 15vw, 160px);
-
-    letter-spacing: -.08em;
-
+    color: rgba(255,255,255,.35);
 }
 
 
-/* ============================================================
+/* =====================================================
    MOBILE
-============================================================ */
+===================================================== */
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
 
-    .hud {
-
-        padding: 0 18px;
-
-        height: 70px;
-
+    .journey {
+        height: 900vh;
     }
 
-    .hud-left span {
 
-        display: none;
-
+    .trajectory-stage {
+        align-items: flex-end;
     }
 
-    .hud-progress {
 
-        width: 100px;
-
+    #trajectorySvg {
+        width: 145%;
+        height: 70%;
     }
 
-    .scroll-hint {
 
-        left: 18px;
+    .event-info {
+        top: 13%;
 
-        bottom: 20px;
+        left: 7vw;
 
-        font-size: 11px;
+        width: 82vw;
 
+        transform: none;
     }
 
-    .camera-readout {
-
-        right: 18px;
-
-        bottom: 20px;
-
-    }
-
-    .event-card {
-
-        width: 86vw;
-
-    }
 
     .event-title {
-
-        font-size:
-            clamp(55px, 15vw, 100px);
-
+        font-size: clamp(2rem, 10vw, 4rem);
     }
+
 
     .event-description {
-
-        font-size: 19px;
-
+        font-size: 1rem;
     }
 
-    .reveal h2 {
 
-        font-size: 95px;
+    .hud-right {
+        display: none;
+    }
 
+
+    .hud-left {
+        left: 20px;
+        bottom: 20px;
+    }
+
+
+    footer {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 1rem;
     }
 
 }
