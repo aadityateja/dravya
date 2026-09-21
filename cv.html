@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -8,37 +10,40 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>ADDY — FIELD LOG</title>
+    <title>ADDY — CHAOTIC TRAJECTORY</title>
 
     <link rel="stylesheet" href="cv.css">
+
 </head>
+
 
 <body>
 
-    <!-- =========================================================
-         LOADER
-    ========================================================== -->
 
-    <div id="cv-loader">
+    <!-- ======================================================
+         LOADING SCREEN
+    ======================================================= -->
+
+    <div id="loader">
 
         <div class="loader-inner">
 
-            <div class="loader-small">
-                PERSONAL FIELD LOG
+            <div class="loader-kicker">
+                PERSONAL TRAJECTORY
             </div>
 
-            <div class="loader-name">
+            <div class="loader-title">
                 ADDY
             </div>
 
             <div class="loader-line"></div>
 
-            <div class="loader-meta">
-                1999 — PRESENT
+            <div class="loader-year">
+                1999 — 2026
             </div>
 
             <div class="loader-status">
-                INITIALISING FIELD...
+                INITIALISING SYSTEM
             </div>
 
         </div>
@@ -46,852 +51,169 @@
     </div>
 
 
-    <!-- =========================================================
-         FIXED INTERFACE
-    ========================================================== -->
 
-    <header class="cv-interface">
+    <!-- ======================================================
+         FIXED HUD
+    ======================================================= -->
 
-        <div class="cv-brand">
-            <span>ADDY</span>
-            <small>FIELD LOG</small>
+    <header class="hud">
+
+        <div class="hud-left">
+
+            <strong>ADDY</strong>
+
+            <span>
+                TRAJECTORY / 001
+            </span>
+
         </div>
 
-        <div class="cv-progress">
-            <div class="cv-progress-fill"></div>
+
+        <div class="hud-progress">
+
+            <div
+                id="progress-bar"
+                class="hud-progress-fill"
+            ></div>
+
         </div>
 
-        <div class="cv-year">
-            <span id="current-year">1999</span>
+
+        <div class="hud-right">
+
+            <span id="hud-year">
+                1999
+            </span>
+
         </div>
 
     </header>
 
 
-    <div class="cv-instruction">
-        SCROLL TO TRAVEL
+
+    <div class="scroll-hint">
+        SCROLL TO FOLLOW THE TRAJECTORY
     </div>
 
 
-    <div class="cv-coordinates">
-        X: <span id="coord-x">000</span>
-        &nbsp;&nbsp;
-        Y: <span id="coord-y">000</span>
-    </div>
+
+    <!-- ======================================================
+         MAIN SCROLL SPACE
+    ======================================================= -->
+
+    <main id="scroll-space">
 
 
-    <!-- =========================================================
-         MAIN SCROLL TRACK
-    ========================================================== -->
+        <!-- ==================================================
+             CHAOS WORLD
+        =================================================== -->
 
-    <main id="cv-scroll">
-
-        <div id="cv-world">
+        <div id="world">
 
 
-            <!-- =================================================
-                 BACKGROUND FIELD
-            ================================================== -->
+            <!-- CANVAS CONTAINS THE ENTIRE CHAOTIC TRAJECTORY -->
 
-            <div class="field-grid"></div>
-
-            <div class="field-glow glow-one"></div>
-            <div class="field-glow glow-two"></div>
+            <canvas id="chaos-canvas"></canvas>
 
 
             <!-- =================================================
-                 CENTRAL TIMELINE
+                 CURRENT EVENT
             ================================================== -->
 
-            <div id="timeline">
+            <div
+                id="event-card"
+                class="event-card"
+            >
 
-
-                <!-- =============================================
-                     01 — ORIGIN
-                ============================================== -->
-
-                <section
-                    class="cv-node node-origin"
-                    data-year="1999"
-                    data-x="0"
-                    data-y="0"
+                <div
+                    id="event-index"
+                    class="event-index"
                 >
+                    01
+                </div>
 
-                    <div class="node-marker">
-                        <span></span>
-                    </div>
-
-                    <div class="node-label">
-                        01 / ORIGIN
-                    </div>
-
-                    <div class="node-content">
-
-                        <div class="node-year">
-                            1999
-                        </div>
-
-                        <h1>
-                            MYSORE
-                        </h1>
-
-                        <p>
-                            The field begins.
-                        </p>
-
-                        <div class="node-detail">
-                            Born in Mysore, Karnataka.
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =============================================
-                     02 — SCHOOL
-                ============================================== -->
-
-                <section
-                    class="cv-node node-school"
-                    data-year="2015"
-                    data-x="1800"
-                    data-y="0"
+                <div
+                    id="event-date"
+                    class="event-date"
                 >
+                    1999
+                </div>
 
-                    <div class="node-marker">
-                        <span></span>
-                    </div>
-
-                    <div class="node-label">
-                        02 / SCHOOL
-                    </div>
-
-                    <div class="node-content">
-
-                        <div class="node-year">
-                            2015
-                        </div>
-
-                        <h2>
-                            10TH GRADE
-                        </h2>
-
-                        <div class="big-number">
-                            87.52%
-                        </div>
-
-                        <p>
-                            Distinction.
-                        </p>
-
-                        <div class="node-detail">
-                            No tuition.
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =============================================
-                     03 — PUC
-                ============================================== -->
-
-                <section
-                    class="cv-node node-puc"
-                    data-year="2017"
-                    data-x="3500"
-                    data-y="0"
+                <h1
+                    id="event-title"
+                    class="event-title"
                 >
+                    MYSORE
+                </h1>
 
-                    <div class="node-marker">
-                        <span></span>
-                    </div>
-
-                    <div class="node-label">
-                        03 / PUC
-                    </div>
-
-                    <div class="node-content">
-
-                        <div class="node-year">
-                            2017
-                        </div>
-
-                        <h2>
-                            PCME
-                        </h2>
-
-                        <p>
-                            Physics · Chemistry · Mathematics · Electronics
-                        </p>
-
-                        <div class="big-number">
-                            63%
-                        </div>
-
-                        <div class="node-detail">
-                            The direction begins to emerge.
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =============================================
-                     TURN DOWN — B.SC.
-                ============================================== -->
-
-                <section
-                    class="cv-node node-bsc"
-                    data-year="2017"
-                    data-x="5000"
-                    data-y="900"
+                <p
+                    id="event-description"
+                    class="event-description"
                 >
-
-                    <div class="node-marker">
-                        <span></span>
-                    </div>
-
-                    <div class="node-label">
-                        04 / UNIVERSITY
-                    </div>
-
-                    <div class="node-content">
-
-                        <div class="node-year">
-                            AUG 2017
-                        </div>
-
-                        <h2>
-                            B.Sc.
-                        </h2>
-
-                        <p>
-                            Physics · Mathematics · Electronics
-                        </p>
-
-                        <div class="node-detail">
-                            Yuvaraja College, Mysore
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =============================================
-                     05 — INSTABILITY
-                ============================================== -->
-
-                <section
-                    class="cv-node node-instability"
-                    data-year="2019"
-                    data-x="5000"
-                    data-y="2200"
-                >
-
-                    <div class="node-marker instability-marker">
-                        <span></span>
-                    </div>
-
-                    <div class="node-label">
-                        05 / SYSTEM INSTABILITY
-                    </div>
-
-                    <div class="node-content">
-
-                        <div class="node-year">
-                            2017 — 2019
-                        </div>
-
-                        <h2>
-                            PHYSICS
-                        </h2>
-
-                        <div class="instability-box">
-
-                            <div>
-                                SEM I
-                                <strong>FAILED</strong>
-                            </div>
-
-                            <div>
-                                SEM III
-                                <strong>FAILED</strong>
-                            </div>
-
-                            <div>
-                                RE-EXAM
-                                <strong>FAILED</strong>
-                            </div>
-
-                        </div>
-
-                        <p>
-                            The trajectory did not terminate.
-                        </p>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =============================================
-                     TURN LEFT — MUSIC
-                ============================================== -->
-
-                <section
-                    class="cv-node node-music"
-                    data-year="2019"
-                    data-x="3500"
-                    data-y="3400"
-                >
-
-                    <div class="node-marker">
-                        <span></span>
-                    </div>
-
-                    <div class="node-label">
-                        06 / SOUND
-                    </div>
-
-                    <div class="node-content">
-
-                        <div class="node-year">
-                            MAR 2019
-                        </div>
-
-                        <h2>
-                            SWASTAIN
-                        </h2>
-
-                        <div class="waveform">
-
-                            <i></i>
-                            <i></i>
-                            <i></i>
-                            <i></i>
-                            <i></i>
-                            <i></i>
-                            <i></i>
-                            <i></i>
-                            <i></i>
-                            <i></i>
-                            <i></i>
-                            <i></i>
-                            <i></i>
-                            <i></i>
-                            <i></i>
-
-                        </div>
-
-                        <p>
-                            Music band formed.
-                        </p>
-
-                        <div class="node-detail">
-                            Jam sessions · Battle of Bands · College events
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =============================================
-                     07 — FINAL PERFORMANCE
-                ============================================== -->
-
-                <section
-                    class="cv-node node-performance"
-                    data-year="2020"
-                    data-x="1700"
-                    data-y="3400"
-                >
-
-                    <div class="node-marker">
-                        <span></span>
-                    </div>
-
-                    <div class="node-label">
-                        07 / LAST SHOW
-                    </div>
-
-                    <div class="node-content">
-
-                        <div class="node-year">
-                            FEB 2020
-                        </div>
-
-                        <h2>
-                            FINAL PERFORMANCE
-                        </h2>
-
-                        <p>
-                            SWASTAIN's final performance.
-                        </p>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =============================================
-                     08 — LOCKDOWN
-                ============================================== -->
-
-                <section
-                    class="cv-node node-lockdown"
-                    data-year="2020"
-                    data-x="500"
-                    data-y="3400"
-                >
-
-                    <div class="node-marker">
-                        <span></span>
-                    </div>
-
-                    <div class="node-label">
-                        08 / INTERRUPTION
-                    </div>
-
-                    <div class="node-content">
-
-                        <div class="node-year">
-                            21 MAR 2020
-                        </div>
-
-                        <h2>
-                            LOCKDOWN
-                        </h2>
-
-                        <p>
-                            The world stopped.
-                        </p>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =============================================
-                     09 — WORK
-                ============================================== -->
-
-                <section
-                    class="cv-node node-work"
-                    data-year="2020"
-                    data-x="500"
-                    data-y="4700"
-                >
-
-                    <div class="node-marker">
-                        <span></span>
-                    </div>
-
-                    <div class="node-label">
-                        09 / WORK
-                    </div>
-
-                    <div class="node-content work-content">
-
-                        <div class="node-year">
-                            2020 — 2024
-                        </div>
-
-                        <h2>
-                            WORK
-                        </h2>
-
-                        <div class="work-list">
-
-                            <div>
-                                <span>APR 2020</span>
-                                Kannada Local News
-                            </div>
-
-                            <div>
-                                <span>NOV 2020</span>
-                                Source Hub
-                            </div>
-
-                            <div>
-                                <span>APR 2021</span>
-                                Call Centre
-                            </div>
-
-                            <div>
-                                <span>OCT 2021</span>
-                                Diya Systems
-                            </div>
-
-                            <div>
-                                <span>JUN 2023</span>
-                                Concentrix
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =============================================
-                     10 — BANGALORE
-                ============================================== -->
-
-                <section
-                    class="cv-node node-bangalore"
-                    data-year="2023"
-                    data-x="1800"
-                    data-y="5200"
-                >
-
-                    <div class="node-marker">
-                        <span></span>
-                    </div>
-
-                    <div class="node-label">
-                        10 / RELOCATION
-                    </div>
-
-                    <div class="node-content">
-
-                        <div class="node-year">
-                            APR 2023
-                        </div>
-
-                        <h2>
-                            BANGALORE
-                        </h2>
-
-                        <p>
-                            A new environment.
-                        </p>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =============================================
-                     11 — HAMPI
-                ============================================== -->
-
-                <section
-                    class="cv-node node-hampi"
-                    data-year="2024"
-                    data-x="3300"
-                    data-y="5200"
-                >
-
-                    <div class="node-marker">
-                        <span></span>
-                    </div>
-
-                    <div class="node-label">
-                        11 / RESET
-                    </div>
-
-                    <div class="node-content">
-
-                        <div class="node-year">
-                            JUL 2024
-                        </div>
-
-                        <h2>
-                            HAMPI
-                        </h2>
-
-                        <p>
-                            Solo trip.
-                        </p>
-
-                        <div class="node-detail">
-                            Sometimes changing direction begins with moving.
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =============================================
-                     12 — M.SC.
-                ============================================== -->
-
-                <section
-                    class="cv-node node-msc"
-                    data-year="2024"
-                    data-x="5000"
-                    data-y="5200"
-                >
-
-                    <div class="node-marker">
-                        <span></span>
-                    </div>
-
-                    <div class="node-label">
-                        12 / THE RETURN
-                    </div>
-
-                    <div class="node-content">
-
-                        <div class="node-year">
-                            AUG 2024
-                        </div>
-
-                        <h2>
-                            M.Sc. PHYSICS
-                        </h2>
-
-                        <p>
-                            Ramaiah University of Applied Sciences
-                        </p>
-
-                        <div class="semester-grid">
-
-                            <button data-sem="1">
-                                <span>SEM 01</span>
-                                6.70
-                            </button>
-
-                            <button data-sem="2">
-                                <span>SEM 02</span>
-                                6.80
-                            </button>
-
-                            <button data-sem="3">
-                                <span>SEM 03</span>
-                                8.10
-                            </button>
-
-                            <button data-sem="4">
-                                <span>SEM 04</span>
-                                8.40
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =============================================
-                     13 — RESEARCH
-                ============================================== -->
-
-                <section
-                    class="cv-node node-research"
-                    data-year="2025"
-                    data-x="5000"
-                    data-y="6700"
-                >
-
-                    <div class="node-marker research-marker">
-                        <span></span>
-                    </div>
-
-                    <div class="node-label">
-                        13 / RESEARCH
-                    </div>
-
-                    <div class="node-content research-content">
-
-                        <div class="node-year">
-                            2025 — 2026
-                        </div>
-
-                        <h2>
-                            EXPERIMENTAL
-                            <br>
-                            HIGH ENERGY PHYSICS
-                        </h2>
-
-                        <div class="particle-field">
-
-                            <div class="particle p1"></div>
-                            <div class="particle p2"></div>
-                            <div class="particle p3"></div>
-                            <div class="particle p4"></div>
-
-                            <div class="collision"></div>
-
-                        </div>
-
-                        <p>
-                            Neutrons → hadronic showers → detector data → machine learning.
-                        </p>
-
-                        <div class="node-detail">
-                            Zero Degree Calorimeter research
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =============================================
-                     14 — NAXXATRA
-                ============================================== -->
-
-                <section
-                    class="cv-node node-naxxatra"
-                    data-year="2026"
-                    data-x="3500"
-                    data-y="7600"
-                >
-
-                    <div class="node-marker">
-                        <span></span>
-                    </div>
-
-                    <div class="node-label">
-                        14 / SCIENCE
-                    </div>
-
-                    <div class="node-content">
-
-                        <div class="node-year">
-                            JUN 2026
-                        </div>
-
-                        <h2>
-                            NAXXATRA
-                        </h2>
-
-                        <p>
-                            Research & Teaching Fellow
-                        </p>
-
-                        <div class="node-detail">
-                            Research · Teaching · Science Communication
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =============================================
-                     15 — PRESENT
-                ============================================== -->
-
-                <section
-                    class="cv-node node-present"
-                    data-year="NOW"
-                    data-x="1700"
-                    data-y="7600"
-                >
-
-                    <div class="node-marker present-marker">
-                        <span></span>
-                    </div>
-
-                    <div class="node-label">
-                        15 / PRESENT
-                    </div>
-
-                    <div class="node-content">
-
-                        <div class="node-year">
-                            NOW
-                        </div>
-
-                        <h1>
-                            ADDY
-                        </h1>
-
-                        <p class="present-title">
-                            NUCLEAR PHYSICS RESEARCHER
-                        </p>
-
-                        <div class="present-grid">
-
-                            <span>PHYSICS</span>
-                            <span>RESEARCH</span>
-                            <span>TEACHING</span>
-                            <span>MUSIC</span>
-                            <span>FICTION</span>
-                            <span>DRAVYA</span>
-
-                        </div>
-
-                        <div class="present-statement">
-                            The trajectory continues.
-                        </div>
-
-                    </div>
-
-                </section>
-
+                    The trajectory begins.
+                </p>
 
             </div>
 
 
             <!-- =================================================
-                 TIMELINE PATH
+                 CAMERA STATE
             ================================================== -->
 
-            <svg
-                id="timeline-path"
-                viewBox="0 0 6000 8500"
-                preserveAspectRatio="none"
+            <div class="camera-readout">
+
+                <span>
+                    TRAJECTORY
+                </span>
+
+                <strong id="trajectory-position">
+                    00%
+                </strong>
+
+            </div>
+
+
+            <!-- =================================================
+                 FINAL REVEAL
+            ================================================== -->
+
+            <section
+                id="reveal"
+                class="reveal"
             >
 
-                <path
-                    d="
-                    M 350 500
+                <div class="reveal-content">
 
-                    C 900 500,
-                      1300 500,
-                      1800 500
+                    <div class="reveal-kicker">
+                        THE TRAJECTORY REVEALED
+                    </div>
 
-                    C 2500 500,
-                      3000 500,
-                      3500 500
+                    <h2>
+                        CHAOS
+                    </h2>
 
-                    C 4400 500,
-                      5000 650,
-                      5000 1500
+                    <div class="reveal-symbol">
+                        ∿
+                    </div>
 
-                    C 5000 2200,
-                      4500 2800,
-                      3500 3400
+                    <p>
+                        A trajectory can look random
+                        when you are inside it.
+                    </p>
 
-                    C 2500 3900,
-                      1300 3400,
-                      500 3400
+                    <p class="reveal-large">
+                        Step back.
+                        <br>
+                        A pattern appears.
+                    </p>
 
-                    C 200 3400,
-                      500 4000,
-                      500 4700
+                    <div class="reveal-final">
+                        NAXXATRA
+                    </div>
 
-                    C 500 5200,
-                      1800 5200,
-                      3300 5200
+                </div>
 
-                    C 4300 5200,
-                      5000 5500,
-                      5000 6700
-
-                    C 5000 7300,
-                      4300 7600,
-                      3500 7600
-
-                    C 2700 7600,
-                      2200 7600,
-                      1700 7600
-                    "
-                ></path>
-
-            </svg>
+            </section>
 
 
         </div>
@@ -899,32 +221,41 @@
     </main>
 
 
-    <!-- =========================================================
-         SEMESTER MODAL
-    ========================================================== -->
 
-    <div id="semester-modal">
+    <!-- ======================================================
+         SEMESTER POPUP
+    ======================================================= -->
 
-        <div class="modal-inner">
+    <div
+        id="semester-modal"
+        class="semester-modal"
+    >
 
-            <button id="modal-close">
+        <div class="semester-window">
+
+            <button
+                id="close-semester"
+                class="close-button"
+            >
                 ×
             </button>
 
-            <div class="modal-small">
-                ACADEMIC RECORD
+            <div class="modal-kicker">
+                M.Sc. PHYSICS
             </div>
 
-            <div id="modal-semester">
+            <div
+                id="modal-semester"
+                class="modal-semester"
+            >
                 SEM 01
             </div>
 
-            <div id="modal-score">
+            <div
+                id="modal-score"
+                class="modal-score"
+            >
                 6.70
-            </div>
-
-            <div id="modal-description">
-                M.Sc. Physics
             </div>
 
         </div>
@@ -932,7 +263,9 @@
     </div>
 
 
+
     <script src="cv.js"></script>
 
 </body>
+
 </html>
