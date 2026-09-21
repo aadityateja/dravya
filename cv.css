@@ -1,16 +1,31 @@
 /* ============================================================
-   ADDY CV
-   Completely independent from DRAVYA's main stylesheet.
+   ADDY — CHAOTIC TRAJECTORY CV
+   Completely independent from DRAVYA.
 ============================================================ */
 
+
 :root {
-    --bg: #050609;
-    --fg: #f4f4f0;
-    --muted: #777b82;
+
+    --bg: #030405;
+
+    --white: #f5f5f2;
+
+    --muted: #9da1a6;
+
+    --dim: #565a60;
+
     --line: rgba(255,255,255,0.12);
+
     --accent: #b8ff3d;
-    --danger: #ff4f64;
+
+    --danger: #ff5268;
+
 }
+
+
+/* ============================================================
+   RESET
+============================================================ */
 
 * {
     box-sizing: border-box;
@@ -18,17 +33,30 @@
 
 html,
 body {
+
     margin: 0;
     padding: 0;
+
     width: 100%;
+    min-height: 100%;
+
     background: var(--bg);
-    color: var(--fg);
-    font-family: Arial, Helvetica, sans-serif;
+
+    color: var(--white);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
     overflow-x: hidden;
+
 }
 
 body {
+
     cursor: crosshair;
+
 }
 
 
@@ -36,61 +64,110 @@ body {
    LOADER
 ============================================================ */
 
-#cv-loader {
+#loader {
+
     position: fixed;
+
     inset: 0;
+
     z-index: 9999;
-    background: #050609;
+
+    background: #030405;
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
+
     transition:
-        opacity 1s ease,
-        visibility 1s ease;
+        opacity 1.2s ease,
+        visibility 1.2s ease;
+
 }
 
-#cv-loader.loaded {
+#loader.loaded {
+
     opacity: 0;
+
     visibility: hidden;
+
 }
 
 .loader-inner {
-    width: min(500px, 80vw);
+
+    width: min(650px, 85vw);
+
 }
 
-.loader-small,
-.loader-meta,
-.loader-status {
+.loader-kicker {
+
     font-family: monospace;
-    font-size: 11px;
-    letter-spacing: 0.2em;
+
+    font-size: 16px;
+
+    letter-spacing: .18em;
+
     color: var(--muted);
+
 }
 
-.loader-name {
-    margin: 20px 0;
-    font-size: clamp(70px, 15vw, 180px);
-    line-height: 0.8;
-    letter-spacing: -0.08em;
+.loader-title {
+
+    margin-top: 18px;
+
+    font-size:
+        clamp(100px, 18vw, 220px);
+
+    line-height: .8;
+
+    letter-spacing: -.08em;
+
 }
 
 .loader-line {
+
     height: 1px;
-    background: var(--fg);
+
+    margin-top: 35px;
+
+    background: var(--accent);
+
     transform-origin: left;
-    animation: loaderLine 2s ease forwards;
+
+    animation:
+        loadLine 2s ease forwards;
+
 }
 
-.loader-meta {
-    margin-top: 14px;
+.loader-year {
+
+    margin-top: 18px;
+
+    font-family: monospace;
+
+    font-size: 16px;
+
+    color: var(--muted);
+
 }
 
 .loader-status {
-    margin-top: 50px;
+
+    margin-top: 70px;
+
+    font-family: monospace;
+
+    font-size: 15px;
+
     color: var(--accent);
+
+    letter-spacing: .1em;
+
 }
 
-@keyframes loaderLine {
+@keyframes loadLine {
+
     from {
         transform: scaleX(0);
     }
@@ -98,741 +175,581 @@ body {
     to {
         transform: scaleX(1);
     }
+
 }
 
 
 /* ============================================================
-   FIXED INTERFACE
+   HUD
 ============================================================ */
 
-.cv-interface {
+.hud {
+
     position: fixed;
-    z-index: 1000;
+
+    z-index: 500;
+
     top: 0;
     left: 0;
+
     width: 100%;
-    height: 70px;
+
+    height: 82px;
+
+    padding:
+        0 36px;
+
     display: flex;
+
     align-items: center;
-    padding: 0 30px;
+
     pointer-events: none;
+
 }
 
-.cv-brand {
+.hud-left {
+
     display: flex;
+
     align-items: baseline;
-    gap: 12px;
+
+    gap: 18px;
+
 }
 
-.cv-brand span {
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
+.hud-left strong {
+
+    font-size: 17px;
+
+    letter-spacing: .15em;
+
 }
 
-.cv-brand small {
-    color: var(--muted);
+.hud-left span {
+
     font-family: monospace;
-    font-size: 9px;
-    letter-spacing: 0.15em;
+
+    font-size: 13px;
+
+    color: var(--muted);
+
+    letter-spacing: .1em;
+
 }
 
-.cv-progress {
+.hud-progress {
+
     position: absolute;
+
     left: 50%;
+
     transform: translateX(-50%);
-    width: min(400px, 40vw);
-    height: 1px;
-    background: var(--line);
+
+    width: min(420px, 40vw);
+
+    height: 2px;
+
+    background:
+        rgba(255,255,255,.12);
+
 }
 
-.cv-progress-fill {
-    width: 0;
+.hud-progress-fill {
+
+    width: 0%;
+
     height: 100%;
-    background: var(--accent);
+
+    background:
+        var(--accent);
+
 }
 
-.cv-year {
+.hud-right {
+
     margin-left: auto;
+
+}
+
+.hud-right span {
+
     font-family: monospace;
-    font-size: 11px;
+
+    font-size: 15px;
+
     color: var(--accent);
+
 }
 
-.cv-instruction {
-    position: fixed;
-    z-index: 1000;
-    left: 30px;
-    bottom: 25px;
-    font-family: monospace;
-    font-size: 9px;
-    letter-spacing: 0.15em;
-    color: var(--muted);
-}
+.scroll-hint {
 
-.cv-coordinates {
     position: fixed;
-    z-index: 1000;
-    right: 30px;
-    bottom: 25px;
+
+    z-index: 500;
+
+    left: 36px;
+
+    bottom: 30px;
+
     font-family: monospace;
-    font-size: 9px;
+
+    font-size: 13px;
+
+    letter-spacing: .12em;
+
     color: var(--muted);
+
 }
 
 
 /* ============================================================
-   SCROLL TRACK
+   SCROLL SPACE
 ============================================================ */
 
-#cv-scroll {
-    height: 8500px;
+#scroll-space {
+
     position: relative;
+
+    height: 11000px;
+
 }
 
-#cv-world {
+
+/* ============================================================
+   WORLD
+============================================================ */
+
+#world {
+
     position: fixed;
+
     inset: 0;
+
+    overflow: hidden;
+
+    background:
+
+        radial-gradient(
+            circle at center,
+            rgba(255,255,255,.025),
+            transparent 45%
+        );
+
+}
+
+
+/* ============================================================
+   CANVAS
+============================================================ */
+
+#chaos-canvas {
+
+    position: absolute;
+
+    inset: 0;
+
     width: 100%;
+
     height: 100%;
 
-    transform:
-        translate3d(0,0,0);
-
-    will-change: transform;
 }
 
 
 /* ============================================================
-   FIELD
+   SUBTLE FIELD GRID
 ============================================================ */
 
-.field-grid {
+#world::before {
+
+    content: "";
+
     position: absolute;
-    inset: -100%;
+
+    inset: -50%;
+
     background-image:
+
         linear-gradient(
-            rgba(255,255,255,0.035) 1px,
+            rgba(255,255,255,.025) 1px,
             transparent 1px
         ),
+
         linear-gradient(
             90deg,
-            rgba(255,255,255,0.035) 1px,
+            rgba(255,255,255,.025) 1px,
             transparent 1px
         );
-    background-size: 80px 80px;
-    transform: rotate(-5deg);
-}
 
-.field-glow {
-    position: absolute;
-    width: 700px;
-    height: 700px;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.08;
+    background-size: 100px 100px;
+
+    transform:
+        rotate(-4deg);
+
     pointer-events: none;
-}
 
-.glow-one {
-    background: var(--accent);
-    top: 10%;
-    left: 10%;
-}
-
-.glow-two {
-    background: #ffffff;
-    right: 10%;
-    bottom: 10%;
 }
 
 
 /* ============================================================
-   TIMELINE
+   EVENT CARD
 ============================================================ */
 
-#timeline {
+.event-card {
+
     position: absolute;
-    width: 6000px;
-    height: 8500px;
+
     left: 50%;
+
     top: 50%;
-    transform: translate(-50%, -50%);
-}
 
-
-/* ============================================================
-   PATH
-============================================================ */
-
-#timeline-path {
-    position: absolute;
-    inset: 0;
-    width: 6000px;
-    height: 8500px;
-    pointer-events: none;
-    overflow: visible;
-}
-
-#timeline-path path {
-    fill: none;
-    stroke: rgba(184,255,61,0.35);
-    stroke-width: 3;
-    stroke-dasharray: 10 16;
-}
-
-
-/* ============================================================
-   NODES
-============================================================ */
-
-.cv-node {
-    position: absolute;
-    width: 600px;
-    min-height: 300px;
+    width: min(700px, 80vw);
 
     transform:
         translate(-50%, -50%);
 
-    opacity: 0.15;
+    pointer-events: none;
 
     transition:
-        opacity 0.8s ease,
-        transform 0.8s cubic-bezier(.2,.8,.2,1);
-}
+        opacity .7s ease,
+        transform .7s ease;
 
-.cv-node.active {
     opacity: 1;
+
 }
 
-.cv-node.active:hover {
-    transform:
-        translate(-50%, -50%)
-        scale(1.02);
-}
-
-
-/* Position nodes */
-
-.node-origin {
-    left: 350px;
-    top: 500px;
-}
-
-.node-school {
-    left: 1800px;
-    top: 500px;
-}
-
-.node-puc {
-    left: 3500px;
-    top: 500px;
-}
-
-.node-bsc {
-    left: 5000px;
-    top: 1500px;
-}
-
-.node-instability {
-    left: 5000px;
-    top: 2200px;
-}
-
-.node-music {
-    left: 3500px;
-    top: 3400px;
-}
-
-.node-performance {
-    left: 1700px;
-    top: 3400px;
-}
-
-.node-lockdown {
-    left: 500px;
-    top: 3400px;
-}
-
-.node-work {
-    left: 500px;
-    top: 4700px;
-}
-
-.node-bangalore {
-    left: 1800px;
-    top: 5200px;
-}
-
-.node-hampi {
-    left: 3300px;
-    top: 5200px;
-}
-
-.node-msc {
-    left: 5000px;
-    top: 5200px;
-}
-
-.node-research {
-    left: 5000px;
-    top: 6700px;
-}
-
-.node-naxxatra {
-    left: 3500px;
-    top: 7600px;
-}
-
-.node-present {
-    left: 1700px;
-    top: 7600px;
-}
-
-
-/* ============================================================
-   NODE CONTENT
-============================================================ */
-
-.node-marker {
-    position: absolute;
-    left: 50%;
-    top: -8px;
-
-    width: 16px;
-    height: 16px;
-
-    transform: translateX(-50%);
-
-    border: 1px solid var(--accent);
-    border-radius: 50%;
-
-    background: var(--bg);
-
-    box-shadow:
-        0 0 0 8px rgba(184,255,61,0.04),
-        0 0 30px rgba(184,255,61,0.25);
-}
-
-.node-marker span {
-    position: absolute;
-    inset: 4px;
-    border-radius: 50%;
-    background: var(--accent);
-}
-
-.node-label {
-    margin-bottom: 35px;
-
-    font-family: monospace;
-    font-size: 9px;
-    letter-spacing: 0.2em;
-
-    color: var(--accent);
-}
-
-.node-content {
-    border-top: 1px solid var(--line);
-    padding-top: 25px;
-    max-width: 600px;
-}
-
-.node-year {
-    font-family: monospace;
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 15px;
-}
-
-.node-content h1,
-.node-content h2 {
-    margin: 0;
-    font-weight: 500;
-    letter-spacing: -0.06em;
-    line-height: 0.95;
-}
-
-.node-content h1 {
-    font-size: clamp(70px, 8vw, 130px);
-}
-
-.node-content h2 {
-    font-size: clamp(45px, 6vw, 90px);
-}
-
-.node-content p {
-    max-width: 500px;
-    margin: 25px 0;
-    color: #b5b7bb;
-    font-size: 17px;
-    line-height: 1.5;
-}
-
-.node-detail {
-    font-family: monospace;
-    font-size: 10px;
-    line-height: 1.7;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-}
-
-
-/* ============================================================
-   BIG NUMBER
-============================================================ */
-
-.big-number {
-    margin-top: 20px;
-    font-size: clamp(70px, 9vw, 150px);
-    letter-spacing: -0.08em;
-    color: var(--accent);
-}
-
-
-/* ============================================================
-   INSTABILITY
-============================================================ */
-
-.instability-box {
-    display: flex;
-    gap: 10px;
-    margin: 30px 0;
-}
-
-.instability-box div {
-    width: 130px;
-    min-height: 100px;
-    border: 1px solid rgba(255,79,100,0.35);
-    padding: 15px;
-    font-family: monospace;
-    font-size: 9px;
-    color: var(--muted);
-}
-
-.instability-box strong {
-    display: block;
-    margin-top: 20px;
-    color: var(--danger);
-    font-size: 11px;
-}
-
-
-/* ============================================================
-   MUSIC
-============================================================ */
-
-.waveform {
-    height: 100px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin: 35px 0;
-}
-
-.waveform i {
-    width: 5px;
-    height: 30px;
-    background: var(--accent);
-    display: block;
-    animation: wave 1s ease-in-out infinite alternate;
-}
-
-.waveform i:nth-child(2n) {
-    animation-delay: .1s;
-}
-
-.waveform i:nth-child(3n) {
-    animation-delay: .3s;
-}
-
-.waveform i:nth-child(4n) {
-    animation-delay: .5s;
-}
-
-@keyframes wave {
-    from {
-        height: 15px;
-    }
-
-    to {
-        height: 90px;
-    }
-}
-
-
-/* ============================================================
-   WORK
-============================================================ */
-
-.work-list {
-    margin-top: 30px;
-    border-top: 1px solid var(--line);
-}
-
-.work-list div {
-    padding: 18px 0;
-    border-bottom: 1px solid var(--line);
-    font-size: 17px;
-}
-
-.work-list span {
-    display: inline-block;
-    width: 100px;
-    font-family: monospace;
-    font-size: 9px;
-    color: var(--accent);
-}
-
-
-/* ============================================================
-   M.SC.
-============================================================ */
-
-.semester-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 160px);
-    gap: 8px;
-    margin-top: 35px;
-}
-
-.semester-grid button {
-    min-height: 120px;
-    border: 1px solid var(--line);
-    background: transparent;
-    color: var(--fg);
-    text-align: left;
-    padding: 15px;
-    cursor: pointer;
-    transition:
-        border-color .3s,
-        background .3s;
-}
-
-.semester-grid button:hover {
-    border-color: var(--accent);
-    background: rgba(184,255,61,0.06);
-}
-
-.semester-grid span {
-    display: block;
-    font-family: monospace;
-    font-size: 8px;
-    color: var(--muted);
-    margin-bottom: 20px;
-}
-
-.semester-grid button {
-    font-size: 28px;
-}
-
-
-/* ============================================================
-   RESEARCH
-============================================================ */
-
-.particle-field {
-    position: relative;
-    width: 500px;
-    height: 180px;
-    margin: 30px 0;
-    overflow: hidden;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-}
-
-.particle {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--accent);
-}
-
-.p1 {
-    top: 30%;
-    left: 10%;
-    animation: particleOne 3s infinite linear;
-}
-
-.p2 {
-    top: 60%;
-    left: 20%;
-    animation: particleTwo 2.5s infinite linear;
-}
-
-.p3 {
-    top: 45%;
-    left: 5%;
-    animation: particleThree 4s infinite linear;
-}
-
-.p4 {
-    top: 20%;
-    left: 30%;
-    animation: particleFour 3.5s infinite linear;
-}
-
-.collision {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-
-    width: 15px;
-    height: 15px;
-
-    border-radius: 50%;
-
-    background: var(--accent);
-
-    box-shadow:
-        0 0 30px var(--accent),
-        0 0 80px var(--accent);
-
-    animation: collision 1.5s infinite ease-out;
-}
-
-@keyframes particleOne {
-    to {
-        left: 50%;
-    }
-}
-
-@keyframes particleTwo {
-    to {
-        left: 50%;
-    }
-}
-
-@keyframes particleThree {
-    to {
-        left: 50%;
-    }
-}
-
-@keyframes particleFour {
-    to {
-        left: 50%;
-    }
-}
-
-@keyframes collision {
-    0% {
-        transform: scale(.5);
-        opacity: .8;
-    }
-
-    100% {
-        transform: scale(12);
-        opacity: 0;
-    }
-}
-
-
-/* ============================================================
-   PRESENT
-============================================================ */
-
-.present-title {
-    color: var(--accent) !important;
-    font-family: monospace;
-    font-size: 12px !important;
-    letter-spacing: .15em;
-}
-
-.present-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    max-width: 500px;
-    margin-top: 30px;
-}
-
-.present-grid span {
-    border: 1px solid var(--line);
-    padding: 10px 14px;
-    font-family: monospace;
-    font-size: 9px;
-}
-
-.present-statement {
-    margin-top: 45px;
-    font-size: 22px;
-    color: var(--muted);
-}
-
-
-/* ============================================================
-   MODAL
-============================================================ */
-
-#semester-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 5000;
-
-    background: rgba(5,6,9,.85);
-    backdrop-filter: blur(15px);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.event-card.fade {
 
     opacity: 0;
+
+    transform:
+        translate(-50%, -47%);
+
+}
+
+.event-index {
+
+    font-family: monospace;
+
+    font-size: 16px;
+
+    letter-spacing: .15em;
+
+    color: var(--accent);
+
+    margin-bottom: 18px;
+
+}
+
+.event-date {
+
+    font-family: monospace;
+
+    font-size: 18px;
+
+    color: var(--muted);
+
+    margin-bottom: 18px;
+
+}
+
+.event-title {
+
+    margin: 0;
+
+    font-size:
+        clamp(65px, 9vw, 145px);
+
+    line-height: .88;
+
+    letter-spacing: -.075em;
+
+    font-weight: 500;
+
+}
+
+.event-description {
+
+    margin-top: 28px;
+
+    max-width: 600px;
+
+    font-size:
+        clamp(20px, 2vw, 27px);
+
+    line-height: 1.4;
+
+    color: #d1d3d5;
+
+}
+
+
+/* ============================================================
+   CAMERA READOUT
+============================================================ */
+
+.camera-readout {
+
+    position: absolute;
+
+    right: 36px;
+
+    bottom: 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    gap: 8px;
+
+    font-family: monospace;
+
+}
+
+.camera-readout span {
+
+    font-size: 12px;
+
+    color: var(--muted);
+
+    letter-spacing: .15em;
+
+}
+
+.camera-readout strong {
+
+    font-size: 17px;
+
+    color: var(--accent);
+
+}
+
+
+/* ============================================================
+   REVEAL
+============================================================ */
+
+.reveal {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 50;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+}
+
+.reveal-content {
+
+    width: min(900px, 90vw);
+
+    transform:
+        scale(.75);
+
+    transition:
+        transform .2s linear;
+
+}
+
+.reveal-kicker {
+
+    font-family: monospace;
+
+    font-size: 16px;
+
+    letter-spacing: .2em;
+
+    color: var(--accent);
+
+}
+
+.reveal h2 {
+
+    margin: 25px 0 0;
+
+    font-size:
+        clamp(100px, 18vw, 250px);
+
+    line-height: .8;
+
+    letter-spacing: -.09em;
+
+    font-weight: 500;
+
+}
+
+.reveal-symbol {
+
+    margin-top: 25px;
+
+    font-size: 90px;
+
+    color: var(--accent);
+
+}
+
+.reveal p {
+
+    max-width: 600px;
+
+    margin: 35px auto 0;
+
+    font-size:
+        clamp(20px, 2vw, 27px);
+
+    line-height: 1.5;
+
+    color: #c6c8ca;
+
+}
+
+.reveal-large {
+
+    font-size:
+        clamp(28px, 4vw, 50px) !important;
+
+    color: var(--white) !important;
+
+    letter-spacing: -.03em;
+
+}
+
+.reveal-final {
+
+    margin-top: 80px;
+
+    font-size:
+        clamp(40px, 7vw, 100px);
+
+    letter-spacing: -.06em;
+
+    color: var(--accent);
+
+}
+
+
+/* ============================================================
+   SEMESTER MODAL
+============================================================ */
+
+.semester-modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 5000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        rgba(0,0,0,.8);
+
+    backdrop-filter:
+        blur(18px);
+
+    opacity: 0;
+
     visibility: hidden;
 
     transition:
-        opacity .4s,
-        visibility .4s;
+        opacity .4s ease,
+        visibility .4s ease;
+
 }
 
-#semester-modal.open {
+.semester-modal.open {
+
     opacity: 1;
+
     visibility: visible;
+
 }
 
-.modal-inner {
+.semester-window {
+
     position: relative;
-    width: min(500px, 90vw);
-    padding: 40px;
-    border: 1px solid var(--line);
-    background: #08090d;
+
+    width: min(600px, 88vw);
+
+    padding: 55px;
+
+    background: #080a0c;
+
+    border:
+        1px solid var(--line);
+
 }
 
-#modal-close {
+.close-button {
+
     position: absolute;
+
+    right: 20px;
     top: 15px;
-    right: 15px;
 
     border: 0;
-    background: transparent;
-    color: var(--fg);
 
-    font-size: 25px;
+    background: none;
+
+    color: white;
+
+    font-size: 35px;
+
     cursor: pointer;
+
 }
 
-.modal-small {
+.modal-kicker {
+
     font-family: monospace;
+
+    font-size: 15px;
+
+    letter-spacing: .15em;
+
     color: var(--muted);
-    font-size: 9px;
-    letter-spacing: .2em;
+
 }
 
-#modal-semester {
+.modal-semester {
+
     margin-top: 35px;
+
     font-family: monospace;
+
+    font-size: 18px;
+
     color: var(--accent);
+
 }
 
-#modal-score {
-    font-size: 100px;
+.modal-score {
+
+    margin-top: 10px;
+
+    font-size:
+        clamp(90px, 15vw, 160px);
+
     letter-spacing: -.08em;
-    margin: 10px 0;
-}
 
-#modal-description {
-    color: var(--muted);
 }
 
 
@@ -842,55 +759,67 @@ body {
 
 @media (max-width: 700px) {
 
-    .cv-interface {
-        padding: 0 15px;
+    .hud {
+
+        padding: 0 18px;
+
+        height: 70px;
+
     }
 
-    .cv-progress {
+    .hud-left span {
+
+        display: none;
+
+    }
+
+    .hud-progress {
+
         width: 100px;
+
     }
 
-    .cv-instruction {
-        left: 15px;
-        bottom: 15px;
+    .scroll-hint {
+
+        left: 18px;
+
+        bottom: 20px;
+
+        font-size: 11px;
+
     }
 
-    .cv-coordinates {
-        right: 15px;
-        bottom: 15px;
+    .camera-readout {
+
+        right: 18px;
+
+        bottom: 20px;
+
     }
 
-    #timeline {
-        transform-origin: center center;
+    .event-card {
+
+        width: 86vw;
+
     }
 
-    .cv-node {
-        width: 80vw;
-        max-width: 420px;
+    .event-title {
+
+        font-size:
+            clamp(55px, 15vw, 100px);
+
     }
 
-    .node-content h1 {
-        font-size: 65px;
+    .event-description {
+
+        font-size: 19px;
+
     }
 
-    .node-content h2 {
-        font-size: 48px;
-    }
+    .reveal h2 {
 
-    .particle-field {
-        width: 100%;
-    }
+        font-size: 95px;
 
-    .semester-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .instability-box div {
-        width: 30%;
-    }
-
-    .work-list div {
-        font-size: 14px;
     }
 
 }
