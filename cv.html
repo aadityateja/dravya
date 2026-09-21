@@ -8,11 +8,6 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <meta
-        name="description"
-        content="Interactive CV — Addy"
-    >
-
     <title>ADDY — FIELD LOG</title>
 
     <link rel="stylesheet" href="cv.css">
@@ -20,17 +15,15 @@
 
 <body>
 
-    <!-- =====================================================
-         LOADING / ENTRY
-    ====================================================== -->
+    <!-- =========================================================
+         LOADER
+    ========================================================== -->
 
-    <div id="loader">
+    <div id="cv-loader">
 
-        <div class="loader-grid"></div>
+        <div class="loader-inner">
 
-        <div class="loader-content">
-
-            <div class="loader-label">
+            <div class="loader-small">
                 PERSONAL FIELD LOG
             </div>
 
@@ -38,280 +31,192 @@
                 ADDY
             </div>
 
+            <div class="loader-line"></div>
+
+            <div class="loader-meta">
+                1999 — PRESENT
+            </div>
+
             <div class="loader-status">
-                <span id="loaderText">INITIALISING...</span>
+                INITIALISING FIELD...
             </div>
-
-            <div class="loader-line">
-                <span id="loaderProgress"></span>
-            </div>
-
-            <button id="enterButton">
-                ENTER THE FIELD
-            </button>
 
         </div>
 
     </div>
 
 
-    <!-- =====================================================
+    <!-- =========================================================
          FIXED INTERFACE
-    ====================================================== -->
+    ========================================================== -->
 
-    <header class="topbar">
+    <header class="cv-interface">
 
-        <div class="brand">
-            <span class="brand-dot"></span>
-            ADDY / FIELD LOG
+        <div class="cv-brand">
+            <span>ADDY</span>
+            <small>FIELD LOG</small>
         </div>
 
-        <div class="top-status">
-            <span class="status-dot"></span>
-            SYSTEM ONLINE
+        <div class="cv-progress">
+            <div class="cv-progress-fill"></div>
         </div>
 
-        <button
-            class="menu-button"
-            id="menuButton"
-            aria-label="Open navigation"
-        >
-            MENU
-        </button>
+        <div class="cv-year">
+            <span id="current-year">1999</span>
+        </div>
 
     </header>
 
 
-    <!-- =====================================================
-         NAVIGATION
-    ====================================================== -->
-
-    <nav id="navigation">
-
-        <div class="nav-inner">
-
-            <div class="nav-heading">
-                FIELD MAP
-            </div>
-
-            <button data-target="origin">01 / ORIGIN</button>
-            <button data-target="education">02 / EDUCATION</button>
-            <button data-target="instability">03 / INSTABILITY</button>
-            <button data-target="music">04 / MUSIC</button>
-            <button data-target="work">05 / WORK</button>
-            <button data-target="turn">06 / THE TURN</button>
-            <button data-target="physics">07 / PHYSICS</button>
-            <button data-target="research">08 / RESEARCH</button>
-            <button data-target="naxxatra">09 / NAXXATRA</button>
-            <button data-target="present">10 / PRESENT</button>
-
-        </div>
-
-    </nav>
+    <div class="cv-instruction">
+        SCROLL TO TRAVEL
+    </div>
 
 
-    <!-- =====================================================
-         MAIN
-    ====================================================== -->
-
-    <main id="main">
-
-
-        <!-- =================================================
-             HERO
-        ================================================== -->
-
-        <section class="hero">
-
-            <div class="hero-grid"></div>
-
-            <div class="hero-orbit orbit-one"></div>
-            <div class="hero-orbit orbit-two"></div>
-            <div class="hero-orbit orbit-three"></div>
-
-            <div class="hero-particle particle-one"></div>
-            <div class="hero-particle particle-two"></div>
-            <div class="hero-particle particle-three"></div>
-
-            <div class="hero-content">
-
-                <div class="eyebrow">
-                    PERSONAL FIELD LOG / 1999 — PRESENT
-                </div>
-
-                <h1>
-                    ADDY
-                </h1>
-
-                <div class="hero-title">
-                    NUCLEAR PHYSICS RESEARCHER
-                </div>
-
-                <p class="hero-description">
-                    A non-linear trajectory through physics,
-                    research, music, work and creation.
-                </p>
-
-                <div class="hero-actions">
-
-                    <button
-                        class="primary-button"
-                        data-scroll="origin"
-                    >
-                        BEGIN JOURNEY
-                    </button>
-
-                    <a
-                        href="#research"
-                        class="text-button"
-                    >
-                        VIEW RESEARCH →
-                    </a>
-
-                </div>
-
-            </div>
-
-            <div class="hero-meta">
-
-                <div>
-                    <span>ORIGIN</span>
-                    <strong>MYSORE, INDIA</strong>
-                </div>
-
-                <div>
-                    <span>FIELD</span>
-                    <strong>PHYSICS / RESEARCH</strong>
-                </div>
-
-                <div>
-                    <span>STATE</span>
-                    <strong>ACTIVE</strong>
-                </div>
-
-            </div>
-
-            <div class="scroll-indicator">
-                <span>SCROLL TO EXPLORE</span>
-                <div class="scroll-line"></div>
-            </div>
-
-        </section>
+    <div class="cv-coordinates">
+        X: <span id="coord-x">000</span>
+        &nbsp;&nbsp;
+        Y: <span id="coord-y">000</span>
+    </div>
 
 
-        <!-- =================================================
-             ORIGIN
-        ================================================== -->
+    <!-- =========================================================
+         MAIN SCROLL TRACK
+    ========================================================== -->
 
-        <section
-            class="timeline-section"
-            id="origin"
-        >
+    <main id="cv-scroll">
 
-            <div class="section-number">
-                01
-            </div>
+        <div id="cv-world">
 
-            <div class="section-label">
-                ORIGIN
-            </div>
 
-            <div class="timeline-content">
+            <!-- =================================================
+                 BACKGROUND FIELD
+            ================================================== -->
 
-                <div class="year-large">
-                    1999
-                </div>
+            <div class="field-grid"></div>
 
-                <div class="timeline-card">
+            <div class="field-glow glow-one"></div>
+            <div class="field-glow glow-two"></div>
 
-                    <div class="card-label">
-                        INITIAL CONDITION
+
+            <!-- =================================================
+                 CENTRAL TIMELINE
+            ================================================== -->
+
+            <div id="timeline">
+
+
+                <!-- =============================================
+                     01 — ORIGIN
+                ============================================== -->
+
+                <section
+                    class="cv-node node-origin"
+                    data-year="1999"
+                    data-x="0"
+                    data-y="0"
+                >
+
+                    <div class="node-marker">
+                        <span></span>
                     </div>
 
-                    <h2>
-                        MYSORE
-                    </h2>
-
-                    <p>
-                        Born in Mysore, India.
-                    </p>
-
-                    <div class="coordinate">
-                        ORIGIN POINT / 01
+                    <div class="node-label">
+                        01 / ORIGIN
                     </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             EDUCATION
-        ================================================== -->
-
-        <section
-            class="timeline-section education-section"
-            id="education"
-        >
-
-            <div class="section-number">
-                02
-            </div>
-
-            <div class="section-label">
-                EDUCATION
-            </div>
-
-            <div class="education-track">
-
-                <article class="education-node">
-
-                    <div class="node-year">
-                        2015
-                    </div>
-
-                    <div class="node-marker"></div>
 
                     <div class="node-content">
 
-                        <div class="card-label">
-                            SCHOOL
+                        <div class="node-year">
+                            1999
                         </div>
 
-                        <h2>10TH GRADE</h2>
+                        <h1>
+                            MYSORE
+                        </h1>
 
                         <p>
-                            Completed with distinction.
+                            The field begins.
                         </p>
 
-                        <div class="metric">
-                            <strong>87.52%</strong>
-                            <span>RESULT</span>
-                        </div>
-
-                        <div class="small-note">
-                            NO PRIVATE TUITION
+                        <div class="node-detail">
+                            Born in Mysore, Karnataka.
                         </div>
 
                     </div>
 
-                </article>
+                </section>
 
 
-                <article class="education-node">
+                <!-- =============================================
+                     02 — SCHOOL
+                ============================================== -->
 
-                    <div class="node-year">
-                        2017
+                <section
+                    class="cv-node node-school"
+                    data-year="2015"
+                    data-x="1800"
+                    data-y="0"
+                >
+
+                    <div class="node-marker">
+                        <span></span>
                     </div>
 
-                    <div class="node-marker"></div>
+                    <div class="node-label">
+                        02 / SCHOOL
+                    </div>
 
                     <div class="node-content">
 
-                        <div class="card-label">
-                            PRE-UNIVERSITY
+                        <div class="node-year">
+                            2015
+                        </div>
+
+                        <h2>
+                            10TH GRADE
+                        </h2>
+
+                        <div class="big-number">
+                            87.52%
+                        </div>
+
+                        <p>
+                            Distinction.
+                        </p>
+
+                        <div class="node-detail">
+                            No tuition.
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =============================================
+                     03 — PUC
+                ============================================== -->
+
+                <section
+                    class="cv-node node-puc"
+                    data-year="2017"
+                    data-x="3500"
+                    data-y="0"
+                >
+
+                    <div class="node-marker">
+                        <span></span>
+                    </div>
+
+                    <div class="node-label">
+                        03 / PUC
+                    </div>
+
+                    <div class="node-content">
+
+                        <div class="node-year">
+                            2017
                         </div>
 
                         <h2>
@@ -322,28 +227,42 @@
                             Physics · Chemistry · Mathematics · Electronics
                         </p>
 
-                        <div class="metric">
-                            <strong>63%</strong>
-                            <span>RESULT</span>
+                        <div class="big-number">
+                            63%
+                        </div>
+
+                        <div class="node-detail">
+                            The direction begins to emerge.
                         </div>
 
                     </div>
 
-                </article>
+                </section>
 
 
-                <article class="education-node">
+                <!-- =============================================
+                     TURN DOWN — B.SC.
+                ============================================== -->
 
-                    <div class="node-year">
-                        2017
+                <section
+                    class="cv-node node-bsc"
+                    data-year="2017"
+                    data-x="5000"
+                    data-y="900"
+                >
+
+                    <div class="node-marker">
+                        <span></span>
                     </div>
 
-                    <div class="node-marker"></div>
+                    <div class="node-label">
+                        04 / UNIVERSITY
+                    </div>
 
                     <div class="node-content">
 
-                        <div class="card-label">
-                            UNIVERSITY
+                        <div class="node-year">
+                            AUG 2017
                         </div>
 
                         <h2>
@@ -354,816 +273,664 @@
                             Physics · Mathematics · Electronics
                         </p>
 
-                        <p class="muted">
+                        <div class="node-detail">
                             Yuvaraja College, Mysore
-                        </p>
+                        </div>
 
                     </div>
 
-                </article>
-
-            </div>
-
-        </section>
+                </section>
 
 
-        <!-- =================================================
-             INSTABILITY
-        ================================================== -->
+                <!-- =============================================
+                     05 — INSTABILITY
+                ============================================== -->
 
-        <section
-            class="glitch-section"
-            id="instability"
-        >
+                <section
+                    class="cv-node node-instability"
+                    data-year="2019"
+                    data-x="5000"
+                    data-y="2200"
+                >
 
-            <div class="glitch-bg"></div>
-
-            <div class="glitch-content">
-
-                <div class="section-number">
-                    03
-                </div>
-
-                <div class="card-label">
-                    SYSTEM EVENT / 2017 — 2019
-                </div>
-
-                <h2>
-                    SYSTEM<br>
-                    INSTABILITY
-                </h2>
-
-                <p>
-                    The first trajectory through physics
-                    did not follow a straight line.
-                </p>
-
-                <div class="event-list">
-
-                    <div class="event">
-                        <span>2017</span>
-                        <strong>
-                            Physics — Semester I
-                        </strong>
-                        <small>
-                            Failed
-                        </small>
+                    <div class="node-marker instability-marker">
+                        <span></span>
                     </div>
 
-                    <div class="event">
-                        <span>2019</span>
-                        <strong>
-                            Physics — Semester III
-                        </strong>
-                        <small>
-                            Failed
-                        </small>
+                    <div class="node-label">
+                        05 / SYSTEM INSTABILITY
                     </div>
 
-                    <div class="event">
-                        <span>2019</span>
-                        <strong>
-                            Semester I Re-examination
-                        </strong>
-                        <small>
-                            Failed
-                        </small>
-                    </div>
+                    <div class="node-content">
 
-                </div>
+                        <div class="node-year">
+                            2017 — 2019
+                        </div>
 
-                <div class="glitch-footer">
-                    TRAJECTORY NOT TERMINATED.
-                </div>
+                        <h2>
+                            PHYSICS
+                        </h2>
 
-            </div>
+                        <div class="instability-box">
 
-        </section>
+                            <div>
+                                SEM I
+                                <strong>FAILED</strong>
+                            </div>
 
+                            <div>
+                                SEM III
+                                <strong>FAILED</strong>
+                            </div>
 
-        <!-- =================================================
-             MUSIC
-        ================================================== -->
+                            <div>
+                                RE-EXAM
+                                <strong>FAILED</strong>
+                            </div>
 
-        <section
-            class="music-section"
-            id="music"
-        >
-
-            <div class="music-visual">
-
-                <div class="sound-ring ring-a"></div>
-                <div class="sound-ring ring-b"></div>
-                <div class="sound-ring ring-c"></div>
-
-                <div class="sound-core">
-                    SWASTAIN
-                </div>
-
-            </div>
-
-            <div class="music-content">
-
-                <div class="section-number">
-                    04
-                </div>
-
-                <div class="section-label">
-                    MUSIC
-                </div>
-
-                <div class="year-large">
-                    2019
-                </div>
-
-                <h2>
-                    SWASTAIN
-                </h2>
-
-                <p>
-                    Formed a music band and entered
-                    a completely different field.
-                </p>
-
-                <div class="music-events">
-
-                    <span>JAM SESSIONS</span>
-                    <span>BATTLE OF BANDS</span>
-                    <span>COLLEGE EVENTS</span>
-                    <span>LIVE PERFORMANCES</span>
-
-                </div>
-
-                <div class="music-end">
-                    FINAL PERFORMANCE / FEB 2020
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             LOCKDOWN
-        ================================================== -->
-
-        <section class="lockdown-section">
-
-            <div class="lockdown-year">
-                2020
-            </div>
-
-            <div class="lockdown-title">
-                <span>THE WORLD</span>
-                <strong>STOPPED.</strong>
-            </div>
-
-            <div class="lockdown-date">
-                MARCH 21 / LOCKDOWN
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             WORK
-        ================================================== -->
-
-        <section
-            class="work-section"
-            id="work"
-        >
-
-            <div class="section-number">
-                05
-            </div>
-
-            <div class="section-label">
-                WORK
-            </div>
-
-            <div class="work-intro">
-
-                <h2>
-                    THE<br>
-                    WORK YEARS
-                </h2>
-
-                <p>
-                    A period of employment, experimentation
-                    and figuring things out outside academia.
-                </p>
-
-            </div>
-
-            <div class="work-timeline">
-
-                <div class="work-item">
-
-                    <div class="work-year">
-                        APR 2020
-                    </div>
-
-                    <div class="work-line"></div>
-
-                    <div class="work-info">
-
-                        <h3>
-                            EDITOR
-                        </h3>
+                        </div>
 
                         <p>
-                            Kannada local news channel
+                            The trajectory did not terminate.
                         </p>
 
-                        <span>
-                            JUN 2020 / LEFT
-                        </span>
-
                     </div>
 
-                </div>
+                </section>
 
 
-                <div class="work-item">
+                <!-- =============================================
+                     TURN LEFT — MUSIC
+                ============================================== -->
 
-                    <div class="work-year">
-                        NOV 2020
+                <section
+                    class="cv-node node-music"
+                    data-year="2019"
+                    data-x="3500"
+                    data-y="3400"
+                >
+
+                    <div class="node-marker">
+                        <span></span>
                     </div>
 
-                    <div class="work-line"></div>
+                    <div class="node-label">
+                        06 / SOUND
+                    </div>
 
-                    <div class="work-info">
+                    <div class="node-content">
 
-                        <h3>
-                            SOURCE HUB
-                        </h3>
+                        <div class="node-year">
+                            MAR 2019
+                        </div>
+
+                        <h2>
+                            SWASTAIN
+                        </h2>
+
+                        <div class="waveform">
+
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+
+                        </div>
 
                         <p>
-                            Night-shift employment
+                            Music band formed.
                         </p>
 
-                        <span>
-                            FEB 2021 / LEFT
-                        </span>
+                        <div class="node-detail">
+                            Jam sessions · Battle of Bands · College events
+                        </div>
 
                     </div>
 
-                </div>
+                </section>
 
 
-                <div class="work-item">
+                <!-- =============================================
+                     07 — FINAL PERFORMANCE
+                ============================================== -->
 
-                    <div class="work-year">
-                        APR 2021
+                <section
+                    class="cv-node node-performance"
+                    data-year="2020"
+                    data-x="1700"
+                    data-y="3400"
+                >
+
+                    <div class="node-marker">
+                        <span></span>
                     </div>
 
-                    <div class="work-line"></div>
+                    <div class="node-label">
+                        07 / LAST SHOW
+                    </div>
 
-                    <div class="work-info">
+                    <div class="node-content">
 
-                        <h3>
-                            CALL CENTRE
-                        </h3>
+                        <div class="node-year">
+                            FEB 2020
+                        </div>
+
+                        <h2>
+                            FINAL PERFORMANCE
+                        </h2>
 
                         <p>
-                            Customer support / operations
+                            SWASTAIN's final performance.
                         </p>
 
-                        <span>
-                            JUL 2021 / LEFT
-                        </span>
-
                     </div>
 
-                </div>
+                </section>
 
 
-                <div class="work-item">
+                <!-- =============================================
+                     08 — LOCKDOWN
+                ============================================== -->
 
-                    <div class="work-year">
-                        OCT 2021
+                <section
+                    class="cv-node node-lockdown"
+                    data-year="2020"
+                    data-x="500"
+                    data-y="3400"
+                >
+
+                    <div class="node-marker">
+                        <span></span>
                     </div>
 
-                    <div class="work-line"></div>
+                    <div class="node-label">
+                        08 / INTERRUPTION
+                    </div>
 
-                    <div class="work-info">
+                    <div class="node-content">
 
-                        <h3>
-                            DIYA SYSTEMS
-                        </h3>
+                        <div class="node-year">
+                            21 MAR 2020
+                        </div>
+
+                        <h2>
+                            LOCKDOWN
+                        </h2>
 
                         <p>
-                            Professional employment
+                            The world stopped.
                         </p>
 
-                        <span>
-                            10 MONTHS
-                        </span>
+                    </div>
+
+                </section>
+
+
+                <!-- =============================================
+                     09 — WORK
+                ============================================== -->
+
+                <section
+                    class="cv-node node-work"
+                    data-year="2020"
+                    data-x="500"
+                    data-y="4700"
+                >
+
+                    <div class="node-marker">
+                        <span></span>
+                    </div>
+
+                    <div class="node-label">
+                        09 / WORK
+                    </div>
+
+                    <div class="node-content work-content">
+
+                        <div class="node-year">
+                            2020 — 2024
+                        </div>
+
+                        <h2>
+                            WORK
+                        </h2>
+
+                        <div class="work-list">
+
+                            <div>
+                                <span>APR 2020</span>
+                                Kannada Local News
+                            </div>
+
+                            <div>
+                                <span>NOV 2020</span>
+                                Source Hub
+                            </div>
+
+                            <div>
+                                <span>APR 2021</span>
+                                Call Centre
+                            </div>
+
+                            <div>
+                                <span>OCT 2021</span>
+                                Diya Systems
+                            </div>
+
+                            <div>
+                                <span>JUN 2023</span>
+                                Concentrix
+                            </div>
+
+                        </div>
 
                     </div>
 
-                </div>
+                </section>
 
 
-                <div class="work-item">
+                <!-- =============================================
+                     10 — BANGALORE
+                ============================================== -->
 
-                    <div class="work-year">
-                        AUG 2022
+                <section
+                    class="cv-node node-bangalore"
+                    data-year="2023"
+                    data-x="1800"
+                    data-y="5200"
+                >
+
+                    <div class="node-marker">
+                        <span></span>
                     </div>
 
-                    <div class="work-line"></div>
+                    <div class="node-label">
+                        10 / RELOCATION
+                    </div>
 
-                    <div class="work-info">
+                    <div class="node-content">
 
-                        <h3>
-                            EXIT
-                        </h3>
+                        <div class="node-year">
+                            APR 2023
+                        </div>
+
+                        <h2>
+                            BANGALORE
+                        </h2>
 
                         <p>
-                            Diya Systems
+                            A new environment.
                         </p>
 
                     </div>
 
-                </div>
+                </section>
 
 
-                <div class="work-item">
+                <!-- =============================================
+                     11 — HAMPI
+                ============================================== -->
 
-                    <div class="work-year">
-                        JUN 2023
+                <section
+                    class="cv-node node-hampi"
+                    data-year="2024"
+                    data-x="3300"
+                    data-y="5200"
+                >
+
+                    <div class="node-marker">
+                        <span></span>
                     </div>
 
-                    <div class="work-line"></div>
+                    <div class="node-label">
+                        11 / RESET
+                    </div>
 
-                    <div class="work-info">
+                    <div class="node-content">
 
-                        <h3>
-                            CONCENTRIX
-                        </h3>
+                        <div class="node-year">
+                            JUL 2024
+                        </div>
+
+                        <h2>
+                            HAMPI
+                        </h2>
 
                         <p>
-                            Professional employment
+                            Solo trip.
                         </p>
 
-                        <span>
-                            1 YEAR
-                        </span>
+                        <div class="node-detail">
+                            Sometimes changing direction begins with moving.
+                        </div>
 
                     </div>
 
-                </div>
+                </section>
+
+
+                <!-- =============================================
+                     12 — M.SC.
+                ============================================== -->
+
+                <section
+                    class="cv-node node-msc"
+                    data-year="2024"
+                    data-x="5000"
+                    data-y="5200"
+                >
+
+                    <div class="node-marker">
+                        <span></span>
+                    </div>
+
+                    <div class="node-label">
+                        12 / THE RETURN
+                    </div>
+
+                    <div class="node-content">
+
+                        <div class="node-year">
+                            AUG 2024
+                        </div>
+
+                        <h2>
+                            M.Sc. PHYSICS
+                        </h2>
+
+                        <p>
+                            Ramaiah University of Applied Sciences
+                        </p>
+
+                        <div class="semester-grid">
+
+                            <button data-sem="1">
+                                <span>SEM 01</span>
+                                6.70
+                            </button>
+
+                            <button data-sem="2">
+                                <span>SEM 02</span>
+                                6.80
+                            </button>
+
+                            <button data-sem="3">
+                                <span>SEM 03</span>
+                                8.10
+                            </button>
+
+                            <button data-sem="4">
+                                <span>SEM 04</span>
+                                8.40
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =============================================
+                     13 — RESEARCH
+                ============================================== -->
+
+                <section
+                    class="cv-node node-research"
+                    data-year="2025"
+                    data-x="5000"
+                    data-y="6700"
+                >
+
+                    <div class="node-marker research-marker">
+                        <span></span>
+                    </div>
+
+                    <div class="node-label">
+                        13 / RESEARCH
+                    </div>
+
+                    <div class="node-content research-content">
+
+                        <div class="node-year">
+                            2025 — 2026
+                        </div>
+
+                        <h2>
+                            EXPERIMENTAL
+                            <br>
+                            HIGH ENERGY PHYSICS
+                        </h2>
+
+                        <div class="particle-field">
+
+                            <div class="particle p1"></div>
+                            <div class="particle p2"></div>
+                            <div class="particle p3"></div>
+                            <div class="particle p4"></div>
+
+                            <div class="collision"></div>
+
+                        </div>
+
+                        <p>
+                            Neutrons → hadronic showers → detector data → machine learning.
+                        </p>
+
+                        <div class="node-detail">
+                            Zero Degree Calorimeter research
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =============================================
+                     14 — NAXXATRA
+                ============================================== -->
+
+                <section
+                    class="cv-node node-naxxatra"
+                    data-year="2026"
+                    data-x="3500"
+                    data-y="7600"
+                >
+
+                    <div class="node-marker">
+                        <span></span>
+                    </div>
+
+                    <div class="node-label">
+                        14 / SCIENCE
+                    </div>
+
+                    <div class="node-content">
+
+                        <div class="node-year">
+                            JUN 2026
+                        </div>
+
+                        <h2>
+                            NAXXATRA
+                        </h2>
+
+                        <p>
+                            Research & Teaching Fellow
+                        </p>
+
+                        <div class="node-detail">
+                            Research · Teaching · Science Communication
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =============================================
+                     15 — PRESENT
+                ============================================== -->
+
+                <section
+                    class="cv-node node-present"
+                    data-year="NOW"
+                    data-x="1700"
+                    data-y="7600"
+                >
+
+                    <div class="node-marker present-marker">
+                        <span></span>
+                    </div>
+
+                    <div class="node-label">
+                        15 / PRESENT
+                    </div>
+
+                    <div class="node-content">
+
+                        <div class="node-year">
+                            NOW
+                        </div>
+
+                        <h1>
+                            ADDY
+                        </h1>
+
+                        <p class="present-title">
+                            NUCLEAR PHYSICS RESEARCHER
+                        </p>
+
+                        <div class="present-grid">
+
+                            <span>PHYSICS</span>
+                            <span>RESEARCH</span>
+                            <span>TEACHING</span>
+                            <span>MUSIC</span>
+                            <span>FICTION</span>
+                            <span>DRAVYA</span>
+
+                        </div>
+
+                        <div class="present-statement">
+                            The trajectory continues.
+                        </div>
+
+                    </div>
+
+                </section>
+
 
             </div>
 
-        </section>
 
+            <!-- =================================================
+                 TIMELINE PATH
+            ================================================== -->
 
-        <!-- =================================================
-             THE TURN
-        ================================================== -->
+            <svg
+                id="timeline-path"
+                viewBox="0 0 6000 8500"
+                preserveAspectRatio="none"
+            >
 
-        <section
-            class="turn-section"
-            id="turn"
-        >
+                <path
+                    d="
+                    M 350 500
 
-            <div class="turn-background"></div>
+                    C 900 500,
+                      1300 500,
+                      1800 500
 
-            <div class="turn-content">
+                    C 2500 500,
+                      3000 500,
+                      3500 500
 
-                <div class="section-number">
-                    06
-                </div>
+                    C 4400 500,
+                      5000 650,
+                      5000 1500
 
-                <div class="card-label">
-                    JULY 2024
-                </div>
+                    C 5000 2200,
+                      4500 2800,
+                      3500 3400
 
-                <h2>
-                    HAMPI
-                </h2>
+                    C 2500 3900,
+                      1300 3400,
+                      500 3400
 
-                <p>
-                    A solo trip.
-                </p>
+                    C 200 3400,
+                      500 4000,
+                      500 4700
 
-                <div class="turn-line"></div>
+                    C 500 5200,
+                      1800 5200,
+                      3300 5200
 
-                <div class="turn-message">
-                    SOMETHING<br>
-                    CHANGED.
-                </div>
+                    C 4300 5200,
+                      5000 5500,
+                      5000 6700
 
-                <div class="turn-next">
-                    AUGUST 2024
-                    <strong>RETURN TO PHYSICS</strong>
-                </div>
+                    C 5000 7300,
+                      4300 7600,
+                      3500 7600
 
-            </div>
+                    C 2700 7600,
+                      2200 7600,
+                      1700 7600
+                    "
+                ></path>
 
-        </section>
+            </svg>
 
 
-        <!-- =================================================
-             PHYSICS
-        ================================================== -->
-
-        <section
-            class="physics-section"
-            id="physics"
-        >
-
-            <div class="section-number">
-                07
-            </div>
-
-            <div class="section-label">
-                SECOND BEGINNING
-            </div>
-
-            <div class="physics-heading">
-
-                <div class="card-label">
-                    AUGUST / SEPTEMBER 2024
-                </div>
-
-                <h2>
-                    M.Sc.<br>
-                    PHYSICS
-                </h2>
-
-                <p>
-                    Ramaiah University of Applied Sciences
-                </p>
-
-            </div>
-
-            <div class="semester-field">
-
-                <article class="semester">
-
-                    <div class="semester-index">
-                        SEM 01
-                    </div>
-
-                    <div class="semester-cgpa">
-                        6.70
-                    </div>
-
-                    <div class="semester-label">
-                        CGPA
-                    </div>
-
-                    <button class="details-button">
-                        SUBJECTS / PAPERS +
-                    </button>
-
-                </article>
-
-
-                <article class="semester">
-
-                    <div class="semester-index">
-                        SEM 02
-                    </div>
-
-                    <div class="semester-cgpa">
-                        6.80
-                    </div>
-
-                    <div class="semester-label">
-                        CGPA
-                    </div>
-
-                    <button class="details-button">
-                        SUBJECTS / PAPERS +
-                    </button>
-
-                </article>
-
-
-                <article class="semester">
-
-                    <div class="semester-index">
-                        SEM 03
-                    </div>
-
-                    <div class="semester-cgpa">
-                        8.10
-                    </div>
-
-                    <div class="semester-label">
-                        CGPA
-                    </div>
-
-                    <button class="details-button">
-                        SUBJECTS / PAPERS +
-                    </button>
-
-                </article>
-
-
-                <article class="semester">
-
-                    <div class="semester-index">
-                        SEM 04
-                    </div>
-
-                    <div class="semester-cgpa">
-                        8.40
-                    </div>
-
-                    <div class="semester-label">
-                        CGPA
-                    </div>
-
-                    <button class="details-button">
-                        SUBJECTS / PAPERS +
-                    </button>
-
-                </article>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             RESEARCH
-        ================================================== -->
-
-        <section
-            class="research-section"
-            id="research"
-        >
-
-            <div class="research-grid"></div>
-
-            <div class="section-number">
-                08
-            </div>
-
-            <div class="section-label">
-                RESEARCH
-            </div>
-
-            <div class="research-content">
-
-                <div class="research-tag">
-                    THESIS / EXPERIMENTAL HIGH ENERGY PHYSICS
-                </div>
-
-                <h2>
-                    NEUTRON
-                    <br>
-                    → SHOWER
-                    <br>
-                    → DATA
-                </h2>
-
-                <p>
-                    Study of neutron-induced hadronic shower
-                    development in a Zero Degree Calorimeter
-                    using machine learning techniques.
-                </p>
-
-                <div class="research-object">
-
-                    <div class="detector-layer layer-1"></div>
-                    <div class="detector-layer layer-2"></div>
-                    <div class="detector-layer layer-3"></div>
-                    <div class="detector-layer layer-4"></div>
-                    <div class="detector-layer layer-5"></div>
-
-                    <div class="detector-particle"></div>
-
-                </div>
-
-                <div class="research-meta">
-
-                    <div>
-                        <span>DOMAIN</span>
-                        <strong>HIGH ENERGY PHYSICS</strong>
-                    </div>
-
-                    <div>
-                        <span>METHOD</span>
-                        <strong>MACHINE LEARNING</strong>
-                    </div>
-
-                    <div>
-                        <span>DETECTOR</span>
-                        <strong>ZERO DEGREE CALORIMETER</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             NAXXATRA
-        ================================================== -->
-
-        <section
-            class="naxxatra-section"
-            id="naxxatra"
-        >
-
-            <div class="star-field"></div>
-
-            <div class="naxxatra-content">
-
-                <div class="section-number">
-                    09
-                </div>
-
-                <div class="section-label">
-                    SCIENCE / EDUCATION
-                </div>
-
-                <div class="card-label">
-                    JUNE 2026
-                </div>
-
-                <h2>
-                    NAXXATRA
-                </h2>
-
-                <div class="naxxatra-role">
-                    RESEARCH & TEACHING FELLOW
-                </div>
-
-                <p>
-                    Research, teaching and science
-                    communication.
-                </p>
-
-                <div class="naxxatra-nodes">
-
-                    <div>
-                        <span>01</span>
-                        <strong>RESEARCH</strong>
-                    </div>
-
-                    <div>
-                        <span>02</span>
-                        <strong>TEACHING</strong>
-                    </div>
-
-                    <div>
-                        <span>03</span>
-                        <strong>SCIENCE COMMUNICATION</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             PRESENT
-        ================================================== -->
-
-        <section
-            class="present-section"
-            id="present"
-        >
-
-            <div class="present-grid"></div>
-
-            <div class="present-content">
-
-                <div class="section-number">
-                    10
-                </div>
-
-                <div class="section-label">
-                    CURRENT STATE
-                </div>
-
-                <h2>
-                    THE TRAJECTORY
-                    <br>
-                    CONTINUES.
-                </h2>
-
-                <div class="state-grid">
-
-                    <div class="state">
-                        <span>PHYSICS</span>
-                        <strong>ACTIVE</strong>
-                    </div>
-
-                    <div class="state">
-                        <span>RESEARCH</span>
-                        <strong>ACTIVE</strong>
-                    </div>
-
-                    <div class="state">
-                        <span>TEACHING</span>
-                        <strong>ACTIVE</strong>
-                    </div>
-
-                    <div class="state">
-                        <span>MUSIC</span>
-                        <strong>ACTIVE</strong>
-                    </div>
-
-                    <div class="state">
-                        <span>CREATIVE WORK</span>
-                        <strong>ACTIVE</strong>
-                    </div>
-
-                    <div class="state">
-                        <span>DRAVYA</span>
-                        <strong>ACTIVE</strong>
-                    </div>
-
-                </div>
-
-                <div class="present-actions">
-
-                    <a href="#" class="primary-button">
-                        CONNECT
-                    </a>
-
-                    <a href="#" class="text-button">
-                        DOWNLOAD CV →
-                    </a>
-
-                </div>
-
-            </div>
-
-            <footer>
-
-                <div>
-                    ADDY / FIELD LOG
-                </div>
-
-                <div>
-                    OBSERVE · DISTURB · CREATE
-                </div>
-
-                <div>
-                    1999 — PRESENT
-                </div>
-
-            </footer>
-
-        </section>
+        </div>
 
     </main>
 
 
-    <!-- =====================================================
-         DETAIL MODAL
-    ====================================================== -->
+    <!-- =========================================================
+         SEMESTER MODAL
+    ========================================================== -->
 
-    <div
-        id="modal"
-        class="modal"
-        aria-hidden="true"
-    >
+    <div id="semester-modal">
 
-        <div class="modal-backdrop"></div>
+        <div class="modal-inner">
 
-        <div class="modal-window">
-
-            <button
-                id="modalClose"
-                class="modal-close"
-            >
-                CLOSE ×
+            <button id="modal-close">
+                ×
             </button>
 
-            <div class="modal-number">
-                SUBJECT FIELD
+            <div class="modal-small">
+                ACADEMIC RECORD
             </div>
 
-            <h2 id="modalTitle">
-                SEMESTER
-            </h2>
+            <div id="modal-semester">
+                SEM 01
+            </div>
 
-            <div id="modalBody">
-                Subjects will be added here.
+            <div id="modal-score">
+                6.70
+            </div>
+
+            <div id="modal-description">
+                M.Sc. Physics
             </div>
 
         </div>
 
     </div>
 
-
-    <!-- =====================================================
-         SCRIPT
-    ====================================================== -->
 
     <script src="cv.js"></script>
 
