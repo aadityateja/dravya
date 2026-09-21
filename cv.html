@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Addy — Trajectory</title>
+    <title>CV — DRAVYA</title>
 
     <link rel="stylesheet" href="cv.css">
 
@@ -15,154 +15,248 @@
 
 <body>
 
-    <main id="cv">
+    <!-- =========================================================
+         INTRO
+    ========================================================== -->
 
-        <!-- =========================================
-             BACKGROUND
-        ========================================== -->
+    <section class="intro">
 
-        <div class="space">
-            <div class="grain"></div>
-            <div class="stars"></div>
+        <div class="intro-inner">
+
+            <div class="eyebrow">
+                DRAVYA / CV
+            </div>
+
+            <h1>
+                TRACE<br>
+                THE<br>
+                TRAJECTORY
+            </h1>
+
+            <p class="intro-sub">
+                A life, viewed from inside the trajectory.
+            </p>
+
+            <div class="scroll-indicator">
+                <span>SCROLL TO BEGIN</span>
+                <div class="scroll-line"></div>
+            </div>
+
         </div>
 
-
-        <!-- =========================================
-             INTRO
-        ========================================== -->
-
-        <section class="intro panel">
-
-            <div class="intro-content">
-
-                <div class="micro">A LIFE IN TRAJECTORY</div>
-
-                <h1>ADDY</h1>
-
-                <div class="intro-line"></div>
-
-                <p>
-                    1999 — 2026
-                </p>
-
-                <span class="scroll-hint">
-                    SCROLL TO TRACE
-                </span>
-
-            </div>
-
-        </section>
+    </section>
 
 
-        <!-- =========================================
-             MAIN EXPERIENCE
-        ========================================== -->
+    <!-- =========================================================
+         CHAOS JOURNEY
+    ========================================================== -->
 
-        <section class="journey">
+    <section class="journey" id="journey">
 
-            <div class="trajectory-stage">
+        <div class="camera-stage">
 
-                <svg
-                    id="trajectorySvg"
-                    viewBox="0 0 1400 900"
-                    preserveAspectRatio="xMidYMid meet"
-                    aria-hidden="true"
-                >
+            <!-- SVG WORLD -->
+            <svg
+                id="trajectory-svg"
+                viewBox="0 0 2000 1200"
+                preserveAspectRatio="xMidYMid meet"
+                aria-hidden="true"
+            >
 
-                    <!-- faint complete trajectory -->
+                <g id="world">
+
+                    <!-- The actual life trajectory -->
                     <path
-                        id="ghostPath"
-                        class="ghost-path"
-                    ></path>
+                        id="life-path"
+                        fill="none"
+                        stroke="rgba(215,235,255,0.95)"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
 
-                    <!-- actual life trajectory -->
-                    <path
-                        id="lifePath"
-                        class="life-path"
-                    ></path>
-
-                    <!-- moving observer -->
+                    <!-- Current position -->
                     <circle
                         id="observer"
-                        r="7"
-                    ></circle>
+                        cx="0"
+                        cy="0"
+                        r="5"
+                    />
 
-                </svg>
+                    <!-- Event nodes -->
+                    <g id="nodes"></g>
+
+                </g>
+
+            </svg>
 
 
-                <!-- =====================================
-                     EVENT INFORMATION
-                ====================================== -->
+            <!-- =================================================
+                 HUD
+            ================================================== -->
 
-                <div id="eventInfo" class="event-info">
+            <div class="hud">
 
-                    <div class="event-year"></div>
-                    <div class="event-title"></div>
-                    <div class="event-description"></div>
-
+                <div class="hud-top-left">
+                    <div class="hud-label">DRAVYA / CV</div>
+                    <div class="hud-small">
+                        OBSERVE · DISTURB · CREATE
+                    </div>
                 </div>
 
-
-                <!-- =====================================
-                     SMALL HUD
-                ====================================== -->
-
-                <div class="hud hud-left">
-                    <span id="progressText">1999</span>
+                <div class="hud-top-right">
+                    <div id="trace-counter">TRACE 01 / 28</div>
                 </div>
 
-                <div class="hud hud-right">
-                    <span>OBSERVE · DISTURB · CREATE</span>
+                <div class="hud-bottom-left">
+                    <div class="hud-small">TRAJECTORY</div>
+                    <div id="year-readout">1999</div>
+                </div>
+
+                <div class="hud-bottom-right">
+                    <div class="hud-small">FOLLOWING FIELD</div>
                 </div>
 
             </div>
 
-        </section>
 
+            <!-- =================================================
+                 EVENT INFORMATION
+            ================================================== -->
 
-        <!-- =========================================
-             FINAL REVEAL
-        ========================================== -->
+            <div class="event-card" id="event-card">
 
-        <section class="reveal">
-
-            <div class="reveal-content">
-
-                <div class="micro">
-                    THE WHOLE TRAJECTORY
+                <div class="event-date" id="event-date">
+                    1999
                 </div>
 
-                <h2>1999 → 2026</h2>
+                <div class="event-title" id="event-title">
+                    Born in Mysore
+                </div>
+
+                <div class="event-description" id="event-description">
+                    The trajectory begins.
+                </div>
+
+            </div>
+
+
+            <!-- Tiny center marker -->
+            <div class="center-marker"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         CHAOS REVEAL
+    ========================================================== -->
+
+    <section class="reveal">
+
+        <div class="reveal-stage">
+
+            <div class="reveal-copy">
+
+                <div class="reveal-eyebrow">
+                    NAXXATRA / 2026
+                </div>
+
+                <h2>
+                    STEP<br>
+                    BACK.
+                </h2>
 
                 <p>
-                    One line.<br>
-                    Many states.
+                    You have been following the trajectory.
                 </p>
 
-                <div class="final-mark">
-                    OBSERVE · DISTURB · CREATE
+                <p>
+                    Now look at the whole thing.
+                </p>
+
+                <div class="reveal-scroll">
+                    SCROLL TO REVEAL
                 </div>
 
             </div>
 
-        </section>
+        </div>
+
+    </section>
 
 
-        <!-- =========================================
-             FOOTER
-        ========================================== -->
+    <!-- =========================================================
+         CHAOS THEORY EXPLANATION
+    ========================================================== -->
 
-        <footer>
+    <section class="chaos-explanation">
 
-            <span>ADDY</span>
+        <div class="explanation-inner">
 
-            <span>PHYSICS · RESEARCH · ART</span>
+            <div class="explanation-label">
+                THE FIELD
+            </div>
 
-            <span>DRAVYA</span>
+            <h2>
+                INSPIRED BY<br>
+                CHAOS THEORY
+            </h2>
 
-        </footer>
+            <div class="explanation-grid">
 
-    </main>
+                <p>
+                    A small change in the initial conditions of a
+                    system can lead to dramatically different
+                    trajectories.
+                </p>
+
+                <p>
+                    When you're inside a trajectory, each event
+                    appears to be just another step.
+                </p>
+
+                <p>
+                    A decision. A failure. A job. A band.
+                    A city. A degree. A disturbance.
+                </p>
+
+                <p>
+                    Only when you step back can the larger pattern
+                    become visible.
+                </p>
+
+            </div>
+
+            <div class="final-statement">
+
+                <span>This is my trajectory.</span>
+
+                <strong>
+                    NOT A STRAIGHT LINE.
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer>
+
+        <div>DRAVYA</div>
+
+        <div>
+            OBSERVE · DISTURB · CREATE
+        </div>
+
+    </footer>
 
 
     <script src="cv.js"></script>
