@@ -1,20 +1,6 @@
-/* =====================================================
-   ADDY — TRAJECTORY CV
-   cv.css
-===================================================== */
-
-:root {
-    --bg: #02040a;
-    --text: #f1f4ff;
-    --muted: rgba(220, 228, 255, 0.58);
-    --dim: rgba(220, 228, 255, 0.25);
-
-    --line: #dfe7ff;
-    --accent: #8eb8ff;
-
-    --font: "Arial", "Helvetica Neue", sans-serif;
-}
-
+/* ============================================================
+   RESET
+============================================================ */
 
 * {
     margin: 0;
@@ -22,489 +8,553 @@
     box-sizing: border-box;
 }
 
-
 html {
     scroll-behavior: auto;
 }
 
-
 body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font);
+    background: #02050b;
+    color: #edf6ff;
+    font-family:
+        Inter,
+        Helvetica,
+        Arial,
+        sans-serif;
     overflow-x: hidden;
 }
 
 
-body::-webkit-scrollbar {
-    width: 5px;
-}
-
-
-body::-webkit-scrollbar-track {
-    background: #02040a;
-}
-
-
-body::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.25);
-}
-
-
-/* =====================================================
-   SPACE
-===================================================== */
-
-.space {
-    position: fixed;
-    inset: 0;
-    z-index: -10;
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(20, 34, 70, 0.42) 0%,
-            rgba(3, 6, 15, 0.85) 48%,
-            #02040a 100%
-        );
-}
-
-
-.stars {
-    position: absolute;
-    inset: 0;
-
-    background-image:
-        radial-gradient(circle, rgba(255,255,255,.55) 1px, transparent 1px),
-        radial-gradient(circle, rgba(255,255,255,.28) 1px, transparent 1px);
-
-    background-size:
-        150px 150px,
-        270px 270px;
-
-    background-position:
-        20px 30px,
-        90px 140px;
-
-    opacity: .22;
-}
-
-
-.grain {
-    position: absolute;
-    inset: -50%;
-
-    opacity: .035;
-
-    background-image:
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
-
-    pointer-events: none;
-}
-
-
-/* =====================================================
-   GENERAL
-===================================================== */
-
-.panel,
-.journey,
-.reveal {
-    position: relative;
-    width: 100%;
-}
-
-
-.micro {
-    font-size: clamp(0.7rem, 1vw, 0.9rem);
-    letter-spacing: .28em;
-    text-transform: uppercase;
-    color: var(--muted);
-}
-
-
-/* =====================================================
+/* ============================================================
    INTRO
-===================================================== */
+============================================================ */
 
 .intro {
+    position: relative;
     height: 100vh;
+    min-height: 700px;
 
     display: flex;
     align-items: center;
-    justify-content: center;
 
-    text-align: center;
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(25, 65, 110, 0.12),
+            transparent 45%
+        ),
+        #02050b;
 }
 
-
-.intro-content {
-    transform: translateY(-3vh);
+.intro-inner {
+    width: min(1200px, 88vw);
+    margin: auto;
 }
 
+.eyebrow,
+.explanation-label,
+.reveal-eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    opacity: 0.55;
+}
 
 .intro h1 {
-    margin-top: 1.2rem;
+    margin-top: 30px;
 
-    font-size: clamp(5rem, 15vw, 13rem);
-
+    font-size: clamp(70px, 11vw, 170px);
+    line-height: 0.82;
     font-weight: 300;
-    letter-spacing: -.07em;
-
-    line-height: .85;
+    letter-spacing: -0.055em;
 }
 
+.intro-sub {
+    margin-top: 45px;
 
-.intro p {
-    margin-top: 1.5rem;
+    font-size: clamp(18px, 2vw, 27px);
+    font-weight: 300;
 
-    font-size: clamp(1rem, 1.5vw, 1.4rem);
-
-    color: var(--muted);
-
-    letter-spacing: .18em;
+    opacity: 0.65;
 }
 
+.scroll-indicator {
+    margin-top: 90px;
 
-.intro-line {
-    width: 90px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    opacity: 0.5;
+}
+
+.scroll-line {
+    width: 80px;
     height: 1px;
-
-    margin: 2rem auto;
-
-    background: rgba(255,255,255,.5);
+    background: rgba(220, 240, 255, 0.5);
 }
 
 
-.scroll-hint {
-    display: block;
-
-    margin-top: 8vh;
-
-    font-size: .72rem;
-
-    letter-spacing: .25em;
-
-    color: rgba(255,255,255,.35);
-
-    animation: pulseHint 2.5s infinite ease-in-out;
-}
-
-
-@keyframes pulseHint {
-
-    0%,
-    100% {
-        opacity: .25;
-        transform: translateY(0);
-    }
-
-    50% {
-        opacity: .8;
-        transform: translateY(6px);
-    }
-
-}
-
-
-/* =====================================================
+/* ============================================================
    JOURNEY
-===================================================== */
+============================================================ */
 
 .journey {
-    height: 750vh;
+    position: relative;
+    height: 2800vh;
 }
 
-
-.trajectory-stage {
+.camera-stage {
     position: sticky;
     top: 0;
 
-    height: 100vh;
     width: 100%;
+    height: 100vh;
 
     overflow: hidden;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(20, 45, 80, 0.10),
+            transparent 50%
+        ),
+        #02050b;
 }
 
 
-#trajectorySvg {
+/* ============================================================
+   SVG
+============================================================ */
+
+#trajectory-svg {
+    position: absolute;
+
     width: 100%;
     height: 100%;
 
-    overflow: visible;
-
-    transform-origin: center center;
+    inset: 0;
 }
 
-
-/* =====================================================
-   PATH
-===================================================== */
-
-.ghost-path {
-    fill: none;
-
-    stroke: rgba(255,255,255,.045);
-
-    stroke-width: 1.5;
-}
-
-
-.life-path {
-    fill: none;
-
-    stroke: var(--line);
-
-    stroke-width: 2.2;
-
-    stroke-linecap: round;
-    stroke-linejoin: round;
+#life-path {
+    vector-effect: non-scaling-stroke;
 
     filter:
-        drop-shadow(0 0 5px rgba(170,200,255,.28))
-        drop-shadow(0 0 15px rgba(120,160,255,.12));
+        drop-shadow(
+            0 0 7px rgba(150, 210, 255, 0.25)
+        );
 }
-
-
-/* =====================================================
-   OBSERVER
-===================================================== */
 
 #observer {
     fill: #ffffff;
 
     filter:
-        drop-shadow(0 0 5px rgba(255,255,255,.8))
-        drop-shadow(0 0 18px rgba(150,190,255,.8));
+        drop-shadow(
+            0 0 12px rgba(180, 225, 255, 0.9)
+        );
+}
+
+.event-node {
+    fill: #02050b;
+    stroke: rgba(225, 242, 255, 0.85);
+    stroke-width: 2;
+
+    vector-effect: non-scaling-stroke;
+}
+
+.event-node.major {
+    stroke-width: 3;
 }
 
 
-/* =====================================================
-   EVENT INFORMATION
-===================================================== */
+/* ============================================================
+   HUD
+============================================================ */
 
-.event-info {
+.hud {
     position: absolute;
 
-    left: 8vw;
+    inset: 0;
+
+    pointer-events: none;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 11px;
+
+    letter-spacing: 0.15em;
+
+    text-transform: uppercase;
+}
+
+.hud-top-left {
+    position: absolute;
+    top: 30px;
+    left: 35px;
+}
+
+.hud-top-right {
+    position: absolute;
+    top: 30px;
+    right: 35px;
+}
+
+.hud-bottom-left {
+    position: absolute;
+    bottom: 30px;
+    left: 35px;
+}
+
+.hud-bottom-right {
+    position: absolute;
+    bottom: 30px;
+    right: 35px;
+}
+
+.hud-label {
+    margin-bottom: 6px;
+}
+
+.hud-small {
+    opacity: 0.4;
+}
+
+#year-readout {
+    margin-top: 5px;
+
+    font-size: 18px;
+    letter-spacing: 0.08em;
+}
+
+
+/* ============================================================
+   CENTER MARKER
+============================================================ */
+
+.center-marker {
+    position: absolute;
+
+    left: 50%;
     top: 50%;
 
-    width: min(480px, 42vw);
+    width: 7px;
+    height: 7px;
 
-    transform: translateY(-50%);
+    transform: translate(-50%, -50%);
+
+    border: 1px solid rgba(255,255,255,0.65);
+    border-radius: 50%;
+
+    opacity: 0.25;
 
     pointer-events: none;
 }
 
 
-.event-year {
-    font-size: clamp(1rem, 1.5vw, 1.35rem);
+/* ============================================================
+   EVENT CARD
+============================================================ */
 
-    letter-spacing: .18em;
-
-    color: var(--accent);
-
-    margin-bottom: .8rem;
-}
-
-
-.event-title {
-    font-size: clamp(2rem, 4vw, 4.5rem);
-
-    font-weight: 300;
-
-    line-height: 1;
-
-    letter-spacing: -.04em;
-}
-
-
-.event-description {
-    margin-top: 1.2rem;
-
-    max-width: 420px;
-
-    font-size: clamp(1rem, 1.25vw, 1.25rem);
-
-    line-height: 1.6;
-
-    color: var(--muted);
-}
-
-
-/* =====================================================
-   HUD
-===================================================== */
-
-.hud {
+.event-card {
     position: absolute;
 
-    bottom: 30px;
+    left: 8vw;
+    bottom: 13vh;
 
-    font-size: .65rem;
+    width: min(480px, 42vw);
 
-    letter-spacing: .2em;
+    z-index: 10;
 
-    color: rgba(255,255,255,.32);
+    pointer-events: none;
 
-    text-transform: uppercase;
+    transition: opacity 0.4s ease;
 }
 
+.event-date {
+    font-family:
+        "Courier New",
+        monospace;
 
-.hud-left {
-    left: 35px;
+    font-size: 14px;
+
+    letter-spacing: 0.18em;
+
+    opacity: 0.55;
+
+    margin-bottom: 13px;
 }
 
+.event-title {
+    font-size: clamp(32px, 4vw, 62px);
 
-.hud-right {
-    right: 35px;
-}
-
-
-/* =====================================================
-   REVEAL
-===================================================== */
-
-.reveal {
-    height: 150vh;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-}
-
-
-.reveal-content {
-    opacity: 0;
-
-    transform: translateY(40px);
-}
-
-
-.reveal h2 {
-    margin-top: 1.2rem;
-
-    font-size: clamp(3rem, 8vw, 8rem);
+    line-height: 0.95;
 
     font-weight: 300;
 
-    letter-spacing: -.06em;
+    letter-spacing: -0.035em;
+}
+
+.event-description {
+    margin-top: 20px;
+
+    font-size: clamp(16px, 1.35vw, 21px);
+
+    line-height: 1.55;
+
+    font-weight: 300;
+
+    opacity: 0.6;
+
+    max-width: 430px;
 }
 
 
-.reveal p {
-    margin-top: 2rem;
+/* ============================================================
+   REVEAL
+============================================================ */
 
-    font-size: clamp(1.2rem, 2vw, 2rem);
+.reveal {
+    position: relative;
+
+    height: 400vh;
+
+    background: #02050b;
+}
+
+.reveal-stage {
+    position: sticky;
+
+    top: 0;
+
+    height: 100vh;
+
+    overflow: hidden;
+}
+
+.reveal-copy {
+    position: absolute;
+
+    left: 8vw;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    z-index: 5;
+
+    max-width: 500px;
+}
+
+.reveal-copy h2 {
+    margin-top: 25px;
+
+    font-size: clamp(70px, 10vw, 150px);
+
+    line-height: 0.8;
+
+    font-weight: 300;
+
+    letter-spacing: -0.06em;
+}
+
+.reveal-copy p {
+    margin-top: 30px;
+
+    font-size: 21px;
 
     line-height: 1.5;
 
-    color: var(--muted);
+    opacity: 0.55;
+}
+
+.reveal-scroll {
+    margin-top: 70px;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 11px;
+
+    letter-spacing: 0.18em;
+
+    opacity: 0.4;
 }
 
 
-.final-mark {
-    margin-top: 5rem;
+/* ============================================================
+   EXPLANATION
+============================================================ */
 
-    font-size: .75rem;
+.chaos-explanation {
+    min-height: 120vh;
 
-    letter-spacing: .3em;
+    padding:
+        180px 8vw
+        160px;
 
-    color: rgba(255,255,255,.45);
+    background:
+        radial-gradient(
+            circle at 75% 40%,
+            rgba(20, 55, 100, 0.12),
+            transparent 45%
+        ),
+        #02050b;
 }
 
+.explanation-inner {
+    width: min(1200px, 90vw);
+    margin: auto;
+}
 
-/* =====================================================
-   FOOTER
-===================================================== */
+.chaos-explanation h2 {
+    margin-top: 30px;
 
-footer {
-    min-height: 18vh;
+    font-size: clamp(60px, 9vw, 140px);
 
-    padding: 2rem 5vw;
+    line-height: 0.82;
+
+    font-weight: 300;
+
+    letter-spacing: -0.055em;
+}
+
+.explanation-grid {
+    margin-top: 100px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 60px;
+
+    max-width: 900px;
+}
+
+.explanation-grid p {
+    font-size: clamp(18px, 1.5vw, 24px);
+
+    line-height: 1.6;
+
+    font-weight: 300;
+
+    opacity: 0.65;
+}
+
+.final-statement {
+    margin-top: 150px;
 
     display: flex;
 
-    align-items: center;
+    flex-direction: column;
 
-    justify-content: space-between;
+    gap: 15px;
+}
 
-    border-top: 1px solid rgba(255,255,255,.07);
+.final-statement span {
+    font-size: 20px;
 
-    font-size: .65rem;
+    opacity: 0.45;
+}
 
-    letter-spacing: .18em;
+.final-statement strong {
+    font-size: clamp(40px, 6vw, 90px);
 
-    color: rgba(255,255,255,.35);
+    font-weight: 300;
+
+    letter-spacing: -0.04em;
 }
 
 
-/* =====================================================
+/* ============================================================
+   FOOTER
+============================================================ */
+
+footer {
+    min-height: 25vh;
+
+    padding: 40px 8vw;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-start;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 11px;
+
+    letter-spacing: 0.15em;
+
+    opacity: 0.45;
+}
+
+
+/* ============================================================
    MOBILE
-===================================================== */
+============================================================ */
 
 @media (max-width: 800px) {
 
-    .journey {
-        height: 900vh;
+    .intro h1 {
+        font-size: 19vw;
     }
 
-
-    .trajectory-stage {
-        align-items: flex-end;
+    .intro-sub {
+        max-width: 320px;
     }
 
-
-    #trajectorySvg {
-        width: 145%;
-        height: 70%;
-    }
-
-
-    .event-info {
-        top: 13%;
-
+    .event-card {
         left: 7vw;
+        right: 7vw;
 
-        width: 82vw;
+        bottom: 11vh;
 
-        transform: none;
+        width: auto;
     }
-
 
     .event-title {
-        font-size: clamp(2rem, 10vw, 4rem);
+        font-size: 39px;
     }
-
 
     .event-description {
-        font-size: 1rem;
+        font-size: 16px;
     }
 
-
-    .hud-right {
-        display: none;
+    .hud-top-left {
+        left: 20px;
+        top: 20px;
     }
 
+    .hud-top-right {
+        right: 20px;
+        top: 20px;
+    }
 
-    .hud-left {
+    .hud-bottom-left {
         left: 20px;
         bottom: 20px;
     }
 
+    .hud-bottom-right {
+        display: none;
+    }
 
-    footer {
-        flex-direction: column;
+    .explanation-grid {
+        grid-template-columns: 1fr;
 
-        align-items: flex-start;
+        gap: 30px;
 
-        gap: 1rem;
+        margin-top: 70px;
+    }
+
+    .chaos-explanation {
+        padding-left: 7vw;
+        padding-right: 7vw;
     }
 
 }
