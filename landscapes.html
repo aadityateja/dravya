@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +10,7 @@
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>Landscapes — DRAVYA</title>
+<title>The Landscape — DRAVYA</title>
 
 <link rel="icon" type="image/png" href="assets/logo.png">
 
@@ -41,23 +40,25 @@ body {
     overflow-x: hidden;
 }
 
-/* ------------------------------
+
+/* =========================================
    BACKGROUND
------------------------------- */
+========================================= */
 
 .background {
     position: fixed;
     inset: 0;
-    z-index: -5;
+    z-index: -10;
+
     background:
         radial-gradient(
-            circle at 50% 20%,
-            rgba(35, 65, 120, 0.16),
-            transparent 45%
+            circle at 50% 35%,
+            rgba(35, 60, 110, 0.16),
+            transparent 48%
         ),
         radial-gradient(
-            circle at 20% 80%,
-            rgba(20, 40, 90, 0.12),
+            circle at 15% 85%,
+            rgba(20, 45, 90, 0.10),
             transparent 40%
         ),
         #05070d;
@@ -66,22 +67,28 @@ body {
 .noise {
     position: fixed;
     inset: 0;
-    z-index: -1;
+
+    z-index: -5;
+
     pointer-events: none;
+
     opacity: 0.035;
 
     background-image:
         url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
 }
 
-/* ------------------------------
+
+/* =========================================
    NAVIGATION
------------------------------- */
+========================================= */
 
 nav {
     position: fixed;
+
     top: 0;
     left: 0;
+
     width: 100%;
 
     padding: 28px 42px;
@@ -92,32 +99,42 @@ nav {
 
     z-index: 100;
 
-    background: linear-gradient(
-        to bottom,
-        rgba(5, 7, 13, 0.85),
-        transparent
-    );
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(5, 7, 13, 0.9),
+            transparent
+        );
 }
 
 .logo {
     color: white;
+
     text-decoration: none;
 
     font-size: 26px;
+
     letter-spacing: 0.16em;
 }
 
 .nav-right {
     display: flex;
-    gap: 28px;
+
+    align-items: center;
+
+    gap: 25px;
 }
 
 .nav-link {
-    color: rgba(255,255,255,0.65);
+    color: rgba(255,255,255,0.58);
+
     text-decoration: none;
 
-    font-size: 14px;
-    letter-spacing: 0.12em;
+    font-family: Arial, sans-serif;
+
+    font-size: 11px;
+
+    letter-spacing: 0.14em;
 
     transition: color 0.3s ease;
 }
@@ -126,316 +143,556 @@ nav {
     color: white;
 }
 
-/* ------------------------------
-   HERO
------------------------------- */
 
-.hero {
-    min-height: 58vh;
+/* =========================================
+   EXPERIENCE
+========================================= */
+
+.experience {
+    width: min(1500px, 94%);
+
+    margin: auto;
+
+    padding-top: 110px;
+
+    padding-bottom: 80px;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.header {
+    padding: 45px 0 25px;
 
     display: flex;
-    flex-direction: column;
 
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between;
 
-    text-align: center;
+    align-items: flex-end;
 
-    padding: 150px 30px 60px;
+    gap: 30px;
 }
 
 .eyebrow {
-    font-size: 14px;
-    letter-spacing: 0.28em;
+    font-family: Arial, sans-serif;
 
-    color: rgba(255,255,255,0.45);
+    font-size: 10px;
 
-    margin-bottom: 24px;
+    letter-spacing: 0.22em;
+
+    color: rgba(255,255,255,0.38);
+
+    margin-bottom: 13px;
 }
 
-.hero h1 {
-    font-size: clamp(58px, 9vw, 130px);
+.header h1 {
+    font-size: clamp(50px, 7vw, 100px);
 
     font-weight: normal;
 
-    letter-spacing: 0.04em;
-
     line-height: 0.9;
+
+    letter-spacing: 0.03em;
 }
 
-.hero p {
-    max-width: 650px;
-
-    margin-top: 34px;
+.header-description {
+    max-width: 390px;
 
     font-family: Arial, sans-serif;
 
-    font-size: 16px;
+    font-size: 13px;
+
     line-height: 1.8;
 
-    color: rgba(255,255,255,0.55);
+    color: rgba(255,255,255,0.48);
 }
 
-/* ------------------------------
-   GALLERY
------------------------------- */
 
-.gallery {
-    width: min(1450px, 92%);
+/* =========================================
+   3D VIEWER
+========================================= */
 
-    margin: 0 auto;
-
-    padding: 30px 0 120px;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    gap: 26px;
-}
-
-/* ------------------------------
-   MODEL CARD
------------------------------- */
-
-.card {
+.viewer-shell {
     position: relative;
 
-    min-height: 590px;
+    width: 100%;
 
-    border: 1px solid rgba(255,255,255,0.10);
+    height: min(72vh, 760px);
+
+    min-height: 500px;
+
+    border:
+        1px solid rgba(255,255,255,0.11);
 
     background:
         radial-gradient(
-            circle at center,
-            rgba(40,65,110,0.11),
-            rgba(5,7,13,0.5)
+            circle at 50% 45%,
+            rgba(35,65,120,0.14),
+            rgba(3,5,10,0.75)
         );
 
     overflow: hidden;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.5s ease,
-        border-color 0.5s ease,
-        background 0.5s ease;
 }
 
-.card:hover {
-    transform: translateY(-8px);
-
-    border-color:
-        rgba(255,255,255,0.32);
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(55,85,140,0.18),
-            rgba(5,7,13,0.55)
-        );
-}
-
-/* ------------------------------
-   MODEL VIEW
------------------------------- */
-
-.viewer {
+#viewer {
     position: absolute;
 
     inset: 0;
 
     width: 100%;
     height: 100%;
-
-    pointer-events: none;
 }
 
-.viewer canvas {
+#viewer canvas {
     display: block;
 
     width: 100% !important;
     height: 100% !important;
 }
 
-/* ------------------------------
-   CARD INFO
------------------------------- */
 
-.card-info {
+/* =========================================
+   VIEWER TOP LABEL
+========================================= */
+
+.viewer-label {
     position: absolute;
 
-    left: 30px;
-    right: 30px;
-    bottom: 28px;
+    top: 24px;
+    left: 26px;
 
-    z-index: 5;
-
-    pointer-events: none;
-}
-
-.number {
-    font-family: Arial, sans-serif;
-
-    font-size: 11px;
-    letter-spacing: 0.2em;
-
-    color: rgba(255,255,255,0.35);
-
-    margin-bottom: 10px;
-}
-
-.title {
-    font-size: 34px;
-
-    letter-spacing: 0.05em;
-
-    font-weight: normal;
-}
-
-.enter {
-    margin-top: 12px;
-
-    font-family: Arial, sans-serif;
-
-    font-size: 11px;
-
-    letter-spacing: 0.16em;
-
-    color: rgba(255,255,255,0);
-
-    transform: translateY(8px);
-
-    transition:
-        color 0.4s ease,
-        transform 0.4s ease;
-}
-
-.card:hover .enter {
-    color: rgba(255,255,255,0.65);
-
-    transform: translateY(0);
-}
-
-/* gradient over bottom */
-
-.card::after {
-    content: "";
-
-    position: absolute;
-
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    height: 220px;
+    z-index: 10;
 
     pointer-events: none;
 
-    background:
-        linear-gradient(
-            to top,
-            rgba(5,7,13,0.95),
-            transparent
-        );
+    font-family: Arial, sans-serif;
+
+    font-size: 10px;
+
+    letter-spacing: 0.18em;
+
+    color: rgba(255,255,255,0.38);
 }
 
-/* ------------------------------
-   FOOTER
------------------------------- */
 
-footer {
-    width: min(1450px, 92%);
+/* =========================================
+   VIEWER STATUS
+========================================= */
 
-    margin: auto;
+.status {
+    position: absolute;
 
-    padding: 40px 0 70px;
+    top: 24px;
+    right: 26px;
 
-    border-top:
-        1px solid rgba(255,255,255,0.08);
+    z-index: 10;
+
+    pointer-events: none;
 
     display: flex;
-    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 8px;
 
     font-family: Arial, sans-serif;
 
-    font-size: 11px;
+    font-size: 9px;
+
+    letter-spacing: 0.14em;
+
+    color: rgba(255,255,255,0.38);
+}
+
+.status-dot {
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.55);
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.loading {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 20;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    flex-direction: column;
+
+    gap: 16px;
+
+    background: #05070d;
+
+    transition:
+        opacity 0.8s ease,
+        visibility 0.8s ease;
+}
+
+.loading.hidden {
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+}
+
+.loading-title {
+    font-size: 17px;
+
+    letter-spacing: 0.12em;
+}
+
+.loading-subtitle {
+    font-family: Arial, sans-serif;
+
+    font-size: 9px;
+
+    letter-spacing: 0.18em;
+
+    color: rgba(255,255,255,0.35);
+}
+
+
+/* =========================================
+   CONTROLS
+========================================= */
+
+.controls {
+    position: absolute;
+
+    left: 24px;
+    bottom: 24px;
+
+    z-index: 15;
+
+    display: flex;
+
+    gap: 8px;
+}
+
+.control-button {
+    min-width: 44px;
+    min-height: 38px;
+
+    padding: 8px 13px;
+
+    border:
+        1px solid rgba(255,255,255,0.15);
+
+    background:
+        rgba(5,7,13,0.65);
+
+    color: rgba(255,255,255,0.62);
+
+    font-family: Arial, sans-serif;
+
+    font-size: 9px;
+
+    letter-spacing: 0.10em;
+
+    cursor: pointer;
+
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease;
+}
+
+.control-button:hover {
+    color: white;
+
+    border-color:
+        rgba(255,255,255,0.4);
+
+    background:
+        rgba(255,255,255,0.08);
+}
+
+
+/* =========================================
+   INSTRUCTION
+========================================= */
+
+.instructions {
+    position: absolute;
+
+    right: 25px;
+    bottom: 27px;
+
+    z-index: 10;
+
+    pointer-events: none;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 9px;
 
     letter-spacing: 0.12em;
 
     color: rgba(255,255,255,0.32);
 }
 
-/* ------------------------------
-   MOBILE
------------------------------- */
 
-@media (max-width: 900px) {
+/* =========================================
+   CONCEPT
+========================================= */
+
+.concept {
+    display: grid;
+
+    grid-template-columns:
+        minmax(220px, 0.65fr)
+        minmax(0, 1.35fr);
+
+    gap: 90px;
+
+    padding: 110px 8% 80px;
+}
+
+.concept-label {
+    font-family: Arial, sans-serif;
+
+    font-size: 10px;
+
+    letter-spacing: 0.2em;
+
+    color: rgba(255,255,255,0.34);
+}
+
+.concept-content h2 {
+    font-size: clamp(32px, 4vw, 58px);
+
+    font-weight: normal;
+
+    line-height: 1.05;
+
+    margin-bottom: 30px;
+}
+
+.concept-content p {
+    max-width: 760px;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 15px;
+
+    line-height: 1.95;
+
+    color: rgba(255,255,255,0.55);
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================
+   OBSERVATION
+========================================= */
+
+.observation {
+    width: 84%;
+
+    margin: 0 auto;
+
+    padding: 65px 0;
+
+    border-top:
+        1px solid rgba(255,255,255,0.08);
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.08);
+}
+
+.observation-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 40px;
+}
+
+.observation-item span {
+    display: block;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 9px;
+
+    letter-spacing: 0.17em;
+
+    color: rgba(255,255,255,0.32);
+
+    margin-bottom: 13px;
+}
+
+.observation-item strong {
+    font-size: 23px;
+
+    font-weight: normal;
+
+    letter-spacing: 0.04em;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+    width: 84%;
+
+    margin: auto;
+
+    padding: 45px 0 65px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 9px;
+
+    letter-spacing: 0.14em;
+
+    color: rgba(255,255,255,0.28);
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 800px) {
 
     nav {
         padding: 22px 24px;
     }
-
-    .nav-right {
-        gap: 16px;
-    }
-
-    .nav-link {
-        font-size: 11px;
-    }
-
-    .hero {
-        min-height: 50vh;
-        padding-top: 130px;
-    }
-
-    .gallery {
-        grid-template-columns: 1fr;
-
-        width: 90%;
-
-        gap: 20px;
-    }
-
-    .card {
-        min-height: 520px;
-    }
-
-    .title {
-        font-size: 30px;
-    }
-
-    footer {
-        width: 90%;
-
-        flex-direction: column;
-
-        gap: 12px;
-    }
-
-}
-
-@media (max-width: 500px) {
 
     .logo {
         font-size: 21px;
     }
 
     .nav-right {
+        gap: 15px;
+    }
+
+    .experience {
+        width: 92%;
+
+        padding-top: 85px;
+    }
+
+    .header {
+        display: block;
+
+        padding-top: 35px;
+    }
+
+    .header h1 {
+        font-size: 58px;
+    }
+
+    .header-description {
+        margin-top: 25px;
+    }
+
+    .viewer-shell {
+        height: 65vh;
+
+        min-height: 440px;
+    }
+
+    .instructions {
         display: none;
     }
 
-    .hero h1 {
-        font-size: 62px;
+    .concept {
+        grid-template-columns: 1fr;
+
+        gap: 30px;
+
+        padding:
+            75px 4% 65px;
     }
 
-    .hero p {
-        font-size: 14px;
+    .observation {
+        width: 92%;
     }
 
-    .card {
-        min-height: 460px;
+    .observation-grid {
+        grid-template-columns: 1fr;
+
+        gap: 28px;
+    }
+
+    footer {
+        width: 92%;
+
+        flex-direction: column;
+
+        gap: 14px;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .nav-right {
+        display: none;
+    }
+
+    .header h1 {
+        font-size: 50px;
+    }
+
+    .viewer-shell {
+        height: 60vh;
+
+        min-height: 400px;
+    }
+
+    .controls {
+        left: 15px;
+        bottom: 15px;
+    }
+
+    .viewer-label {
+        left: 16px;
+        top: 17px;
+    }
+
+    .status {
+        right: 16px;
+        top: 17px;
+    }
+
+}
+
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    * {
+        scroll-behavior: auto !important;
     }
 
 }
@@ -448,27 +705,37 @@ footer {
 <body>
 
 <div class="background"></div>
+
 <div class="noise"></div>
 
 
-<!-- ==============================
+<!-- =====================================
      NAVIGATION
-============================== -->
+===================================== -->
 
 <nav>
 
-    <a href="index.html" class="logo">
+    <a
+        href="index.html"
+        class="logo"
+    >
         DRAVYA
     </a>
 
     <div class="nav-right">
 
-        <a href="field.html" class="nav-link">
-            FIELD
+        <a
+            href="landscapes.html"
+            class="nav-link"
+        >
+            ← LANDSCAPES
         </a>
 
-        <a href="index.html" class="nav-link">
-            HOME
+        <a
+            href="field.html"
+            class="nav-link"
+        >
+            FIELD
         </a>
 
     </div>
@@ -476,130 +743,228 @@ footer {
 </nav>
 
 
-<!-- ==============================
-     HERO
-============================== -->
+<!-- =====================================
+     EXPERIENCE
+===================================== -->
 
-<section class="hero">
-
-    <div class="eyebrow">
-        DRAVYA / 3D EXPLORATIONS
-    </div>
-
-    <h1>
-        LANDSCAPES
-    </h1>
-
-    <p>
-        Worlds built from geometry, matter, light and imagination.
-        Enter each environment and explore it from within.
-    </p>
-
-</section>
+<main class="experience">
 
 
-<!-- ==============================
-     GALLERY
-============================== -->
+    <!-- HEADER -->
 
-<section class="gallery">
+    <header class="header">
+
+        <div>
+
+            <div class="eyebrow">
+                01 / 03 · 3D EXPLORATION
+            </div>
+
+            <h1>
+                THE<br>
+                LANDSCAPE
+            </h1>
+
+        </div>
+
+        <div class="header-description">
+
+            A space built from geometry, form,
+            light and imagined physical laws.
+
+            <br><br>
+
+            Do not simply look at it.
+            Enter it.
+
+        </div>
+
+    </header>
 
 
-    <!-- LANDSCAPE -->
+    <!-- =================================
+         3D VIEWER
+    ================================= -->
 
-    <article
-        class="card"
-        data-url="landscape.html"
-    >
+    <section class="viewer-shell">
 
         <div
-            class="viewer"
-            id="viewer-landscape"
+            class="viewer-label"
+        >
+            DRAVYA / LANDSCAPE
+        </div>
+
+
+        <div
+            class="status"
+        >
+
+            <span
+                class="status-dot"
+                id="statusDot"
+            ></span>
+
+            <span id="statusText">
+                LOADING
+            </span>
+
+        </div>
+
+
+        <div
+            id="viewer"
         ></div>
 
-        <div class="card-info">
 
-            <div class="number">
-                01 / 03
+        <!-- LOADING -->
+
+        <div
+            class="loading"
+            id="loading"
+        >
+
+            <div class="loading-title">
+                ENTERING THE LANDSCAPE
             </div>
 
-            <div class="title">
-                THE LANDSCAPE
-            </div>
-
-            <div class="enter">
-                ENTER EXPERIENCE →
+            <div class="loading-subtitle">
+                PREPARING 3D ENVIRONMENT
             </div>
 
         </div>
 
-    </article>
+
+        <!-- CONTROLS -->
+
+        <div class="controls">
+
+            <button
+                type="button"
+                class="control-button"
+                id="resetButton"
+            >
+                RESET
+            </button>
+
+            <button
+                type="button"
+                class="control-button"
+                id="rotationButton"
+            >
+                PAUSE
+            </button>
+
+        </div>
 
 
-    <!-- POND -->
+        <div class="instructions">
+            DRAG · ROTATE &nbsp;&nbsp; SCROLL · ZOOM &nbsp;&nbsp; RIGHT DRAG · PAN
+        </div>
 
-    <article
-        class="card"
-        data-url="pond.html"
-    >
+    </section>
 
-        <div
-            class="viewer"
-            id="viewer-pond"
-        ></div>
 
-        <div class="card-info">
+    <!-- =================================
+         CONCEPT
+    ================================= -->
 
-            <div class="number">
-                02 / 03
+    <section class="concept">
+
+        <div class="concept-label">
+            THE CONCEPT
+        </div>
+
+        <div class="concept-content">
+
+            <h2>
+                A landscape is not
+                merely a place.
+            </h2>
+
+            <p>
+                It is a system of relationships.
+                Geometry becomes terrain. Light becomes
+                atmosphere. Empty space becomes distance.
+                Every surface describes something about
+                the world that contains it.
+            </p>
+
+            <p>
+                This landscape is an experiment in
+                constructing a world from simple forms
+                and allowing the observer to decide
+                how that world should be understood.
+            </p>
+
+            <p>
+                The model is not a photograph of a place.
+                It is an interpretation of one — a small
+                environment where physical space becomes
+                a medium for imagination.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         OBSERVATION
+    ================================= -->
+
+    <section class="observation">
+
+        <div class="observation-grid">
+
+            <div class="observation-item">
+
+                <span>
+                    MEDIUM
+                </span>
+
+                <strong>
+                    3D / DIGITAL
+                </strong>
+
             </div>
 
-            <div class="title">
-                THE POND
+
+            <div class="observation-item">
+
+                <span>
+                    ELEMENT
+                </span>
+
+                <strong>
+                    SPACE
+                </strong>
+
             </div>
 
-            <div class="enter">
-                ENTER EXPERIENCE →
+
+            <div class="observation-item">
+
+                <span>
+                    ACTION
+                </span>
+
+                <strong>
+                    EXPLORE
+                </strong>
+
             </div>
 
         </div>
 
-    </article>
+    </section>
 
 
-    <!-- CAVE -->
-
-    <article
-        class="card"
-        data-url="cave.html"
-    >
-
-        <div
-            class="viewer"
-            id="viewer-cave"
-        ></div>
-
-        <div class="card-info">
-
-            <div class="number">
-                03 / 03
-            </div>
-
-            <div class="title">
-                THE CAVE
-            </div>
-
-            <div class="enter">
-                ENTER EXPERIENCE →
-            </div>
-
-        </div>
-
-    </article>
+</main>
 
 
-</section>
-
+<!-- =====================================
+     FOOTER
+===================================== -->
 
 <footer>
 
@@ -608,15 +973,15 @@ footer {
     </span>
 
     <span>
-        © DRAVYA
+        DRAVYA / 01
     </span>
 
 </footer>
 
 
-<!-- ==============================
+<!-- =====================================
      THREE.JS
-============================== -->
+===================================== -->
 
 <script type="module">
 
@@ -626,316 +991,554 @@ import * as THREE from
 import { GLTFLoader } from
     "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/GLTFLoader.js";
 
-
-/* --------------------------------
-   MODELS
--------------------------------- */
-
-const models = [
-
-    {
-        container: "viewer-landscape",
-        file: "landscapes/ld.glb"
-    },
-
-    {
-        container: "viewer-pond",
-        file: "landscapes/pond.glb"
-    },
-
-    {
-        container: "viewer-cave",
-        file: "landscapes/cave.glb"
-    }
-
-];
+import { OrbitControls } from
+    "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/controls/OrbitControls.js";
 
 
-const loader = new GLTFLoader();
+/* =========================================
+   ELEMENTS
+========================================= */
 
-const scenes = [];
+const viewer =
+    document.getElementById("viewer");
 
+const loading =
+    document.getElementById("loading");
 
-/* --------------------------------
-   CREATE VIEWER
--------------------------------- */
+const statusText =
+    document.getElementById("statusText");
 
-function createViewer(item) {
+const statusDot =
+    document.getElementById("statusDot");
 
-    const container =
-        document.getElementById(item.container);
+const resetButton =
+    document.getElementById("resetButton");
 
-    if (!container) return;
-
-
-    const scene =
-        new THREE.Scene();
-
-
-    /* CAMERA */
-
-    const camera =
-        new THREE.PerspectiveCamera(
-            35,
-            container.clientWidth /
-            container.clientHeight,
-            0.01,
-            1000
-        );
+const rotationButton =
+    document.getElementById("rotationButton");
 
 
-    /* RENDERER */
+/* =========================================
+   SCENE
+========================================= */
 
-    const renderer =
-        new THREE.WebGLRenderer({
-            antialias: true,
-            alpha: true
-        });
+const scene =
+    new THREE.Scene();
 
 
-    renderer.setPixelRatio(
-        Math.min(window.devicePixelRatio, 2)
+/* =========================================
+   CAMERA
+========================================= */
+
+const camera =
+    new THREE.PerspectiveCamera(
+        35,
+        viewer.clientWidth /
+        viewer.clientHeight,
+        0.01,
+        2000
     );
 
-    renderer.setSize(
-        container.clientWidth,
-        container.clientHeight
-    );
 
-    renderer.outputColorSpace =
-        THREE.SRGBColorSpace;
+/* =========================================
+   RENDERER
+========================================= */
 
-    renderer.toneMapping =
-        THREE.ACESFilmicToneMapping;
+const renderer =
+    new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true
+    });
 
-    renderer.toneMappingExposure = 1.15;
+renderer.setPixelRatio(
+    Math.min(window.devicePixelRatio, 2)
+);
 
-    container.appendChild(
+renderer.setSize(
+    viewer.clientWidth,
+    viewer.clientHeight
+);
+
+renderer.outputColorSpace =
+    THREE.SRGBColorSpace;
+
+renderer.toneMapping =
+    THREE.ACESFilmicToneMapping;
+
+renderer.toneMappingExposure =
+    1.15;
+
+viewer.appendChild(
+    renderer.domElement
+);
+
+
+/* =========================================
+   CONTROLS
+========================================= */
+
+const controls =
+    new OrbitControls(
+        camera,
         renderer.domElement
     );
 
+controls.enableDamping = true;
 
-    /* LIGHTING */
+controls.dampingFactor = 0.055;
 
-    const ambient =
-        new THREE.HemisphereLight(
-            0xffffff,
-            0x111522,
-            2.2
-        );
+controls.enablePan = true;
 
-    scene.add(ambient);
+controls.enableZoom = true;
+
+controls.minDistance = 1;
+
+controls.maxDistance = 100;
+
+controls.rotateSpeed = 0.65;
+
+controls.zoomSpeed = 0.8;
+
+controls.panSpeed = 0.6;
 
 
-    const key =
-        new THREE.DirectionalLight(
-            0xffffff,
-            3
-        );
+/* =========================================
+   LIGHTING
+========================================= */
 
-    key.position.set(
-        4,
-        7,
-        5
+const ambient =
+    new THREE.HemisphereLight(
+        0xffffff,
+        0x111522,
+        2.2
     );
 
-    scene.add(key);
+scene.add(
+    ambient
+);
 
 
-    const fill =
-        new THREE.DirectionalLight(
-            0x88aaff,
-            1.4
-        );
-
-    fill.position.set(
-        -5,
-        2,
-        -4
+const keyLight =
+    new THREE.DirectionalLight(
+        0xffffff,
+        3.2
     );
 
-    scene.add(fill);
+keyLight.position.set(
+    6,
+    10,
+    7
+);
+
+scene.add(
+    keyLight
+);
 
 
-    /* MODEL */
+const fillLight =
+    new THREE.DirectionalLight(
+        0x7f9dff,
+        1.5
+    );
 
-    loader.load(
+fillLight.position.set(
+    -8,
+    4,
+    -6
+);
 
-        item.file,
-
-        function(gltf) {
-
-            const model =
-                gltf.scene;
-
-
-            /* --------------------------------
-               NORMALIZE MODEL SIZE
-            -------------------------------- */
-
-            const box =
-                new THREE.Box3()
-                    .setFromObject(model);
-
-            const size =
-                box.getSize(
-                    new THREE.Vector3()
-                );
-
-            const center =
-                box.getCenter(
-                    new THREE.Vector3()
-                );
+scene.add(
+    fillLight
+);
 
 
-            const maxDimension =
-                Math.max(
-                    size.x,
-                    size.y,
-                    size.z
-                );
+const rimLight =
+    new THREE.DirectionalLight(
+        0xffffff,
+        1.2
+    );
+
+rimLight.position.set(
+    0,
+    5,
+    -10
+);
+
+scene.add(
+    rimLight
+);
 
 
-            if (maxDimension > 0) {
+/* =========================================
+   MODEL
+========================================= */
 
-                const targetSize = 4.2;
+const loader =
+    new GLTFLoader();
 
-                const scale =
-                    targetSize /
-                    maxDimension;
+let model = null;
 
-                model.scale.setScalar(
-                    scale
-                );
+let rotationEnabled = true;
 
-            }
+let initialCameraPosition =
+    new THREE.Vector3();
 
-
-            /* Recalculate after scaling */
-
-            const scaledBox =
-                new THREE.Box3()
-                    .setFromObject(model);
-
-            const scaledCenter =
-                scaledBox.getCenter(
-                    new THREE.Vector3()
-                );
+let initialTarget =
+    new THREE.Vector3();
 
 
-            model.position.sub(
-                scaledCenter
+loader.load(
+
+    "landscapes/ld.glb",
+
+    function(gltf) {
+
+        model =
+            gltf.scene;
+
+
+        /* ---------------------------------
+           FIND MODEL BOUNDS
+        --------------------------------- */
+
+        const originalBox =
+            new THREE.Box3()
+                .setFromObject(model);
+
+        const originalSize =
+            originalBox.getSize(
+                new THREE.Vector3()
+            );
+
+        const originalCenter =
+            originalBox.getCenter(
+                new THREE.Vector3()
             );
 
 
-            scene.add(model);
+        /* ---------------------------------
+           CENTER MODEL
+        --------------------------------- */
+
+        model.position.sub(
+            originalCenter
+        );
 
 
-            /* CAMERA */
+        /* ---------------------------------
+           NORMALIZE SCALE
+        --------------------------------- */
 
-            const finalBox =
-                new THREE.Box3()
-                    .setFromObject(model);
-
-            const finalSize =
-                finalBox.getSize(
-                    new THREE.Vector3()
-                );
-
-
-            const radius =
-                finalSize.length() * 0.5;
-
-
-            camera.position.set(
-                0,
-                radius * 0.65,
-                radius * 2.1
+        const maxDimension =
+            Math.max(
+                originalSize.x,
+                originalSize.y,
+                originalSize.z
             );
 
 
-            camera.lookAt(
-                0,
-                0,
-                0
-            );
+        if (
+            Number.isFinite(maxDimension) &&
+            maxDimension > 0
+        ) {
 
+            const desiredSize = 10;
 
-            scenes.push({
+            const scale =
+                desiredSize /
+                maxDimension;
 
-                scene,
-                camera,
-                renderer,
-                model,
-                container
-
-            });
-
-        },
-
-        undefined,
-
-        function(error) {
-
-            console.error(
-                "Could not load:",
-                item.file,
-                error
+            model.scale.setScalar(
+                scale
             );
 
         }
 
-    );
 
+        /* ---------------------------------
+           RECENTER AFTER SCALING
+        --------------------------------- */
 
-    /* --------------------------------
-       RESIZE
-    -------------------------------- */
+        const centeredBox =
+            new THREE.Box3()
+                .setFromObject(model);
 
-    const resize =
-        () => {
-
-            const width =
-                container.clientWidth;
-
-            const height =
-                container.clientHeight;
-
-
-            camera.aspect =
-                width / height;
-
-            camera.updateProjectionMatrix();
-
-
-            renderer.setSize(
-                width,
-                height
+        const centeredCenter =
+            centeredBox.getCenter(
+                new THREE.Vector3()
             );
 
-        };
+        model.position.sub(
+            centeredCenter
+        );
 
 
-    window.addEventListener(
-        "resize",
-        resize
+        scene.add(
+            model
+        );
+
+
+        /* ---------------------------------
+           FINAL BOUNDS
+        --------------------------------- */
+
+        const finalBox =
+            new THREE.Box3()
+                .setFromObject(model);
+
+        const finalSize =
+            finalBox.getSize(
+                new THREE.Vector3()
+            );
+
+        const radius =
+            Math.max(
+                finalSize.length() * 0.5,
+                1
+            );
+
+
+        /* ---------------------------------
+           CAMERA
+        --------------------------------- */
+
+        camera.position.set(
+            radius * 0.9,
+            radius * 0.55,
+            radius * 1.65
+        );
+
+
+        controls.target.set(
+            0,
+            0,
+            0
+        );
+
+
+        camera.lookAt(
+            controls.target
+        );
+
+
+        controls.minDistance =
+            Math.max(radius * 0.55, 0.5);
+
+        controls.maxDistance =
+            Math.max(radius * 5, 10);
+
+
+        /* ---------------------------------
+           SAVE RESET STATE
+        --------------------------------- */
+
+        initialCameraPosition.copy(
+            camera.position
+        );
+
+        initialTarget.copy(
+            controls.target
+        );
+
+
+        controls.update();
+
+
+        /* ---------------------------------
+           STATUS
+        --------------------------------- */
+
+        statusText.textContent =
+            "READY";
+
+        statusDot.style.opacity =
+            "1";
+
+
+        loading.classList.add(
+            "hidden"
+        );
+
+    },
+
+    function(xhr) {
+
+        if (
+            xhr.total &&
+            Number.isFinite(xhr.loaded) &&
+            Number.isFinite(xhr.total)
+        ) {
+
+            const percentage =
+                Math.round(
+                    (xhr.loaded /
+                    xhr.total) * 100
+                );
+
+            statusText.textContent =
+                percentage + "%";
+
+        }
+
+    },
+
+    function(error) {
+
+        console.error(
+            "GLB loading error:",
+            error
+        );
+
+
+        statusText.textContent =
+            "ERROR";
+
+        statusDot.style.opacity =
+            "0.35";
+
+
+        loading.querySelector(
+            ".loading-title"
+        ).textContent =
+            "UNABLE TO LOAD LANDSCAPE";
+
+
+        loading.querySelector(
+            ".loading-subtitle"
+        ).textContent =
+            "CHECK LANDSCAPES / LD.GLB";
+
+
+    }
+
+);
+
+
+/* =========================================
+   RESET
+========================================= */
+
+resetButton.addEventListener(
+    "click",
+    function() {
+
+        if (!model) return;
+
+        camera.position.copy(
+            initialCameraPosition
+        );
+
+        controls.target.copy(
+            initialTarget
+        );
+
+        model.rotation.set(
+            0,
+            0,
+            0
+        );
+
+        controls.update();
+
+    }
+);
+
+
+/* =========================================
+   AUTO ROTATION
+========================================= */
+
+rotationButton.addEventListener(
+    "click",
+    function() {
+
+        rotationEnabled =
+            !rotationEnabled;
+
+        rotationButton.textContent =
+            rotationEnabled
+                ? "PAUSE"
+                : "ROTATE";
+
+    }
+);
+
+
+/* =========================================
+   PAUSE AUTO ROTATION WHILE
+   USER INTERACTS
+========================================= */
+
+let userInteracting = false;
+
+renderer.domElement.addEventListener(
+    "pointerdown",
+    function() {
+
+        userInteracting = true;
+
+    }
+);
+
+window.addEventListener(
+    "pointerup",
+    function() {
+
+        userInteracting = false;
+
+    }
+);
+
+
+/* =========================================
+   RESIZE
+========================================= */
+
+function resize() {
+
+    const width =
+        viewer.clientWidth;
+
+    const height =
+        viewer.clientHeight;
+
+
+    if (
+        width <= 0 ||
+        height <= 0
+    ) {
+        return;
+    }
+
+
+    camera.aspect =
+        width / height;
+
+    camera.updateProjectionMatrix();
+
+
+    renderer.setSize(
+        width,
+        height
     );
 
 }
 
-
-/* --------------------------------
-   INITIALIZE
--------------------------------- */
-
-models.forEach(
-    createViewer
+window.addEventListener(
+    "resize",
+    resize
 );
 
 
-/* --------------------------------
+/* =========================================
    ANIMATION
--------------------------------- */
+========================================= */
+
+const reducedMotion =
+    window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
 
 function animate() {
 
@@ -944,75 +1547,35 @@ function animate() {
     );
 
 
-    scenes.forEach(
-        viewer => {
+    if (
+        model &&
+        rotationEnabled &&
+        !userInteracting &&
+        !reducedMotion
+    ) {
 
-            if (viewer.model) {
+        model.rotation.y +=
+            0.0018;
 
-                viewer.model.rotation.y +=
-                    0.0025;
-
-            }
+    }
 
 
-            viewer.renderer.render(
-                viewer.scene,
-                viewer.camera
-            );
+    controls.update();
 
-        }
+
+    renderer.render(
+        scene,
+        camera
     );
 
 }
 
+
 animate();
-
-
-/* --------------------------------
-   CARD NAVIGATION
--------------------------------- */
-
-document
-    .querySelectorAll(".card")
-    .forEach(card => {
-
-        card.addEventListener(
-            "click",
-            () => {
-
-                const url =
-                    card.dataset.url;
-
-                if (url) {
-
-                    window.location.href =
-                        url;
-
-                }
-
-            }
-        );
-
-    });
-
-
-/* --------------------------------
-   PREVENT CLICK FEELING LIKE
-   A 3D INTERACTION
--------------------------------- */
-
-document
-    .querySelectorAll(".viewer")
-    .forEach(viewer => {
-
-        viewer.style.pointerEvents =
-            "none";
-
-    });
 
 </script>
 
 </body>
 
 </html>
-```
+
