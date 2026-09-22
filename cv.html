@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>DRAVYA — A Trajectory</title>
+<meta name="description" content="An interactive mathematical autobiography. A life traced as a single trajectory through a chaotic system." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="cv.css" />
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.186.0/build/three.module.js"
+  }
+}
+</script>
+</head>
+<body>
+
+<!-- Minimal fixed navigation -->
+<header class="nav" aria-hidden="false">
+  <span class="nav__mark">DRAVYA</span>
+  <span class="nav__sub">CV</span>
+</header>
+
+<!-- Skip link for accessibility -->
+<a class="skip-link" href="#accessible-cv">Skip animation, read CV as text</a>
+
+<!-- The WebGL canvas -->
+<canvas id="scene" aria-hidden="true"></canvas>
+
+<!-- Intro overlay -->
+<section id="intro" class="intro">
+  <p class="intro__eyebrow">DRAVYA / CV</p>
+  <h1 class="intro__title">Trace the<br />trajectory</h1>
+  <p class="intro__body">A life, viewed from inside the line.</p>
+  <p class="intro__scroll">Scroll to begin</p>
+</section>
+
+<!-- Dynamic event label, positioned by JS -->
+<div id="event-label" class="event-label" aria-hidden="true">
+  <span class="event-label__year"></span>
+  <h2 class="event-label__title"></h2>
+  <p class="event-label__desc"></p>
+</div>
+
+<!-- Final reveal text -->
+<section id="final" class="final" aria-hidden="true">
+  <p class="final__eyebrow">The field</p>
+  <p class="final__lead">Inspired by chaos theory.</p>
+  <p class="final__body">
+    A small change in the initial conditions of a system can lead to
+    dramatically different trajectories.
+  </p>
+  <p class="final__body">
+    When you're inside a trajectory, every event appears to be just
+    another step. A decision. A failure. A job. A degree. A disturbance.
+  </p>
+  <p class="final__body final__body--last">
+    Only when you step back does the larger pattern become visible.
+  </p>
+  <p class="final__statement">This is my trajectory.<br />Not a straight line.</p>
+</section>
+
+<!-- Progress indicator -->
+<div class="progress" aria-hidden="true"><div class="progress__fill" id="progress-fill"></div></div>
+
+<!-- Reduced motion notice -->
+<p id="motion-notice" class="motion-notice" hidden>
+  Showing a static version of this page because your system prefers reduced motion.
+</p>
+
+<!-- Tall scroll driver -->
+<div id="scroll-space" class="scroll-space"></div>
+
+<!-- Always-present accessible text version of the CV, visually hidden unless reduced motion or focused -->
+<main id="accessible-cv" class="accessible-cv" tabindex="-1">
+  <h2 class="accessible-cv__title">Curriculum — text version</h2>
+  <ol class="accessible-cv__list" id="accessible-cv-list"><!-- populated by JS --></ol>
+</main>
+
+<script type="module" src="cv.js"></script>
+</body>
+</html>
