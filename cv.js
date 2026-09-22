@@ -471,8 +471,18 @@
 
       this.clock = new THREE.Clock();
       this.targetProgress = 0;
-      this.progress = 0;
-      this.pathT = 0;
+this.progress = 0;
+this.pathT = 0;
+
+this.currentStop = 0;
+this.targetStop = 0;
+this.isMoving = false;
+this.pauseUntil = 0;
+this.transitionStartT = 0;
+this.transitionTargetT = 0;
+this.transitionStartTime = 0;
+this.transitionDuration = 2200;
+this.navigationLocked = false;
       this.lastAnnouncedIndex = -1;
       this.eventLabels = [];
       this.eventMarkers = [];
@@ -618,37 +628,149 @@
       this.scene.add(ambient);
     }
 
+goToStop(index) {
+  const nextIndex = Math.max(0, Math.min(CV_EVENTS.length - 1, index));
+
+  if (nextIndex === this.currentStop && !this.isMoving) {
+    return;
+  }
+
+  this.targetStop = nextIndex;
+
+  this.transitionStartT = this.pathT;
+  this.transitionTargetT = CV_EVENTS[nextIndex].t;
+  this.transitionStartTime = performance.now();
+
+  this.isMoving = true;
+  this.navigationLocked = true;
+},
+
+goToNextStop() {
+  if (this.isMoving) return;
+
+  if (this.currentStop < CV_EVENTS.length - 1) {
+    this.goToStop(this.currentStop + 1);
+  }
+},
+
+goToPreviousStop() {
+  if (this.isMoving) return;
+
+  if (this.currentStop > 0) {
+    this.goToStop(this.currentStop - 1);
+  }
+},
+
+updateStopTransition() {
+  if (!this.isMoving) return;
+
+  const elapsed = performance.now() - this.transitionStartTime;
+  const raw = clamp(elapsed / this.transitionDuration);
+
+  // Smooth cinematic acceleration/deceleration
+  const eased = smoother(raw);
+
+  this.pathT = mix(
+    this.transitionStartT,
+    this.transitionTargetT,
+    eased
+  );
+
+  if (raw >= 1) {
+    this.pathT = this.transitionTargetT;
+    this.currentStop = this.targetStop;
+    this.isMoving = false;
+    this.navigationLocked = false;
+
+    // Hold at the event for 1.5 seconds
+    this.pauseUntil = performance.now() + 1500;
+  }
+},
+    
     createScrollDriver() {
-      if (this.reduced) {
-        this.targetProgress = 1;
-        this.progress = 1;
-        this.pathT = 1;
-        this.geometry.setDrawRange(0, this.trajectory.count);
+  if (this.reduced) {
+    this.targetStop = CV_EVENTS.length - 1;
+    this.currentStop = CV_EVENTS.length - 1;
+    this.pathT = CV_EVENTS[this.currentStop].t;
+    return;
+  }
+
+  const triggerNext = () => {
+    this.goToNextStop();
+  };
+
+  const triggerPrevious = () => {
+    this.goToPreviousStop();
+  };
+
+  // Mouse / trackpad wheel
+  let wheelLocked = false;
+
+  window.addEventListener(
+    "wheel",
+    (event) => {
+      event.preventDefault();
+
+      if (wheelLocked || this.isMoving) {
         return;
       }
 
-      if (window.gsap && window.ScrollTrigger) {
-        window.gsap.registerPlugin(window.ScrollTrigger);
-        window.ScrollTrigger.create({
-          start: 0,
-          end: () => document.documentElement.scrollHeight - window.innerHeight,
-          scrub: 1.4,
-          onUpdate: (self) => {
-            this.targetProgress = self.progress;
-          },
-        });
-        return;
+      wheelLocked = true;
+
+      if (event.deltaY > 0) {
+        triggerNext();
+      } else if (event.deltaY < 0) {
+        triggerPrevious();
       }
 
-      window.addEventListener(
-        "scroll",
-        () => {
-          const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-          this.targetProgress = maxScroll > 0 ? clamp(window.scrollY / maxScroll) : 0;
-        },
-        { passive: true },
-      );
+      setTimeout(() => {
+        wheelLocked = false;
+      }, 700);
+    },
+    {
+      passive: false,
     }
+  );
+
+  // Keyboard
+  window.addEventListener("keydown", (event) => {
+    if (
+      event.target instanceof HTMLInputElement ||
+      event.target instanceof HTMLTextAreaElement
+    ) {
+      return;
+    }
+
+    if (
+      event.key === "ArrowRight" ||
+      event.key === "ArrowDown" ||
+      event.key === " "
+    ) {
+      event.preventDefault();
+      triggerNext();
+    }
+
+    if (
+      event.key === "ArrowLeft" ||
+      event.key === "ArrowUp"
+    ) {
+      event.preventDefault();
+      triggerPrevious();
+    }
+  });
+
+  // On-screen controls
+  const nextButton = document.getElementById("next-stop");
+  const previousButton = document.getElementById("previous-stop");
+
+  if (nextButton) {
+    nextButton.addEventListener("click", triggerNext);
+  }
+
+  if (previousButton) {
+    previousButton.addEventListener("click", triggerPrevious);
+  }
+},
 
     onResize() {
       const width = window.innerWidth;
@@ -686,22 +808,34 @@
       return 1 - smoothstep(0.003, 0.035, nearest);
     }
 
-    updateProgress(delta) {
-      if (this.reduced) {
-        this.progress = 1;
-        this.pathT = 1;
-        return;
-      }
+   updateProgress(delta) {
+  if (this.reduced) {
+    this.progress = 1;
+    this.pathT = 1;
+    return;
+  }
 
-      const progressDamping = 1 - Math.pow(0.86, delta * 60);
-      this.progress += (this.targetProgress - this.progress) * progressDamping;
+  this.updateStopTransition();
 
-      const targetPathT = this.scrollToPathT(this.progress);
-      const eventHold = this.nearestEventInfluence(targetPathT);
-      const basePathDamping = mix(0.105, 0.034, eventHold);
-      const pathDamping = 1 - Math.pow(1 - basePathDamping, delta * 60);
-      this.pathT += (targetPathT - this.pathT) * pathDamping;
-    }
+  // Convert the current trajectory position back into
+  // the overall progress system so the existing reveal
+  // logic continues to work.
+  const journeyProgress = this.pathT;
+
+  this.progress =
+    PHASES.introEnd +
+    journeyProgress *
+      (PHASES.journeyEnd - PHASES.introEnd);
+
+  // Once we reach the final event, allow the existing
+  // reveal system to take over.
+  if (
+    this.currentStop === CV_EVENTS.length - 1 &&
+    !this.isMoving
+  ) {
+    this.progress = PHASES.journeyEnd;
+  }
+}
 
     updateGeometry() {
       const introT = smoothstep(0.012, PHASES.introEnd, this.progress);
