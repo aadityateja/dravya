@@ -477,12 +477,15 @@ this.pathT = 0;
 this.currentStop = 0;
 this.targetStop = 0;
 this.isMoving = false;
-this.pauseUntil = 0;
+
 this.transitionStartT = 0;
 this.transitionTargetT = 0;
 this.transitionStartTime = 0;
 this.transitionDuration = 2200;
-this.navigationLocked = false;
+
+this.revealStarted = false;
+this.revealStartTime = 0;
+this.revealDuration = 2600;
       this.lastAnnouncedIndex = -1;
       this.eventLabels = [];
       this.eventMarkers = [];
@@ -629,7 +632,10 @@ this.navigationLocked = false;
     }
 
 goToStop(index) {
-  const nextIndex = Math.max(0, Math.min(CV_EVENTS.length - 1, index));
+  const nextIndex = Math.max(
+    0,
+    Math.min(CV_EVENTS.length - 1, index)
+  );
 
   if (nextIndex === this.currentStop && !this.isMoving) {
     return;
@@ -642,23 +648,39 @@ goToStop(index) {
   this.transitionStartTime = performance.now();
 
   this.isMoving = true;
-  this.navigationLocked = true;
 },
 
 goToNextStop() {
-  if (this.isMoving) return;
-
-  if (performance.now() < this.pauseUntil) {
+  if (this.isMoving) {
     return;
   }
 
   if (this.currentStop < CV_EVENTS.length - 1) {
     this.goToStop(this.currentStop + 1);
+    return;
+  }
+
+  // We are at NOW.
+  // One more NEXT begins the final pull-back reveal.
+  if (!this.revealStarted) {
+    this.revealStarted = true;
+    this.revealStartTime = performance.now();
   }
 },
 
 goToPreviousStop() {
-  if (this.isMoving) return;
+  // If the final reveal has started, cancel it
+  // and return to the NOW position.
+  if (this.revealStarted) {
+    this.revealStarted = false;
+    this.pathT = CV_EVENTS[CV_EVENTS.length - 1].t;
+    this.progress = PHASES.journeyEnd;
+    return;
+  }
+
+  if (this.isMoving) {
+    return;
+  }
 
   if (this.currentStop > 0) {
     this.goToStop(this.currentStop - 1);
@@ -666,12 +688,17 @@ goToPreviousStop() {
 },
 
 updateStopTransition() {
-  if (!this.isMoving) return;
+  if (!this.isMoving) {
+    return;
+  }
 
-  const elapsed = performance.now() - this.transitionStartTime;
-  const raw = clamp(elapsed / this.transitionDuration);
+  const elapsed =
+    performance.now() - this.transitionStartTime;
 
-  // Smooth cinematic acceleration/deceleration
+  const raw = clamp(
+    elapsed / this.transitionDuration
+  );
+
   const eased = smoother(raw);
 
   this.pathT = mix(
@@ -684,30 +711,32 @@ updateStopTransition() {
     this.pathT = this.transitionTargetT;
     this.currentStop = this.targetStop;
     this.isMoving = false;
-    this.navigationLocked = false;
-
-    // Hold at the event for 1.5 seconds
-    this.pauseUntil = performance.now() + 1500;
   }
 },
     
-    createScrollDriver() {
+   createScrollDriver() {
   if (this.reduced) {
-    this.targetStop = CV_EVENTS.length - 1;
     this.currentStop = CV_EVENTS.length - 1;
+    this.targetStop = this.currentStop;
     this.pathT = CV_EVENTS[this.currentStop].t;
+    this.progress = PHASES.journeyEnd;
     return;
   }
 
-  const triggerNext = () => {
+  const next = () => {
     this.goToNextStop();
   };
 
-  const triggerPrevious = () => {
+  const previous = () => {
     this.goToPreviousStop();
   };
 
-  // Mouse / trackpad wheel
+  /*
+   * MOUSE / TRACKPAD
+   *
+   * One wheel gesture = one stop.
+   * deltaY magnitude is deliberately ignored.
+   */
   let wheelLocked = false;
 
   window.addEventListener(
@@ -722,25 +751,26 @@ updateStopTransition() {
       wheelLocked = true;
 
       if (event.deltaY > 0) {
-        triggerNext();
+        next();
       } else if (event.deltaY < 0) {
-        triggerPrevious();
+        previous();
       }
 
-      setTimeout(() => {
+      window.setTimeout(() => {
         wheelLocked = false;
       }, 700);
     },
-    {
-      passive: false,
-    }
+    { passive: false }
   );
 
-  // Keyboard
+  /*
+   * KEYBOARD
+   */
   window.addEventListener("keydown", (event) => {
     if (
       event.target instanceof HTMLInputElement ||
-      event.target instanceof HTMLTextAreaElement
+      event.target instanceof HTMLTextAreaElement ||
+      event.target instanceof HTMLSelectElement
     ) {
       return;
     }
@@ -751,7 +781,8 @@ updateStopTransition() {
       event.key === " "
     ) {
       event.preventDefault();
-      triggerNext();
+      next();
+      return;
     }
 
     if (
@@ -759,20 +790,25 @@ updateStopTransition() {
       event.key === "ArrowUp"
     ) {
       event.preventDefault();
-      triggerPrevious();
+      previous();
     }
   });
 
-  // On-screen controls
-  const nextButton = document.getElementById("next-stop");
-  const previousButton = document.getElementById("previous-stop");
+  /*
+   * ON-SCREEN BUTTONS
+   */
+  const nextButton =
+    document.getElementById("next-stop");
+
+  const previousButton =
+    document.getElementById("previous-stop");
 
   if (nextButton) {
-    nextButton.addEventListener("click", triggerNext);
+    nextButton.addEventListener("click", next);
   }
 
   if (previousButton) {
-    previousButton.addEventListener("click", triggerPrevious);
+    previousButton.addEventListener("click", previous);
   }
 },
 
@@ -815,29 +851,61 @@ updateStopTransition() {
    updateProgress(delta) {
   if (this.reduced) {
     this.progress = 1;
-    this.pathT = 1;
+    this.pathT = CV_EVENTS[CV_EVENTS.length - 1].t;
     return;
   }
 
   this.updateStopTransition();
 
-  // Convert the current trajectory position back into
-  // the overall progress system so the existing reveal
-  // logic continues to work.
-  const journeyProgress = this.pathT;
-
+  /*
+   * Normal journey:
+   * convert the actual trajectory position into
+   * the existing progress system.
+   */
   this.progress =
     PHASES.introEnd +
-    journeyProgress *
+    this.pathT *
       (PHASES.journeyEnd - PHASES.introEnd);
 
-  // Once we reach the final event, allow the existing
-  // reveal system to take over.
+  /*
+   * Final NOW position.
+   */
   if (
     this.currentStop === CV_EVENTS.length - 1 &&
     !this.isMoving
   ) {
     this.progress = PHASES.journeyEnd;
+    this.pathT = CV_EVENTS[CV_EVENTS.length - 1].t;
+  }
+
+  /*
+   * Final pull-back reveal.
+   *
+   * IMPORTANT:
+   * This does NOT create another trajectory.
+   * It simply lets the existing reveal system
+   * reveal the rest of the SAME Lorenz geometry.
+   */
+  if (this.revealStarted) {
+    const elapsed =
+      performance.now() - this.revealStartTime;
+
+    const raw = clamp(
+      elapsed / this.revealDuration
+    );
+
+    const eased = smoother(raw);
+
+    this.progress =
+      mix(
+        PHASES.revealStart,
+        1,
+        eased
+      );
+
+    if (raw >= 1) {
+      this.progress = 1;
+    }
   }
 }
 
