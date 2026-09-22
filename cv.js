@@ -648,6 +648,10 @@ goToStop(index) {
 goToNextStop() {
   if (this.isMoving) return;
 
+  if (performance.now() < this.pauseUntil) {
+    return;
+  }
+
   if (this.currentStop < CV_EVENTS.length - 1) {
     this.goToStop(this.currentStop + 1);
   }
