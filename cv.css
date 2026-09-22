@@ -94,3 +94,59 @@ select {
   opacity: 0;
   pointer-events: none;
   transition: opacity 240ms ease;
+
+  .trajectory-controls {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%);
+  z-index: 50;
+
+  display: flex;
+  align-items: center;
+  gap: 36px;
+
+  pointer-events: auto;
+}
+
+.trajectory-controls button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+
+  color: rgba(210, 240, 255, 0.72);
+
+  font-family: inherit;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+
+  padding: 12px 10px;
+
+  cursor: pointer;
+
+  transition:
+    color 250ms ease,
+    transform 250ms ease,
+    opacity 250ms ease;
+}
+
+.trajectory-controls button:hover {
+  color: rgba(225, 248, 255, 1);
+  transform: translateY(-2px);
+}
+
+.trajectory-controls button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 720px) {
+  .trajectory-controls {
+    bottom: 20px;
+    gap: 18px;
+  }
+
+  .trajectory-controls button {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+  }
+}
