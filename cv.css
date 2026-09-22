@@ -58,6 +58,8 @@ body {
   color: var(--text);
 
   overflow: hidden;
+  overscroll-behavior: none;
+    touch-action: none;
 
   text-rendering: geometricPrecision;
 }
@@ -732,6 +734,6 @@ body.is-reduced .reduced-cv,
 
 @media (prefers-reduced-motion: reduce) {
   body {
-    overflow: auto;
+    overflow: hidden;
   }
 }
