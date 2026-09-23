@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="description"
+    content="What is DRAVYA? A field of thought, art, physics, sound, fiction and experience."
+  />
+
+  <title>DRAVYA / What is DRAVYA?</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #020814;
+      color: #f2f7ff;
+      font-family: Arial, Helvetica, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* =========================================================
+       BACKGROUND FIELD
+    ========================================================= */
+
+    .field-background {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -5;
+      pointer-events: none;
+      filter: brightness(0.72) saturate(0.9);
+    }
+
+    .field-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: -4;
+      pointer-events: none;
+
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(2, 8, 20, 0.28),
+          rgba(2, 8, 20, 0.45)
+        );
+    }
+
+    /* =========================================================
+       NAVIGATION
+    ========================================================= */
+
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 24px 34px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      z-index: 20;
+
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .nav-logo {
+      color: white;
+      text-decoration: none;
+      opacity: 0.92;
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav-right a {
+      color: white;
+      text-decoration: none;
+      opacity: 0.55;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-right a:hover {
+      opacity: 1;
+    }
+
+    /* =========================================================
+       PAGE STRUCTURE
+    ========================================================= */
+
+    main {
+      position: relative;
+      width: 100%;
+    }
+
+    section {
+      position: relative;
+      min-height: 100vh;
+      width: 100%;
+
+      display: flex;
+      align-items: center;
+    }
+
+    .section-inner {
+      width: min(1100px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .hero {
+      min-height: 100vh;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      margin-bottom: 28px;
+
+      font-size: 11px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+
+      opacity: 0.52;
+    }
+
+    .hero h1 {
+      font-size: clamp(70px, 15vw, 190px);
+      line-height: 0.8;
+      font-weight: 300;
+      letter-spacing: -0.075em;
+    }
+
+    .hero-subtitle {
+      margin-top: 38px;
+
+      font-size: clamp(14px, 2vw, 20px);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+
+      opacity: 0.72;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+
+      opacity: 0.45;
+    }
+
+    /* =========================================================
+       TEXT SECTIONS
+    ========================================================= */
+
+    .text-section {
+      min-height: auto;
+      padding: 150px 0;
+    }
+
+    .text-section.narrow .section-inner {
+      max-width: 850px;
+    }
+
+    .section-label {
+      margin-bottom: 30px;
+
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+
+      opacity: 0.42;
+    }
+
+    .section-title {
+      margin-bottom: 35px;
+
+      font-size: clamp(38px, 6vw, 76px);
+      line-height: 0.98;
+      font-weight: 300;
+      letter-spacing: -0.045em;
+    }
+
+    .body-text {
+      max-width: 820px;
+
+      font-size: clamp(18px, 2vw, 27px);
+      line-height: 1.62;
+      font-weight: 300;
+
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .body-text + .body-text {
+      margin-top: 28px;
+    }
+
+    .small-text {
+      max-width: 720px;
+
+      font-size: 16px;
+      line-height: 1.75;
+
+      color: rgba(255, 255, 255, 0.62);
+    }
+
+    /* =========================================================
+       LINKS
+    ========================================================= */
+
+    .inline-link {
+      color: white;
+      text-decoration-line: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+      text-decoration-color: rgba(255, 255, 255, 0.55);
+
+      transition:
+        text-decoration-color 0.3s ease,
+        opacity 0.3s ease;
+    }
+
+    .inline-link:hover {
+      text-decoration-color: white;
+      opacity: 0.72;
+    }
+
+    /* =========================================================
+       FIELD SECTION
+    ========================================================= */
+
+    .field-section {
+      min-height: 100vh;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .field-section .section-inner {
+      max-width: 1000px;
+    }
+
+    .field-statement {
+      font-size: clamp(30px, 5vw, 66px);
+      line-height: 1.15;
+      font-weight: 300;
+      letter-spacing: -0.035em;
+    }
+
+    .field-statement em {
+      font-style: normal;
+      opacity: 0.58;
+    }
+
+    /* =========================================================
+       THREE WORDS
+    ========================================================= */
+
+    .triptych {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .triptych-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      width: 100%;
+    }
+
+    .triptych-item {
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding-top: 20px;
+    }
+
+    .triptych-number {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      opacity: 0.4;
+      margin-bottom: 50px;
+    }
+
+    .triptych-word {
+      font-size: clamp(28px, 4vw, 52px);
+      font-weight: 300;
+      letter-spacing: -0.04em;
+    }
+
+    /* =========================================================
+       CREATOR
+    ========================================================= */
+
+    .creator-section {
+      padding-top: 170px;
+      padding-bottom: 170px;
+    }
+
+    .creator-text {
+      max-width: 900px;
+    }
+
+    .creator-text p {
+      font-size: clamp(20px, 2.5vw, 34px);
+      line-height: 1.55;
+      font-weight: 300;
+      margin-bottom: 34px;
+    }
+
+    .creator-text .quiet {
+      opacity: 0.58;
+    }
+
+    /* =========================================================
+       FINAL DRAVYA
+    ========================================================= */
+
+    .final-section {
+      min-height: 100vh;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .final-section h2 {
+      font-size: clamp(70px, 16vw, 220px);
+      line-height: 0.78;
+      font-weight: 300;
+      letter-spacing: -0.085em;
+    }
+
+    .final-subtitle {
+      margin-top: 45px;
+
+      font-size: 12px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+
+      opacity: 0.48;
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    footer {
+      padding: 35px 34px 45px;
+
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+
+      opacity: 0.38;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+    }
+
+    /* =========================================================
+       REVEAL
+    ========================================================= */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(35px);
+
+      transition:
+        opacity 1s ease,
+        transform 1s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @media (max-width: 700px) {
+
+      .top-nav {
+        padding: 18px 20px;
+      }
+
+      .nav-right {
+        gap: 12px;
+      }
+
+      .nav-right a {
+        font-size: 9px;
+      }
+
+      .section-inner {
+        width: min(100% - 34px, 900px);
+      }
+
+      .text-section {
+        padding: 110px 0;
+      }
+
+      .triptych {
+        min-height: auto;
+        padding: 110px 0;
+      }
+
+      .triptych-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+
+      .triptych-number {
+        margin-bottom: 25px;
+      }
+
+      .creator-section {
+        padding-top: 110px;
+        padding-bottom: 110px;
+      }
+
+      footer {
+        padding: 25px 20px 35px;
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =======================================================
+       QUANTUM FLUCTUATION BACKGROUND
+  ======================================================== -->
+
+  <video
+    class="field-background"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    aria-hidden="true"
+  >
+    <source
+      src="assets/dravya_vacuum_fluctuation_10s.mp4"
+      type="video/mp4"
+    />
+  </video>
+
+  <div class="field-overlay"></div>
+
+
+  <!-- =======================================================
+       NAVIGATION
+  ======================================================== -->
+
+  <nav class="top-nav">
+
+    <a class="nav-logo" href="index.html">
+      DRAVYA
+    </a>
+
+    <div class="nav-right">
+      <a href="field.html">Field</a>
+      <a href="sounds.html">Sounds</a>
+      <a href="art.html">Art</a>
+      <a href="fiction.html">Fiction</a>
+    </div>
+
+  </nav>
+
+
+  <main>
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="hero">
+
+      <div class="hero-content reveal">
+
+        <div class="eyebrow">
+          What is DRAVYA?
+        </div>
+
+        <h1>DRAVYA</h1>
+
+        <div class="hero-subtitle">
+          One field. Many excitations.
+        </div>
+
+      </div>
+
+      <div class="hero-scroll">
+        ↓ enter the field
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         ORIGIN
+    ====================================================== -->
+
+    <section class="text-section">
+
+      <div class="section-inner reveal">
+
+        <div class="section-label">
+          01 / The word
+        </div>
+
+        <h2 class="section-title">
+          Before DRAVYA was a project,
+          it was a word.
+        </h2>
+
+        <p class="body-text">
+          <strong>Dravya</strong> comes from the Sanskrit
+          <em>dravya</em> (द्रव्य), a word used to refer to
+          substance, entity, or that which exists.
+        </p>
+
+        <p class="body-text">
+          Across Indian philosophical traditions, the word has
+          carried different but related meanings. In
+          <a
+            class="inline-link"
+            href="https://en.wikipedia.org/wiki/Vaisheshika"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <u>Vaisheshika</u>
+          </a>,
+          dravya refers to substance as one of the fundamental
+          categories through which reality can be understood.
+        </p>
+
+        <p class="body-text">
+          In Ayurveda, the word can refer to a substance used
+          medicinally — a drug, material, or preparation used
+          to treat disease, preserve health, or produce an effect.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MANY MEANINGS
+    ====================================================== -->
+
+    <section class="triptych">
+
+      <div class="section-inner">
+
+        <div class="triptych-grid reveal">
+
+          <div class="triptych-item">
+
+            <div class="triptych-number">
+              01
+            </div>
+
+            <div class="triptych-word">
+              Substance
+            </div>
+
+          </div>
+
+          <div class="triptych-item">
+
+            <div class="triptych-number">
+              02
+            </div>
+
+            <div class="triptych-word">
+              Entity
+            </div>
+
+          </div>
+
+          <div class="triptych-item">
+
+            <div class="triptych-number">
+              03
+            </div>
+
+            <div class="triptych-word">
+              That which exists
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         THE SHIFT
+    ====================================================== -->
+
+    <section class="text-section field-section">
+
+      <div class="section-inner reveal">
+
+        <div class="section-label">
+          02 / The disturbance
+        </div>
+
+        <p class="field-statement">
+
+          But DRAVYA, here,
+          is not an attempt to
+          recreate an ancient definition.
+
+          <br><br>
+
+          It is a new interpretation.
+
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         QUANTUM FIELD
+    ====================================================== -->
+
+    <section class="text-section">
+
+      <div class="section-inner reveal">
+
+        <div class="section-label">
+          03 / The field
+        </div>
+
+        <h2 class="section-title">
+          Everything begins with a field.
+        </h2>
+
+        <p class="body-text">
+
+          In modern physics, a field is a physical quantity
+          defined throughout space and time. In quantum field
+          theory, the description goes deeper.
+
+        </p>
+
+        <p class="body-text">
+
+          The fundamental objects of the Standard Model are
+          described by quantum fields. What we call a particle
+          can be understood as a quantized excitation of its
+          corresponding field.
+
+        </p>
+
+        <p class="body-text">
+
+          There is a quark field.
+          A photon field.
+          An electron field.
+          And other quantum fields.
+
+          The particle is not simply a tiny classical object
+          sitting somewhere inside the field.
+
+          It is an excitation of the field.
+
+        </p>
+
+        <p class="small-text">
+
+          This page deliberately keeps the physics at the
+          conceptual level. DRAVYA has a separate field dedicated
+          to exploring quantum field theory, particles,
+          excitations, vacuum states, fluctuations and
+          perturbations in much greater depth.
+
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         GROUND STATE
+    ====================================================== -->
+
+    <section class="text-section">
+
+      <div class="section-inner reveal">
+
+        <div class="section-label">
+          04 / Ground state
+        </div>
+
+        <h2 class="section-title">
+          Even nothing
+          is not nothing.
+        </h2>
+
+        <p class="body-text">
+
+          A quantum field does not simply disappear when there
+          are no particles present.
+
+          Its lowest-energy configuration is called its
+          <em>ground state</em>.
+
+        </p>
+
+        <p class="body-text">
+
+          Quantum mechanics prevents a quantum harmonic
+          oscillator from possessing exactly zero energy.
+          Even the ground state carries non-zero
+          zero-point energy.
+
+        </p>
+
+        <p class="body-text">
+
+          This is why the quantum vacuum is not simply an
+          absolute emptiness.
+
+          The vacuum is the lowest-energy state of the
+          quantum fields — not the absence of the fields
+          themselves.
+
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PERTURBATION
+    ====================================================== -->
+
+    <section class="field-section">
+
+      <div class="section-inner reveal">
+
+        <div class="section-label">
+          05 / Perturbation
+        </div>
+
+        <p class="field-statement">
+
+          Introduce a disturbance.
+
+          <br><br>
+
+          The field responds.
+
+          <br><br>
+
+          It fluctuates.
+          It becomes excited.
+          It changes state.
+
+          <br><br>
+
+          <em>
+            Something emerges.
+          </em>
+
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         ENERGY / RETURN
+    ====================================================== -->
+
+    <section class="text-section">
+
+      <div class="section-inner reveal">
+
+        <div class="section-label">
+          06 / Return
+        </div>
+
+        <h2 class="section-title">
+          Excitation is temporary.
+        </h2>
+
+        <p class="body-text">
+
+          An excited quantum system can transition toward
+          lower-energy states. When energy is released, the
+          system can move toward a more stable configuration.
+
+        </p>
+
+        <p class="body-text">
+
+          In the language of physics, this is about states,
+          energy and interactions.
+
+          In the language of DRAVYA, we imagine something
+          beautifully familiar:
+
+          <br><br>
+
+          <strong>
+            everything is always becoming.
+          </strong>
+
+        </p>
+
+        <p class="body-text">
+
+          A disturbance happens.
+
+          A response follows.
+
+          An expression appears.
+
+          And eventually, the system changes again.
+
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         HUMAN ANALOGY
+    ====================================================== -->
+
+    <section class="text-section field-section">
+
+      <div class="section-inner reveal">
+
+        <div class="section-label">
+          07 / The human field
+        </div>
+
+        <p class="field-statement">
+
+          What if a human being
+          could be imagined the same way?
+
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CREATOR / STORY
+    ====================================================== -->
+
+    <section class="text-section creator-section">
+
+      <div class="section-inner">
+
+        <div class="creator-text reveal">
+
+          <div class="section-label">
+            08 / The creator
+          </div>
+
+          <p>
+            The creator of DRAVYA once wanted only one thing:
+            to become a filmmaker.
+          </p>
+
+          <p>
+            As a child, there was no elaborate career plan.
+            No map. No carefully constructed destination.
+
+            There was simply a dream —
+            <strong>to make films.</strong>
+          </p>
+
+          <p>
+            But there was a problem.
+
+            He did not yet know how to make one.
+          </p>
+
+          <p>
+            Slowly, the idea of filmmaking began to expand.
+
+            Films were not merely moving images.
+
+            They were stories.
+
+            Stories needed characters.
+            Places.
+            Landscapes.
+            Events.
+            Time.
+            Sound.
+            Silence.
+            Music.
+          </p>
+
+          <p>
+            So the filmmaker slowly became a storyteller.
+          </p>
+
+          <p>
+            And storytelling opened another door.
+
+            A story could be told through sound.
+          </p>
+
+          <p>
+            So came sound design.
+            Music recording.
+            Music composition.
+            Writing.
+          </p>
+
+          <p>
+            Then came another question:
+
+            <br><br>
+
+            <strong>
+              What exactly is a story?
+            </strong>
+          </p>
+
+          <p>
+            And if stories are about people,
+            then what is the story of people?
+          </p>
+
+          <p>
+            What is the story of our species?
+
+            What is the story of Earth?
+
+            What is the story of the universe?
+          </p>
+
+          <p>
+            And suddenly the question became much larger
+            than filmmaking.
+          </p>
+
+          <p class="quiet">
+            Before trying to tell a story about the universe,
+            perhaps he needed to understand the universe itself.
+          </p>
+
+          <p>
+            Philosophy appeared.
+
+            Existence.
+
+            Time.
+
+            Matter.
+
+            Space.
+
+            The origin of everything.
+          </p>
+
+          <p>
+            And eventually, fundamental physics.
+          </p>
+
+          <p>
+            He entered the world of physics through a master's
+            degree and found himself immersed in ideas that
+            were strangely close to the questions he had been
+            asking all along.
+          </p>
+
+          <p>
+            Mathematical frameworks.
+
+            Quantum mechanics.
+
+            Nuclear physics.
+
+            Particle physics.
+
+            The structure of matter.
+
+            The fields beneath what we call reality.
+          </p>
+
+          <p>
+            The filmmaker had not disappeared.
+
+            The storyteller had not disappeared.
+
+            The physicist had not replaced them.
+
+          </p>
+
+          <p>
+            They were all still there.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         THE CONVERGENCE
+    ====================================================== -->
+
+    <section class="text-section field-section">
+
+      <div class="section-inner reveal">
+
+        <div class="section-label">
+          09 / Superposition
+        </div>
+
+        <p class="field-statement">
+
+          Perhaps they were never
+          separate things.
+
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         DRAVYA CONCEPT
+    ====================================================== -->
+
+    <section class="text-section">
+
+      <div class="section-inner reveal">
+
+        <div class="section-label">
+          10 / DRAVYA
+        </div>
+
+        <h2 class="section-title">
+          One underlying field.
+          Many expressions.
+        </h2>
+
+        <p class="body-text">
+
+          Human thoughts, passions, hobbies, contradictions,
+          memories, failures, obsessions, discoveries and
+          experiences can appear to be completely different
+          things.
+
+        </p>
+
+        <p class="body-text">
+
+          But perhaps they can also be understood as different
+          expressions of the same underlying person.
+
+        </p>
+
+        <p class="body-text">
+
+          Just as different quantum fields can produce
+          different excitations, the different parts of a
+          human life can be understood as expressions emerging
+          from something deeper.
+
+        </p>
+
+        <p class="body-text">
+
+          A song.
+
+          A scientific equation.
+
+          A film.
+
+          A landscape.
+
+          A fictional character.
+
+          A scientific question.
+
+          A memory.
+
+          A contradiction.
+
+          A particle.
+
+          A story.
+
+        </p>
+
+        <p class="body-text">
+
+          Different excitations.
+
+          <br><br>
+
+          One field.
+
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FINAL STATEMENT
+    ====================================================== -->
+
+    <section class="final-section">
+
+      <div class="section-inner reveal">
+
+        <h2>
+          DRAVYA
+        </h2>
+
+        <div class="final-subtitle">
+          Observe · Disturb · Create
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =======================================================
+       FOOTER
+  ======================================================== -->
+
+  <footer>
+
+    <div>
+      DRAVYA / ADDY
+    </div>
+
+    <div>
+      <a href="index.html">Return to field</a>
+    </div>
+
+  </footer>
+
+
+  <!-- =======================================================
+       SCROLL REVEAL
+  ======================================================== -->
+
+  <script>
+
+    const revealElements =
+      document.querySelectorAll(".reveal");
+
+    const observer =
+      new IntersectionObserver(
+        (entries) => {
+
+          entries.forEach((entry) => {
+
+            if (entry.isIntersecting) {
+
+              entry.target.classList.add("visible");
+
+              observer.unobserve(entry.target);
+
+            }
+
+          });
+
+        },
+        {
+          threshold: 0.12
+        }
+      );
+
+    revealElements.forEach((element) => {
+      observer.observe(element);
+    });
+
+
+    /* -------------------------------------------------------
+       Keep video playing as reliably as possible
+    ------------------------------------------------------- */
+
+    const backgroundVideo =
+      document.querySelector(".field-background");
+
+    backgroundVideo.play().catch(() => {
+      /* Autoplay may be blocked by the browser.
+         The video is muted, so browsers normally allow it. */
+    });
+
+  </script>
+
+</body>
+</html>
