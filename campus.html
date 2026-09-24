@@ -3,8 +3,7 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>DRAVYA / CAMPUS</title>
 
@@ -35,9 +34,7 @@ canvas {
 }
 
 
-/* ================================
-   LOADING
-================================ */
+/* LOADING */
 
 #loading {
     position: fixed;
@@ -45,19 +42,18 @@ canvas {
     z-index: 100;
 
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    flex-direction: column;
 
     background:
         radial-gradient(
             circle at center,
-            #102c4c 0%,
-            #020617 65%
+            #12375d,
+            #020617 70%
         );
 
-    transition:
-        opacity 1s ease;
+    transition: opacity .8s;
 }
 
 #loading.hide {
@@ -66,92 +62,78 @@ canvas {
 }
 
 .logo {
-    font-size: clamp(40px, 7vw, 80px);
-    letter-spacing: 0.28em;
-    margin-left: 0.28em;
+    font-size: clamp(40px, 8vw, 80px);
     font-weight: 300;
+    letter-spacing: .3em;
+    margin-left: .3em;
 }
 
 .loading-text {
-    margin-top: 12px;
+    margin-top: 15px;
     font-size: 10px;
-    letter-spacing: 0.35em;
-    opacity: 0.5;
+    letter-spacing: .35em;
+    opacity: .5;
 }
 
 .progress {
     width: min(360px, 65vw);
     height: 1px;
-    background: rgba(255,255,255,0.15);
     margin-top: 35px;
+    background: rgba(255,255,255,.15);
 }
 
-#progress-bar {
+#progress {
     width: 0%;
     height: 100%;
     background: white;
-    transition: width .2s ease;
-}
-
-#error {
-    margin-top: 30px;
-    max-width: 600px;
-    padding: 0 20px;
-    text-align: center;
-
-    color: #ff8888;
-    font-size: 12px;
-    line-height: 1.8;
-
-    display: none;
 }
 
 
-/* ================================
-   ENTER SCREEN
-================================ */
+/* START */
 
 #start {
     position: fixed;
     inset: 0;
+
     z-index: 50;
 
     display: none;
+
     align-items: center;
     justify-content: center;
-
-    background: rgba(2,6,23,.25);
 }
 
-#start.visible {
+#start.show {
     display: flex;
 }
 
 .start-box {
-    width: min(520px, 88vw);
+    width: min(500px, 88vw);
 
     padding: 45px;
 
     text-align: center;
 
-    background: rgba(2,6,23,.82);
+    background:
+        rgba(2,6,23,.85);
 
     border:
         1px solid
-        rgba(255,255,255,.18);
+        rgba(255,255,255,.2);
 
     backdrop-filter: blur(12px);
 }
 
 .start-title {
-    font-size: 30px;
+    font-size: 28px;
     letter-spacing: .25em;
 }
 
-.start-subtitle {
-    margin-top: 16px;
+.start-info {
+    margin-top: 20px;
 
     font-size: 10px;
+
     line-height: 2;
 
     letter-spacing: .12em;
@@ -162,8 +144,7 @@ canvas {
 #enter {
     margin-top: 30px;
 
-    padding:
-        13px 30px;
+    padding: 14px 32px;
 
     color: white;
 
@@ -175,11 +156,9 @@ canvas {
 
     cursor: pointer;
 
-    font-size: 10px;
-
     letter-spacing: .25em;
 
-    transition: .25s;
+    font-size: 10px;
 }
 
 #enter:hover {
@@ -188,9 +167,7 @@ canvas {
 }
 
 
-/* ================================
-   HUD
-================================ */
+/* HUD */
 
 #hud {
     position: fixed;
@@ -203,15 +180,15 @@ canvas {
     transition: opacity .5s;
 }
 
-#hud.active {
+#hud.show {
     opacity: 1;
 }
 
 .brand {
     position: absolute;
 
-    left: 30px;
     top: 25px;
+    left: 30px;
 
     font-size: 12px;
 
@@ -223,21 +200,21 @@ canvas {
 .location {
     position: absolute;
 
-    right: 30px;
     top: 25px;
+    right: 30px;
 
     font-size: 9px;
 
     letter-spacing: .25em;
 
-    opacity: .45;
+    opacity: .5;
 }
 
-.controls {
+.instructions {
     position: absolute;
 
-    left: 30px;
     bottom: 25px;
+    left: 30px;
 
     font-size: 9px;
 
@@ -245,14 +222,14 @@ canvas {
 
     letter-spacing: .1em;
 
-    opacity: .4;
+    opacity: .45;
 }
 
 .crosshair {
     position: absolute;
 
-    left: 50%;
     top: 50%;
+    left: 50%;
 
     width: 14px;
     height: 14px;
@@ -261,156 +238,52 @@ canvas {
         translate(-50%,-50%);
 }
 
-.crosshair::before,
+.crosshair::before {
+    content: "";
+
+    position: absolute;
+
+    width: 1px;
+    height: 14px;
+
+    left: 6px;
+
+    background: white;
+}
+
 .crosshair::after {
     content: "";
 
     position: absolute;
 
-    background: rgba(255,255,255,.8);
-}
-
-.crosshair::before {
-    width: 1px;
-    height: 14px;
-
-    left: 6px;
-}
-
-.crosshair::after {
-    height: 1px;
     width: 14px;
+    height: 1px;
 
     top: 6px;
+
+    background: white;
 }
 
 
-/* ================================
-   INTERACTION
-================================ */
+/* DEBUG */
 
-#interaction {
+#debug {
     position: absolute;
 
-    left: 50%;
-    bottom: 100px;
+    top: 60px;
+    left: 30px;
 
-    transform:
-        translateX(-50%);
+    font-family: monospace;
 
     font-size: 10px;
 
-    letter-spacing: .2em;
+    line-height: 1.6;
 
-    opacity: 0;
-
-    transition: .25s;
-}
-
-#interaction.show {
-    opacity: .8;
-}
-
-
-/* ================================
-   INFO PANEL
-================================ */
-
-#panel {
-    position: fixed;
-    inset: 0;
-
-    z-index: 80;
-
-    display: none;
-
-    align-items: center;
-    justify-content: center;
-
-    background:
-        rgba(2,6,23,.65);
-
-    backdrop-filter:
-        blur(10px);
-}
-
-#panel.visible {
-    display: flex;
-}
-
-.panel-inner {
-
-    width: min(620px, 88vw);
-
-    padding: 45px;
-
-    background:
-        rgba(2,6,23,.92);
-
-    border:
-        1px solid
-        rgba(255,255,255,.2);
-}
-
-.panel-number {
-
-    font-size: 9px;
-
-    letter-spacing: .3em;
-
-    opacity: .4;
-}
-
-.panel-title {
-
-    margin-top: 12px;
-
-    font-size: 32px;
-
-    font-weight: 300;
-
-    letter-spacing: .15em;
-}
-
-.panel-text {
-
-    margin-top: 20px;
-
-    font-size: 13px;
-
-    line-height: 1.8;
-
-    opacity: .65;
-}
-
-#close {
-
-    margin-top: 28px;
-
-    padding:
-        10px 20px;
-
-    color: white;
-
-    background: transparent;
-
-    border:
-        1px solid
-        rgba(255,255,255,.3);
-
-    cursor: pointer;
+    opacity: .35;
 }
 
 </style>
 
-
-<!--
-============================================================
-IMPORT MAP
-
-This is the important fix.
-============================================================
--->
 
 <script type="importmap">
 {
@@ -432,9 +305,7 @@ This is the important fix.
 <div id="app"></div>
 
 
-<!-- ================================
-     LOADING
-================================ -->
+<!-- LOADING -->
 
 <div id="loading">
 
@@ -443,21 +314,17 @@ This is the important fix.
     </div>
 
     <div class="loading-text">
-        ENTERING THE FIELD
+        LOADING CAMPUS
     </div>
 
     <div class="progress">
-        <div id="progress-bar"></div>
+        <div id="progress"></div>
     </div>
-
-    <div id="error"></div>
 
 </div>
 
 
-<!-- ================================
-     START
-================================ -->
+<!-- START -->
 
 <div id="start">
 
@@ -467,21 +334,28 @@ This is the important fix.
             DRAVYA / CAMPUS
         </div>
 
-        <div class="start-subtitle">
+        <div class="start-info">
 
-            AN EXPLOREABLE FIELD OF
-            <br>
-            ART · SCIENCE · SOUND · FICTION
+            EXPLORE THE FIELD
 
             <br><br>
 
-            W A S D / ARROW KEYS — MOVE
+            W / ↑ — FORWARD
             <br>
+
+            S / ↓ — BACKWARD
+            <br>
+
+            A / ← — TURN LEFT
+            <br>
+
+            D / → — TURN RIGHT
+            <br>
+
             MOUSE — LOOK
             <br>
+
             SHIFT — RUN
-            <br>
-            E — INTERACT
 
         </div>
 
@@ -494,9 +368,7 @@ This is the important fix.
 </div>
 
 
-<!-- ================================
-     HUD
-================================ -->
+<!-- HUD -->
 
 <div id="hud">
 
@@ -505,128 +377,36 @@ This is the important fix.
     </div>
 
     <div
-        id="location"
-        class="location">
+        class="location"
+        id="location">
         CAMPUS
     </div>
 
     <div class="crosshair"></div>
 
-    <div class="controls">
+    <div class="instructions">
 
-        ↑ ↓ ← → / W A S D — MOVE
+        W A S D / ARROWS — MOVE
+        <br>
+        MOUSE — LOOK
         <br>
         SHIFT — RUN
-        <br>
-        E — INTERACT
 
     </div>
 
-    <div id="interaction">
-        [ E ] INTERACT
-    </div>
-
-</div>
-
-
-<!-- ================================
-     PANEL
-================================ -->
-
-<div id="panel">
-
-    <div class="panel-inner">
-
-        <div
-            id="panel-number"
-            class="panel-number">
-            DRAVYA / 01
-        </div>
-
-        <div
-            id="panel-title"
-            class="panel-title">
-            OBSERVE
-        </div>
-
-        <div
-            id="panel-text"
-            class="panel-text">
-
-            The field begins with observation.
-            Measurement transforms an encounter
-            with nature into knowledge.
-
-        </div>
-
-        <button id="close">
-            RETURN TO FIELD
-        </button>
-
-    </div>
+    <div id="debug"></div>
 
 </div>
 
 
 <script type="module">
 
-/* ============================================================
-   DRAVYA CAMPUS
-   ONE FILE EXPLORER
-============================================================ */
-
-import * as THREE from "three";
+import * as THREE
+from "three";
 
 import {
     GLTFLoader
 } from "three/addons/loaders/GLTFLoader.js";
-
-
-/* ============================================================
-   DOM
-============================================================ */
-
-const app =
-    document.getElementById("app");
-
-const loading =
-    document.getElementById("loading");
-
-const progressBar =
-    document.getElementById("progress-bar");
-
-const errorBox =
-    document.getElementById("error");
-
-const start =
-    document.getElementById("start");
-
-const enter =
-    document.getElementById("enter");
-
-const hud =
-    document.getElementById("hud");
-
-const locationLabel =
-    document.getElementById("location");
-
-const interaction =
-    document.getElementById("interaction");
-
-const panel =
-    document.getElementById("panel");
-
-const closeButton =
-    document.getElementById("close");
-
-const panelNumber =
-    document.getElementById("panel-number");
-
-const panelTitle =
-    document.getElementById("panel-title");
-
-const panelText =
-    document.getElementById("panel-text");
 
 
 /* ============================================================
@@ -637,13 +417,15 @@ const scene =
     new THREE.Scene();
 
 scene.background =
-    new THREE.Color(0x07111f);
+    new THREE.Color(
+        0x07111f
+    );
 
 scene.fog =
     new THREE.Fog(
         0x07111f,
-        50,
-        220
+        30,
+        250
     );
 
 
@@ -659,6 +441,16 @@ const camera =
         0.05,
         1000
     );
+
+
+/*
+ * IMPORTANT:
+ *
+ * Start here.
+ *
+ * We will automatically move
+ * the camera once the GLB loads.
+ */
 
 camera.position.set(
     0,
@@ -700,61 +492,56 @@ renderer.toneMapping =
     THREE.ACESFilmicToneMapping;
 
 renderer.toneMappingExposure =
-    1.15;
+    1.2;
 
-app.appendChild(
-    renderer.domElement
-);
+document
+    .getElementById("app")
+    .appendChild(
+        renderer.domElement
+    );
 
 
 /* ============================================================
    LIGHT
 ============================================================ */
 
-const hemisphere =
+const ambient =
     new THREE.HemisphereLight(
-        0xcfe5ff,
-        0x172033,
+        0xddeeff,
+        0x152033,
         2.5
     );
 
 scene.add(
-    hemisphere
+    ambient
 );
 
 
-const sunlight =
+const sun =
     new THREE.DirectionalLight(
         0xffffff,
         3
     );
 
-sunlight.position.set(
+sun.position.set(
     30,
     60,
     20
 );
 
 scene.add(
-    sunlight
+    sun
 );
 
 
 /* ============================================================
-   GLB
+   LOAD GLB
 ============================================================ */
 
 const loader =
     new GLTFLoader();
 
-let campus = null;
-
-let campusBox = null;
-
-
-console.log(
-    "DRAVYA: loading ./assets/museum.glb"
-);
+let museum = null;
 
 
 loader.load(
@@ -764,13 +551,14 @@ loader.load(
     function(gltf) {
 
         console.log(
-            "DRAVYA: museum.glb loaded"
+            "DRAVYA: GLB LOADED"
         );
 
-        campus =
+        museum =
             gltf.scene;
 
-        campus.traverse(
+
+        museum.traverse(
             function(object) {
 
                 if (
@@ -786,15 +574,6 @@ loader.load(
                     object.receiveShadow =
                         true;
 
-                    if (
-                        object.material
-                    ) {
-
-                        object.material.side =
-                            THREE.DoubleSide;
-
-                    }
-
                 }
 
             }
@@ -802,98 +581,106 @@ loader.load(
 
 
         scene.add(
-            campus
+            museum
         );
 
 
         /*
-         * Calculate model bounds.
+         * Find model dimensions.
          */
 
-        campusBox =
+        const box =
             new THREE.Box3()
                 .setFromObject(
-                    campus
+                    museum
                 );
 
 
         const center =
-            campusBox.getCenter(
+            box.getCenter(
                 new THREE.Vector3()
             );
 
         const size =
-            campusBox.getSize(
+            box.getSize(
                 new THREE.Vector3()
             );
 
 
         console.log(
-            "DRAVYA MODEL CENTER:",
+            "CENTER:",
             center
         );
 
         console.log(
-            "DRAVYA MODEL SIZE:",
+            "SIZE:",
             size
         );
 
 
         /*
-         * Put player outside
-         * the campus.
+         * START POSITION
          *
-         * We assume +Z is
-         * the exterior side.
+         * We place the player
+         * outside the model.
          */
 
         camera.position.set(
 
             center.x,
 
-            Math.max(
-                campusBox.min.y + 1.7,
-                1.7
-            ),
+            1.7,
 
-            campusBox.max.z + 12
+            box.max.z + 15
 
         );
 
 
         /*
-         * Look toward campus.
+         * Face toward museum.
          */
 
-        player.yaw =
+        yaw =
             Math.atan2(
 
                 center.x -
                 camera.position.x,
 
-                -(center.z -
-                camera.position.z)
+                center.z -
+                camera.position.z
 
             );
 
 
-        player.pitch = 0;
+        /*
+         * Loading finished.
+         */
 
-
-        progressBar.style.width =
+        document
+            .getElementById(
+                "progress"
+            )
+            .style.width =
             "100%";
 
 
         setTimeout(
             function() {
 
-                loading
+                document
+                    .getElementById(
+                        "loading"
+                    )
                     .classList
                     .add("hide");
 
-                start
+
+                document
+                    .getElementById(
+                        "start"
+                    )
                     .classList
-                    .add("visible");
+                    .add("show");
 
             },
             500
@@ -901,11 +688,10 @@ loader.load(
 
     },
 
-
     function(xhr) {
 
         if (
-            xhr.lengthComputable
+            xhr.total > 0
         ) {
 
             const percent =
@@ -914,56 +700,30 @@ loader.load(
                     xhr.total
                 ) * 100;
 
-            progressBar.style.width =
+            document
+                .getElementById(
+                    "progress"
+                )
+                .style.width =
                 percent + "%";
-
-        }
-
-        else {
-
-            /*
-             * Some servers don't provide
-             * Content-Length.
-             *
-             * Show activity anyway.
-             */
-
-            progressBar.style.width =
-                "65%";
 
         }
 
     },
 
-
     function(error) {
 
         console.error(
-            "DRAVYA GLB ERROR:",
+            "GLB ERROR:",
             error
         );
 
-
-        errorBox.style.display =
-            "block";
-
-        errorBox.innerHTML =
-
-            "COULD NOT LOAD MUSEUM.GLB"
-            +
-            "<br><br>"
-            +
-            "Check that the file is exactly:"
-            +
-            "<br>"
-            +
-            "<b>assets/museum.glb</b>"
-            +
-            "<br><br>"
-            +
-            "Then open the browser console "
-            +
-            "(F12 → Console) for the exact error.";
+        document
+            .querySelector(
+                ".loading-text"
+            )
+            .textContent =
+            "ERROR LOADING MUSEUM.GLB";
 
     }
 
@@ -974,54 +734,50 @@ loader.load(
    PLAYER
 ============================================================ */
 
-const player = {
+let yaw = 0;
 
-    height: 1.7,
-
-    speed: 5,
-
-    runSpeed: 10,
-
-    yaw: 0,
-
-    pitch: 0
-
-};
+let pitch = 0;
 
 
 /* ============================================================
-   KEYBOARD
+   MOVEMENT
 ============================================================ */
 
-const keys = {
+const movement = {
 
     forward: false,
 
     backward: false,
 
-    left: false,
+    turnLeft: false,
 
-    right: false,
+    turnRight: false,
 
     run: false
 
 };
 
 
+/* ============================================================
+   KEY DOWN
+============================================================ */
+
 window.addEventListener(
     "keydown",
     function(event) {
 
         const key =
-            event.key.toLowerCase();
+            event.key;
 
 
         if (
+            key === "ArrowUp" ||
             key === "w" ||
-            event.key === "ArrowUp"
+            key === "W"
         ) {
 
-            keys.forward = true;
+            movement.forward =
+                true;
 
             event.preventDefault();
 
@@ -1029,11 +785,13 @@ window.addEventListener(
 
 
         if (
+            key === "ArrowDown" ||
             key === "s" ||
-            event.key === "ArrowDown"
+            key === "S"
         ) {
 
-            keys.backward = true;
+            movement.backward =
+                true;
 
             event.preventDefault();
 
@@ -1041,11 +799,13 @@ window.addEventListener(
 
 
         if (
+            key === "ArrowLeft" ||
             key === "a" ||
-            event.key === "ArrowLeft"
+            key === "A"
         ) {
 
-            keys.left = true;
+            movement.turnLeft =
+                true;
 
             event.preventDefault();
 
@@ -1053,11 +813,13 @@ window.addEventListener(
 
 
         if (
+            key === "ArrowRight" ||
             key === "d" ||
-            event.key === "ArrowRight"
+            key === "D"
         ) {
 
-            keys.right = true;
+            movement.turnRight =
+                true;
 
             event.preventDefault();
 
@@ -1065,79 +827,90 @@ window.addEventListener(
 
 
         if (
-            event.key === "Shift"
+            key === "Shift"
         ) {
 
-            keys.run = true;
+            movement.run =
+                true;
 
         }
 
 
-        if (
-            key === "e"
-        ) {
-
-            interact();
-
-        }
+        console.log(
+            "KEY:",
+            key
+        );
 
     }
 );
 
+
+/* ============================================================
+   KEY UP
+============================================================ */
 
 window.addEventListener(
     "keyup",
     function(event) {
 
         const key =
-            event.key.toLowerCase();
+            event.key;
 
 
         if (
+            key === "ArrowUp" ||
             key === "w" ||
-            event.key === "ArrowUp"
+            key === "W"
         ) {
 
-            keys.forward = false;
+            movement.forward =
+                false;
 
         }
 
 
         if (
+            key === "ArrowDown" ||
             key === "s" ||
-            event.key === "ArrowDown"
+            key === "S"
         ) {
 
-            keys.backward = false;
+            movement.backward =
+                false;
 
         }
 
 
         if (
+            key === "ArrowLeft" ||
             key === "a" ||
-            event.key === "ArrowLeft"
+            key === "A"
         ) {
 
-            keys.left = false;
+            movement.turnLeft =
+                false;
 
         }
 
 
         if (
+            key === "ArrowRight" ||
             key === "d" ||
-            event.key === "ArrowRight"
+            key === "D"
         ) {
 
-            keys.right = false;
+            movement.turnRight =
+                false;
 
         }
 
 
         if (
-            event.key === "Shift"
+            key === "Shift"
         ) {
 
-            keys.run = false;
+            movement.run =
+                false;
 
         }
 
@@ -1146,83 +919,47 @@ window.addEventListener(
 
 
 /* ============================================================
-   MOUSE
+   MOUSE LOOK
 ============================================================ */
 
-let mouseLocked =
+let mouseActive =
     false;
-
-
-renderer.domElement.addEventListener(
-    "click",
-    function() {
-
-        if (
-            !mouseLocked &&
-            !panel.classList.contains("visible")
-        ) {
-
-            renderer.domElement
-                .requestPointerLock();
-
-        }
-
-    }
-);
-
-
-document.addEventListener(
-    "pointerlockchange",
-    function() {
-
-        mouseLocked =
-            document.pointerLockElement ===
-            renderer.domElement;
-
-    }
-);
 
 
 document.addEventListener(
     "mousemove",
     function(event) {
 
-        if (!mouseLocked)
-            return;
-
-        if (
-            panel.classList.contains(
-                "visible"
-            )
-        )
+        if (!mouseActive)
             return;
 
 
         const sensitivity =
-            0.0022;
+            0.002;
 
 
-        player.yaw -=
+        yaw -=
             event.movementX *
             sensitivity;
 
 
-        player.pitch -=
+        pitch -=
             event.movementY *
             sensitivity;
 
 
         const limit =
-            Math.PI / 2 - 0.05;
+            Math.PI / 2 -
+            0.1;
 
 
-        player.pitch =
+        pitch =
             Math.max(
                 -limit,
 
                 Math.min(
                     limit,
-                    player.pitch
+                    pitch
                 )
             );
 
@@ -1231,32 +968,64 @@ document.addEventListener(
 
 
 /* ============================================================
-   ROTATION
+   ENTER BUTTON
 ============================================================ */
 
-function updateCamera() {
+document
+    .getElementById("enter")
+    .addEventListener(
+        "click",
+        function() {
 
-    camera.rotation.order =
-        "YXZ";
+            document
+                .getElementById(
+                    "start"
+                )
+                .classList
+                .remove("show");
 
-    camera.rotation.y =
-        player.yaw;
 
-    camera.rotation.x =
-        player.pitch;
+            document
+                .getElementById(
+                    "hud"
+                )
+                .classList
+                .add("show");
 
-}
+
+            renderer
+                .domElement
+                .requestPointerLock();
+
+        }
+    );
 
 
 /* ============================================================
-   MOVEMENT
+   POINTER LOCK
+============================================================ */
+
+document.addEventListener(
+    "pointerlockchange",
+    function() {
+
+        mouseActive =
+            document.pointerLockElement ===
+            renderer.domElement;
+
+    }
+);
+
+
+/* ============================================================
+   MOVEMENT LOOP
 ============================================================ */
 
 const clock =
     new THREE.Clock();
 
 
-function movePlayer() {
+function updatePlayer() {
 
     const dt =
         Math.min(
@@ -1265,411 +1034,139 @@ function movePlayer() {
         );
 
 
-    const direction =
-        new THREE.Vector3();
+    /*
+     * TURN
+     */
+
+    const turnSpeed =
+        2.5;
 
 
     if (
-        keys.forward
+        movement.turnLeft
     ) {
 
-        direction.z -= 1;
+        yaw +=
+            turnSpeed *
+            dt;
 
     }
 
 
     if (
-        keys.backward
+        movement.turnRight
     ) {
 
-        direction.z += 1;
+        yaw -=
+            turnSpeed *
+            dt;
 
     }
-
-
-    if (
-        keys.left
-    ) {
-
-        direction.x -= 1;
-
-    }
-
-
-    if (
-        keys.right
-    ) {
-
-        direction.x += 1;
-
-    }
-
-
-    if (
-        direction.lengthSq() === 0
-    )
-        return;
-
-
-    direction.normalize();
-
-
-    direction.applyAxisAngle(
-
-        new THREE.Vector3(
-            0,
-            1,
-            0
-        ),
-
-        player.yaw
-
-    );
-
-
-    const speed =
-        keys.run
-            ? player.runSpeed
-            : player.speed;
-
-
-    const distance =
-        speed * dt;
-
-
-    const next =
-        camera.position.clone();
-
-
-    next.addScaledVector(
-        direction,
-        distance
-    );
 
 
     /*
-     * Outer campus boundary.
+     * MOVE
      */
 
-    if (campusBox) {
+    let move =
+        0;
 
-        const margin = 1.5;
 
+    if (
+        movement.forward
+    ) {
 
-        if (
-            next.x >=
-            campusBox.min.x - margin &&
-
-            next.x <=
-            campusBox.max.x + margin &&
-
-            next.z >=
-            campusBox.min.z - margin &&
-
-            next.z <=
-            campusBox.max.z + margin
-        ) {
-
-            camera.position.x =
-                next.x;
-
-            camera.position.z =
-                next.z;
-
-        }
+        move += 1;
 
     }
 
-}
+
+    if (
+        movement.backward
+    ) {
+
+        move -= 1;
+
+    }
 
 
-/* ============================================================
-   PLAYER HEIGHT
-============================================================ */
+    const speed =
+        movement.run
+            ? 12
+            : 5;
 
-function updateHeight() {
+
+    if (
+        move !== 0
+    ) {
+
+        camera.position.x +=
+
+            Math.sin(yaw)
+            *
+            speed
+            *
+            move
+            *
+            dt;
+
+
+        camera.position.z +=
+
+            Math.cos(yaw)
+            *
+            speed
+            *
+            move
+            *
+            dt;
+
+    }
+
+
+    /*
+     * CAMERA
+     */
 
     camera.position.y =
-        player.height;
+        1.7;
+
+
+    camera.rotation.order =
+        "YXZ";
+
+
+    camera.rotation.y =
+        yaw;
+
+
+    camera.rotation.x =
+        pitch;
+
+
+    /*
+     * DEBUG
+     */
+
+    document
+        .getElementById(
+            "debug"
+        )
+        .innerHTML =
+
+        "X "
+        +
+        camera.position.x.toFixed(1)
+        +
+        "<br>Z "
+        +
+        camera.position.z.toFixed(1)
+        +
+        "<br>YAW "
+        +
+        yaw.toFixed(2);
 
 }
-
-
-/* ============================================================
-   EXHIBITS
-============================================================ */
-
-/*
- * These are temporary interaction zones.
- *
- * Later we'll connect them to
- * actual objects inside museum.glb.
- */
-
-const exhibits = [
-
-    {
-
-        position:
-            new THREE.Vector3(
-                0,
-                1.7,
-                0
-            ),
-
-        radius: 4,
-
-        number:
-            "DRAVYA / 01",
-
-        title:
-            "OBSERVE",
-
-        text:
-            "The field begins with observation. " +
-            "Measurement transforms an encounter " +
-            "with nature into knowledge."
-
-    },
-
-    {
-
-        position:
-            new THREE.Vector3(
-                8,
-                1.7,
-                0
-            ),
-
-        radius: 4,
-
-        number:
-            "DRAVYA / 02",
-
-        title:
-            "DISTURB",
-
-        text:
-            "A field is not merely a passive stage. " +
-            "Interactions disturb states, produce " +
-            "transitions and create phenomena."
-
-    },
-
-    {
-
-        position:
-            new THREE.Vector3(
-                -8,
-                1.7,
-                0
-            ),
-
-        radius: 4,
-
-        number:
-            "DRAVYA / 03",
-
-        title:
-            "CREATE",
-
-        text:
-            "Sound, image, story and scientific thought " +
-            "become different expressions of the same field."
-
-    }
-
-];
-
-
-let nearby =
-    null;
-
-
-function checkInteraction() {
-
-    nearby =
-        null;
-
-
-    let closest =
-        Infinity;
-
-
-    for (
-        const exhibit
-        of exhibits
-    ) {
-
-        const distance =
-            camera.position.distanceTo(
-                exhibit.position
-            );
-
-
-        if (
-            distance <
-            exhibit.radius &&
-
-            distance <
-            closest
-        ) {
-
-            closest =
-                distance;
-
-            nearby =
-                exhibit;
-
-        }
-
-    }
-
-
-    if (nearby) {
-
-        interaction
-            .classList
-            .add("show");
-
-    }
-
-    else {
-
-        interaction
-            .classList
-            .remove("show");
-
-    }
-
-}
-
-
-function interact() {
-
-    if (!nearby)
-        return;
-
-
-    panelNumber.textContent =
-        nearby.number;
-
-    panelTitle.textContent =
-        nearby.title;
-
-    panelText.textContent =
-        nearby.text;
-
-
-    panel
-        .classList
-        .add("visible");
-
-
-    if (
-        document.pointerLockElement
-    ) {
-
-        document.exitPointerLock();
-
-    }
-
-}
-
-
-/* ============================================================
-   CLOSE PANEL
-============================================================ */
-
-closeButton.addEventListener(
-    "click",
-    function() {
-
-        panel
-            .classList
-            .remove("visible");
-
-    }
-);
-
-
-/* ============================================================
-   LOCATION
-============================================================ */
-
-function updateLocation() {
-
-    if (!campus)
-        return;
-
-
-    const x =
-        camera.position.x;
-
-    const z =
-        camera.position.z;
-
-
-    if (
-        Math.abs(x) < 6 &&
-        Math.abs(z) < 6
-    ) {
-
-        locationLabel.textContent =
-            "MUSEUM / ATRIUM";
-
-    }
-
-    else if (
-        z > 10
-    ) {
-
-        locationLabel.textContent =
-            "DRAVYA / GARDEN";
-
-    }
-
-    else if (
-        x > 15
-    ) {
-
-        locationLabel.textContent =
-            "DRAVYA / CAFE";
-
-    }
-
-    else {
-
-        locationLabel.textContent =
-            "DRAVYA / CAMPUS";
-
-    }
-
-}
-
-
-/* ============================================================
-   ENTER FIELD
-============================================================ */
-
-enter.addEventListener(
-    "click",
-    function() {
-
-        start
-            .classList
-            .remove("visible");
-
-        hud
-            .classList
-            .add("active");
-
-
-        renderer.domElement
-            .requestPointerLock();
-
-    }
-);
 
 
 /* ============================================================
@@ -1686,7 +1183,6 @@ window.addEventListener(
 
         camera.updateProjectionMatrix();
 
-
         renderer.setSize(
             window.innerWidth,
             window.innerHeight
@@ -1697,7 +1193,7 @@ window.addEventListener(
 
 
 /* ============================================================
-   LOOP
+   RENDER
 ============================================================ */
 
 function animate() {
@@ -1707,15 +1203,7 @@ function animate() {
     );
 
 
-    movePlayer();
-
-    updateCamera();
-
-    updateHeight();
-
-    checkInteraction();
-
-    updateLocation();
+    updatePlayer();
 
 
     renderer.render(
@@ -1729,33 +1217,25 @@ function animate() {
 animate();
 
 
-/* ============================================================
-   DEBUG
-============================================================ */
-
 console.log(
-    "%cDRAVYA CAMPUS",
-    "font-size:22px;font-weight:bold"
+    "%cDRAVYA EXPLORER READY",
+    "font-size:20px;font-weight:bold;"
 );
 
 console.log(
-    "museum.glb → loading..."
+    "ARROW UP/DOWN = MOVE"
 );
 
 console.log(
-    "WASD / ARROWS → MOVE"
+    "ARROW LEFT/RIGHT = TURN"
 );
 
 console.log(
-    "MOUSE → LOOK"
+    "WASD = MOVE/TURN"
 );
 
 console.log(
-    "SHIFT → RUN"
-);
-
-console.log(
-    "E → INTERACT"
+    "SHIFT = RUN"
 );
 
 </script>
