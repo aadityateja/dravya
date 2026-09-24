@@ -1,548 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>DRAVYA / CAMPUS</title>
+<title>DRAVYA Campus</title>
 
 <style>
-
-* {
-    box-sizing: border-box;
-}
-
-html,
-body {
+html, body {
     margin: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: #020617;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
+    background: #02030a;
+    font-family: Arial, sans-serif;
 }
 
-#app {
+#info {
     position: fixed;
-    inset: 0;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    color: white;
+    background: rgba(0,0,0,.65);
+    padding: 12px 16px;
+    border-radius: 8px;
 }
-
-canvas {
-    display: block;
-}
-
-
-/* LOADING */
 
 #loading {
     position: fixed;
     inset: 0;
-    z-index: 100;
-
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-
-    background:
-        radial-gradient(
-            circle at center,
-            #12375d,
-            #020617 70%
-        );
-
-    transition: opacity .8s;
-}
-
-#loading.hide {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.logo {
-    font-size: clamp(40px, 8vw, 80px);
-    font-weight: 300;
-    letter-spacing: .3em;
-    margin-left: .3em;
-}
-
-.loading-text {
-    margin-top: 15px;
-    font-size: 10px;
-    letter-spacing: .35em;
-    opacity: .5;
-}
-
-.progress {
-    width: min(360px, 65vw);
-    height: 1px;
-    margin-top: 35px;
-    background: rgba(255,255,255,.15);
-}
-
-#progress {
-    width: 0%;
-    height: 100%;
-    background: white;
-}
-
-
-/* START */
-
-#start {
-    position: fixed;
-    inset: 0;
-
-    z-index: 50;
-
-    display: none;
-
-    align-items: center;
-    justify-content: center;
-}
-
-#start.show {
-    display: flex;
-}
-
-.start-box {
-    width: min(500px, 88vw);
-
-    padding: 45px;
-
-    text-align: center;
-
-    background:
-        rgba(2,6,23,.85);
-
-    border:
-        1px solid
-        rgba(255,255,255,.2);
-
-    backdrop-filter: blur(12px);
-}
-
-.start-title {
-    font-size: 28px;
-    letter-spacing: .25em;
-}
-
-.start-info {
-    margin-top: 20px;
-
-    font-size: 10px;
-
-    line-height: 2;
-
-    letter-spacing: .12em;
-
-    opacity: .55;
-}
-
-#enter {
-    margin-top: 30px;
-
-    padding: 14px 32px;
-
     color: white;
-
-    background: transparent;
-
-    border:
-        1px solid
-        rgba(255,255,255,.4);
-
-    cursor: pointer;
-
-    letter-spacing: .25em;
-
-    font-size: 10px;
+    font-size: 20px;
+    background: #02030a;
+    z-index: 20;
 }
-
-#enter:hover {
-    background: white;
-    color: #020617;
-}
-
-
-/* HUD */
-
-#hud {
-    position: fixed;
-    inset: 0;
-
-    pointer-events: none;
-
-    opacity: 0;
-
-    transition: opacity .5s;
-}
-
-#hud.show {
-    opacity: 1;
-}
-
-.brand {
-    position: absolute;
-
-    top: 25px;
-    left: 30px;
-
-    font-size: 12px;
-
-    letter-spacing: .35em;
-
-    opacity: .75;
-}
-
-.location {
-    position: absolute;
-
-    top: 25px;
-    right: 30px;
-
-    font-size: 9px;
-
-    letter-spacing: .25em;
-
-    opacity: .5;
-}
-
-.instructions {
-    position: absolute;
-
-    bottom: 25px;
-    left: 30px;
-
-    font-size: 9px;
-
-    line-height: 1.8;
-
-    letter-spacing: .1em;
-
-    opacity: .45;
-}
-
-.crosshair {
-    position: absolute;
-
-    top: 50%;
-    left: 50%;
-
-    width: 14px;
-    height: 14px;
-
-    transform:
-        translate(-50%,-50%);
-}
-
-.crosshair::before {
-    content: "";
-
-    position: absolute;
-
-    width: 1px;
-    height: 14px;
-
-    left: 6px;
-
-    background: white;
-}
-
-.crosshair::after {
-    content: "";
-
-    position: absolute;
-
-    width: 14px;
-    height: 1px;
-
-    top: 6px;
-
-    background: white;
-}
-
-
-/* DEBUG */
-
-#debug {
-    position: absolute;
-
-    top: 60px;
-    left: 30px;
-
-    font-family: monospace;
-
-    font-size: 10px;
-
-    line-height: 1.6;
-
-    opacity: .35;
-}
-
 </style>
+</head>
 
+<body>
+
+<div id="loading">Loading DRAVYA Campus...</div>
+
+<div id="info">
+    DRAVYA CAMPUS<br>
+    <small>Drag mouse to look • Scroll to zoom</small>
+</div>
 
 <script type="importmap">
 {
     "imports": {
-        "three":
-            "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
-
-        "three/addons/":
-            "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
     }
 }
 </script>
 
-</head>
-
-
-<body>
-
-<div id="app"></div>
-
-
-<!-- LOADING -->
-
-<div id="loading">
-
-    <div class="logo">
-        DRAVYA
-    </div>
-
-    <div class="loading-text">
-        LOADING CAMPUS
-    </div>
-
-    <div class="progress">
-        <div id="progress"></div>
-    </div>
-
-</div>
-
-
-<!-- START -->
-
-<div id="start">
-
-    <div class="start-box">
-
-        <div class="start-title">
-            DRAVYA / CAMPUS
-        </div>
-
-        <div class="start-info">
-
-            EXPLORE THE FIELD
-
-            <br><br>
-
-            W / ↑ — FORWARD
-            <br>
-
-            S / ↓ — BACKWARD
-            <br>
-
-            A / ← — TURN LEFT
-            <br>
-
-            D / → — TURN RIGHT
-            <br>
-
-            MOUSE — LOOK
-            <br>
-
-            SHIFT — RUN
-
-        </div>
-
-        <button id="enter">
-            ENTER THE FIELD
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- HUD -->
-
-<div id="hud">
-
-    <div class="brand">
-        DRAVYA
-    </div>
-
-    <div
-        class="location"
-        id="location">
-        CAMPUS
-    </div>
-
-    <div class="crosshair"></div>
-
-    <div class="instructions">
-
-        W A S D / ARROWS — MOVE
-        <br>
-        MOUSE — LOOK
-        <br>
-        SHIFT — RUN
-
-    </div>
-
-    <div id="debug"></div>
-
-</div>
-
-
 <script type="module">
 
-import * as THREE
-from "three";
-
-import {
-    GLTFLoader
-} from "three/addons/loaders/GLTFLoader.js";
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 
-/* ============================================================
+/* =========================================================
    SCENE
-============================================================ */
+========================================================= */
 
-const scene =
-    new THREE.Scene();
+const scene = new THREE.Scene();
 
-scene.background =
-    new THREE.Color(
-        0x07111f
-    );
-
-scene.fog =
-    new THREE.Fog(
-        0x07111f,
-        30,
-        250
-    );
+scene.background = new THREE.Color(0x07101c);
 
 
-/* ============================================================
+/* =========================================================
    CAMERA
-============================================================ */
+========================================================= */
 
-const camera =
-    new THREE.PerspectiveCamera(
-        70,
-        window.innerWidth /
-        window.innerHeight,
-        0.05,
-        1000
-    );
-
-
-/*
- * IMPORTANT:
- *
- * Start here.
- *
- * We will automatically move
- * the camera once the GLB loads.
- */
-
-camera.position.set(
-    0,
-    1.7,
-    20
+const camera = new THREE.PerspectiveCamera(
+    60,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    5000
 );
 
+camera.position.set(40, 25, 40);
 
-/* ============================================================
+
+/* =========================================================
    RENDERER
-============================================================ */
+========================================================= */
 
-const renderer =
-    new THREE.WebGLRenderer({
-
-        antialias: true,
-
-        powerPreference:
-            "high-performance"
-
-    });
-
-renderer.setPixelRatio(
-    Math.min(
-        window.devicePixelRatio,
-        2
-    )
-);
+const renderer = new THREE.WebGLRenderer({
+    antialias: true
+});
 
 renderer.setSize(
     window.innerWidth,
     window.innerHeight
 );
 
-renderer.outputColorSpace =
-    THREE.SRGBColorSpace;
-
-renderer.toneMapping =
-    THREE.ACESFilmicToneMapping;
-
-renderer.toneMappingExposure =
-    1.2;
-
-document
-    .getElementById("app")
-    .appendChild(
-        renderer.domElement
-    );
-
-
-/* ============================================================
-   LIGHT
-============================================================ */
-
-const ambient =
-    new THREE.HemisphereLight(
-        0xddeeff,
-        0x152033,
-        2.5
-    );
-
-scene.add(
-    ambient
+renderer.setPixelRatio(
+    Math.min(window.devicePixelRatio, 2)
 );
 
+renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-const sun =
-    new THREE.DirectionalLight(
-        0xffffff,
-        3
-    );
+renderer.shadowMap.enabled = true;
+
+document.body.appendChild(renderer.domElement);
+
+
+/* =========================================================
+   LIGHTING
+========================================================= */
+
+const ambient = new THREE.HemisphereLight(
+    0xffffff,
+    0x223344,
+    2.5
+);
+
+scene.add(ambient);
+
+
+const sun = new THREE.DirectionalLight(
+    0xffffff,
+    4
+);
 
 sun.position.set(
-    30,
-    60,
-    20
+    50,
+    80,
+    30
 );
 
-scene.add(
-    sun
+sun.castShadow = true;
+
+scene.add(sun);
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+const controls = new OrbitControls(
+    camera,
+    renderer.domElement
 );
 
+controls.enableDamping = true;
 
-/* ============================================================
+controls.dampingFactor = 0.05;
+
+controls.target.set(
+    0,
+    5,
+    0
+);
+
+controls.minDistance = 2;
+
+controls.maxDistance = 300;
+
+
+/* =========================================================
    LOAD GLB
-============================================================ */
+========================================================= */
 
-const loader =
-    new GLTFLoader();
-
-let museum = null;
-
+const loader = new GLTFLoader();
 
 loader.load(
 
@@ -550,162 +176,130 @@ loader.load(
 
     function(gltf) {
 
-        console.log(
-            "DRAVYA: GLB LOADED"
-        );
+        console.log("GLB LOADED:", gltf);
 
-        museum =
-            gltf.scene;
+        const museum = gltf.scene;
+
+        scene.add(museum);
 
 
-        museum.traverse(
-            function(object) {
+        /* ---------------------------------------------
+           ENABLE SHADOWS
+        --------------------------------------------- */
 
-                if (
-                    object.isMesh
-                ) {
+        museum.traverse(function(object) {
 
-                    object.frustumCulled =
-                        true;
+            if (object.isMesh) {
 
-                    object.castShadow =
-                        false;
+                object.castShadow = true;
+                object.receiveShadow = true;
 
-                    object.receiveShadow =
-                        true;
+                if (object.material) {
+
+                    object.material.needsUpdate = true;
 
                 }
 
             }
+
+        });
+
+
+        /* ---------------------------------------------
+           FIND MODEL SIZE
+        --------------------------------------------- */
+
+        const box = new THREE.Box3().setFromObject(museum);
+
+        const center = box.getCenter(
+            new THREE.Vector3()
         );
 
-
-        scene.add(
-            museum
+        const size = box.getSize(
+            new THREE.Vector3()
         );
 
-
-        /*
-         * Find model dimensions.
-         */
-
-        const box =
-            new THREE.Box3()
-                .setFromObject(
-                    museum
-                );
+        console.log("MODEL CENTER:", center);
+        console.log("MODEL SIZE:", size);
+        console.log("MODEL MIN:", box.min);
+        console.log("MODEL MAX:", box.max);
 
 
-        const center =
-            box.getCenter(
-                new THREE.Vector3()
+        /* ---------------------------------------------
+           CENTER MODEL
+        --------------------------------------------- */
+
+        museum.position.sub(center);
+
+
+        /* ---------------------------------------------
+           RECALCULATE SIZE
+        --------------------------------------------- */
+
+        const centeredBox =
+            new THREE.Box3().setFromObject(museum);
+
+        const centeredSize =
+            centeredBox.getSize(new THREE.Vector3());
+
+        const maxDimension =
+            Math.max(
+                centeredSize.x,
+                centeredSize.y,
+                centeredSize.z
             );
 
-        const size =
-            box.getSize(
-                new THREE.Vector3()
-            );
 
+        /* ---------------------------------------------
+           CAMERA POSITION
+        --------------------------------------------- */
 
-        console.log(
-            "CENTER:",
-            center
-        );
-
-        console.log(
-            "SIZE:",
-            size
-        );
-
-
-        /*
-         * START POSITION
-         *
-         * We place the player
-         * outside the model.
-         */
+        const distance =
+            maxDimension * 1.2;
 
         camera.position.set(
-
-            center.x,
-
-            1.7,
-
-            box.max.z + 15
-
+            distance,
+            distance * 0.55,
+            distance
         );
 
+        controls.target.set(
+            0,
+            centeredSize.y * 0.35,
+            0
+        );
 
-        /*
-         * Face toward museum.
-         */
-
-        yaw =
-            Math.atan2(
-
-                center.x -
-                camera.position.x,
-
-                center.z -
-                camera.position.z
-
-            );
+        controls.update();
 
 
-        /*
-         * Loading finished.
-         */
+        /* ---------------------------------------------
+           HIDE LOADING
+        --------------------------------------------- */
 
-        document
-            .getElementById(
-                "progress"
-            )
-            .style.width =
-            "100%";
+        document.getElementById(
+            "loading"
+        ).style.display = "none";
 
 
-        setTimeout(
-            function() {
-
-                document
-                    .getElementById(
-                        "loading"
-                    )
-                    .classList
-                    .add("hide");
-
-
-                document
-                    .getElementById(
-                        "start"
-                    )
-                    .classList
-                    .add("show");
-
-            },
-            500
+        console.log(
+            "DRAVYA CAMPUS READY"
         );
 
     },
 
     function(xhr) {
 
-        if (
-            xhr.total > 0
-        ) {
+        if (xhr.total) {
 
             const percent =
-                (
-                    xhr.loaded /
-                    xhr.total
-                ) * 100;
+                (xhr.loaded / xhr.total) * 100;
 
-            document
-                .getElementById(
-                    "progress"
-                )
-                .style.width =
-                percent + "%";
+            document.getElementById(
+                "loading"
+            ).textContent =
+                "Loading DRAVYA Campus " +
+                percent.toFixed(0) +
+                "%";
 
         }
 
@@ -714,464 +308,23 @@ loader.load(
     function(error) {
 
         console.error(
-            "GLB ERROR:",
+            "GLB LOAD ERROR:",
             error
         );
 
-        document
-            .querySelector(
-                ".loading-text"
-            )
-            .textContent =
-            "ERROR LOADING MUSEUM.GLB";
+        document.getElementById(
+            "loading"
+        ).textContent =
+            "ERROR loading museum.glb — check browser console.";
 
     }
 
 );
 
 
-/* ============================================================
-   PLAYER
-============================================================ */
-
-let yaw = 0;
-
-let pitch = 0;
-
-
-/* ============================================================
-   MOVEMENT
-============================================================ */
-
-const movement = {
-
-    forward: false,
-
-    backward: false,
-
-    turnLeft: false,
-
-    turnRight: false,
-
-    run: false
-
-};
-
-
-/* ============================================================
-   KEY DOWN
-============================================================ */
-
-window.addEventListener(
-    "keydown",
-    function(event) {
-
-        const key =
-            event.key;
-
-
-        if (
-            key === "ArrowUp" ||
-            key === "w" ||
-            key === "W"
-        ) {
-
-            movement.forward =
-                true;
-
-            event.preventDefault();
-
-        }
-
-
-        if (
-            key === "ArrowDown" ||
-            key === "s" ||
-            key === "S"
-        ) {
-
-            movement.backward =
-                true;
-
-            event.preventDefault();
-
-        }
-
-
-        if (
-            key === "ArrowLeft" ||
-            key === "a" ||
-            key === "A"
-        ) {
-
-            movement.turnLeft =
-                true;
-
-            event.preventDefault();
-
-        }
-
-
-        if (
-            key === "ArrowRight" ||
-            key === "d" ||
-            key === "D"
-        ) {
-
-            movement.turnRight =
-                true;
-
-            event.preventDefault();
-
-        }
-
-
-        if (
-            key === "Shift"
-        ) {
-
-            movement.run =
-                true;
-
-        }
-
-
-        console.log(
-            "KEY:",
-            key
-        );
-
-    }
-);
-
-
-/* ============================================================
-   KEY UP
-============================================================ */
-
-window.addEventListener(
-    "keyup",
-    function(event) {
-
-        const key =
-            event.key;
-
-
-        if (
-            key === "ArrowUp" ||
-            key === "w" ||
-            key === "W"
-        ) {
-
-            movement.forward =
-                false;
-
-        }
-
-
-        if (
-            key === "ArrowDown" ||
-            key === "s" ||
-            key === "S"
-        ) {
-
-            movement.backward =
-                false;
-
-        }
-
-
-        if (
-            key === "ArrowLeft" ||
-            key === "a" ||
-            key === "A"
-        ) {
-
-            movement.turnLeft =
-                false;
-
-        }
-
-
-        if (
-            key === "ArrowRight" ||
-            key === "d" ||
-            key === "D"
-        ) {
-
-            movement.turnRight =
-                false;
-
-        }
-
-
-        if (
-            key === "Shift"
-        ) {
-
-            movement.run =
-                false;
-
-        }
-
-    }
-);
-
-
-/* ============================================================
-   MOUSE LOOK
-============================================================ */
-
-let mouseActive =
-    false;
-
-
-document.addEventListener(
-    "mousemove",
-    function(event) {
-
-        if (!mouseActive)
-            return;
-
-
-        const sensitivity =
-            0.002;
-
-
-        yaw -=
-            event.movementX *
-            sensitivity;
-
-
-        pitch -=
-            event.movementY *
-            sensitivity;
-
-
-        const limit =
-            Math.PI / 2 -
-            0.1;
-
-
-        pitch =
-            Math.max(
-                -limit,
-
-                Math.min(
-                    limit,
-                    pitch
-                )
-            );
-
-    }
-);
-
-
-/* ============================================================
-   ENTER BUTTON
-============================================================ */
-
-document
-    .getElementById("enter")
-    .addEventListener(
-        "click",
-        function() {
-
-            document
-                .getElementById(
-                    "start"
-                )
-                .classList
-                .remove("show");
-
-
-            document
-                .getElementById(
-                    "hud"
-                )
-                .classList
-                .add("show");
-
-
-            renderer
-                .domElement
-                .requestPointerLock();
-
-        }
-    );
-
-
-/* ============================================================
-   POINTER LOCK
-============================================================ */
-
-document.addEventListener(
-    "pointerlockchange",
-    function() {
-
-        mouseActive =
-            document.pointerLockElement ===
-            renderer.domElement;
-
-    }
-);
-
-
-/* ============================================================
-   MOVEMENT LOOP
-============================================================ */
-
-const clock =
-    new THREE.Clock();
-
-
-function updatePlayer() {
-
-    const dt =
-        Math.min(
-            clock.getDelta(),
-            0.05
-        );
-
-
-    /*
-     * TURN
-     */
-
-    const turnSpeed =
-        2.5;
-
-
-    if (
-        movement.turnLeft
-    ) {
-
-        yaw +=
-            turnSpeed *
-            dt;
-
-    }
-
-
-    if (
-        movement.turnRight
-    ) {
-
-        yaw -=
-            turnSpeed *
-            dt;
-
-    }
-
-
-    /*
-     * MOVE
-     */
-
-    let move =
-        0;
-
-
-    if (
-        movement.forward
-    ) {
-
-        move += 1;
-
-    }
-
-
-    if (
-        movement.backward
-    ) {
-
-        move -= 1;
-
-    }
-
-
-    const speed =
-        movement.run
-            ? 12
-            : 5;
-
-
-    if (
-        move !== 0
-    ) {
-
-        camera.position.x +=
-
-            Math.sin(yaw)
-            *
-            speed
-            *
-            move
-            *
-            dt;
-
-
-        camera.position.z +=
-
-            Math.cos(yaw)
-            *
-            speed
-            *
-            move
-            *
-            dt;
-
-    }
-
-
-    /*
-     * CAMERA
-     */
-
-    camera.position.y =
-        1.7;
-
-
-    camera.rotation.order =
-        "YXZ";
-
-
-    camera.rotation.y =
-        yaw;
-
-
-    camera.rotation.x =
-        pitch;
-
-
-    /*
-     * DEBUG
-     */
-
-    document
-        .getElementById(
-            "debug"
-        )
-        .innerHTML =
-
-        "X "
-        +
-        camera.position.x.toFixed(1)
-        +
-        "<br>Z "
-        +
-        camera.position.z.toFixed(1)
-        +
-        "<br>YAW "
-        +
-        yaw.toFixed(2);
-
-}
-
-
-/* ============================================================
+/* =========================================================
    RESIZE
-============================================================ */
+========================================================= */
 
 window.addEventListener(
     "resize",
@@ -1192,19 +345,15 @@ window.addEventListener(
 );
 
 
-/* ============================================================
-   RENDER
-============================================================ */
+/* =========================================================
+   ANIMATION
+========================================================= */
 
 function animate() {
 
-    requestAnimationFrame(
-        animate
-    );
+    requestAnimationFrame(animate);
 
-
-    updatePlayer();
-
+    controls.update();
 
     renderer.render(
         scene,
@@ -1213,30 +362,7 @@ function animate() {
 
 }
 
-
 animate();
-
-
-console.log(
-    "%cDRAVYA EXPLORER READY",
-    "font-size:20px;font-weight:bold;"
-);
-
-console.log(
-    "ARROW UP/DOWN = MOVE"
-);
-
-console.log(
-    "ARROW LEFT/RIGHT = TURN"
-);
-
-console.log(
-    "WASD = MOVE/TURN"
-);
-
-console.log(
-    "SHIFT = RUN"
-);
 
 </script>
 
