@@ -14,15 +14,8 @@ html, body {
     font-family: Arial, sans-serif;
 }
 
-#info {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 10;
-    color: white;
-    background: rgba(0,0,0,.65);
-    padding: 12px 16px;
-    border-radius: 8px;
+canvas {
+    display: block;
 }
 
 #loading {
@@ -34,62 +27,117 @@ html, body {
     color: white;
     font-size: 20px;
     background: #02030a;
+    z-index: 100;
+}
+
+#info {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    color: white;
+    background: rgba(0,0,0,.65);
+    padding: 12px 16px;
+    border-radius: 8px;
+    line-height: 1.5;
+    pointer-events: none;
+    user-select: none;
+}
+
+#crosshair {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 5px;
+    height: 5px;
+    transform: translate(-50%, -50%);
+    border: 1px solid white;
+    border-radius: 50%;
     z-index: 20;
+    pointer-events: none;
+    display: none;
+}
+
+#hint {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    color: white;
+    background: rgba(0,0,0,.7);
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 14px;
+    pointer-events: none;
 }
 </style>
 </head>
 
 <body>
 
-<div id="loading">Loading DRAVYA Campus...</div>
+<div id="loading">
+    Loading DRAVYA Campus...
+</div>
 
 <div id="info">
-    DRAVYA CAMPUS<br>
-    <small>Drag mouse to look • Scroll to zoom</small>
+    <strong>DRAVYA CAMPUS</strong><br>
+    <small>
+        WASD / Arrow Keys — Move<br>
+        Mouse — Look<br>
+        Shift — Run
+    </small>
 </div>
+
+<div id="crosshair"></div>
+
+<div id="hint">
+    Click to explore
+</div>
+
 
 <script type="importmap">
 {
     "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"
     }
 }
 </script>
 
+
 <script type="module">
 
 import * as THREE from "three";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+import {
+    GLTFLoader
+} from "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/GLTFLoader.js";
 
 
-/* =========================================================
+/* =====================================================
    SCENE
-========================================================= */
+===================================================== */
 
 const scene = new THREE.Scene();
 
 scene.background = new THREE.Color(0x07101c);
 
 
-/* =========================================================
+/* =====================================================
    CAMERA
-========================================================= */
+===================================================== */
 
 const camera = new THREE.PerspectiveCamera(
-    60,
+    75,
     window.innerWidth / window.innerHeight,
-    0.1,
+    0.05,
     5000
 );
 
-camera.position.set(40, 25, 40);
 
-
-/* =========================================================
+/* =====================================================
    RENDERER
-========================================================= */
+===================================================== */
 
 const renderer = new THREE.WebGLRenderer({
     antialias: true
@@ -108,12 +156,15 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 renderer.shadowMap.enabled = true;
 
+renderer.shadowMap.type =
+    THREE.PCFSoftShadowMap;
+
 document.body.appendChild(renderer.domElement);
 
 
-/* =========================================================
-   LIGHTING
-========================================================= */
+/* =====================================================
+   LIGHT
+===================================================== */
 
 const ambient = new THREE.HemisphereLight(
     0xffffff,
@@ -129,46 +180,205 @@ const sun = new THREE.DirectionalLight(
     4
 );
 
-sun.position.set(
-    50,
-    80,
-    30
-);
+sun.position.set(50, 80, 30);
 
 sun.castShadow = true;
 
 scene.add(sun);
 
 
-/* =========================================================
-   CONTROLS
-========================================================= */
+/* =====================================================
+   PLAYER
+===================================================== */
 
-const controls = new OrbitControls(
-    camera,
-    renderer.domElement
+const player = {
+
+    height: 2,
+
+    walkSpeed: 8,
+
+    runSpeed: 16,
+
+    acceleration: 40,
+
+    friction: 12
+
+};
+
+
+/* =====================================================
+   KEYBOARD
+===================================================== */
+
+const keys = {
+    forward: false,
+    backward: false,
+    left: false,
+    right: false,
+    run: false
+};
+
+
+window.addEventListener("keydown", function(event) {
+
+    if (
+        event.code === "KeyW" ||
+        event.code === "ArrowUp"
+    ) {
+        keys.forward = true;
+    }
+
+    if (
+        event.code === "KeyS" ||
+        event.code === "ArrowDown"
+    ) {
+        keys.backward = true;
+    }
+
+    if (
+        event.code === "KeyA" ||
+        event.code === "ArrowLeft"
+    ) {
+        keys.left = true;
+    }
+
+    if (
+        event.code === "KeyD" ||
+        event.code === "ArrowRight"
+    ) {
+        keys.right = true;
+    }
+
+    if (
+        event.code === "ShiftLeft" ||
+        event.code === "ShiftRight"
+    ) {
+        keys.run = true;
+    }
+
+});
+
+
+window.addEventListener("keyup", function(event) {
+
+    if (
+        event.code === "KeyW" ||
+        event.code === "ArrowUp"
+    ) {
+        keys.forward = false;
+    }
+
+    if (
+        event.code === "KeyS" ||
+        event.code === "ArrowDown"
+    ) {
+        keys.backward = false;
+    }
+
+    if (
+        event.code === "KeyA" ||
+        event.code === "ArrowLeft"
+    ) {
+        keys.left = false;
+    }
+
+    if (
+        event.code === "KeyD" ||
+        event.code === "ArrowRight"
+    ) {
+        keys.right = false;
+    }
+
+    if (
+        event.code === "ShiftLeft" ||
+        event.code === "ShiftRight"
+    ) {
+        keys.run = false;
+    }
+
+});
+
+
+/* =====================================================
+   MOUSE LOOK
+===================================================== */
+
+let yaw = 0;
+
+let pitch = 0;
+
+const mouseSensitivity = 0.0022;
+
+
+renderer.domElement.addEventListener(
+    "click",
+    function() {
+
+        renderer.domElement.requestPointerLock();
+
+    }
 );
 
-controls.enableDamping = true;
 
-controls.dampingFactor = 0.05;
+document.addEventListener(
+    "pointerlockchange",
+    function() {
 
-controls.target.set(
-    0,
-    5,
-    0
+        const locked =
+            document.pointerLockElement ===
+            renderer.domElement;
+
+        document.getElementById(
+            "crosshair"
+        ).style.display =
+            locked ? "block" : "none";
+
+        document.getElementById(
+            "hint"
+        ).style.display =
+            locked ? "none" : "block";
+
+    }
 );
 
-controls.minDistance = 2;
 
-controls.maxDistance = 300;
+document.addEventListener(
+    "mousemove",
+    function(event) {
+
+        if (
+            document.pointerLockElement !==
+            renderer.domElement
+        ) {
+            return;
+        }
+
+        yaw -=
+            event.movementX *
+            mouseSensitivity;
+
+        pitch -=
+            event.movementY *
+            mouseSensitivity;
+
+        const limit =
+            Math.PI / 2 - 0.05;
+
+        pitch = Math.max(
+            -limit,
+            Math.min(limit, pitch)
+        );
+
+    }
+);
 
 
-/* =========================================================
-   LOAD GLB
-========================================================= */
+/* =====================================================
+   LOAD MUSEUM
+===================================================== */
 
 const loader = new GLTFLoader();
+
 
 loader.load(
 
@@ -176,53 +386,66 @@ loader.load(
 
     function(gltf) {
 
-        console.log("GLB LOADED:", gltf);
+        console.log(
+            "GLB LOADED:",
+            gltf
+        );
 
         const museum = gltf.scene;
 
         scene.add(museum);
 
 
-        /* ---------------------------------------------
-           ENABLE SHADOWS
-        --------------------------------------------- */
+        museum.traverse(
+            function(object) {
 
-        museum.traverse(function(object) {
+                if (object.isMesh) {
 
-            if (object.isMesh) {
+                    object.castShadow = true;
 
-                object.castShadow = true;
-                object.receiveShadow = true;
+                    object.receiveShadow = true;
 
-                if (object.material) {
+                    if (object.material) {
 
-                    object.material.needsUpdate = true;
+                        object.material.needsUpdate =
+                            true;
+
+                    }
 
                 }
 
             }
-
-        });
+        );
 
 
         /* ---------------------------------------------
-           FIND MODEL SIZE
+           FIND SIZE
         --------------------------------------------- */
 
-        const box = new THREE.Box3().setFromObject(museum);
+        const box =
+            new THREE.Box3()
+                .setFromObject(museum);
 
-        const center = box.getCenter(
-            new THREE.Vector3()
+        const center =
+            box.getCenter(
+                new THREE.Vector3()
+            );
+
+        const size =
+            box.getSize(
+                new THREE.Vector3()
+            );
+
+
+        console.log(
+            "MODEL CENTER:",
+            center
         );
 
-        const size = box.getSize(
-            new THREE.Vector3()
+        console.log(
+            "MODEL SIZE:",
+            size
         );
-
-        console.log("MODEL CENTER:", center);
-        console.log("MODEL SIZE:", size);
-        console.log("MODEL MIN:", box.min);
-        console.log("MODEL MAX:", box.max);
 
 
         /* ---------------------------------------------
@@ -232,15 +455,15 @@ loader.load(
         museum.position.sub(center);
 
 
-        /* ---------------------------------------------
-           RECALCULATE SIZE
-        --------------------------------------------- */
-
         const centeredBox =
-            new THREE.Box3().setFromObject(museum);
+            new THREE.Box3()
+                .setFromObject(museum);
 
         const centeredSize =
-            centeredBox.getSize(new THREE.Vector3());
+            centeredBox.getSize(
+                new THREE.Vector3()
+            );
+
 
         const maxDimension =
             Math.max(
@@ -251,29 +474,25 @@ loader.load(
 
 
         /* ---------------------------------------------
-           CAMERA POSITION
+           PLAYER START
         --------------------------------------------- */
 
-        const distance =
-            maxDimension * 1.2;
-
         camera.position.set(
-            distance,
-            distance * 0.55,
-            distance
-        );
-
-        controls.target.set(
             0,
-            centeredSize.y * 0.35,
-            0
+            player.height,
+            maxDimension * 0.35
         );
 
-        controls.update();
+
+        camera.rotation.order = "YXZ";
+
+        camera.rotation.y = Math.PI;
+
+        camera.rotation.x = 0;
 
 
         /* ---------------------------------------------
-           HIDE LOADING
+           FINISHED
         --------------------------------------------- */
 
         document.getElementById(
@@ -286,6 +505,7 @@ loader.load(
         );
 
     },
+
 
     function(xhr) {
 
@@ -305,6 +525,7 @@ loader.load(
 
     },
 
+
     function(error) {
 
         console.error(
@@ -315,16 +536,205 @@ loader.load(
         document.getElementById(
             "loading"
         ).textContent =
-            "ERROR loading museum.glb — check browser console.";
+            "ERROR loading museum.glb";
 
     }
 
 );
 
 
-/* =========================================================
+/* =====================================================
+   MOVEMENT
+===================================================== */
+
+const velocity =
+    new THREE.Vector3();
+
+const forward =
+    new THREE.Vector3();
+
+const right =
+    new THREE.Vector3();
+
+const desiredVelocity =
+    new THREE.Vector3();
+
+const movement =
+    new THREE.Vector3();
+
+
+function updateMovement(delta) {
+
+    movement.set(0, 0, 0);
+
+
+    if (keys.forward) {
+        movement.z -= 1;
+    }
+
+    if (keys.backward) {
+        movement.z += 1;
+    }
+
+    if (keys.left) {
+        movement.x -= 1;
+    }
+
+    if (keys.right) {
+        movement.x += 1;
+    }
+
+
+    if (movement.lengthSq() > 0) {
+        movement.normalize();
+    }
+
+
+    /* CAMERA FORWARD */
+
+    forward.set(
+        -Math.sin(yaw),
+        0,
+        -Math.cos(yaw)
+    );
+
+
+    /* CAMERA RIGHT */
+
+    right.set(
+        Math.cos(yaw),
+        0,
+        -Math.sin(yaw)
+    );
+
+
+    desiredVelocity.set(
+        0,
+        0,
+        0
+    );
+
+
+    desiredVelocity.addScaledVector(
+        forward,
+        -movement.z
+    );
+
+
+    desiredVelocity.addScaledVector(
+        right,
+        movement.x
+    );
+
+
+    const speed =
+        keys.run
+            ? player.runSpeed
+            : player.walkSpeed;
+
+
+    desiredVelocity.multiplyScalar(
+        speed
+    );
+
+
+    /* SMOOTH ACCELERATION */
+
+    const acceleration =
+        1 -
+        Math.exp(
+            -player.acceleration * delta
+        );
+
+
+    velocity.lerp(
+        desiredVelocity,
+        acceleration
+    );
+
+
+    /* FRICTION */
+
+    if (movement.lengthSq() === 0) {
+
+        velocity.multiplyScalar(
+            Math.exp(
+                -player.friction * delta
+            )
+        );
+
+    }
+
+
+    /* MOVE */
+
+    camera.position.addScaledVector(
+        velocity,
+        delta
+    );
+
+
+    /* KEEP EYE HEIGHT */
+
+    camera.position.y =
+        player.height;
+
+}
+
+
+/* =====================================================
+   CAMERA
+===================================================== */
+
+function updateCamera() {
+
+    camera.rotation.y = yaw;
+
+    camera.rotation.x = pitch;
+
+}
+
+
+/* =====================================================
+   GAME LOOP
+===================================================== */
+
+const clock =
+    new THREE.Clock();
+
+
+function animate() {
+
+    requestAnimationFrame(
+        animate
+    );
+
+    const delta =
+        Math.min(
+            clock.getDelta(),
+            0.05
+        );
+
+
+    updateMovement(delta);
+
+    updateCamera();
+
+
+    renderer.render(
+        scene,
+        camera
+    );
+
+}
+
+
+animate();
+
+
+/* =====================================================
    RESIZE
-========================================================= */
+===================================================== */
 
 window.addEventListener(
     "resize",
@@ -343,26 +753,6 @@ window.addEventListener(
 
     }
 );
-
-
-/* =========================================================
-   ANIMATION
-========================================================= */
-
-function animate() {
-
-    requestAnimationFrame(animate);
-
-    controls.update();
-
-    renderer.render(
-        scene,
-        camera
-    );
-
-}
-
-animate();
 
 </script>
 
