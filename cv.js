@@ -4,27 +4,27 @@
   const CV_EVENTS = [
     {
       year: "1999",
-      title: "Born in Mysore",
+      title: "Born in Mysuru, Karnataka, India",
       description: "The trajectory begins.",
     },
     {
-      year: "2015",
-      title: "10th Grade",
+      year: "April 2015",
+      title: "Grade 10, Sree Cauvery School, Mysuru",
       description: "87.52%",
     },
     {
-      year: "2017",
-      title: "Pre-University",
+      year: "March 2017",
+      title: "Pre-University, Marimallappa's College, Mysuru",
       description: "Physics · Chemistry · Mathematics · Electronics",
     },
     {
-      year: "2017",
+      year: "July 2017",
       title: "B.Sc Physics",
-      description: "Mathematics · Electronics",
+      description: "Physics - Mathematics - Electronics",
     },
     {
-      year: "2017",
-      title: "First semester failure",
+      year: "October 2017",
+      title: "First semester Physics failure",
       description: "",
     },
     {
