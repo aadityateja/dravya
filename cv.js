@@ -15,91 +15,46 @@
     {
       year: "March 2017",
       title: "Pre-University, Marimallappa's College, Mysuru",
-      description: "Physics · Chemistry · Mathematics · Electronics",
+      description: "Physics · Chemistry · Mathematics · Electronics [63%]",
     },
     {
-      year: "July 2017",
+      year: "July 2017 to December 2020",
       title: "B.Sc Physics",
-      description: "Physics - Mathematics - Electronics",
+      description: "Physics - Mathematics - Electronics [6.1 CGPA]",
     },
     {
-      year: "October 2017",
-      title: "First semester Physics failure",
-      description: "",
+      year: "October 2021 to August 2022",
+      title: "Technical Support - Linux Administration, Domain Registration, Web Hosting services ",
+      description: "GlowTouch Technologies Pvt. Ltd. [Diya Systems], Mysuru",
     },
     {
-      year: "2018",
-      title: "Part-time job",
-      description: "",
+      year: "June 2023 - June 2024",
+      title: "Technical Support, Advisor II",
+      description: "technically supported users working on Adobe Photoshop and Adobe Lightroom through calls, chats adn remote sessions.",
     },
     {
-      year: "2019",
-      title: "Left the job",
-      description: "",
-    },
-    {
-      year: "2020",
-      title: "B.Sc completed",
-      description: "",
-    },
-    {
-      year: "2023",
+      year: "September 2024 - August 2026",
       title: "M.Sc Physics",
+      description: "Specialization : Nuclear Physics and Technology",
+    },
+    {
+      year: "M.Sc Physics Thesis",
+      title: "Study of Neutron-Induced Hadronic Shower Development in a Zero Degree Calorimeter for the Electron-Ion Collider",
+      description: "Using Machine Learning Techniques",
+    },
+    {
+      year: "June 2026 - present ",
+      title: "Naxxatra Sciences and Collaborative Research",
+      description: "Reseach and Teaching Fellow",
+    },
+    {
+      year: "September 2, 2026",
+      title: "Created DRAVYA",
       description: "",
     },
     {
-      year: "2024",
-      title: "Quantum mechanics",
-      description: "Nuclear / particle physics",
-    },
-    {
-      year: "2025",
-      title: "Zero Degree Calorimeter research",
-      description: "",
-    },
-    {
-      year: "2025",
-      title: "Machine learning reconstruction",
-      description: "",
-    },
-    {
-      year: "2026",
-      title: "M.Sc Physics completed",
-      description: "",
-    },
-    {
-      year: "2026",
-      title: "Naxxatra Sciences",
-      description: "",
-    },
-    {
-      year: "2026",
-      title: "Science communication",
-      description: "",
-    },
-    {
-      year: "2026",
-      title: "DRAVYA",
-      description: "",
-    },
-    {
-      year: "2026",
-      title: "Music",
-      description: "",
-    },
-    {
-      year: "2026",
-      title: "Fiction",
-      description: "",
-    },
-    {
-      year: "2026",
-      title: "Research",
-      description: "",
-    },
-    {
-      year: "NOW",
-      title: "The trajectory continues",
+      year: "The trajectory hasn't stopped",
+      title: "time for the bigger picture!",
       description: "",
     },
   ];
@@ -483,7 +438,7 @@
       this.traveler = null;
       this.glowTexture = createGlowTexture();
 
-      this.totalStops = 21;
+      this.totalStops = CV_EVENTS.length + 1;
       this.currentStop = 0;
       this.isRevealed = false;
       this.isNavigating = false;
