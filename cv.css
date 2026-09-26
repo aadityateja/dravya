@@ -1,6 +1,6 @@
 @font-face {
   font-family: "SuperKeys";
-  src: url("assets/fonts/SuperKeys.ttf") format("truetype");
+  src: url("assets/fonts/Minecraft.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -126,6 +126,10 @@ select {
   font-size: 0.8rem;
   font-weight: 500;
   text-transform: uppercase;
+}
+
+.intro-kicker {
+  font-size: 1.5rem;
 }
 
 .intro h1 {
