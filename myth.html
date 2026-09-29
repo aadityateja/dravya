@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -8,15 +10,24 @@
 
 <style>
 
-@font-face {
-    font-family: SuperKeys;
-    src: url("assets/SuperKeys.ttf");
-}
+/* =========================================================
+   FONTS
+========================================================= */
 
 @font-face {
     font-family: Interdim;
     src: url("assets/INTERDIM.TTF");
 }
+
+@font-face {
+    font-family: SuperKeys;
+    src: url("assets/SuperKeys.ttf");
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
 
 * {
     box-sizing: border-box;
@@ -29,485 +40,839 @@ html {
 body {
     margin: 0;
     background: #000;
-    color: #f1f1f1;
-    font-family: Georgia, serif;
+    color: #eee;
     overflow-x: hidden;
 }
 
+
 /* =========================================================
-   BACKGROUND FIELD
-   ========================================================= */
+   PERMANENT DRAVYA FIELD
+========================================================= */
 
 #field {
     position: fixed;
     inset: 0;
-    z-index: -10;
+
+    width: 100vw;
+    height: 100vh;
+
+    z-index: 0;
+
     overflow: hidden;
+
+    pointer-events: none;
 }
 
 #field video {
+    position: absolute;
+
     width: 100%;
     height: 100%;
+
     object-fit: cover;
-    opacity: 0.35;
-    filter: brightness(0.55) contrast(1.1);
+
+    opacity: 0.42;
+
+    filter:
+        brightness(0.65)
+        contrast(1.15)
+        saturate(0.7);
 }
 
-.field-overlay {
+.field-darkness {
     position: absolute;
     inset: 0;
+
     background:
         radial-gradient(
-            circle at center,
-            rgba(0,0,0,0.15),
-            rgba(0,0,0,0.88)
+            ellipse at center,
+            rgba(0,0,0,0.05) 0%,
+            rgba(0,0,0,0.45) 55%,
+            rgba(0,0,0,0.92) 100%
         );
 }
 
 
 /* =========================================================
-   NAVIGATION
-   ========================================================= */
+   CONTENT LAYER
+========================================================= */
 
-nav {
+.page {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================================
+   NAV
+========================================================= */
+
+.nav {
     position: fixed;
+
     top: 0;
     left: 0;
+
     width: 100%;
-    padding: 25px 35px;
+
+    padding: 26px 32px;
 
     display: flex;
     justify-content: space-between;
-    align-items: center;
 
-    z-index: 100;
+    z-index: 20;
 
-    background: linear-gradient(
-        rgba(0,0,0,0.65),
-        transparent
-    );
+    mix-blend-mode: normal;
+
+    pointer-events: none;
 }
 
 .logo {
     font-family: Interdim, sans-serif;
-    font-size: 22px;
-    letter-spacing: 5px;
-}
 
-.nav-right {
-    font-family: monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    opacity: 0.55;
-}
+    font-size: 18px;
 
-
-/* =========================================================
-   GENERAL
-   ========================================================= */
-
-section {
-    position: relative;
-    min-height: 100vh;
-    padding: 140px 10vw;
-}
-
-.section-label {
-    font-family: monospace;
-    font-size: 11px;
-    letter-spacing: 5px;
-    opacity: 0.45;
-    margin-bottom: 50px;
-}
-
-
-/* =========================================================
-   INTRO
-   ========================================================= */
-
-#intro {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.intro-small {
-    font-family: monospace;
-    font-size: 11px;
     letter-spacing: 7px;
-    opacity: 0.5;
-    margin-bottom: 30px;
 }
 
-.intro-title {
-    font-family: Interdim, sans-serif;
-    font-size: clamp(60px, 12vw, 180px);
-    letter-spacing: 12px;
-    font-weight: normal;
-    margin: 0;
-}
-
-.intro-subtitle {
-    margin-top: 30px;
+.nav-title {
     font-family: monospace;
-    font-size: 12px;
-    letter-spacing: 5px;
-    opacity: 0.45;
-}
 
+    font-size: 9px;
 
-/* =========================================================
-   STORY
-   ========================================================= */
-
-#story {
-    max-width: 1100px;
-    margin: auto;
-}
-
-.story-container {
-    max-width: 850px;
-    margin: auto;
-}
-
-.story-title {
-    font-family: Interdim, sans-serif;
-    font-size: clamp(45px, 7vw, 100px);
-    font-weight: normal;
     letter-spacing: 4px;
-    margin-bottom: 80px;
-}
 
-.story-text {
-    font-size: clamp(21px, 2vw, 29px);
-    line-height: 1.9;
-    letter-spacing: 0.2px;
-}
-
-.story-text p {
-    margin-bottom: 55px;
-}
-
-.story-emphasis {
-    text-align: center;
-    font-family: Georgia, serif;
-    font-style: italic;
-    font-size: clamp(27px, 4vw, 55px);
-    line-height: 1.4;
-    margin: 120px 0;
-}
-
-.story-final {
-    text-align: center;
-    margin-top: 150px;
-}
-
-.story-final .question {
-    font-family: monospace;
-    letter-spacing: 4px;
-    font-size: 11px;
-    opacity: 0.45;
-}
-
-.story-final .answer {
-    margin-top: 30px;
-    font-size: clamp(35px, 6vw, 80px);
-    font-style: italic;
-}
-
-
-/* =========================================================
-   INTERPRETATION
-   ========================================================= */
-
-#interpretation {
-    background:
-        linear-gradient(
-            rgba(0,0,0,0.35),
-            rgba(0,0,0,0.8)
-        );
-}
-
-.interpretation-container {
-    max-width: 900px;
-    margin: auto;
-}
-
-.interpretation-title {
-    font-family: Interdim, sans-serif;
-    font-size: clamp(45px, 8vw, 110px);
-    font-weight: normal;
-    letter-spacing: 5px;
-}
-
-.interpretation-text {
-    font-size: clamp(19px, 1.8vw, 26px);
-    line-height: 1.9;
-    opacity: 0.9;
-}
-
-.interpretation-text p {
-    margin-bottom: 45px;
-}
-
-.interpretation-highlight {
-    border-left: 1px solid rgba(255,255,255,0.4);
-    padding-left: 30px;
-    margin: 70px 0;
-    font-size: clamp(24px, 3vw, 42px);
-    line-height: 1.5;
-}
-
-.open-question {
-    margin-top: 120px;
-    text-align: center;
-}
-
-.open-question .label {
-    font-family: monospace;
-    font-size: 10px;
-    letter-spacing: 5px;
-    opacity: 0.45;
-}
-
-.open-question h2 {
-    font-family: Georgia, serif;
-    font-weight: normal;
-    font-style: italic;
-    font-size: clamp(30px, 5vw, 65px);
-}
-
-
-/* =========================================================
-   OBJECTS
-   ========================================================= */
-
-#objects {
-    min-height: 120vh;
-}
-
-.objects-title {
-    font-family: Interdim, sans-serif;
-    font-size: clamp(50px, 9vw, 130px);
-    font-weight: normal;
-    letter-spacing: 5px;
-}
-
-.objects-intro {
-    max-width: 600px;
-    font-family: monospace;
-    line-height: 1.8;
-    opacity: 0.5;
-}
-
-
-/* 3D stage */
-
-.object-stage {
-    position: relative;
-
-    width: 100%;
-    height: 650px;
-
-    margin-top: 80px;
-
-    border-top: 1px solid rgba(255,255,255,0.08);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    overflow: hidden;
-}
-
-.object-stage::before {
-    content: "";
-
-    position: absolute;
-    width: 500px;
-    height: 500px;
-
-    border-radius: 50%;
-
-    background: radial-gradient(
-        circle,
-        rgba(255,255,255,0.08),
-        transparent 70%
-    );
-
-    filter: blur(20px);
-}
-
-.object-placeholder {
-    position: relative;
-    text-align: center;
-    z-index: 2;
-}
-
-.object-placeholder .symbol {
-    font-size: 100px;
-    opacity: 0.15;
-}
-
-.object-placeholder p {
-    font-family: monospace;
-    letter-spacing: 4px;
-    font-size: 10px;
-    opacity: 0.35;
-}
-
-
-/* =========================================================
-   PHYSICS
-   ========================================================= */
-
-#physics {
-    background:
-        linear-gradient(
-            rgba(0,0,0,0.8),
-            rgba(0,0,0,0.95)
-        );
-}
-
-.physics-container {
-    max-width: 1100px;
-    margin: auto;
-}
-
-.physics-title {
-    font-family: Interdim, sans-serif;
-    font-size: clamp(50px, 9vw, 130px);
-    font-weight: normal;
-}
-
-.physics-intro {
-    max-width: 750px;
-    font-size: 24px;
-    line-height: 1.8;
-    opacity: 0.8;
-    margin-bottom: 100px;
-}
-
-
-/* Physics cards */
-
-.physics-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(auto-fit, minmax(280px, 1fr));
-
-    gap: 2px;
-}
-
-.physics-card {
-    min-height: 300px;
-
-    padding: 35px;
-
-    background: rgba(255,255,255,0.025);
-
-    border: 1px solid rgba(255,255,255,0.07);
-
-    transition:
-        background 0.4s,
-        transform 0.4s;
-}
-
-.physics-card:hover {
-    background: rgba(255,255,255,0.06);
-    transform: translateY(-5px);
-}
-
-.physics-number {
-    font-family: monospace;
-    font-size: 10px;
-    letter-spacing: 4px;
-    opacity: 0.35;
-}
-
-.physics-card h3 {
-    font-size: 32px;
-    font-weight: normal;
-    margin-top: 45px;
-}
-
-.physics-card p {
-    line-height: 1.8;
-    opacity: 0.65;
-}
-
-
-/* =========================================================
-   CLOSING
-   ========================================================= */
-
-#closing {
-    min-height: 80vh;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    text-align: center;
-}
-
-.closing-title {
-    font-family: Interdim, sans-serif;
-    font-size: clamp(60px, 12vw, 170px);
-    letter-spacing: 15px;
-}
-
-.closing-subtitle {
-    font-family: monospace;
-    letter-spacing: 5px;
-    font-size: 11px;
     opacity: 0.4;
 }
 
 
 /* =========================================================
+   INTRO
+========================================================= */
+
+.intro {
+
+    height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    position: relative;
+}
+
+.intro-inner {
+    transform: translateY(-3vh);
+}
+
+.intro-overline {
+
+    font-family: monospace;
+
+    font-size: 10px;
+
+    letter-spacing: 8px;
+
+    opacity: 0.4;
+
+    margin-bottom: 35px;
+}
+
+.intro h1 {
+
+    margin: 0;
+
+    font-family: Interdim, sans-serif;
+
+    font-weight: normal;
+
+    font-size: clamp(65px, 14vw, 190px);
+
+    letter-spacing: 14px;
+
+    line-height: 0.8;
+}
+
+.intro-sub {
+
+    margin-top: 45px;
+
+    font-family: Georgia, serif;
+
+    font-style: italic;
+
+    font-size: clamp(18px, 2vw, 25px);
+
+    opacity: 0.55;
+}
+
+.scroll-note {
+
+    position: absolute;
+
+    bottom: 35px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    font-family: monospace;
+
+    font-size: 9px;
+
+    letter-spacing: 5px;
+
+    opacity: 0.3;
+}
+
+
+/* =========================================================
+   STORY
+========================================================= */
+
+.story {
+
+    min-height: 100vh;
+
+    padding: 18vh 8vw 20vh;
+
+}
+
+.story-inner {
+
+    max-width: 820px;
+
+    margin: auto;
+
+}
+
+.chapter {
+
+    font-family: monospace;
+
+    font-size: 9px;
+
+    letter-spacing: 5px;
+
+    opacity: 0.3;
+
+    margin-bottom: 55px;
+}
+
+.story-heading {
+
+    font-family: Interdim, sans-serif;
+
+    font-size: clamp(45px, 8vw, 105px);
+
+    font-weight: normal;
+
+    letter-spacing: 3px;
+
+    line-height: 0.95;
+
+    margin: 0 0 100px;
+}
+
+
+/* =========================================================
+   STORY TEXT
+========================================================= */
+
+.story-body {
+
+    font-family: Georgia, serif;
+
+    font-size: clamp(20px, 2vw, 27px);
+
+    line-height: 1.95;
+
+    color: rgba(255,255,255,0.88);
+}
+
+.story-body p {
+
+    margin: 0 0 55px;
+}
+
+
+/* Cinematic pauses */
+
+.pause {
+
+    height: 16vh;
+}
+
+.small-pause {
+
+    height: 7vh;
+}
+
+
+/* Dialogue */
+
+.dialogue {
+
+    margin: 80px 0;
+
+    padding-left: 30px;
+
+    border-left: 1px solid rgba(255,255,255,0.2);
+
+    font-size: clamp(22px, 2.5vw, 34px);
+
+    font-style: italic;
+}
+
+
+/* Major line */
+
+.major-line {
+
+    margin: 120px 0;
+
+    text-align: center;
+
+    font-family: Georgia, serif;
+
+    font-size: clamp(30px, 5vw, 65px);
+
+    line-height: 1.35;
+
+    font-style: italic;
+}
+
+
+/* Arjuna */
+
+.arjuna {
+
+    text-align: center;
+
+    margin: 150px 0;
+}
+
+.arjuna .question {
+
+    font-family: monospace;
+
+    font-size: 10px;
+
+    letter-spacing: 5px;
+
+    opacity: 0.35;
+
+    margin-bottom: 35px;
+}
+
+.arjuna .answer {
+
+    font-family: Georgia, serif;
+
+    font-size: clamp(30px, 5vw, 70px);
+
+    line-height: 1.25;
+
+    font-style: italic;
+}
+
+
+/* Arrow ending */
+
+.arrow-moment {
+
+    text-align: center;
+
+    margin: 150px 0 80px;
+}
+
+.arrow-symbol {
+
+    font-size: 55px;
+
+    opacity: 0.3;
+
+    animation: drift 3s ease-in-out infinite;
+}
+
+@keyframes drift {
+
+    0%,100% {
+        transform: translateX(-15px);
+    }
+
+    50% {
+        transform: translateX(15px);
+    }
+}
+
+
+/* =========================================================
+   STORY END
+========================================================= */
+
+.story-end {
+
+    text-align: center;
+
+    padding: 120px 0 60px;
+}
+
+.story-end-line {
+
+    width: 1px;
+
+    height: 100px;
+
+    background: rgba(255,255,255,0.2);
+
+    margin: auto auto 35px;
+}
+
+
+/* =========================================================
+   INTERPRETATION
+========================================================= */
+
+.interpretation {
+
+    min-height: 100vh;
+
+    padding: 20vh 8vw;
+
+    position: relative;
+}
+
+.interpretation-inner {
+
+    max-width: 850px;
+
+    margin: auto;
+}
+
+.interpretation-heading {
+
+    font-family: Interdim, sans-serif;
+
+    font-weight: normal;
+
+    font-size: clamp(45px, 8vw, 110px);
+
+    letter-spacing: 4px;
+
+    line-height: 0.9;
+
+    margin-bottom: 100px;
+}
+
+.interpretation-body {
+
+    font-family: Georgia, serif;
+
+    font-size: clamp(20px, 2vw, 27px);
+
+    line-height: 1.9;
+
+    color: rgba(255,255,255,0.8);
+}
+
+.interpretation-body p {
+
+    margin-bottom: 55px;
+}
+
+
+/* Interpretation mapping */
+
+.mapping {
+
+    margin: 110px 0;
+
+    font-family: monospace;
+
+    font-size: 12px;
+
+    line-height: 2.5;
+
+    letter-spacing: 1px;
+
+    opacity: 0.65;
+}
+
+.mapping span {
+
+    display: block;
+}
+
+
+/* Open question */
+
+.open-question {
+
+    margin-top: 150px;
+
+    text-align: center;
+}
+
+.open-question-label {
+
+    font-family: monospace;
+
+    font-size: 9px;
+
+    letter-spacing: 6px;
+
+    opacity: 0.3;
+
+    margin-bottom: 30px;
+}
+
+.open-question-text {
+
+    font-family: Georgia, serif;
+
+    font-style: italic;
+
+    font-size: clamp(28px, 4vw, 55px);
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   OBJECT FIELD
+========================================================= */
+
+.objects {
+
+    min-height: 130vh;
+
+    padding: 18vh 5vw;
+
+}
+
+.objects-header {
+
+    max-width: 1000px;
+
+    margin: auto;
+}
+
+.objects-label {
+
+    font-family: monospace;
+
+    font-size: 9px;
+
+    letter-spacing: 6px;
+
+    opacity: 0.3;
+}
+
+.objects-heading {
+
+    font-family: Interdim, sans-serif;
+
+    font-weight: normal;
+
+    font-size: clamp(55px, 10vw, 140px);
+
+    letter-spacing: 4px;
+
+    margin: 35px 0 20px;
+}
+
+.objects-description {
+
+    max-width: 500px;
+
+    font-family: monospace;
+
+    font-size: 11px;
+
+    line-height: 1.8;
+
+    opacity: 0.4;
+}
+
+
+/* =========================================================
+   3D OBJECT STAGE
+========================================================= */
+
+.object-stage {
+
+    position: relative;
+
+    height: 650px;
+
+    margin-top: 80px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+
+/* Glow */
+
+.object-stage::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.09),
+            transparent 70%
+        );
+
+    filter: blur(20px);
+}
+
+
+/* Future object markers */
+
+.future-object {
+
+    position: absolute;
+
+    font-family: monospace;
+
+    font-size: 9px;
+
+    letter-spacing: 4px;
+
+    opacity: 0.22;
+}
+
+.future-object.bow {
+
+    left: 15%;
+    top: 35%;
+}
+
+.future-object.arrow {
+
+    right: 15%;
+    bottom: 35%;
+}
+
+.object-center {
+
+    position: relative;
+
+    font-family: monospace;
+
+    font-size: 10px;
+
+    letter-spacing: 6px;
+
+    opacity: 0.25;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   PHYSICS
+========================================================= */
+
+.physics {
+
+    min-height: 100vh;
+
+    padding: 20vh 8vw;
+}
+
+.physics-inner {
+
+    max-width: 1000px;
+
+    margin: auto;
+}
+
+.physics-label {
+
+    font-family: monospace;
+
+    font-size: 9px;
+
+    letter-spacing: 6px;
+
+    opacity: 0.3;
+}
+
+.physics-heading {
+
+    font-family: Interdim, sans-serif;
+
+    font-size: clamp(55px, 10vw, 135px);
+
+    font-weight: normal;
+
+    letter-spacing: 4px;
+
+    margin: 35px 0 100px;
+}
+
+
+/* Physics concepts */
+
+.physics-item {
+
+    display: grid;
+
+    grid-template-columns: 100px 1fr;
+
+    gap: 30px;
+
+    padding: 55px 0;
+
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.physics-number {
+
+    font-family: monospace;
+
+    font-size: 10px;
+
+    opacity: 0.3;
+}
+
+.physics-content h3 {
+
+    font-family: Georgia, serif;
+
+    font-size: 34px;
+
+    font-weight: normal;
+
+    margin: 0 0 20px;
+}
+
+.physics-content p {
+
+    font-family: Georgia, serif;
+
+    font-size: 20px;
+
+    line-height: 1.8;
+
+    opacity: 0.65;
+
+    max-width: 650px;
+
+    margin: 0;
+}
+
+
+/* =========================================================
+   END
+========================================================= */
+
+.end {
+
+    min-height: 80vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+}
+
+.end-title {
+
+    font-family: Interdim, sans-serif;
+
+    font-size: clamp(70px, 15vw, 190px);
+
+    letter-spacing: 15px;
+}
+
+.end-sub {
+
+    font-family: monospace;
+
+    font-size: 9px;
+
+    letter-spacing: 6px;
+
+    opacity: 0.3;
+
+    margin-top: 30px;
+}
+
+
+/* =========================================================
    MOBILE
-   ========================================================= */
+========================================================= */
 
 @media(max-width:700px) {
 
-    nav {
+    .nav {
         padding: 20px;
     }
 
-    .nav-right {
+    .nav-title {
         display: none;
     }
 
-    section {
-        padding: 120px 25px;
+    .story,
+    .interpretation,
+    .physics {
+        padding-left: 25px;
+        padding-right: 25px;
     }
 
-    .story-text {
+    .story-heading {
+        margin-bottom: 70px;
+    }
+
+    .story-body {
         font-size: 20px;
-        line-height: 1.8;
+        line-height: 1.85;
     }
 
     .object-stage {
         height: 500px;
     }
 
+    .physics-item {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
 }
 
 </style>
+
 </head>
 
 
 <body>
 
 
-<!-- ======================================================
-     BACKGROUND
-====================================================== -->
+<!-- =====================================================
+     THE DRAVYA FIELD
+===================================================== -->
 
 <div id="field">
 
@@ -516,74 +881,93 @@ section {
         muted
         loop
         playsinline
+        preload="auto"
     >
+
         <source
             src="assets/dravya_vacuum_fluctuation_10s.mp4"
             type="video/mp4"
         >
+
     </video>
 
-    <div class="field-overlay"></div>
+    <div class="field-darkness"></div>
 
 </div>
 
 
-<!-- ======================================================
-     NAV
-====================================================== -->
 
-<nav>
+<!-- =====================================================
+     NAV
+===================================================== -->
+
+<div class="nav">
 
     <div class="logo">
         DRAVYA
     </div>
 
-    <div class="nav-right">
+    <div class="nav-title">
         THE EYE OF THE BIRD
     </div>
 
-</nav>
+</div>
 
 
-<!-- ======================================================
+
+<div class="page">
+
+
+<!-- =====================================================
      INTRO
-====================================================== -->
+===================================================== -->
 
-<section id="intro">
+<section class="intro">
 
-    <div class="intro-small">
-        A DRAVYA EXPERIENCE
+    <div class="intro-inner">
+
+        <div class="intro-overline">
+            A STORY
+        </div>
+
+        <h1>
+            THE EYE
+        </h1>
+
+        <div class="intro-sub">
+            of the bird
+        </div>
+
     </div>
 
-    <h1 class="intro-title">
-        THE EYE
-    </h1>
-
-    <div class="intro-subtitle">
-        A STORY OF FOCUS
+    <div class="scroll-note">
+        ENTER THE STORY ↓
     </div>
 
 </section>
 
 
-<!-- ======================================================
+
+<!-- =====================================================
      STORY
-====================================================== -->
+===================================================== -->
 
-<section id="story">
+<section class="story">
 
-<div class="story-container">
+<div class="story-inner">
 
-    <div class="section-label">
-        01 — STORY
+    <div class="chapter">
+        THE STORY
     </div>
 
-    <h2 class="story-title">
-        THE EYE OF THE BIRD
+    <h2 class="story-heading">
+        THE EYE<br>
+        OF THE BIRD
     </h2>
 
 
-    <div class="story-text">
+    <div class="story-body">
+
 
         <p>
         The forenoon breeze moved gently through the great
@@ -591,22 +975,27 @@ section {
         </p>
 
         <p>
-        Somewhere between the rustling leaves and distant
-        birdsong, arrows were already flying.
+        Somewhere among the rustling leaves, arrows were
+        already flying.
         </p>
 
         <p>
-        The archery lesson had begun.
+        The archery class was underway under the watchful
+        eye of Acharya Drona.
+        </p>
+
+
+        <div class="pause"></div>
+
+
+        <p>
+        Drona, a masterful teacher, trained the young
+        Pandavas and Kauravas each day with discipline
+        and rigour.
         </p>
 
         <p>
-        Under the watchful eye of Acharya Drona, the young
-        Pandavas and Kauravas had been training with
-        discipline and rigour.
-        </p>
-
-        <p>
-        Today's task was simple.
+        Today's objective was simple.
         </p>
 
         <p>
@@ -614,86 +1003,114 @@ section {
         </p>
 
         <p>
-        They had to hit it.
+        Hit it.
         </p>
+
+
+        <div class="small-pause"></div>
 
 
         <p>
-        Drona watched as the young students took their
-        positions, learning the posture, the grip, the
-        tension of the bow and the discipline required
-        before an arrow could ever be released.
+        The young students took their positions.
         </p>
 
         <p>
-        Slowly, the Sun climbed above the horizon.
+        They learned the posture, the grip, the tension
+        of the bow and the discipline required before
+        an arrow could ever be released.
         </p>
+
+        <p>
+        The morning slowly brightened over Hastinapur.
+        </p>
+
+
+        <div class="pause"></div>
 
 
         <p>
         Yudhishthira stood first.
         </p>
 
-        <p>
-        Drona asked him,
-        <em>
-        "What do you see?"
-        </em>
-        </p>
+        <div class="dialogue">
+
+            "What do you see?"
+
+        </div>
+
+        <div class="dialogue">
+
+            "I can see you, Acharya. I can see my brothers,
+            the trees and the birds. I am waiting for the
+            right moment to aim."
+
+        </div>
 
         <p>
-        "I can see you, Acharya. I can see my brothers,
-        the trees and the birds. I am waiting for the
-        right moment to aim."
+        Drona nodded.
         </p>
 
-        <p>
-        Drona simply nodded.
-        </p>
+
+        <div class="small-pause"></div>
 
 
         <p>
-        Then came Duryodhana.
+        Then Duryodhana stepped forward.
         </p>
 
-        <p>
-        "Acharya, I can see the whole forest."
-        </p>
+        <div class="dialogue">
+
+            "Acharya, I can see the whole forest."
+
+        </div>
 
         <p>
         Drona knew.
         </p>
 
 
-        <p>
-        Nakula stepped forward.
-        </p>
+        <div class="small-pause"></div>
+
 
         <p>
-        "I can see the bird upon the branch."
+        Nakula came next.
         </p>
+
+        <div class="dialogue">
+
+            "I can see the bird upon the branch."
+
+        </div>
 
         <p>
         Drona smiled.
         </p>
 
 
+        <div class="small-pause"></div>
+
+
         <p>
-        Then came Bhima.
+        Finally came Bhima.
         </p>
 
         <p>
         He looked toward the tree.
         </p>
 
-        <p>
-        "I can see that apple over there."
-        </p>
+        <div class="dialogue">
+
+            "I can see the apple over there."
+
+        </div>
 
         <p>
-        For a moment, the Gurukul felt a little less
-        serious.
+        For a moment, the seriousness of the lesson
+        disappeared.
         </p>
+
+
+        <div class="pause"></div>
 
 
         <p>
@@ -701,19 +1118,15 @@ section {
         </p>
 
         <p>
-        Arjuna stood still.
+        Arjuna was still as thunder.
         </p>
 
         <p>
-        No movement.
+        His eyes were fixed.
         </p>
 
         <p>
-        No distraction.
-        </p>
-
-        <p>
-        His eyes were fixed upon the target.
+        There was no sign of movement.
         </p>
 
         <p>
@@ -721,11 +1134,15 @@ section {
         </p>
 
 
-        <div class="story-emphasis">
+        <div class="arjuna">
 
-            Drona asked,
-            <br><br>
-            "What do you see?"
+            <div class="question">
+                DRONA ASKED
+            </div>
+
+            <div class="answer">
+                "What do you see?"
+            </div>
 
         </div>
 
@@ -735,27 +1152,44 @@ section {
         </p>
 
         <p>
-        His eyes remained fixed.
+        Arjuna did not move.
         </p>
 
-        <div class="story-emphasis">
+        <p>
+        His eyes remained fixed upon the target.
+        </p>
 
-            "I see nothing but the eye of the bird."
+
+        <div class="arjuna">
+
+            <div class="answer">
+                "I see nothing but<br>
+                the eye of the bird."
+            </div>
 
         </div>
 
 
         <p>
-        Drona smiled.
+        Drona's eyes lit up.
         </p>
 
-        <p>
-        "Marvelous."
-        </p>
+        <div class="dialogue">
 
-        <p>
-        "Go for it!"
-        </p>
+            "Marvelous."
+            <br><br>
+            "Go for it!"
+
+        </div>
+
+
+        <div class="arrow-moment">
+
+            <div class="arrow-symbol">
+                →
+            </div>
+
+        </div>
 
 
         <p>
@@ -763,8 +1197,8 @@ section {
         </p>
 
         <p>
-        For a fraction of a second, everything seemed to
-        freeze.
+        For a fraction of a second, everything seemed
+        to freeze.
         </p>
 
         <p>
@@ -772,8 +1206,11 @@ section {
         </p>
 
         <p>
-        And struck its eye.
+        And struck its eye perfectly.
         </p>
+
+
+        <div class="pause"></div>
 
 
         <p>
@@ -784,17 +1221,16 @@ section {
         He looked toward his teacher and smiled like a child.
         </p>
 
+
     </div>
 
 
-    <div class="story-final">
+    <div class="story-end">
 
-        <div class="question">
-            THE STORY ENDS.
-        </div>
+        <div class="story-end-line"></div>
 
-        <div class="answer">
-            But the question remains.
+        <div class="chapter">
+            THE STORY ENDS HERE.
         </div>
 
     </div>
@@ -804,61 +1240,86 @@ section {
 </section>
 
 
-<!-- ======================================================
+
+<!-- =====================================================
      INTERPRETATION
-====================================================== -->
+===================================================== -->
 
-<section id="interpretation">
+<section class="interpretation">
 
-<div class="interpretation-container">
+<div class="interpretation-inner">
 
-    <div class="section-label">
-        02 — INTERPRETATION
+    <div class="chapter">
+        INTERPRETATION
     </div>
 
-    <h2 class="interpretation-title">
-        WHAT DOES IT MEAN?
+    <h2 class="interpretation-heading">
+        WHAT LIES<br>
+        BENEATH?
     </h2>
 
 
-    <div class="interpretation-text">
+    <div class="interpretation-body">
 
         <p>
         Although we never know if this event really occurred
-        somewhere in the past on this planet, what matters
-        is the deeper meaning hidden inside the story.
+        somewhere in the past on this planet, what is important
+        is the deeper meaning hidden within the story.
         </p>
 
         <p>
-        This story speaks about focus.
+        It speaks of focus.
         </p>
 
         <p>
-        About the ability to exclude everything that does
-        not matter and identify exactly what does.
+        Of excluding everything that does not matter and
+        identifying exactly what does.
         </p>
 
-        <div class="interpretation-highlight">
 
-            The bird represents a goal.
-            <br><br>
-            The eye represents the definition of that goal.
-            <br><br>
-            The forest, the breeze, the trees and everything
-            surrounding it represent distraction.
+        <div class="mapping">
+
+            <span>THE BIRD → THE GOAL</span>
+
+            <span>THE EYE → THE DEFINITION OF THE GOAL</span>
+
+            <span>THE FOREST → THE DISTRACTIONS</span>
+
+            <span>THE BREEZE → EVERYTHING THAT MOVES AROUND US</span>
+
+            <span>DRONA → THE INNER CRITIC</span>
+
+            <span>ARJUNA → YOU</span>
 
         </div>
+
+
+        <p>
+        The bird represents a goal.
+        </p>
+
+        <p>
+        But the bird's eye is more than a goal.
+        It is the precise definition of that goal.
+        </p>
+
+        <p>
+        The forest, the breeze, the trees and everything
+        surrounding it become distractions.
+        </p>
 
         <p>
         Drona becomes the inner critic — the voice that
         asks the question:
         </p>
 
-        <div class="interpretation-highlight">
+
+        <div class="major-line">
 
             What exactly are you looking at?
 
         </div>
+
 
         <p>
         And Arjuna becomes you.
@@ -875,13 +1336,16 @@ section {
 
     <div class="open-question">
 
-        <div class="label">
+        <div class="open-question-label">
             AN OPEN QUESTION
         </div>
 
-        <h2>
-            What do the bow and arrow represent?
-        </h2>
+        <div class="open-question-text">
+
+            What do the bow<br>
+            and arrow represent?
+
+        </div>
 
     </div>
 
@@ -890,52 +1354,48 @@ section {
 </section>
 
 
-<!-- ======================================================
+
+<!-- =====================================================
      OBJECTS
-====================================================== -->
+===================================================== -->
 
-<section id="objects">
+<section class="objects">
 
-<div class="section-label">
-    03 — OBJECTS
+<div class="objects-header">
+
+    <div class="objects-label">
+        THE OBJECTS
+    </div>
+
+    <h2 class="objects-heading">
+        BOW & ARROW
+    </h2>
+
+    <div class="objects-description">
+        Two objects extracted from the story.
+        Soon, they will exist here as physical forms.
+    </div>
+
 </div>
-
-<h2 class="objects-title">
-    THE BOW &amp; ARROW
-</h2>
-
-<p class="objects-intro">
-    Objects extracted from the story.
-    <br>
-    Soon, they will exist here as physical forms.
-</p>
 
 
 <div class="object-stage">
 
-    <!--
-        THIS IS WHERE THE BLENDER MODELS WILL GO.
+    <div class="future-object bow">
+        BOW
+    </div>
 
-        Later:
+    <div class="future-object arrow">
+        ARROW
+    </div>
 
-        <model-viewer>
-        OR
-        Three.js
-        OR
-        custom WebGL
+    <div class="object-center">
 
-        Bow + Arrow will float here.
-    -->
+        THE OBJECT FIELD
 
-    <div class="object-placeholder">
+        <br><br>
 
-        <div class="symbol">
-            ⟶
-        </div>
-
-        <p>
-            OBJECT FIELD / BOW + ARROW
-        </p>
+        3D OBJECTS WILL EXIST HERE
 
     </div>
 
@@ -944,171 +1404,223 @@ section {
 </section>
 
 
-<!-- ======================================================
+
+<!-- =====================================================
      PHYSICS
-====================================================== -->
+===================================================== -->
 
-<section id="physics">
+<section class="physics">
 
-<div class="physics-container">
+<div class="physics-inner">
 
-    <div class="section-label">
-        04 — PHYSICS
+    <div class="physics-label">
+        PHYSICS
     </div>
 
-    <h2 class="physics-title">
-        THE PHYSICS
+    <h2 class="physics-heading">
+        THE BOW<br>
+        & THE ARROW
     </h2>
 
-    <p class="physics-intro">
-        What appears to be a simple bow and arrow is actually
-        a system of energy, deformation, motion, vibration
-        and material behaviour.
-    </p>
 
+    <div class="physics-item">
 
-    <div class="physics-grid">
+        <div class="physics-number">
+            01
+        </div>
 
-
-        <div class="physics-card">
-
-            <div class="physics-number">
-                01
-            </div>
+        <div class="physics-content">
 
             <h3>
                 Energy
             </h3>
 
             <p>
-                Work done while drawing the bow is stored
-                temporarily as elastic potential energy.
-                When the string is released, that stored
-                energy begins its transformation into motion.
+                Drawing the bow requires work. That energy
+                becomes stored within the deformed bow and
+                string, waiting to be released.
             </p>
 
         </div>
 
+    </div>
 
-        <div class="physics-card">
 
-            <div class="physics-number">
-                02
-            </div>
+    <div class="physics-item">
+
+        <div class="physics-number">
+            02
+        </div>
+
+        <div class="physics-content">
 
             <h3>
                 Elasticity
             </h3>
 
             <p>
-                The bow bends when force is applied.
-                Its material and geometry determine how it
-                stores and releases mechanical energy.
+                The bow bends under force and attempts to
+                return toward its original shape. Its geometry
+                and material determine how it stores and
+                releases mechanical energy.
             </p>
 
         </div>
 
+    </div>
 
-        <div class="physics-card">
 
-            <div class="physics-number">
-                03
-            </div>
+    <div class="physics-item">
+
+        <div class="physics-number">
+            03
+        </div>
+
+        <div class="physics-content">
 
             <h3>
                 Motion
             </h3>
 
             <p>
-                Once released, the arrow accelerates and
-                carries kinetic energy through its trajectory.
+                When the string is released, energy is
+                transferred to the arrow, accelerating it
+                along its trajectory.
             </p>
 
         </div>
 
+    </div>
 
-        <div class="physics-card">
 
-            <div class="physics-number">
-                04
-            </div>
+    <div class="physics-item">
+
+        <div class="physics-number">
+            04
+        </div>
+
+        <div class="physics-content">
 
             <h3>
                 Vibration
             </h3>
 
             <p>
-                The release does not end the motion.
-                The string and bow continue to oscillate,
-                redistributing energy through the system.
+                The release does not bring the entire system
+                to rest. The string and bow continue to
+                oscillate, while energy is distributed through
+                motion, sound and deformation.
             </p>
 
         </div>
 
+    </div>
 
-        <div class="physics-card">
 
-            <div class="physics-number">
-                05
-            </div>
+    <div class="physics-item">
+
+        <div class="physics-number">
+            05
+        </div>
+
+        <div class="physics-content">
 
             <h3>
                 Materials
             </h3>
 
             <p>
-                Wood, fibres, composites and metals behave
-                differently under stress and deformation.
-                The material is part of the physics.
+                The behaviour of a bow depends strongly on
+                the materials from which it is made. Strength,
+                stiffness, elasticity and internal structure
+                all influence its performance.
             </p>
 
         </div>
 
+    </div>
 
-        <div class="physics-card">
 
-            <div class="physics-number">
-                06
-            </div>
+    <div class="physics-item">
+
+        <div class="physics-number">
+            06
+        </div>
+
+        <div class="physics-content">
 
             <h3>
                 The Arrow
             </h3>
 
             <p>
-                Mass, shape, aerodynamic stability and
-                momentum all influence the flight of the arrow.
+                The arrow's mass, geometry, aerodynamic
+                stability and interaction with the surrounding
+                air determine how it travels through space.
             </p>
 
         </div>
 
-
     </div>
+
 
 </div>
 
 </section>
 
 
-<!-- ======================================================
-     CLOSING
-====================================================== -->
 
-<section id="closing">
+<!-- =====================================================
+     END
+===================================================== -->
 
-<div>
+<section class="end">
 
-    <div class="closing-title">
-        DRAVYA
+    <div>
+
+        <div class="end-title">
+            DRAVYA
+        </div>
+
+        <div class="end-sub">
+            OBSERVE · DISTURB · CREATE
+        </div>
+
     </div>
 
-    <div class="closing-subtitle">
-        OBSERVE · DISTURB · CREATE
-    </div>
+</section>
+
 
 </div>
 
-</section>
+
+<!-- =====================================================
+     VIDEO DEBUG / AUTOPLAY
+===================================================== -->
+
+<script>
+
+const video = document.querySelector("#field video");
+
+video.addEventListener("error", () => {
+
+    console.log(
+        "DRAVYA FIELD VIDEO ERROR:",
+        video.error
+    );
+
+});
+
+video.play().catch(error => {
+
+    console.log(
+        "Autoplay prevented:",
+        error
+    );
+
+});
+
+</script>
 
 
 </body>
