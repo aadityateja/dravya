@@ -1,19 +1,38 @@
+Here is the completely redesigned **`index.html`** based on all your feedback:
+
+### What was updated:
+1. **Both Bow and Arrow Visible Together**: There are no tabs or selection buttons. The *Dhanush* and *Shara* now float side-by-side in one unified 3D scene, rotating in harmony.
+2. **Fixed the Scroll-Hijacking & Jumpy Zoom**:
+   - The 3D canvas **no longer traps your mouse wheel** while scrolling down the page. 
+   - Added smooth, dedicated on-screen **`+` (Zoom In)**, **`−` (Zoom Out)**, and **`⟲` (Reset View)** buttons with buttery damping.
+   - You can also click the canvas to freely rotate with smooth inertia.
+3. **Highlighted 3D Exploration Section**: An eye-catching, glowing blue exploration badge with clear instructions on how to inspect and rotate both weapons.
+4. **Open, Editorial Layout (No Clunky Boxes)**: Removed the heavy, suffocating card containers. The text now floats organically over the vacuum fluctuation background with clean typography, luminous cyan accents, and generous breathing room.
+5. **Clear, Term-by-Term Physics**: Replaced dense academic equations with **intuitive, crystal-clear explanations** of the core physical principles:
+   - *How Potential Energy is Stored*
+   - *Conservation of Energy (Muscle $\to$ Flight)*
+   - *Kinetic Energy of the Arrow*
+   - *Bow & Arrow Materials (Bamboo, Hardwood, Horn & Steel)*
+   - *String Vibration & Transverse Waves (and why dry-firing breaks a bow)*
+   - *The Archer’s Paradox (Why arrows snake in mid-air)*
+   - *Detection Physics (The Bird's Eye as Signal vs. Noise)*
+
+---
+
+### Complete Code (`index.html`)
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DRAVYA | The Bird's Eye — Lore, Physics & Artifacts</title>
+  <title>DRAVYA | The Bird's Eye — Lore, 3D Artifacts & Physics</title>
   
-  <!-- Typography -->
+  <!-- Fonts: Cinzel for Epic Titles, Cormorant Garamond for Storytelling, Inter for Clear Concepts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- KaTeX for Physics Mathematics -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -22,18 +41,13 @@
       --blue-cyan: #38bdf8;
       --blue-sapphire: #0ea5e9;
       --blue-cobalt: #2563eb;
-      --blue-deep: #0f172a;
-      --blue-glow: rgba(0, 212, 255, 0.4);
-      --blue-glow-subtle: rgba(56, 189, 248, 0.15);
-
-      /* Glass Panels: Ultra-translucent so the vacuum video shows through */
-      --glass-panel: rgba(10, 18, 38, 0.58);
-      --glass-border: rgba(56, 189, 248, 0.22);
-      --glass-card-bg: rgba(6, 12, 28, 0.52);
-
-      --text-main: #f1f5f9;
+      --blue-deep-space: #030712;
+      --blue-glow: rgba(0, 212, 255, 0.45);
+      --blue-subtle: rgba(56, 189, 248, 0.12);
+      --glass-line: rgba(56, 189, 248, 0.22);
+      --text-pure: #ffffff;
+      --text-soft: #e2e8f0;
       --text-muted: #94a3b8;
-      --text-blue-tint: #cbd5e1;
     }
 
     * {
@@ -43,14 +57,14 @@
     }
 
     body {
-      background-color: #030712;
-      color: var(--text-main);
+      background-color: var(--blue-deep-space);
+      color: var(--text-soft);
       font-family: 'Inter', sans-serif;
       overflow-x: hidden;
-      line-height: 1.75;
+      line-height: 1.8;
     }
 
-    /* === FULLSCREEN UNCOMPROMISED VACUUM FLUCTUATION BACKGROUND === */
+    /* === 1. UNCOMPROMISED VACUUM FLUCTUATION BACKGROUND === */
     #video-viewport {
       position: fixed;
       top: 0;
@@ -65,47 +79,46 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      /* Vibrant and uncompromised visibility */
-      filter: contrast(1.1) brightness(0.85) saturate(1.2);
+      filter: contrast(1.12) brightness(0.88) saturate(1.25);
     }
 
-    /* Subtle atmospheric veil ensuring text contrast without hiding fluctuations */
-    .atmosphere-veil {
+    /* Soft ambient wash for crisp typography without killing the video motion */
+    .atmosphere-tint {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
       z-index: -1;
-      background: radial-gradient(circle at 50% 40%, rgba(3, 7, 18, 0.25) 0%, rgba(2, 6, 23, 0.75) 100%);
+      background: radial-gradient(circle at 50% 30%, rgba(3, 7, 18, 0.2) 0%, rgba(2, 6, 23, 0.72) 100%);
       pointer-events: none;
     }
 
-    /* === MINIMALIST NON-BLURRY HEADER === */
+    /* === 2. CLEAN FLOATING BRAND HEADER (NO BLUR BOX) === */
     header {
       width: 100%;
-      padding: 36px 48px 10px 48px;
+      padding: 38px 48px 12px 48px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: relative;
       z-index: 50;
-      background: transparent; /* No top blurry block */
+      background: transparent;
     }
 
     .brand-title {
       font-family: 'Cinzel', serif;
-      font-size: 1.8rem;
+      font-size: 1.9rem;
       letter-spacing: 0.35em;
       color: var(--blue-electric);
       text-transform: uppercase;
       font-weight: 900;
-      text-shadow: 0 0 20px var(--blue-glow);
+      text-shadow: 0 0 24px var(--blue-glow);
     }
 
     .brand-subtitle {
       font-size: 0.72rem;
-      letter-spacing: 0.3em;
+      letter-spacing: 0.28em;
       color: var(--blue-cyan);
       text-transform: uppercase;
       display: block;
@@ -113,217 +126,227 @@
       font-weight: 500;
     }
 
-    .nav-tag {
+    .nav-badge {
       font-family: 'Cinzel', serif;
       font-size: 0.78rem;
       letter-spacing: 0.22em;
       color: var(--blue-cyan);
-      border: 1px solid var(--glass-border);
-      padding: 8px 18px;
-      border-radius: 24px;
+      border: 1px solid var(--glass-line);
+      padding: 8px 20px;
+      border-radius: 30px;
       background: rgba(14, 165, 233, 0.08);
       text-transform: uppercase;
     }
 
-    /* === MAIN LAYOUT CONTAINER === */
+    /* === 3. EDITORIAL OPEN LAYOUT === */
     main {
-      max-width: 1120px;
+      max-width: 980px;
       margin: 40px auto 100px auto;
       padding: 0 24px;
       position: relative;
       z-index: 10;
     }
 
-    /* === SECTION 1: CINEMATIC STORY === */
-    .story-hero {
-      text-align: center;
-      margin-bottom: 50px;
-    }
-
-    .lore-tag {
+    .section-eyebrow {
       font-family: 'Cinzel', serif;
       font-size: 0.85rem;
       letter-spacing: 0.35em;
       color: var(--blue-cyan);
       text-transform: uppercase;
       margin-bottom: 12px;
-    }
-
-    h1.story-title {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(2.2rem, 5vw, 4rem);
-      font-weight: 900;
-      color: #fff;
-      line-height: 1.15;
-      letter-spacing: 0.04em;
-      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9);
-      margin-bottom: 20px;
-    }
-
-    h1.story-title span {
-      color: var(--blue-electric);
-      text-shadow: 0 0 24px var(--blue-glow);
-    }
-
-    .prose-card {
-      background: var(--glass-panel);
-      border: 1px solid var(--glass-border);
-      border-radius: 16px;
-      padding: clamp(28px, 4vw, 56px);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(8px);
-      margin-bottom: 60px;
-    }
-
-    .prose-text {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: clamp(1.25rem, 2vw, 1.48rem);
-      color: var(--text-blue-tint);
-      line-height: 1.85;
-      font-weight: 400;
-    }
-
-    .prose-text p {
-      margin-bottom: 24px;
-    }
-
-    .prose-text p:first-of-type::first-letter {
-      font-family: 'Cinzel', serif;
-      font-size: 3.8rem;
-      float: left;
-      line-height: 0.8;
-      padding-right: 16px;
-      padding-top: 4px;
-      color: var(--blue-electric);
-      text-shadow: 0 0 18px var(--blue-glow);
-    }
-
-    .dialogue {
-      font-style: italic;
-      color: #ffffff;
-      border-left: 2px solid var(--blue-electric);
-      padding-left: 20px;
-      margin: 20px 0;
-      text-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
-    }
-
-    /* === SECTION 2: THE INTERPRETATION === */
-    .interpretation-card {
-      background: linear-gradient(135deg, rgba(14, 28, 60, 0.65) 0%, rgba(6, 12, 28, 0.75) 100%);
-      border: 1px solid var(--glass-border);
-      border-left: 4px solid var(--blue-electric);
-      border-radius: 14px;
-      padding: 38px;
-      margin-bottom: 60px;
-      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(8px);
-    }
-
-    .section-label {
-      font-family: 'Cinzel', serif;
-      font-size: 0.85rem;
-      letter-spacing: 0.28em;
-      color: var(--blue-electric);
-      text-transform: uppercase;
-      margin-bottom: 16px;
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .section-label::after {
+    .section-eyebrow::after {
       content: '';
       flex: 1;
       height: 1px;
-      background: var(--glass-border);
+      background: linear-gradient(90deg, var(--glass-line), transparent);
     }
 
-    .interp-grid {
+    /* === CINEMATIC STORY STYLING (OPEN-AIR, NO CLUNKY BOXES) === */
+    .story-hero {
+      text-align: center;
+      margin: 40px 0 50px 0;
+    }
+
+    h1.story-headline {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.15;
+      letter-spacing: 0.03em;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9);
+      margin-bottom: 16px;
+    }
+
+    h1.story-headline span {
+      color: var(--blue-electric);
+      text-shadow: 0 0 28px var(--blue-glow);
+    }
+
+    .story-body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(1.3rem, 2.1vw, 1.55rem);
+      color: #e5ecf6;
+      line-height: 1.95;
+      margin-bottom: 70px;
+      border-left: 1px solid var(--glass-line);
+      padding-left: clamp(20px, 4vw, 40px);
+    }
+
+    .story-body p {
+      margin-bottom: 26px;
+    }
+
+    .story-body p:first-of-type::first-letter {
+      font-family: 'Cinzel', serif;
+      font-size: 4rem;
+      float: left;
+      line-height: 0.8;
+      padding-right: 16px;
+      padding-top: 4px;
+      color: var(--blue-electric);
+      text-shadow: 0 0 20px var(--blue-glow);
+    }
+
+    .dialogue-quote {
+      font-style: italic;
+      color: #ffffff;
+      border-left: 2px solid var(--blue-electric);
+      padding-left: 22px;
+      margin: 26px 0;
+      text-shadow: 0 0 12px rgba(0, 212, 255, 0.3);
+    }
+
+    /* === INTERPRETATION BREAKDOWN === */
+    .interpretation-wrap {
+      margin-bottom: 80px;
+    }
+
+    .interp-lead {
+      font-size: 1.1rem;
+      color: var(--text-soft);
+      margin-bottom: 26px;
+      font-style: italic;
+    }
+
+    .symbols-stream {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
       margin: 26px 0;
     }
 
-    .interp-pill {
-      background: rgba(0, 212, 255, 0.04);
-      border: 1px solid rgba(56, 189, 248, 0.18);
-      border-radius: 10px;
-      padding: 18px;
-      transition: border-color 0.3s ease;
-    }
-
-    .interp-pill:hover {
-      border-color: var(--blue-electric);
-    }
-
-    .interp-symbol {
-      font-family: 'Cinzel', serif;
-      font-size: 0.98rem;
-      color: var(--blue-cyan);
-      margin-bottom: 6px;
-      font-weight: 700;
-    }
-
-    .interp-meaning {
-      font-size: 0.92rem;
-      color: var(--text-muted);
-    }
-
-    .open-question {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      font-style: italic;
-      color: #fff;
-      margin-top: 24px;
-      text-align: center;
-      padding-top: 20px;
-      border-top: 1px dashed rgba(56, 189, 248, 0.25);
-    }
-
-    /* === SECTION 3: BOUNDARY-FREE 3D ARTIFACT EXPLORER === */
-    .viewer-section {
-      margin-bottom: 70px;
-      position: relative;
-    }
-
-    .viewer-controls {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .tab-btn {
-      font-family: 'Cinzel', serif;
-      font-size: 0.85rem;
-      letter-spacing: 0.18em;
-      padding: 11px 26px;
-      border-radius: 30px;
-      border: 1px solid var(--glass-border);
-      background: rgba(8, 18, 42, 0.7);
-      color: var(--text-muted);
-      cursor: pointer;
+    .symbol-entry {
+      background: rgba(8, 18, 42, 0.45);
+      border: 1px solid var(--glass-line);
+      border-radius: 12px;
+      padding: 20px;
       transition: all 0.3s ease;
     }
 
-    .tab-btn.active, .tab-btn:hover {
-      background: var(--blue-electric);
-      color: #030712;
-      font-weight: 700;
+    .symbol-entry:hover {
       border-color: var(--blue-electric);
-      box-shadow: 0 0 25px var(--blue-glow);
+      box-shadow: 0 0 20px var(--blue-subtle);
     }
 
-    /* Completely borderless, no box boundary: 3D models float directly in space */
-    .canvas-container {
+    .symbol-term {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      color: var(--blue-cyan);
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .symbol-term::before {
+      content: '◆';
+      font-size: 0.7rem;
+      color: var(--blue-electric);
+    }
+
+    .symbol-meaning {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+    }
+
+    .reflection-banner {
+      margin-top: 30px;
+      padding: 24px;
+      border-top: 1px dashed var(--glass-line);
+      border-bottom: 1px dashed var(--glass-line);
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45rem;
+      font-style: italic;
+      color: #fff;
+    }
+
+    /* === 4. HIGHLIGHTED 3D ARTIFACT EXPLORER (BOTH ARTIFACTS) === */
+    .artifact-showcase {
+      margin: 80px 0 100px 0;
+      position: relative;
+    }
+
+    .showcase-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .explore-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.28em;
+      color: var(--blue-electric);
+      border: 1px solid var(--blue-electric);
+      background: rgba(0, 212, 255, 0.08);
+      padding: 8px 24px;
+      border-radius: 30px;
+      margin-bottom: 16px;
+      box-shadow: 0 0 25px var(--blue-subtle);
+    }
+
+    .explore-badge::before {
+      content: '●';
+      color: var(--blue-electric);
+      font-size: 0.8rem;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; text-shadow: 0 0 12px var(--blue-electric); }
+    }
+
+    .showcase-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .showcase-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* 3D Canvas Viewport (Free-floating, no box boundary) */
+    .canvas-stage {
       position: relative;
       width: 100%;
-      height: 560px;
-      background: transparent; /* No box background */
-      border: none;            /* No box borders */
-      box-shadow: none;        /* No box shadow */
-      overflow: visible;
+      height: 580px;
+      margin: 15px 0;
+      user-select: none;
     }
 
     #three-canvas {
@@ -337,98 +360,122 @@
       cursor: grabbing;
     }
 
-    .canvas-hud {
+    /* Floating On-Screen Controls for Buttery Smooth Zooming */
+    .zoom-hud {
       position: absolute;
-      bottom: 10px;
-      left: 0;
-      right: 0;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 20;
+    }
+
+    .hud-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--glass-line);
+      background: rgba(8, 18, 42, 0.75);
+      color: var(--blue-cyan);
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.25s ease;
+    }
+
+    .hud-btn:hover {
+      background: var(--blue-electric);
+      color: #030712;
+      border-color: var(--blue-electric);
+      box-shadow: 0 0 18px var(--blue-glow);
+      transform: scale(1.08);
+    }
+
+    .instructions-strip {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
-      pointer-events: none;
-      padding: 0 10px;
-    }
-
-    .hud-title {
-      font-family: 'Cinzel', serif;
-      font-size: 1.2rem;
-      color: #fff;
-      font-weight: 700;
-      text-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
-    }
-
-    .hud-desc {
-      font-size: 0.85rem;
-      color: var(--blue-cyan);
-    }
-
-    .hud-hint {
-      font-size: 0.75rem;
+      align-items: center;
+      padding: 12px 18px;
+      background: rgba(8, 18, 42, 0.55);
+      border: 1px solid var(--glass-line);
+      border-radius: 10px;
+      font-size: 0.82rem;
       color: var(--text-muted);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      background: rgba(3, 7, 18, 0.65);
-      border: 1px solid var(--glass-border);
-      padding: 6px 14px;
-      border-radius: 20px;
     }
 
-    /* === SECTION 4: COMPREHENSIVE PHYSICS OF THE DHANUSH & SHARA === */
+    .instructions-strip span {
+      color: var(--blue-cyan);
+      font-weight: 600;
+    }
+
+    /* === 5. PHYSICS IN SIMPLE TERMS (INTUITIVE & BEAUTIFUL) === */
+    .physics-wrap {
+      margin-bottom: 90px;
+    }
+
     .physics-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
-      gap: 28px;
-      margin-bottom: 70px;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 520px) {
       .physics-grid {
         grid-template-columns: 1fr;
       }
     }
 
-    .physics-card {
-      background: var(--glass-card-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: 14px;
-      padding: 32px;
-      backdrop-filter: blur(8px);
-      transition: border-color 0.3s ease;
+    .term-card {
+      background: rgba(8, 18, 42, 0.5);
+      border: 1px solid var(--glass-line);
+      border-radius: 12px;
+      padding: 28px;
+      transition: all 0.3s ease;
     }
 
-    .physics-card:hover {
-      border-color: rgba(0, 212, 255, 0.45);
+    .term-card:hover {
+      border-color: var(--blue-electric);
+      box-shadow: 0 0 25px var(--blue-subtle);
     }
 
-    .physics-card h3 {
+    .term-tag {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: var(--blue-electric);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .term-title {
       font-family: 'Cinzel', serif;
       font-size: 1.25rem;
       color: #fff;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      margin-bottom: 12px;
+      font-weight: 700;
     }
 
-    .physics-card h3 span {
-      color: var(--blue-electric);
-      font-weight: 900;
+    .term-explain {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      line-height: 1.75;
+      margin-bottom: 14px;
     }
 
-    .physics-desc {
-      font-size: 0.94rem;
-      color: var(--text-blue-tint);
-      margin-bottom: 16px;
-    }
-
-    .formula-box {
-      background: rgba(0, 212, 255, 0.05);
+    .simple-law {
+      background: rgba(0, 212, 255, 0.06);
       border-left: 3px solid var(--blue-electric);
-      padding: 14px 18px;
-      border-radius: 0 8px 8px 0;
-      margin: 16px 0;
-      font-size: 1.05rem;
-      color: #fff;
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.88rem;
+      color: #ffffff;
+      font-weight: 500;
     }
 
     /* === FOOTER === */
@@ -437,7 +484,8 @@
       padding: 40px 20px;
       color: var(--text-muted);
       font-size: 0.85rem;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.15em;
+      border-top: 1px solid rgba(56, 189, 248, 0.1);
     }
 
     footer span {
@@ -448,244 +496,233 @@
 </head>
 <body>
 
-  <!-- 1. FULLSCREEN VACUUM FLUCTUATION VIDEO -->
+  <!-- 1. VACUUM FLUCTUATION VIDEO BACKGROUND (FULLY VISIBLE) -->
   <div id="video-viewport">
     <video autoplay muted loop playsinline preload="auto">
       <source src="assets/dravya_vacuum_fluctuation_10s.mp4" type="video/mp4" />
     </video>
   </div>
-  <div class="atmosphere-veil"></div>
+  <div class="atmosphere-tint"></div>
 
-  <!-- 2. MINIMALIST CLEAN HEADER (NO BLUR BOX) -->
+  <!-- 2. MINIMALIST CLEAN BRAND HEADER -->
   <header>
     <div>
       <div class="brand-title">DRAVYA</div>
       <span class="brand-subtitle">Physics • Lore • Artifacts</span>
     </div>
-    <div class="nav-tag">Episode I : The Bird's Eye</div>
+    <div class="nav-badge">Episode I : The Bird's Eye</div>
   </header>
 
-  <!-- 3. MAIN STORY & SCIENTIFIC EXPEDITION -->
+  <!-- 3. MAIN EXPERIENCE CONTAINER -->
   <main>
 
     <!-- SECTION 1: THE STORY -->
-    <section class="story-hero">
-      <div class="lore-tag">Hastinapur Gurukul Grounds • The Mahabharata</div>
-      <h1 class="story-title">The Singularity of <span>The Eye</span></h1>
-    </section>
+    <div class="section-eyebrow">The Epic Narrative</div>
+    <div class="story-hero">
+      <h1 class="story-headline">The Singularity of <span>The Eye</span></h1>
+    </div>
 
-    <article class="prose-card">
-      <div class="prose-text">
-        <p>
-          As the forenoon breeze travelled towards the large trees within the gurukul campus at the capital city of Hastinapur, a couple of arrows were seen hitting unknown targets by young Pandavas and Kauravas. The archery class was on under the supervision of Acharya Drona—a mastermind guru who trained the young kids each day with rigorous education.
-        </p>
-
-        <p>
-          Today, the objective was deceptively simple: to hit the wooden birds placed high upon the branches of the trees. While the young students learned the necessary postures and how to handle the bow and arrow according to the strict instructions of Acharya Drona, the sun slowly rose above the horizon.
-        </p>
-
-        <p>
-          Young, honest Yudhisthira struggled to maintain his posture after Drona asked the most obedient student of all what he was seeing. He replied that he could see his teacher, his brothers, the trees, and the birds, and he was waiting to aim before he could shoot. Drona said, <em>"Step down,"</em> and moved towards Duryodhana with the same question.<br>
-          He replied: <em>"Acharya, I can see the whole forest!"</em><br>
-          Drona knew, patted his back, and asked him to rest.
-        </p>
-
-        <p>
-          Nakula came up with a better answer—that he could see the bird resting on the branch. Drona smiled faintly. Bheema stepped up, declaring he could see the ripe fruit hanging over there—always thinking about eating, the cute big foodie.
-        </p>
-
-        <p>
-          Finally, Drona moved towards Arjuna.
-        </p>
-
-        <div class="dialogue">
-          Arjuna stood still as lightning held within a cloud. Eyes fixed. Not a solitary sign of movement. Perfect, unshakeable posture.
-        </div>
-
-        <p>
-          Drona asked: <em>"O Arjuna, what do you see?"</em>
-        </p>
-
-        <p>
-          What came as a reply brought an electric chill down the spine of Drona, as his hairs stood upright:
-        </p>
-
-        <div class="dialogue" style="font-size: 1.45rem; font-weight: 700; color: var(--blue-electric);">
-          "I see nothing but the eyes of the bird."
-        </div>
-
-        <p>
-          <em>"Marvelous! Go for it!"</em> shouted Drona.
-        </p>
-
-        <p>
-          Like a streak of lightning, for a second everything froze. The arrow was already in the air—and went straight into the eyes of the wooden bird, perfectly!
-        </p>
-
-        <p>
-          Young Arjuna then relaxed from his posture, and smiled like a child towards Drona Acharya.
-        </p>
-      </div>
-    </article>
-
-    <!-- SECTION 2: PHILOSOPHICAL INTERPRETATION -->
-    <section class="interpretation-card">
-      <div class="section-label">Philosophical Interpretation</div>
-      <p style="font-size: 1.05rem; color: var(--text-blue-tint);">
-        Although we never know if this event literally occurred somewhere in the past on this planet, what is important is the deeper meaning hidden behind this story. It screams the essence of absolute focus and the radical exclusion of all distractions:
+    <div class="story-body">
+      <p>
+        As the forenoon breeze travelled towards the large trees within the gurukul campus at the capital city of Hastinapur, a couple of arrows were seen hitting unknown targets by young Pandavas and Kauravas. The archery class was on under the supervision of Acharya Drona—a mastermind guru who trained the young kids each day with rigorous education.
       </p>
 
-      <div class="interp-grid">
-        <div class="interp-pill">
-          <div class="interp-symbol">The Forest & Breeze</div>
-          <div class="interp-meaning">The sensory distractions, ambient chatter, and noise of the outer world.</div>
+      <p>
+        Today, the objective was deceptively simple: to hit the wooden birds placed high upon the branches of the trees. While the young students learned the necessary postures and how to handle the bow and arrow according to the strict instructions of Acharya Drona, the sun slowly rose above the horizon.
+      </p>
+
+      <p>
+        Young, honest Yudhisthira struggled to maintain his posture after Drona asked the most obedient student of all what he was seeing. He replied that he could see his teacher, his brothers, the trees, and the birds, and he was waiting to aim before he could shoot. Drona said, <em>"Step down,"</em> and moved towards Duryodhana with the same question.<br>
+        Duryodhana replied proudly: <em>"Acharya, I can see the whole forest!"</em><br>
+        Drona knew, patted his back, and told him to rest.
+      </p>
+
+      <p>
+        Nakula came up with a better answer—that he could see the bird resting on the branch. Drona smiled faintly. Bheema stepped up, declaring he could see the ripe fruit hanging over there—always thinking about eating, the cute big foodie.
+      </p>
+
+      <p>
+        Finally, Drona moved towards Arjuna.
+      </p>
+
+      <div class="dialogue-quote">
+        Arjuna stood still as lightning held within a cloud. Eyes fixed. Not a single sign of movement. Perfect, unshakeable posture.
+      </div>
+
+      <p>
+        Drona asked: <em>"O Arjuna, what do you see?"</em>
+      </p>
+
+      <p>
+        What came as a reply brought an electric chill down the spine of Drona, as his hairs stood upright:
+      </p>
+
+      <div class="dialogue-quote" style="font-size: 1.5rem; font-weight: 700; color: var(--blue-electric);">
+        "I see nothing but the eyes of the bird."
+      </div>
+
+      <p>
+        <em>"Marvelous! Go for it!"</em> shouted Drona.
+      </p>
+
+      <p>
+        Like lightning, for a second everything froze. The arrow was already in the air—and went straight into the eyes of the wooden bird, perfectly!
+      </p>
+
+      <p>
+        Young Arjuna then relaxed from his posture, and smiled like a child towards Drona Acharya.
+      </p>
+    </div>
+
+    <!-- SECTION 2: INTERPRETATION -->
+    <div class="interpretation-wrap">
+      <div class="section-eyebrow">Philosophical Meaning</div>
+      <p class="interp-lead">
+        Whether this event literally occurred in our physical past is secondary; the profound truth hidden within this story screams the essence of radical focus and the exclusion of all distractions:
+      </p>
+
+      <div class="symbols-stream">
+        <div class="symbol-entry">
+          <div class="symbol-term">The Forest & Trees</div>
+          <div class="symbol-meaning">The ambient noise, social opinions, and sensory chaos of the outside world.</div>
         </div>
-        <div class="interp-pill">
-          <div class="interp-symbol">The Bird</div>
-          <div class="interp-meaning">The overarching goal.</div>
+        <div class="symbol-entry">
+          <div class="symbol-term">The Bird</div>
+          <div class="symbol-meaning">The overarching goal you wish to achieve.</div>
         </div>
-        <div class="interp-pill">
-          <div class="interp-symbol">The Bird's Eye</div>
-          <div class="interp-meaning">The exact, microscopic mathematical definition of that goal.</div>
+        <div class="symbol-entry">
+          <div class="symbol-term">The Bird's Eye</div>
+          <div class="symbol-meaning">The exact, microscopic definition of that goal. Clarity is power.</div>
         </div>
-        <div class="interp-pill">
-          <div class="interp-symbol">Acharya Drona</div>
-          <div class="interp-meaning">The inner critic, the mentor, and the evaluator of truth.</div>
+        <div class="symbol-entry">
+          <div class="symbol-term">Acharya Drona</div>
+          <div class="symbol-meaning">Your inner mentor, discerning truth from delusion.</div>
         </div>
-        <div class="interp-pill">
-          <div class="interp-symbol">Arjuna</div>
-          <div class="interp-meaning">You. The conscious actor executing intentional reality.</div>
+        <div class="symbol-entry">
+          <div class="symbol-term">Arjuna</div>
+          <div class="symbol-meaning">You. The conscious mind choosing where to channel energy.</div>
         </div>
       </div>
 
-      <div class="open-question">
-        "Success is inevitable if you know exactly what you want, define it, and aim with exclusion of everything else. But what do you think the bow and the arrow represent?"
+      <div class="reflection-banner">
+        "Success is inevitable if you define exactly what you want and aim with total exclusion of everything else. What do you think the bow and the arrow represent?"
       </div>
-    </section>
+    </div>
 
-    <!-- SECTION 3: BOUNDARY-FREE FLOATING 3D ARTIFACTS -->
-    <section class="viewer-section">
-      <div class="section-label">Artifact Chamber (Interactive 3D WebGL)</div>
-      
-      <div class="viewer-controls">
-        <button class="tab-btn active" id="btn-bow" onclick="switchModel('bow')">Dhanush (The Bow)</button>
-        <button class="tab-btn" id="btn-arrow" onclick="switchModel('arrow')">Shara (The Arrow)</button>
+    <!-- SECTION 3: HIGHLIGHTED 3D ARTIFACT EXPLORER (BOTH BOW & ARROW) -->
+    <div class="artifact-showcase">
+      <div class="showcase-header">
+        <div class="explore-badge">Interactive 3D Arsenal</div>
+        <h2 class="showcase-title">Explore the Bow & Arrow</h2>
+        <p class="showcase-subtitle">Both classical relics rendered in real-time WebGL. Slowly rotating together in continuous harmony.</p>
       </div>
 
-      <!-- Completely transparent container: models float freely in the vacuum -->
-      <div class="canvas-container">
+      <!-- Free-floating Canvas Viewport -->
+      <div class="canvas-stage">
         <div id="three-canvas"></div>
-        <div class="canvas-hud">
-          <div>
-            <div class="hud-title" id="hud-name">Ancient Indian Recurve Bow (Kodanda)</div>
-            <div class="hud-desc" id="hud-desc">Polished Sheesham Hardwood • Laminated Belly • Aged Brass Ferrules</div>
-          </div>
-          <div class="hud-hint">Freely Rotate & Zoom • Auto-Rotating</div>
+
+        <!-- Smooth On-Screen Zoom & Reset Buttons -->
+        <div class="zoom-hud">
+          <button class="hud-btn" id="btn-zoom-in" title="Zoom In">+</button>
+          <button class="hud-btn" id="btn-zoom-out" title="Zoom Out">−</button>
+          <button class="hud-btn" id="btn-reset" title="Reset View" style="font-size: 1rem;">⟲</button>
         </div>
       </div>
-    </section>
 
-    <!-- SECTION 4: THE DEEP PHYSICS OF THE BOW & ARROW -->
-    <div class="section-label">The Physics of Weaponry & Detection</div>
-    <div class="physics-grid">
-
-      <!-- CARD 1: SIGNAL-TO-NOISE & DETECTION PHYSICS -->
-      <div class="physics-card">
-        <h3><span>01.</span> Detection Physics & Signal-to-Noise Ratio (SNR)</h3>
-        <p class="physics-desc">
-          When physicists detect gravitational waves (LIGO) or cosmic neutrino bursts, the detector is inundated with thermal phonons, electromagnetic rumble, and seismic motion—the "forest."
-        </p>
-        <p class="physics-desc">
-          Detection is the act of passing ambient reality through an ultra-narrow bandpass filter $H(\omega)$ to isolate solely the coherent signal $S(t)$ from background entropy $N(t)$:
-        </p>
-        <div class="formula-box">
-          $$\text{SNR} = \frac{\int |S(\omega)|^2 \, d\omega}{\int S_n(\omega) \, d\omega} \quad \xrightarrow[\text{Arjuna's Filter}]{\Delta \omega \to 0} \quad \infty$$
-        </div>
-        <p class="physics-desc">
-          Arjuna's consciousness was an ideal Dirac delta filter $\delta(x - x_{\text{eye}})$. By setting observation bandwidth outside the pupil to zero, noise entropy collapsed to null.
-        </p>
+      <div class="instructions-strip">
+        <div><span>Controls:</span> Click & drag anywhere to rotate 360° • Use <strong>+</strong> / <strong>−</strong> to zoom smoothly.</div>
+        <div><span>Pair:</span> Kodanda Recurve Bow & Bhalla Broadhead Arrow</div>
       </div>
+    </div>
 
-      <!-- CARD 2: CONSERVATION OF ENERGY & FORCE-DRAW CURVE -->
-      <div class="physics-card">
-        <h3><span>02.</span> Conservation of Energy & Recurve Advantage</h3>
-        <p class="physics-desc">
-          A bow is an elastic energy transformer. The archer does biochemical work $W$ along the draw length $x_{\text{draw}}$, accumulating elastic strain energy $U_e$ inside the flexed limbs:
-        </p>
-        <div class="formula-box">
-          $$W = \int_{0}^{x_{\text{draw}}} F(x) \, dx = U_e \quad \Longrightarrow \quad \frac{1}{2} m_{\text{arrow}} v^2 + E_{\text{vib}} + E_{\text{sound}}$$
+    <!-- SECTION 4: PHYSICS IN SIMPLE TERMS -->
+    <div class="physics-wrap">
+      <div class="section-eyebrow">The Physics: Simple Terms & Fundamental Concepts</div>
+
+      <div class="physics-grid">
+
+        <!-- 1. POTENTIAL ENERGY -->
+        <div class="term-card">
+          <div class="term-tag">Concept 01</div>
+          <h3 class="term-title">How Potential Energy is Stored</h3>
+          <p class="term-explain">
+            A bow does not create energy; it is an elastic storage bank. When you pull the bowstring back, your muscle work forces the flexible wooden limbs to bend backwards. The limbs resist this bending, storing your energy inside their molecular bonds as <strong>Elastic Potential Energy</strong>—waiting to snap forward like a compressed steel spring.
+          </p>
+          <div class="simple-law">Rule: More draw distance + stiffer limbs = larger stored energy.</div>
         </div>
-        <p class="physics-desc">
-          <strong>The Recurve Geometric Advantage:</strong> In a straight European longbow, force scales linearly ($F \propto x$). In the Indian recurve (*Kodanda*), the forward-curving tips (*Koti*) uncoil as the string is drawn, creating a high initial force plateau. This maximizes the area under the force-draw curve, storing up to <strong>35% more kinetic energy</strong> in the same draw length.
-        </p>
-      </div>
 
-      <!-- CARD 3: MATERIAL SCIENCE & ANISOTROPY -->
-      <div class="physics-card">
-        <h3><span>03.</span> Material Physics: Bamboo, Hardwood & Horn</h3>
-        <p class="physics-desc">
-          A bow limb undergoes severe differential stress: the **back** (facing the target) suffers extreme tension (+$\sigma$), while the **belly** (facing the archer) suffers extreme compression (-$\sigma$).
-        </p>
-        <div class="formula-box">
-          $$\sigma_{\text{bending}} = \frac{M \cdot y}{I}, \quad E_{\text{bamboo}} \approx 18\,\text{GPa}, \quad E_{\text{horn}} \approx 3.5\,\text{GPa}$$
+        <!-- 2. CONSERVATION OF ENERGY -->
+        <div class="term-card">
+          <div class="term-tag">Concept 02</div>
+          <h3 class="term-title">Conservation of Energy</h3>
+          <p class="term-explain">
+            Energy can never appear or disappear; it only changes form. When you release the string, nearly <strong>80% of the stored potential energy</strong> instantly converts into the forward <strong>Kinetic Energy</strong> of the arrow. The remaining ~20% is not lost—it turns into the sound "thrum" of the string and heat vibration in the wood.
+          </p>
+          <div class="simple-law">Muscle Work ➔ Stored Potential Energy ➔ Arrow Kinetic Energy + Sound.</div>
         </div>
-        <p class="physics-desc">
-          Ancient Indian craftsmen solved this through laminated composite design: tensile-strong outer bamboo fibers absorb tensile elongation on the back, while dense seasoned hardwood (*Sheesham*) and water-buffalo horn withstand high compressive crush on the belly without permanent plastic deformation.
-        </p>
-      </div>
 
-      <!-- CARD 4: STRING DYNAMICS & WAVE SPEED -->
-      <div class="physics-card">
-        <h3><span>04.</span> String Dynamics & Wave Mechanics</h3>
-        <p class="physics-desc">
-          The bowstring is under immense pre-tension $T$. Upon release, a transverse wave travels down the string at speed $v$:
-        </p>
-        <div class="formula-box">
-          $$v_{\text{wave}} = \sqrt{\frac{T}{\mu}}, \quad f_n = \frac{n}{2L}\sqrt{\frac{T}{\mu}}$$
+        <!-- 3. KINETIC ENERGY -->
+        <div class="term-card">
+          <div class="term-tag">Concept 03</div>
+          <h3 class="term-title">Kinetic Energy & Arrow Speed</h3>
+          <p class="term-explain">
+            Kinetic energy depends heavily on speed: if you double the arrow's speed, its kinetic energy increases <strong>four times</strong> ($E_k = \frac{1}{2}mv^2$). A lighter arrow flies at blistering speed with a flat trajectory, while a heavy warrior arrow carries immense forward momentum to punch through wooden armor.
+          </p>
+          <div class="simple-law">Doubling speed quadruples the kinetic energy at impact.</div>
         </div>
-        <p class="physics-desc">
-          To maximize energy transfer to the arrow, the linear mass density $\mu = \frac{m}{L}$ of the string must be minimized while preserving tensile strength (hence silk, sinew, or rawhide cord). If dry-fired without an arrow, the kinetic energy $E_k$ cannot escape; it rebounds as destructive standing shockwaves into the limb tips, shattering the wood.
-        </p>
-      </div>
 
-      <!-- CARD 5: THE ARCHER'S PARADOX & VIBRATION -->
-      <div class="physics-card">
-        <h3><span>05.</span> The Archer's Paradox & Euler Buckling</h3>
-        <p class="physics-desc">
-          When the string releases, it accelerates the heavy broadhead at over $1000\,\text{m/s}^2$. This massive axial compressive force exceeds the shaft's **Euler critical buckling load**:
-        </p>
-        <div class="formula-box">
-          $$P_{\text{cr}} = \frac{\pi^2 E I}{L^2}, \quad f_{\text{flex}} = \frac{22.4}{2\pi L^2} \sqrt{\frac{E I}{\rho A}}$$
+        <!-- 4. MATERIALS SCIENCE -->
+        <div class="term-card">
+          <div class="term-tag">Concept 04</div>
+          <h3 class="term-title">Materials: Wood, Horn & Bamboo</h3>
+          <p class="term-explain">
+            When a bow bends, two opposite forces fight each other: the outer back is stretched (tension), while the inner belly is crushed (compression). Ancient Indian bowmakers layered <strong>flexible bamboo</strong> on the back to stretch without snapping, and <strong>dense horn or rosewood</strong> on the belly to withstand immense crushing pressure without cracking.
+          </p>
+          <div class="simple-law">Tensile outer back + compressive inner belly = unbreakable composite bow.</div>
         </div>
-        <p class="physics-desc">
-          Instead of flying sideways or shattering, the arrow flexes into dynamic harmonic oscillations, snaking around the solid bow grip without striking it. It stabilizes in mid-flight around two stationary vibration nodes, powered by aerodynamic fletching drag.
-        </p>
-      </div>
 
-      <!-- CARD 6: TERMINAL IMPACT & BROADHEAD PENETRATION -->
-      <div class="physics-card">
-        <h3><span>06.</span> Terminal Penetration Mechanics ($P = F/A$)</h3>
-        <p class="physics-desc">
-          The forged high-carbon steel *Bhalla* broadhead concentrates the arrow's entire momentum $p = mv$ into a razor-sharp needle point of microscopic cross-sectional area:
-        </p>
-        <div class="formula-box">
-          $$P_{\text{impact}} = \lim_{A \to 0} \frac{F_{\text{impact}}}{A} \to \infty, \quad \text{Depth} \propto \frac{m_{\text{arrow}} v^2}{2 \cdot \sigma_{\text{target}}}$$
+        <!-- 5. STRING VIBRATION -->
+        <div class="term-card">
+          <div class="term-tag">Concept 05</div>
+          <h3 class="term-title">String Vibration & Dry-Firing</h3>
+          <p class="term-explain">
+            When released, transverse waves race along the string at speeds over $300\,\text{m/s}$, vibrating like a giant musical instrument. If an archer pulls and releases a bow <em>without an arrow</em> (called "dry-firing"), the massive energy has nowhere to go; it rebounds into the wooden limb tips as violent shockwaves, often shattering the bow instantly!
+          </p>
+          <div class="simple-law">Never dry-fire: without an arrow to absorb energy, the bow destroys itself.</div>
         </div>
-        <p class="physics-desc">
-          The central diamond ridge provides structural moment of inertia ($I$), preventing the blade from bending upon contact with armor or dense wood, driving clean penetration directly through the target.
-        </p>
-      </div>
 
+        <!-- 6. THE ARCHER'S PARADOX -->
+        <div class="term-card">
+          <div class="term-tag">Concept 06</div>
+          <h3 class="term-title">The Archer's Paradox (Snake Flight)</h3>
+          <p class="term-explain">
+            You might think an arrow flies completely straight like a rigid pole. In reality, the explosive punch from the string causes the thin arrow shaft to bend and flex like a swimming fish. It snakes around the thick wooden handle of the bow without hitting it, and stabilizes in mid-air thanks to the aerodynamic feathers on its tail.
+          </p>
+          <div class="simple-law">Arrows don't fly rigid; they oscillate like harmonic waves in mid-air.</div>
+        </div>
+
+        <!-- 7. DETECTION PHYSICS -->
+        <div class="term-card" style="grid-column: 1 / -1;">
+          <div class="term-tag">Concept 07 • The Scientific Mirror</div>
+          <h3 class="term-title">Detection Physics: Filtering Out The Noise</h3>
+          <p class="term-explain">
+            In modern physics—whether detecting gravitational waves at LIGO or capturing radio signals from deep space—the universe is drowned in noise (thermal vibrations, seismic tremors, atmosphere). To detect the true signal, scientists build filters that mute every single frequency except the target. 
+            <strong>Arjuna’s mind was nature's ultimate filter:</strong> he muted the trees, the wind, and the bird itself, leaving only the signal of the eye.
+          </p>
+          <div class="simple-law">Signal-to-Noise Ratio ($\text{SNR}$): When you reduce the noise of distractions to zero, the signal of your goal becomes infinite.</div>
+        </div>
+
+      </div>
     </div>
 
   </main>
 
-  <!-- 4. MINIMAL FOOTER -->
+  <!-- 4. FOOTER -->
   <footer>
     <p>DRAVYA &copy; 2026 • <span>Physics • Lore • Artifacts</span></p>
   </footer>
 
-  <!-- 5. THREE.JS ES MODULE ENGINE -->
+  <!-- 5. THREE.JS ES MODULE & BOTH ARTIFACTS TOGETHER -->
   <script type="importmap">
     {
       "imports": {
@@ -701,124 +738,129 @@
     import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
     const container = document.getElementById('three-canvas');
-    const hudName = document.getElementById('hud-name');
-    const hudDesc = document.getElementById('hud-desc');
-    const btnBow = document.getElementById('btn-bow');
-    const btnArrow = document.getElementById('btn-arrow');
+    const btnZoomIn = document.getElementById('btn-zoom-in');
+    const btnZoomOut = document.getElementById('btn-zoom-out');
+    const btnReset = document.getElementById('btn-reset');
 
-    // Scene & Camera
+    // 1. Scene & Camera Setup
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 100);
-    camera.position.set(0, 0.1, 2.7);
+    const camera = new THREE.PerspectiveCamera(38, container.clientWidth / container.clientHeight, 0.1, 100);
+    const initialCamPos = new THREE.Vector3(0, 0, 3.2);
+    camera.position.copy(initialCamPos);
 
-    // Transparent WebGL Renderer (No background box, floats over vacuum video)
+    // Transparent WebGL Renderer (No background box)
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.35;
+    renderer.toneMappingExposure = 1.3;
     container.appendChild(renderer.domElement);
 
-    // Controls: Free rotation and zoom without bounds feeling
+    // 2. OrbitControls (Smooth inertia & NO page-scroll trapping)
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.dampingFactor = 0.06;
-    controls.minDistance = 0.5;   // Very close zoom allowed
-    controls.maxDistance = 7.0;   // Free far zoom
+    controls.dampingFactor = 0.05;
+    
+    // IMPORTANT: Disable mouse wheel scroll hijacking so page scrolling is never interrupted
+    controls.enableZoom = false; 
 
-    // Vibrant Electric-Blue & Studio Lighting Rig
+    // Smooth Zooming via Target Distance lerp
+    let targetDistance = initialCamPos.z;
+    const minZoomDist = 1.0;
+    const maxZoomDist = 5.5;
+
+    btnZoomIn.addEventListener('click', () => {
+      targetDistance = Math.max(minZoomDist, targetDistance - 0.55);
+    });
+
+    btnZoomOut.addEventListener('click', () => {
+      targetDistance = Math.min(maxZoomDist, targetDistance + 0.55);
+    });
+
+    btnReset.addEventListener('click', () => {
+      targetDistance = initialCamPos.z;
+      controls.reset();
+      camera.position.copy(initialCamPos);
+    });
+
+    // 3. Studio Lighting (Electric Blue & Natural Highlights)
     const ambientLight = new THREE.AmbientLight(0xdbeafe, 0.85);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.6);
     keyLight.position.set(2, 3, 2.5);
     scene.add(keyLight);
 
-    // Electric-blue fill light matching Dravya branding
-    const blueFill = new THREE.DirectionalLight(0x00d4ff, 2.2);
+    const blueFill = new THREE.DirectionalLight(0x00d4ff, 2.0);
     blueFill.position.set(-2.5, 1, 1.5);
     scene.add(blueFill);
 
-    // Rim light to highlight edges of wood and steel
-    const rimLight = new THREE.DirectionalLight(0x38bdf8, 2.6);
+    const rimLight = new THREE.DirectionalLight(0x38bdf8, 2.4);
     rimLight.position.set(0, 2.5, -2.5);
     scene.add(rimLight);
 
-    // GLB Asset Loading
+    // 4. Group for Both Artifacts (Bow + Arrow Side-by-Side)
+    const arsenalGroup = new THREE.Group();
+    scene.add(arsenalGroup);
+
     const loader = new GLTFLoader();
-    let currentModel = null;
-    const modelCache = {};
 
-    function loadModel(path, name, desc) {
-      if (currentModel) scene.remove(currentModel);
+    // Load Bow (assets/bow.glb) on the left
+    loader.load(
+      'assets/bow.glb',
+      (gltf) => {
+        const bow = gltf.scene;
+        // Center the bow's geometry
+        const box = new THREE.Box3().setFromObject(bow);
+        const center = box.getCenter(new THREE.Vector3());
+        bow.position.sub(center);
+        
+        // Position slightly left
+        bow.position.x = -0.32;
+        arsenalGroup.add(bow);
+      },
+      undefined,
+      (err) => console.warn('Could not load assets/bow.glb:', err)
+    );
 
-      hudName.innerText = name;
-      hudDesc.innerText = desc;
+    // Load Arrow (assets/arrow.glb) on the right
+    loader.load(
+      'assets/arrow.glb',
+      (gltf) => {
+        const arrow = gltf.scene;
+        // Center the arrow's geometry
+        const box = new THREE.Box3().setFromObject(arrow);
+        const center = box.getCenter(new THREE.Vector3());
+        arrow.position.sub(center);
 
-      if (modelCache[path]) {
-        currentModel = modelCache[path];
-        scene.add(currentModel);
-        return;
-      }
+        // Position slightly right and angled elegantly
+        arrow.position.x = 0.32;
+        arrow.position.y = 0.05;
+        arsenalGroup.add(arrow);
+      },
+      undefined,
+      (err) => console.warn('Could not load assets/arrow.glb:', err)
+    );
 
-      loader.load(
-        path,
-        (gltf) => {
-          const model = gltf.scene;
-          // Center geometry to origin
-          const box = new THREE.Box3().setFromObject(model);
-          const center = box.getCenter(new THREE.Vector3());
-          model.position.sub(center);
-
-          modelCache[path] = model;
-          currentModel = model;
-          scene.add(model);
-        },
-        undefined,
-        (err) => {
-          console.warn(`Could not load ${path}. Check assets folder.`, err);
-        }
-      );
-    }
-
-    // Switch between Bow and Arrow
-    window.switchModel = function(type) {
-      if (type === 'bow') {
-        btnBow.classList.add('active');
-        btnArrow.classList.remove('active');
-        camera.position.set(0, 0.1, 2.7);
-        loadModel(
-          'assets/bow.glb',
-          'Ancient Indian Recurve Bow (Kodanda)',
-          'Polished Sheesham Hardwood • Laminated Belly • Aged Brass Ferrules'
-        );
-      } else {
-        btnArrow.classList.add('active');
-        btnBow.classList.remove('active');
-        camera.position.set(0, 0.05, 1.4);
-        loadModel(
-          'assets/arrow.glb',
-          'Warrior Broadhead Arrow (Bhalla-Mukha)',
-          'Forged High-Carbon Steel • Seasoned Bamboo Cane • Raptor Feather Fletching'
-        );
-      }
-    };
-
-    // Initial load
-    window.switchModel('bow');
-
-    // Continuous smooth auto-rotation loop
+    // 5. Continuous Smooth Auto-Rotation & Lerped Zoom Loop
     function animate() {
       requestAnimationFrame(animate);
-      if (currentModel) {
-        currentModel.rotation.y += 0.007; // Natural continuous rotation
-      }
+
+      // Continuous natural rotation of the entire arsenal
+      arsenalGroup.rotation.y += 0.005;
+
+      // Buttery smooth camera distance lerp for zoom
+      const currentDir = new THREE.Vector3().subVectors(camera.position, controls.target).normalize();
+      const currentDist = camera.position.distanceTo(controls.target);
+      const lerpedDist = THREE.MathUtils.lerp(currentDist, targetDistance, 0.08);
+      camera.position.copy(controls.target).addScaledVector(currentDir, lerpedDist);
+
       controls.update();
       renderer.render(scene, camera);
     }
     animate();
 
-    // Responsive Canvas Resizing
+    // 6. Responsive Window Resizing
     window.addEventListener('resize', () => {
       camera.aspect = container.clientWidth / container.clientHeight;
       camera.updateProjectionMatrix();
@@ -828,3 +870,4 @@
 
 </body>
 </html>
+```
