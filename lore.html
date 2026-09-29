@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DRAVYA | Physics • Lore • 3D Artifacts</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* === DRAVYA PALETTE: SHADES OF BLUE === */
+      --blue-electric: #00d4ff;
+      --blue-cyan: #38bdf8;
+      --blue-sapphire: #0ea5e9;
+      --blue-cobalt: #2563eb;
+      --blue-deep-space: #030712;
+      --blue-glow: rgba(0, 212, 255, 0.45);
+      --blue-subtle: rgba(56, 189, 248, 0.12);
+      --glass-line: rgba(56, 189, 248, 0.22);
+      --glass-card: rgba(8, 18, 42, 0.65);
+      --text-pure: #ffffff;
+      --text-soft: #e2e8f0;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--blue-deep-space);
+      color: var(--text-soft);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.7;
+    }
+
+    /* === 1. UNCOMPROMISED VACUUM FLUCTUATION BACKGROUND === */
+    #video-viewport {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    #video-viewport video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: contrast(1.12) brightness(0.85) saturate(1.25);
+    }
+
+    .atmosphere-tint {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      background: radial-gradient(circle at 50% 30%, rgba(3, 7, 18, 0.25) 0%, rgba(2, 6, 23, 0.78) 100%);
+      pointer-events: none;
+    }
+
+    /* === 2. MINIMALIST CLEAN HEADER === */
+    header {
+      width: 100%;
+      padding: 38px 48px 12px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 50;
+      background: transparent;
+    }
+
+    .brand-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.9rem;
+      letter-spacing: 0.35em;
+      color: var(--blue-electric);
+      text-transform: uppercase;
+      font-weight: 900;
+      text-shadow: 0 0 24px var(--blue-glow);
+      text-decoration: none;
+    }
+
+    .brand-subtitle {
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      color: var(--blue-cyan);
+      text-transform: uppercase;
+      display: block;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .nav-stats {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      color: var(--blue-cyan);
+      border: 1px solid var(--glass-line);
+      padding: 8px 20px;
+      border-radius: 30px;
+      background: rgba(14, 165, 233, 0.08);
+      text-transform: uppercase;
+    }
+
+    /* === 3. HERO INTRODUCTION === */
+    main {
+      max-width: 1180px;
+      margin: 40px auto 100px auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .home-hero {
+      text-align: center;
+      margin: 40px 0 80px 0;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.35em;
+      color: var(--blue-cyan);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: inline-block;
+    }
+
+    h1.hero-headline {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.4rem, 5.5vw, 4.4rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.15;
+      letter-spacing: 0.03em;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9);
+      margin-bottom: 22px;
+    }
+
+    h1.hero-headline span {
+      color: var(--blue-electric);
+      text-shadow: 0 0 28px var(--blue-glow);
+    }
+
+    .hero-manifesto {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(1.3rem, 2.2vw, 1.6rem);
+      color: #cbd5e1;
+      max-width: 780px;
+      margin: 0 auto;
+      line-height: 1.8;
+      font-style: italic;
+    }
+
+    /* === 4. EPISODES ARCHIVE GRID === */
+    .archive-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 30px;
+      border-bottom: 1px solid var(--glass-line);
+      padding-bottom: 16px;
+    }
+
+    .archive-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      color: #ffffff;
+      letter-spacing: 0.15em;
+      font-weight: 700;
+    }
+
+    .archive-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .episodes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 32px;
+      margin-top: 20px;
+    }
+
+    /* === EPISODE CARD DESIGN === */
+    .episode-card {
+      background: var(--glass-card);
+      border: 1px solid var(--glass-line);
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+
+    .episode-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--blue-electric), transparent);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    /* Available Active Card */
+    .episode-card.active-story:hover {
+      transform: translateY(-8px);
+      border-color: var(--blue-electric);
+      box-shadow: 0 20px 45px rgba(0, 212, 255, 0.18);
+    }
+
+    .episode-card.active-story:hover::before {
+      opacity: 1;
+    }
+
+    /* Locked / Upcoming Card */
+    .episode-card.upcoming-story {
+      opacity: 0.72;
+      border-style: dashed;
+      cursor: default;
+    }
+
+    .card-top {
+      margin-bottom: 24px;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .episode-num {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      color: var(--blue-cyan);
+      font-weight: 700;
+    }
+
+    .status-badge {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .status-badge.live {
+      background: rgba(0, 212, 255, 0.15);
+      border: 1px solid var(--blue-electric);
+      color: var(--blue-electric);
+      box-shadow: 0 0 12px var(--blue-subtle);
+    }
+
+    .status-badge.locked {
+      background: rgba(148, 163, 184, 0.1);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      color: var(--text-muted);
+    }
+
+    .card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.45rem;
+      color: #fff;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+
+    .card-premise {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Triad Tags on Each Card */
+    .card-tags {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(56, 189, 248, 0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .tag-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.82rem;
+    }
+
+    .tag-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: var(--blue-electric);
+      min-width: 82px;
+      text-transform: uppercase;
+    }
+
+    .tag-value {
+      color: #cbd5e1;
+    }
+
+    .card-action {
+      margin-top: 24px;
+      padding-top: 16px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.2em;
+      color: var(--blue-electric);
+      font-weight: 700;
+    }
+
+    .card-action span {
+      transition: transform 0.25s ease;
+    }
+
+    .episode-card:hover .card-action span {
+      transform: translateX(5px);
+    }
+
+    /* === FOOTER === */
+    footer {
+      text-align: center;
+      padding: 50px 20px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      border-top: 1px solid rgba(56, 189, 248, 0.1);
+    }
+
+    footer span {
+      color: var(--blue-electric);
+      font-family: 'Cinzel', serif;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. FULLSCREEN VACUUM FLUCTUATION BACKGROUND -->
+  <div id="video-viewport">
+    <video autoplay muted loop playsinline preload="auto">
+      <source src="assets/dravya_vacuum_fluctuation_10s.mp4" type="video/mp4" />
+    </video>
+  </div>
+  <div class="atmosphere-tint"></div>
+
+  <!-- 2. BRAND HEADER -->
+  <header>
+    <div>
+      <a href="index.html" class="brand-title">DRAVYA</a>
+      <span class="brand-subtitle">Physics • Lore • Artifacts</span>
+    </div>
+    <div class="nav-stats">Anthology Archive</div>
+  </header>
+
+  <!-- 3. MAIN PORTAL -->
+  <main>
+
+    <!-- HERO STATEMENT -->
+    <section class="home-hero">
+      <span class="hero-eyebrow">The Digital Sanctuary</span>
+      <h1 class="hero-headline">The Physics of <span>Legend</span></h1>
+      <p class="hero-manifesto">
+        "Every ancient epic conceals a fundamental truth. We deconstruct the greatest stories of Indian origin, reconstruct their sacred instruments as interactive 3D artifacts, and decode the universal physics governing their power."
+      </p>
+    </section>
+
+    <!-- EPISODES ARCHIVE -->
+    <section>
+      <div class="archive-header">
+        <div>
+          <h2 class="archive-title">Select an Episode</h2>
+          <p class="archive-subtitle">Choose a story to read the lore, inspect the 3D artifacts, and explore the physics.</p>
+        </div>
+      </div>
+
+      <div class="episodes-grid">
+
+        <!-- EPISODE 01: ARJUNA (AVAILABLE NOW) -->
+        <a href="myth.html" class="episode-card active-story">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="episode-num">Episode 01 • Hastinapur</span>
+              <span class="status-badge live">● Explore Now</span>
+            </div>
+            <h3 class="card-title">The Singularity of The Eye</h3>
+            <p class="card-premise">
+              Under Acharya Drona's unyielding test, while others behold the entire forest, Arjuna freezes the cosmos to see nothing but the pupil of the wooden bird.
+            </p>
+          </div>
+
+          <div class="card-tags">
+            <div class="tag-row">
+              <span class="tag-label">3D Relics</span>
+              <span class="tag-value">Kodanda Recurve Bow & Bhalla Arrow</span>
+            </div>
+            <div class="tag-row">
+              <span class="tag-label">Meaning</span>
+              <span class="tag-value">Radical Focus & Complete Noise Exclusion</span>
+            </div>
+            <div class="tag-row">
+              <span class="tag-label">Physics</span>
+              <span class="tag-value">Signal-to-Noise Ratio (SNR), Potential Energy, Archer's Paradox</span>
+            </div>
+          </div>
+
+          <div class="card-action">
+            Enter Episode <span>⟶</span>
+          </div>
+        </a>
+
+        <!-- EPISODE 02: SUDARSHANA (UPCOMING) -->
+        <div class="episode-card upcoming-story">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="episode-num">Episode 02 • Kurukshetra</span>
+              <span class="status-badge locked">Archive In Progress</span>
+            </div>
+            <h3 class="card-title">The Solar Discus</h3>
+            <p class="card-premise">
+              The 108 serrated edges of the Sudarshana Chakra, cast from cosmic sun-dust by Vishwakarma to sever ego and restore universal equilibrium.
+            </p>
+          </div>
+
+          <div class="card-tags">
+            <div class="tag-row">
+              <span class="tag-label">3D Relics</span>
+              <span class="tag-value">Sudarshana Chakra (Serrated Ring)</span>
+            </div>
+            <div class="tag-row">
+              <span class="tag-label">Meaning</span>
+              <span class="tag-value">Relentless Time (Kala) & Irreversible Will</span>
+            </div>
+            <div class="tag-row">
+              <span class="tag-label">Physics</span>
+              <span class="tag-value">Gyroscopic Stability, Vortex Shedding, Angular Momentum</span>
+            </div>
+          </div>
+
+          <div class="card-action" style="color: var(--text-muted);">
+            Coming Soon <span>◆</span>
+          </div>
+        </div>
+
+        <!-- EPISODE 03: KARNA'S CHARIOT (UPCOMING) -->
+        <div class="episode-card upcoming-story">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="episode-num">Episode 03 • The Mud of Fate</span>
+              <span class="status-badge locked">Archive In Progress</span>
+            </div>
+            <h3 class="card-title">The Sun Warrior's Wheel</h3>
+            <p class="card-premise">
+              The golden war chariot of Karna swallowed by the earth at the climactic hour, challenging the immutable laws of destiny and mechanical leverage.
+            </p>
+          </div>
+
+          <div class="card-tags">
+            <div class="tag-row">
+              <span class="tag-label">3D Relics</span>
+              <span class="tag-value">Reinforced Heavy Bronze Spoke Wheel</span>
+            </div>
+            <div class="tag-row">
+              <span class="tag-label">Meaning</span>
+              <span class="tag-value">The Burden of Karma & The Inevitable Trap</span>
+            </div>
+            <div class="tag-row">
+              <span class="tag-label">Physics</span>
+              <span class="tag-value">Non-Newtonian Fluid Soil, Torque, Rotational Inertia</span>
+            </div>
+          </div>
+
+          <div class="card-action" style="color: var(--text-muted);">
+            Coming Soon <span>◆</span>
+          </div>
+        </div>
+
+        <!-- EPISODE 04: BHEEMA'S GADA (UPCOMING) -->
+        <div class="episode-card upcoming-story">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="episode-num">Episode 04 • The Duel</span>
+              <span class="status-badge locked">Archive In Progress</span>
+            </div>
+            <h3 class="card-title">The Pillar of Force</h3>
+            <p class="card-premise">
+              The fluted iron mace of Bheema, forged to shatter monolithic armor through raw centrifugal acceleration and structural resonance.
+            </p>
+          </div>
+
+          <div class="card-tags">
+            <div class="tag-row">
+              <span class="tag-label">3D Relics</span>
+              <span class="tag-value">Ancient Indian Iron Gada (Mace)</span>
+            </div>
+            <div class="tag-row">
+              <span class="tag-label">Meaning</span>
+              <span class="tag-value">Righteous Rage vs. Absolute Self-Mastery</span>
+            </div>
+            <div class="tag-row">
+              <span class="tag-label">Physics</span>
+              <span class="tag-value">Impulse-Momentum Theorem, Center of Percussion</span>
+            </div>
+          </div>
+
+          <div class="card-action" style="color: var(--text-muted);">
+            Coming Soon <span>◆</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 4. FOOTER -->
+  <footer>
+    <p>DRAVYA &copy; 2026 • <span>Physics • Lore • Artifacts</span></p>
+  </footer>
+
+</body>
+</html>
