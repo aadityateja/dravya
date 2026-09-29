@@ -1,27 +1,3 @@
-Here is the completely redesigned **`index.html`** based on all your feedback:
-
-### What was updated:
-1. **Both Bow and Arrow Visible Together**: There are no tabs or selection buttons. The *Dhanush* and *Shara* now float side-by-side in one unified 3D scene, rotating in harmony.
-2. **Fixed the Scroll-Hijacking & Jumpy Zoom**:
-   - The 3D canvas **no longer traps your mouse wheel** while scrolling down the page. 
-   - Added smooth, dedicated on-screen **`+` (Zoom In)**, **`−` (Zoom Out)**, and **`⟲` (Reset View)** buttons with buttery damping.
-   - You can also click the canvas to freely rotate with smooth inertia.
-3. **Highlighted 3D Exploration Section**: An eye-catching, glowing blue exploration badge with clear instructions on how to inspect and rotate both weapons.
-4. **Open, Editorial Layout (No Clunky Boxes)**: Removed the heavy, suffocating card containers. The text now floats organically over the vacuum fluctuation background with clean typography, luminous cyan accents, and generous breathing room.
-5. **Clear, Term-by-Term Physics**: Replaced dense academic equations with **intuitive, crystal-clear explanations** of the core physical principles:
-   - *How Potential Energy is Stored*
-   - *Conservation of Energy (Muscle $\to$ Flight)*
-   - *Kinetic Energy of the Arrow*
-   - *Bow & Arrow Materials (Bamboo, Hardwood, Horn & Steel)*
-   - *String Vibration & Transverse Waves (and why dry-firing breaks a bow)*
-   - *The Archer’s Paradox (Why arrows snake in mid-air)*
-   - *Detection Physics (The Bird's Eye as Signal vs. Noise)*
-
----
-
-### Complete Code (`index.html`)
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,10 +5,15 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DRAVYA | The Bird's Eye — Lore, 3D Artifacts & Physics</title>
   
-  <!-- Fonts: Cinzel for Epic Titles, Cormorant Garamond for Storytelling, Inter for Clear Concepts -->
+  <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- KaTeX for Physics Mathematics -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
 
   <style>
     :root {
@@ -82,7 +63,6 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
       filter: contrast(1.12) brightness(0.88) saturate(1.25);
     }
 
-    /* Soft ambient wash for crisp typography without killing the video motion */
     .atmosphere-tint {
       position: fixed;
       top: 0;
@@ -94,7 +74,7 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
       pointer-events: none;
     }
 
-    /* === 2. CLEAN FLOATING BRAND HEADER (NO BLUR BOX) === */
+    /* === 2. CLEAN MINIMALIST HEADER === */
     header {
       width: 100%;
       padding: 38px 48px 12px 48px;
@@ -166,7 +146,7 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
       background: linear-gradient(90deg, var(--glass-line), transparent);
     }
 
-    /* === CINEMATIC STORY STYLING (OPEN-AIR, NO CLUNKY BOXES) === */
+    /* === CINEMATIC STORY STYLING === */
     .story-hero {
       text-align: center;
       margin: 40px 0 50px 0;
@@ -288,14 +268,14 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
       color: #fff;
     }
 
-    /* === 4. HIGHLIGHTED 3D ARTIFACT EXPLORER (BOTH ARTIFACTS) === */
+    /* === 4. INTERACTIVE 3D STAGE & BLUR FOCUS MODE === */
     .artifact-showcase {
       margin: 80px 0 100px 0;
       position: relative;
+      text-align: center;
     }
 
     .showcase-header {
-      text-align: center;
       margin-bottom: 20px;
     }
 
@@ -340,79 +320,135 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
       margin-top: 6px;
     }
 
-    /* 3D Canvas Viewport (Free-floating, no box boundary) */
-    .canvas-stage {
+    /* In-page 3D Stage */
+    .canvas-preview-wrapper {
       position: relative;
       width: 100%;
-      height: 580px;
-      margin: 15px 0;
+      height: 540px;
+      margin: 20px 0 10px 0;
+      cursor: pointer;
       user-select: none;
+      transition: transform 0.3s ease;
+    }
+
+    .canvas-preview-wrapper:hover {
+      transform: scale(1.01);
     }
 
     #three-canvas {
       width: 100%;
       height: 100%;
       display: block;
-      cursor: grab;
     }
 
-    #three-canvas:active {
+    .click-prompt {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.22em;
+      color: var(--blue-electric);
+      background: rgba(3, 7, 18, 0.75);
+      border: 1px solid var(--blue-electric);
+      padding: 10px 24px;
+      border-radius: 30px;
+      backdrop-filter: blur(8px);
+      pointer-events: none;
+      box-shadow: 0 0 25px var(--blue-glow);
+      transition: all 0.3s ease;
+    }
+
+    .canvas-preview-wrapper:hover .click-prompt {
+      background: var(--blue-electric);
+      color: #030712;
+      font-weight: 700;
+    }
+
+    /* Fullscreen Focus Mode: Background blurs completely */
+    .canvas-preview-wrapper.focus-mode {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 100;
+      margin: 0;
+      cursor: grab;
+      backdrop-filter: blur(20px);
+      background: rgba(3, 7, 18, 0.82);
+      animation: fadeInFocus 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .canvas-preview-wrapper.focus-mode:active {
       cursor: grabbing;
     }
 
-    /* Floating On-Screen Controls for Buttery Smooth Zooming */
-    .zoom-hud {
+    @keyframes fadeInFocus {
+      from { opacity: 0; backdrop-filter: blur(0px); }
+      to { opacity: 1; backdrop-filter: blur(20px); }
+    }
+
+    .focus-hud {
+      display: none;
       position: absolute;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 20;
-    }
-
-    .hud-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 1px solid var(--glass-line);
-      background: rgba(8, 18, 42, 0.75);
-      color: var(--blue-cyan);
-      font-size: 1.3rem;
-      display: flex;
+      top: 30px;
+      left: 36px;
+      right: 36px;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      backdrop-filter: blur(8px);
-      transition: all 0.25s ease;
+      z-index: 110;
+      pointer-events: none;
     }
 
-    .hud-btn:hover {
+    .canvas-preview-wrapper.focus-mode .focus-hud {
+      display: flex;
+    }
+
+    .focus-hud-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-shadow: 0 0 16px var(--blue-glow);
+      text-align: left;
+    }
+
+    .focus-hud-hint {
+      font-size: 0.8rem;
+      color: var(--blue-cyan);
+      margin-top: 4px;
+      text-align: left;
+    }
+
+    .close-focus-btn {
+      pointer-events: auto;
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      color: var(--blue-cyan);
+      border: 1px solid var(--glass-line);
+      background: rgba(8, 18, 42, 0.8);
+      padding: 10px 22px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .close-focus-btn:hover {
       background: var(--blue-electric);
       color: #030712;
       border-color: var(--blue-electric);
-      box-shadow: 0 0 18px var(--blue-glow);
-      transform: scale(1.08);
+      box-shadow: 0 0 20px var(--blue-glow);
     }
 
-    .instructions-strip {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 18px;
-      background: rgba(8, 18, 42, 0.55);
-      border: 1px solid var(--glass-line);
-      border-radius: 10px;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
-
-    .instructions-strip span {
-      color: var(--blue-cyan);
-      font-weight: 600;
-    }
-
-    /* === 5. PHYSICS IN SIMPLE TERMS (INTUITIVE & BEAUTIFUL) === */
+    /* === 5. PHYSICS IN SIMPLE TERMS (EQUATIONS FULLY VISIBLE) === */
     .physics-wrap {
       margin-bottom: 90px;
     }
@@ -469,13 +505,30 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
     }
 
     .simple-law {
-      background: rgba(0, 212, 255, 0.06);
+      background: rgba(0, 212, 255, 0.08);
       border-left: 3px solid var(--blue-electric);
-      padding: 10px 14px;
-      border-radius: 0 6px 6px 0;
-      font-size: 0.88rem;
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.92rem;
       color: #ffffff;
       font-weight: 500;
+    }
+
+    /* === GUARANTEED EQUATION VISIBILITY (KATEX OVERRIDES) === */
+    .katex {
+      font-size: 1.12em !important;
+      color: #ffffff !important;
+      text-shadow: 0 0 8px rgba(0, 212, 255, 0.25);
+    }
+
+    .katex-display {
+      margin: 14px 0 !important;
+      padding: 8px 0;
+    }
+
+    .simple-law .katex {
+      color: var(--blue-cyan) !important;
+      font-weight: 600;
     }
 
     /* === FOOTER === */
@@ -496,7 +549,7 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
 </head>
 <body>
 
-  <!-- 1. VACUUM FLUCTUATION VIDEO BACKGROUND (FULLY VISIBLE) -->
+  <!-- 1. FULLSCREEN VACUUM FLUCTUATION BACKGROUND -->
   <div id="video-viewport">
     <video autoplay muted loop playsinline preload="auto">
       <source src="assets/dravya_vacuum_fluctuation_10s.mp4" type="video/mp4" />
@@ -504,7 +557,7 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
   </div>
   <div class="atmosphere-tint"></div>
 
-  <!-- 2. MINIMALIST CLEAN BRAND HEADER -->
+  <!-- 2. MINIMALIST CLEAN HEADER -->
   <header>
     <div>
       <div class="brand-title">DRAVYA</div>
@@ -609,33 +662,35 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
       </div>
     </div>
 
-    <!-- SECTION 3: HIGHLIGHTED 3D ARTIFACT EXPLORER (BOTH BOW & ARROW) -->
+    <!-- SECTION 3: 3D ARTIFACT EXPLORER (BLURS BACKGROUND ON CLICK) -->
     <div class="artifact-showcase">
       <div class="showcase-header">
         <div class="explore-badge">Interactive 3D Arsenal</div>
         <h2 class="showcase-title">Explore the Bow & Arrow</h2>
-        <p class="showcase-subtitle">Both classical relics rendered in real-time WebGL. Slowly rotating together in continuous harmony.</p>
+        <p class="showcase-subtitle">Both classical relics rotating in unison. Click anywhere on the artifacts to enter 360° inspection.</p>
       </div>
 
-      <!-- Free-floating Canvas Viewport -->
-      <div class="canvas-stage">
+      <!-- The Interactive Stage -->
+      <div class="canvas-preview-wrapper" id="canvas-wrapper">
         <div id="three-canvas"></div>
 
-        <!-- Smooth On-Screen Zoom & Reset Buttons -->
-        <div class="zoom-hud">
-          <button class="hud-btn" id="btn-zoom-in" title="Zoom In">+</button>
-          <button class="hud-btn" id="btn-zoom-out" title="Zoom Out">−</button>
-          <button class="hud-btn" id="btn-reset" title="Reset View" style="font-size: 1rem;">⟲</button>
+        <!-- In-page Click Prompt -->
+        <div class="click-prompt" id="click-prompt">
+          <span>✦ Click to Inspect in Full 3D</span>
         </div>
-      </div>
 
-      <div class="instructions-strip">
-        <div><span>Controls:</span> Click & drag anywhere to rotate 360° • Use <strong>+</strong> / <strong>−</strong> to zoom smoothly.</div>
-        <div><span>Pair:</span> Kodanda Recurve Bow & Bhalla Broadhead Arrow</div>
+        <!-- Focus Mode HUD (Revealed on Click) -->
+        <div class="focus-hud">
+          <div>
+            <div class="focus-hud-title">Kodanda & Bhalla • 360° Inspection</div>
+            <div class="focus-hud-hint">Drag to rotate in all angles • Scroll or pinch to zoom smoothly</div>
+          </div>
+          <button class="close-focus-btn" id="btn-close-focus">✕ Exit Inspection [ESC]</button>
+        </div>
       </div>
     </div>
 
-    <!-- SECTION 4: PHYSICS IN SIMPLE TERMS -->
+    <!-- SECTION 4: PHYSICS IN SIMPLE TERMS (EQUATIONS FULLY WORKING) -->
     <div class="physics-wrap">
       <div class="section-eyebrow">The Physics: Simple Terms & Fundamental Concepts</div>
 
@@ -646,9 +701,12 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
           <div class="term-tag">Concept 01</div>
           <h3 class="term-title">How Potential Energy is Stored</h3>
           <p class="term-explain">
-            A bow does not create energy; it is an elastic storage bank. When you pull the bowstring back, your muscle work forces the flexible wooden limbs to bend backwards. The limbs resist this bending, storing your energy inside their molecular bonds as <strong>Elastic Potential Energy</strong>—waiting to snap forward like a compressed steel spring.
+            A bow is an elastic energy transformer. When you draw the bowstring back by distance $x$, your muscle work bends the flexible wooden limbs. The limbs resist this bending, packing your energy inside their molecular bonds as <strong>Elastic Potential Energy</strong> ($U_e$):
           </p>
-          <div class="simple-law">Rule: More draw distance + stiffer limbs = larger stored energy.</div>
+          <div class="simple-law">
+            $$U_e = \int_{0}^{x_{\text{draw}}} F(x) \, dx$$
+            Rule: More draw distance + stiffer limbs = larger stored potential energy.
+          </div>
         </div>
 
         <!-- 2. CONSERVATION OF ENERGY -->
@@ -656,9 +714,12 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
           <div class="term-tag">Concept 02</div>
           <h3 class="term-title">Conservation of Energy</h3>
           <p class="term-explain">
-            Energy can never appear or disappear; it only changes form. When you release the string, nearly <strong>80% of the stored potential energy</strong> instantly converts into the forward <strong>Kinetic Energy</strong> of the arrow. The remaining ~20% is not lost—it turns into the sound "thrum" of the string and heat vibration in the wood.
+            Energy cannot be created or destroyed; it only changes form. When the string is released, stored potential energy converts into the forward <strong>Kinetic Energy</strong> ($E_k$) of the arrow, with the remainder dissipating as string sound and limb vibrations ($E_{\text{vib}}$):
           </p>
-          <div class="simple-law">Muscle Work ➔ Stored Potential Energy ➔ Arrow Kinetic Energy + Sound.</div>
+          <div class="simple-law">
+            $$U_{\text{potential}} \Longrightarrow E_{\text{kinetic}} + E_{\text{sound}} + E_{\text{vib}}$$
+            Muscle Work ➔ Stored Potential Energy ➔ Arrow Kinetic Energy + Sound.
+          </div>
         </div>
 
         <!-- 3. KINETIC ENERGY -->
@@ -666,9 +727,12 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
           <div class="term-tag">Concept 03</div>
           <h3 class="term-title">Kinetic Energy & Arrow Speed</h3>
           <p class="term-explain">
-            Kinetic energy depends heavily on speed: if you double the arrow's speed, its kinetic energy increases <strong>four times</strong> ($E_k = \frac{1}{2}mv^2$). A lighter arrow flies at blistering speed with a flat trajectory, while a heavy warrior arrow carries immense forward momentum to punch through wooden armor.
+            Kinetic energy depends on the arrow mass $m$ and heavily on velocity $v$. Because velocity is squared ($v^2$), doubling the arrow speed quadruples its destructive kinetic energy upon reaching the target:
           </p>
-          <div class="simple-law">Doubling speed quadruples the kinetic energy at impact.</div>
+          <div class="simple-law">
+            $$E_k = \frac{1}{2} m v^2$$
+            Doubling release speed quadruples the kinetic punch at the target.
+          </div>
         </div>
 
         <!-- 4. MATERIALS SCIENCE -->
@@ -676,9 +740,12 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
           <div class="term-tag">Concept 04</div>
           <h3 class="term-title">Materials: Wood, Horn & Bamboo</h3>
           <p class="term-explain">
-            When a bow bends, two opposite forces fight each other: the outer back is stretched (tension), while the inner belly is crushed (compression). Ancient Indian bowmakers layered <strong>flexible bamboo</strong> on the back to stretch without snapping, and <strong>dense horn or rosewood</strong> on the belly to withstand immense crushing pressure without cracking.
+            When a bow bends, two opposing stresses occur: the outer back suffers tension ($+\sigma$), while the inner belly suffers crushing compression ($-\sigma$). Ancient Indian bowmakers layered <strong>flexible bamboo</strong> on the back to stretch without snapping, and <strong>dense horn or rosewood</strong> on the belly:
           </p>
-          <div class="simple-law">Tensile outer back + compressive inner belly = unbreakable composite bow.</div>
+          <div class="simple-law">
+            $$\sigma = \frac{M \cdot y}{I}, \quad E_{\text{bamboo}} \approx 18\,\text{GPa}, \quad E_{\text{horn}} \approx 3.5\,\text{GPa}$$
+            Tensile outer back + compressive inner belly = unbreakable composite weapon.
+          </div>
         </div>
 
         <!-- 5. STRING VIBRATION -->
@@ -686,9 +753,12 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
           <div class="term-tag">Concept 05</div>
           <h3 class="term-title">String Vibration & Dry-Firing</h3>
           <p class="term-explain">
-            When released, transverse waves race along the string at speeds over $300\,\text{m/s}$, vibrating like a giant musical instrument. If an archer pulls and releases a bow <em>without an arrow</em> (called "dry-firing"), the massive energy has nowhere to go; it rebounds into the wooden limb tips as violent shockwaves, often shattering the bow instantly!
+            Upon release, transverse waves race along the string under tension $T$ with linear mass density $\mu$. If released without an arrow (dry-firing), the energy cannot escape into flight; it violently rebounds into the limb tips, shattering the wood:
           </p>
-          <div class="simple-law">Never dry-fire: without an arrow to absorb energy, the bow destroys itself.</div>
+          <div class="simple-law">
+            $$v_{\text{wave}} = \sqrt{\frac{T}{\mu}}, \quad f = \frac{1}{2L}\sqrt{\frac{T}{\mu}}$$
+            Without an arrow to carry away $E_k$, the rebound shockwaves destroy the bow.
+          </div>
         </div>
 
         <!-- 6. THE ARCHER'S PARADOX -->
@@ -696,9 +766,12 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
           <div class="term-tag">Concept 06</div>
           <h3 class="term-title">The Archer's Paradox (Snake Flight)</h3>
           <p class="term-explain">
-            You might think an arrow flies completely straight like a rigid pole. In reality, the explosive punch from the string causes the thin arrow shaft to bend and flex like a swimming fish. It snakes around the thick wooden handle of the bow without hitting it, and stabilizes in mid-air thanks to the aerodynamic feathers on its tail.
+            When the bowstring accelerates the arrow, the massive forward force exceeds the shaft's critical buckling load ($P_{\text{cr}}$). The arrow flexes like a swimming fish in mid-air, curving around the wooden riser and stabilizing via aerodynamic fletching:
           </p>
-          <div class="simple-law">Arrows don't fly rigid; they oscillate like harmonic waves in mid-air.</div>
+          <div class="simple-law">
+            $$P_{\text{cr}} = \frac{\pi^2 E I}{L^2}$$
+            Arrows oscillate like harmonic waves in flight rather than flying rigid.
+          </div>
         </div>
 
         <!-- 7. DETECTION PHYSICS -->
@@ -706,10 +779,13 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
           <div class="term-tag">Concept 07 • The Scientific Mirror</div>
           <h3 class="term-title">Detection Physics: Filtering Out The Noise</h3>
           <p class="term-explain">
-            In modern physics—whether detecting gravitational waves at LIGO or capturing radio signals from deep space—the universe is drowned in noise (thermal vibrations, seismic tremors, atmosphere). To detect the true signal, scientists build filters that mute every single frequency except the target. 
-            <strong>Arjuna’s mind was nature's ultimate filter:</strong> he muted the trees, the wind, and the bird itself, leaving only the signal of the eye.
+            In modern physics (such as LIGO detecting gravitational waves), the universe is inundated with background noise ($P_{\text{noise}}$). To measure the true signal ($P_{\text{signal}}$), scientists build filters that mute every ambient disturbance. 
+            <strong>Arjuna’s focus was an ideal bandpass filter:</strong> by attenuating the forest, the trees, and the bird down to zero, the signal of the eye became infinite:
           </p>
-          <div class="simple-law">Signal-to-Noise Ratio ($\text{SNR}$): When you reduce the noise of distractions to zero, the signal of your goal becomes infinite.</div>
+          <div class="simple-law">
+            $$\text{SNR} = \frac{P_{\text{signal}}}{P_{\text{noise}}} \quad \xrightarrow[P_{\text{noise}} \to 0]{\text{Arjuna's Focus}} \quad \infty$$
+            When you filter out the noise of distractions, the signal of your goal becomes infinite.
+          </div>
         </div>
 
       </div>
@@ -722,7 +798,7 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
     <p>DRAVYA &copy; 2026 • <span>Physics • Lore • Artifacts</span></p>
   </footer>
 
-  <!-- 5. THREE.JS ES MODULE & BOTH ARTIFACTS TOGETHER -->
+  <!-- 5. THREE.JS ES MODULE -->
   <script type="importmap">
     {
       "imports": {
@@ -737,85 +813,67 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
     import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
     import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
+    const wrapper = document.getElementById('canvas-wrapper');
     const container = document.getElementById('three-canvas');
-    const btnZoomIn = document.getElementById('btn-zoom-in');
-    const btnZoomOut = document.getElementById('btn-zoom-out');
-    const btnReset = document.getElementById('btn-reset');
+    const clickPrompt = document.getElementById('click-prompt');
+    const btnClose = document.getElementById('btn-close-focus');
 
     // 1. Scene & Camera Setup
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(38, container.clientWidth / container.clientHeight, 0.1, 100);
-    const initialCamPos = new THREE.Vector3(0, 0, 3.2);
-    camera.position.copy(initialCamPos);
+    const camera = new THREE.PerspectiveCamera(38, wrapper.clientWidth / wrapper.clientHeight, 0.1, 100);
+    
+    const inPageCamPos = new THREE.Vector3(0, 0, 3.2);
+    const focusCamPos  = new THREE.Vector3(0, 0, 2.05); // Glides forward in focus
+    camera.position.copy(inPageCamPos);
 
-    // Transparent WebGL Renderer (No background box)
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setSize(wrapper.clientWidth, wrapper.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.3;
+    renderer.toneMappingExposure = 1.35;
     container.appendChild(renderer.domElement);
 
-    // 2. OrbitControls (Smooth inertia & NO page-scroll trapping)
+    // 2. OrbitControls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    
-    // IMPORTANT: Disable mouse wheel scroll hijacking so page scrolling is never interrupted
+
+    // Disabled during reading so window scroll is completely natural
     controls.enableZoom = false; 
+    controls.enablePan = false;
 
-    // Smooth Zooming via Target Distance lerp
-    let targetDistance = initialCamPos.z;
-    const minZoomDist = 1.0;
-    const maxZoomDist = 5.5;
+    let isFocusMode = false;
+    let targetCamPos = inPageCamPos.clone();
 
-    btnZoomIn.addEventListener('click', () => {
-      targetDistance = Math.max(minZoomDist, targetDistance - 0.55);
-    });
-
-    btnZoomOut.addEventListener('click', () => {
-      targetDistance = Math.min(maxZoomDist, targetDistance + 0.55);
-    });
-
-    btnReset.addEventListener('click', () => {
-      targetDistance = initialCamPos.z;
-      controls.reset();
-      camera.position.copy(initialCamPos);
-    });
-
-    // 3. Studio Lighting (Electric Blue & Natural Highlights)
+    // 3. Studio Lighting
     const ambientLight = new THREE.AmbientLight(0xdbeafe, 0.85);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 2.6);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
     keyLight.position.set(2, 3, 2.5);
     scene.add(keyLight);
 
-    const blueFill = new THREE.DirectionalLight(0x00d4ff, 2.0);
+    const blueFill = new THREE.DirectionalLight(0x00d4ff, 2.2);
     blueFill.position.set(-2.5, 1, 1.5);
     scene.add(blueFill);
 
-    const rimLight = new THREE.DirectionalLight(0x38bdf8, 2.4);
+    const rimLight = new THREE.DirectionalLight(0x38bdf8, 2.5);
     rimLight.position.set(0, 2.5, -2.5);
     scene.add(rimLight);
 
-    // 4. Group for Both Artifacts (Bow + Arrow Side-by-Side)
+    // 4. Load Both Bow and Arrow Side-by-Side
     const arsenalGroup = new THREE.Group();
     scene.add(arsenalGroup);
 
     const loader = new GLTFLoader();
 
-    // Load Bow (assets/bow.glb) on the left
+    // Load Bow (assets/bow.glb)
     loader.load(
       'assets/bow.glb',
       (gltf) => {
         const bow = gltf.scene;
-        // Center the bow's geometry
         const box = new THREE.Box3().setFromObject(bow);
-        const center = box.getCenter(new THREE.Vector3());
-        bow.position.sub(center);
-        
-        // Position slightly left
+        bow.position.sub(box.getCenter(new THREE.Vector3()));
         bow.position.x = -0.32;
         arsenalGroup.add(bow);
       },
@@ -823,17 +881,13 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
       (err) => console.warn('Could not load assets/bow.glb:', err)
     );
 
-    // Load Arrow (assets/arrow.glb) on the right
+    // Load Arrow (assets/arrow.glb)
     loader.load(
       'assets/arrow.glb',
       (gltf) => {
         const arrow = gltf.scene;
-        // Center the arrow's geometry
         const box = new THREE.Box3().setFromObject(arrow);
-        const center = box.getCenter(new THREE.Vector3());
-        arrow.position.sub(center);
-
-        // Position slightly right and angled elegantly
+        arrow.position.sub(box.getCenter(new THREE.Vector3()));
         arrow.position.x = 0.32;
         arrow.position.y = 0.05;
         arsenalGroup.add(arrow);
@@ -842,32 +896,103 @@ Here is the completely redesigned **`index.html`** based on all your feedback:
       (err) => console.warn('Could not load assets/arrow.glb:', err)
     );
 
-    // 5. Continuous Smooth Auto-Rotation & Lerped Zoom Loop
+    // 5. Enter & Exit Focus Mode Handlers
+    function enterFocusMode() {
+      if (isFocusMode) return;
+      isFocusMode = true;
+      wrapper.classList.add('focus-mode');
+      clickPrompt.style.display = 'none';
+
+      // Full interactive zoom & orbit unlocked
+      controls.enableZoom = true;
+      controls.minDistance = 0.6;
+      controls.maxDistance = 5.0;
+
+      // Glide camera forward
+      targetCamPos.copy(focusCamPos);
+
+      setTimeout(() => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }, 50);
+    }
+
+    function exitFocusMode() {
+      if (!isFocusMode) return;
+      isFocusMode = false;
+      wrapper.classList.remove('focus-mode');
+      clickPrompt.style.display = 'inline-flex';
+
+      // Lock zoom so normal page scrolling is free
+      controls.enableZoom = false;
+      controls.reset();
+
+      // Glide camera back to reading position
+      targetCamPos.copy(inPageCamPos);
+
+      setTimeout(() => {
+        camera.aspect = wrapper.clientWidth / wrapper.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(wrapper.clientWidth, wrapper.clientHeight);
+      }, 50);
+    }
+
+    wrapper.addEventListener('click', (e) => {
+      if (!isFocusMode) enterFocusMode();
+    });
+
+    btnClose.addEventListener('click', (e) => {
+      e.stopPropagation();
+      exitFocusMode();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') exitFocusMode();
+    });
+
+    // 6. Smooth Animation Loop
     function animate() {
       requestAnimationFrame(animate);
 
-      // Continuous natural rotation of the entire arsenal
-      arsenalGroup.rotation.y += 0.005;
+      // Auto-rotate weapons when user is not actively inspecting in focus
+      if (!isFocusMode) {
+        arsenalGroup.rotation.y += 0.005;
+      }
 
-      // Buttery smooth camera distance lerp for zoom
-      const currentDir = new THREE.Vector3().subVectors(camera.position, controls.target).normalize();
-      const currentDist = camera.position.distanceTo(controls.target);
-      const lerpedDist = THREE.MathUtils.lerp(currentDist, targetDistance, 0.08);
-      camera.position.copy(controls.target).addScaledVector(currentDir, lerpedDist);
+      // Smooth camera transition between reading and focus view
+      camera.position.lerp(targetCamPos, 0.06);
 
       controls.update();
       renderer.render(scene, camera);
     }
     animate();
 
-    // 6. Responsive Window Resizing
     window.addEventListener('resize', () => {
-      camera.aspect = container.clientWidth / container.clientHeight;
+      const w = isFocusMode ? window.innerWidth : wrapper.clientWidth;
+      const h = isFocusMode ? window.innerHeight : wrapper.clientHeight;
+      camera.aspect = w / h;
       camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setSize(w, h);
+    });
+  </script>
+
+  <!-- 6. KATEX AUTO-RENDER TRIGGER (SUPPORTS BOTH $ AND $$) -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false },
+            { left: '\\(', right: '\\)', display: false },
+            { left: '\\[', right: '\\]', display: true }
+          ],
+          throwOnError: false
+        });
+      }
     });
   </script>
 
 </body>
 </html>
-```
