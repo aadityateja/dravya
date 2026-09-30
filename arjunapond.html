@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Addy's Pond — DRAVYA</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #050807;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #f0eee6;
+    }
+
+    #experience {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        background:
+            radial-gradient(
+                circle at 50% 45%,
+                rgba(45, 70, 55, 0.18),
+                transparent 55%
+            ),
+            #050807;
+    }
+
+    canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* -------------------------------------------------
+       INTRO
+    ------------------------------------------------- */
+
+    #intro {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background:
+            radial-gradient(
+                circle at center,
+                rgba(25, 42, 31, 0.30),
+                rgba(2, 5, 4, 0.97)
+            );
+
+        transition:
+            opacity 1.5s ease,
+            visibility 1.5s ease;
+    }
+
+    #intro.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    .intro-content {
+        width: min(700px, 88vw);
+        text-align: center;
+    }
+
+    .dravyaline {
+        width: 70px;
+        height: 1px;
+        margin: 0 auto 28px;
+        background: rgba(255,255,255,0.45);
+    }
+
+    .eyebrow {
+        font-size: 10px;
+        letter-spacing: 0.42em;
+        text-transform: uppercase;
+        opacity: 0.5;
+        margin-bottom: 20px;
+    }
+
+    .title {
+        font-size: clamp(52px, 10vw, 120px);
+        font-weight: 300;
+        letter-spacing: -0.055em;
+        line-height: 0.9;
+    }
+
+    .subtitle {
+        margin-top: 25px;
+        font-size: 12px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        opacity: 0.5;
+    }
+
+    #enterButton {
+        margin-top: 55px;
+
+        padding: 14px 30px;
+
+        border: 1px solid rgba(255,255,255,0.25);
+        background: rgba(255,255,255,0.035);
+        color: white;
+
+        font-size: 10px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+
+        cursor: pointer;
+
+        transition:
+            background 0.3s ease,
+            border-color 0.3s ease,
+            transform 0.3s ease;
+    }
+
+    #enterButton:hover {
+        background: rgba(255,255,255,0.10);
+        border-color: rgba(255,255,255,0.5);
+        transform: translateY(-2px);
+    }
+
+    /* -------------------------------------------------
+       TOP UI
+    ------------------------------------------------- */
+
+    #topUI {
+        position: fixed;
+        top: 28px;
+        left: 32px;
+        right: 32px;
+
+        z-index: 10;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        pointer-events: none;
+    }
+
+    .brand {
+        pointer-events: auto;
+    }
+
+    .brand-main {
+        font-size: 13px;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+    }
+
+    .brand-sub {
+        margin-top: 7px;
+        font-size: 9px;
+        letter-spacing: 0.22em;
+        opacity: 0.4;
+        text-transform: uppercase;
+    }
+
+    .status {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+
+        font-size: 9px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+
+        opacity: 0.55;
+    }
+
+    .status-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #758d74;
+
+        box-shadow:
+            0 0 10px rgba(117,141,116,0.7);
+    }
+
+    /* -------------------------------------------------
+       MUSIC PLAYER
+    ------------------------------------------------- */
+
+    #player {
+        position: fixed;
+
+        left: 50%;
+        bottom: 30px;
+
+        transform: translateX(-50%);
+
+        z-index: 12;
+
+        width: min(620px, calc(100vw - 40px));
+
+        padding: 17px 20px;
+
+        background: rgba(4,7,6,0.70);
+        border: 1px solid rgba(255,255,255,0.12);
+
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+    }
+
+    .track-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        margin-bottom: 12px;
+    }
+
+    .track-name {
+        font-size: 10px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+    }
+
+    .track-time {
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        opacity: 0.45;
+        font-variant-numeric: tabular-nums;
+    }
+
+    #progress {
+        width: 100%;
+        height: 2px;
+
+        appearance: none;
+        -webkit-appearance: none;
+
+        background: rgba(255,255,255,0.16);
+
+        cursor: pointer;
+
+        margin-bottom: 15px;
+    }
+
+    #progress::-webkit-slider-thumb {
+        appearance: none;
+        -webkit-appearance: none;
+
+        width: 9px;
+        height: 9px;
+
+        border-radius: 50%;
+
+        background: #eee;
+
+        cursor: pointer;
+    }
+
+    #progress::-moz-range-thumb {
+        width: 9px;
+        height: 9px;
+
+        border: none;
+        border-radius: 50%;
+
+        background: #eee;
+
+        cursor: pointer;
+    }
+
+    .controls {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .left-controls {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .control-button {
+        border: none;
+        background: none;
+        color: white;
+
+        cursor: pointer;
+
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+
+        opacity: 0.65;
+
+        transition:
+            opacity 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .control-button:hover {
+        opacity: 1;
+        transform: translateY(-1px);
+    }
+
+    #playButton {
+        width: 38px;
+        height: 38px;
+
+        border: 1px solid rgba(255,255,255,0.25);
+        border-radius: 50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 12px;
+
+        opacity: 1;
+    }
+
+    .volume {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    #volume {
+        width: 70px;
+        height: 2px;
+
+        appearance: none;
+        -webkit-appearance: none;
+
+        background: rgba(255,255,255,0.16);
+    }
+
+    #volume::-webkit-slider-thumb {
+        appearance: none;
+        -webkit-appearance: none;
+
+        width: 7px;
+        height: 7px;
+
+        border-radius: 50%;
+
+        background: #eee;
+    }
+
+    /* -------------------------------------------------
+       POND INFO
+    ------------------------------------------------- */
+
+    #pondInfo {
+        position: fixed;
+
+        left: 32px;
+        bottom: 34px;
+
+        z-index: 8;
+
+        pointer-events: none;
+
+        opacity: 0.6;
+    }
+
+    .pond-name {
+        font-size: 10px;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+    }
+
+    .pond-description {
+        margin-top: 7px;
+
+        max-width: 240px;
+
+        font-size: 9px;
+        line-height: 1.6;
+
+        opacity: 0.45;
+    }
+
+    /* -------------------------------------------------
+       LOADING
+    ------------------------------------------------- */
+
+    #loading {
+        position: fixed;
+        inset: 0;
+
+        z-index: 30;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #050807;
+
+        transition:
+            opacity 0.8s ease,
+            visibility 0.8s ease;
+    }
+
+    #loading.hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .loading-text {
+        font-size: 9px;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        opacity: 0.5;
+    }
+
+    .loading-bar {
+        width: 160px;
+        height: 1px;
+
+        margin-top: 18px;
+
+        background: rgba(255,255,255,0.12);
+        overflow: hidden;
+    }
+
+    .loading-progress {
+        width: 0%;
+        height: 100%;
+
+        background: rgba(255,255,255,0.7);
+
+        transition: width 0.2s ease;
+    }
+
+    /* -------------------------------------------------
+       MOBILE
+    ------------------------------------------------- */
+
+    @media (max-width: 700px) {
+
+        #topUI {
+            top: 20px;
+            left: 20px;
+            right: 20px;
+        }
+
+        .status {
+            display: none;
+        }
+
+        #pondInfo {
+            left: 20px;
+            bottom: 125px;
+        }
+
+        #player {
+            bottom: 18px;
+            width: calc(100vw - 24px);
+        }
+
+        .volume {
+            display: none;
+        }
+
+        .subtitle {
+            font-size: 9px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div id="experience"></div>
+
+<!-- LOADING -->
+
+<div id="loading">
+    <div>
+        <div class="loading-text" id="loadingText">
+            Entering the field
+        </div>
+
+        <div class="loading-bar">
+            <div class="loading-progress" id="loadingProgress"></div>
+        </div>
+    </div>
+</div>
+
+<!-- INTRO -->
+
+<div id="intro">
+
+    <div class="intro-content">
+
+        <div class="eyebrow">
+            DRAVYA FIELD
+        </div>
+
+        <div class="dravyaline"></div>
+
+        <div class="title">
+            Addy's Pond
+        </div>
+
+        <div class="subtitle">
+            Sound · Water · Disturbance
+        </div>
+
+        <button id="enterButton">
+            Enter the pond
+        </button>
+
+    </div>
+
+</div>
+
+<!-- TOP -->
+
+<div id="topUI">
+
+    <div class="brand">
+
+        <div class="brand-main">
+            DRAVYA
+        </div>
+
+        <div class="brand-sub">
+            Observe · Disturb · Create
+        </div>
+
+    </div>
+
+    <div class="status">
+
+        <div class="status-dot"></div>
+
+        <span id="fieldStatus">
+            Field at rest
+        </span>
+
+    </div>
+
+</div>
+
+<!-- POND INFO -->
+
+<div id="pondInfo">
+
+    <div class="pond-name">
+        ADDY'S POND
+    </div>
+
+    <div class="pond-description">
+        A landscape disturbed by sound.
+        Every ripple follows the field.
+    </div>
+
+</div>
+
+<!-- PLAYER -->
+
+<div id="player">
+
+    <div class="track-info">
+
+        <div class="track-name">
+            Arjuna
+        </div>
+
+        <div class="track-time" id="timeDisplay">
+            00:00 / 03:20
+        </div>
+
+    </div>
+
+    <input
+        id="progress"
+        type="range"
+        min="0"
+        max="100"
+        value="0"
+        step="0.01"
+    >
+
+    <div class="controls">
+
+        <div class="left-controls">
+
+            <button
+                class="control-button"
+                id="restartButton"
+            >
+                ↺
+            </button>
+
+            <button
+                class="control-button"
+                id="playButton"
+            >
+                ▶
+            </button>
+
+            <button
+                class="control-button"
+                id="muteButton"
+            >
+                VOL
+            </button>
+
+        </div>
+
+        <div class="volume">
+
+            <span style="
+                font-size:9px;
+                opacity:0.45;
+                letter-spacing:0.15em;
+            ">
+                VOL
+            </span>
+
+            <input
+                id="volume"
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value="0.8"
+            >
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!--
+=========================================================
+THREE.JS
+=========================================================
+-->
+
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+    }
+}
+</script>
+
+
+<script type="module">
+
+import * as THREE from "three";
+
+import { GLTFLoader }
+    from "three/addons/loaders/GLTFLoader.js";
+
+import { OrbitControls }
+    from "three/addons/controls/OrbitControls.js";
+
+
+/* =====================================================
+   CONFIGURATION
+===================================================== */
+
+const GLB_PATH =
+    "assets/addypond.glb";
+
+const JSON_PATH =
+    "assets/arjuna_pond_data.json";
+
+const AUDIO_PATH =
+    "assets/arjunaaaaa.mp3";
+
+const FPS = 30;
+
+
+/* =====================================================
+   GLOBALS
+===================================================== */
+
+let scene;
+let camera;
+let renderer;
+let controls;
+
+let pondModel = null;
+
+let pondWater = null;
+
+let audio;
+let audioContext = null;
+
+let animationData = null;
+let frames = [];
+
+let animationReady = false;
+let audioReady = false;
+
+let entered = false;
+
+let currentFrame = 0;
+
+
+/* =====================================================
+   DOM
+===================================================== */
+
+const experience =
+    document.getElementById("experience");
+
+const loading =
+    document.getElementById("loading");
+
+const loadingText =
+    document.getElementById("loadingText");
+
+const loadingProgress =
+    document.getElementById("loadingProgress");
+
+const intro =
+    document.getElementById("intro");
+
+const enterButton =
+    document.getElementById("enterButton");
+
+const playButton =
+    document.getElementById("playButton");
+
+const restartButton =
+    document.getElementById("restartButton");
+
+const muteButton =
+    document.getElementById("muteButton");
+
+const progress =
+    document.getElementById("progress");
+
+const volume =
+    document.getElementById("volume");
+
+const timeDisplay =
+    document.getElementById("timeDisplay");
+
+const fieldStatus =
+    document.getElementById("fieldStatus");
+
+
+/* =====================================================
+   THREE.JS SCENE
+===================================================== */
+
+scene = new THREE.Scene();
+
+scene.background =
+    new THREE.Color(0x050807);
+
+scene.fog =
+    new THREE.FogExp2(
+        0x050807,
+        0.018
+    );
+
+
+/* =====================================================
+   CAMERA
+===================================================== */
+
+camera =
+    new THREE.PerspectiveCamera(
+        48,
+        window.innerWidth /
+        window.innerHeight,
+        0.1,
+        300
+    );
+
+camera.position.set(
+    15,
+    10,
+    17
+);
+
+
+/* =====================================================
+   RENDERER
+===================================================== */
+
+renderer =
+    new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: false,
+        powerPreference: "high-performance"
+    });
+
+renderer.setPixelRatio(
+    Math.min(
+        window.devicePixelRatio,
+        2
+    )
+);
+
+renderer.setSize(
+    window.innerWidth,
+    window.innerHeight
+);
+
+renderer.outputColorSpace =
+    THREE.SRGBColorSpace;
+
+renderer.toneMapping =
+    THREE.ACESFilmicToneMapping;
+
+renderer.toneMappingExposure =
+    1.1;
+
+experience.appendChild(
+    renderer.domElement
+);
+
+
+/* =====================================================
+   CONTROLS
+===================================================== */
+
+controls =
+    new OrbitControls(
+        camera,
+        renderer.domElement
+    );
+
+controls.enableDamping = true;
+
+controls.dampingFactor = 0.04;
+
+controls.enablePan = false;
+
+controls.minDistance = 8;
+controls.maxDistance = 35;
+
+controls.minPolarAngle =
+    Math.PI * 0.18;
+
+controls.maxPolarAngle =
+    Math.PI * 0.46;
+
+
+/* =====================================================
+   LIGHTING
+===================================================== */
+
+const ambient =
+    new THREE.HemisphereLight(
+        0xb8c9b4,
+        0x151b17,
+        2.0
+    );
+
+scene.add(ambient);
+
+
+const moonLight =
+    new THREE.DirectionalLight(
+        0xd9e4d6,
+        2.4
+    );
+
+moonLight.position.set(
+    -12,
+    18,
+    8
+);
+
+scene.add(moonLight);
+
+
+const warmLight =
+    new THREE.PointLight(
+        0xc89b67,
+        1.0,
+        35
+    );
+
+warmLight.position.set(
+    4,
+    7,
+    -5
+);
+
+scene.add(warmLight);
+
+
+/* =====================================================
+   LOAD JSON
+===================================================== */
+
+async function loadAnimationData() {
+
+    loadingText.textContent =
+        "Reading the field";
+
+    const response =
+        await fetch(JSON_PATH);
+
+    if (!response.ok) {
+        throw new Error(
+            "Could not load pond JSON."
+        );
+    }
+
+    animationData =
+        await response.json();
+
+    frames =
+        animationData.frames || [];
+
+    if (!frames.length) {
+        throw new Error(
+            "JSON contains no animation frames."
+        );
+    }
+
+    console.log(
+        "Pond animation loaded:",
+        frames.length,
+        "frames"
+    );
+
+    console.log(
+        "FPS:",
+        animationData.metadata?.fps
+    );
+
+    console.log(
+        "Duration:",
+        animationData.metadata?.duration
+    );
+
+    animationReady = true;
+}
+
+
+/* =====================================================
+   LOAD GLB
+===================================================== */
+
+async function loadPond() {
+
+    loadingText.textContent =
+        "Entering Addy's Pond";
+
+    const loader =
+        new GLTFLoader();
+
+    return new Promise(
+        (resolve, reject) => {
+
+            loader.load(
+
+                GLB_PATH,
+
+                gltf => {
+
+                    pondModel =
+                        gltf.scene;
+
+                    scene.add(
+                        pondModel
+                    );
+
+                    console.log(
+                        "GLB loaded."
+                    );
+
+                    findWaterObject(
+                        pondModel
+                    );
+
+                    resolve();
+
+                },
+
+                xhr => {
+
+                    if (xhr.total) {
+
+                        const percent =
+                            xhr.loaded /
+                            xhr.total *
+                            100;
+
+                        loadingProgress.style.width =
+                            percent + "%";
+
+                    }
+
+                },
+
+                error => {
+
+                    console.error(
+                        "GLB loading error:",
+                        error
+                    );
+
+                    reject(error);
+
+                }
+
+            );
+
+        }
+    );
+}
+
+
+/* =====================================================
+   FIND WATER
+===================================================== */
+
+function findWaterObject(
+    root
+) {
+
+    root.traverse(
+        object => {
+
+            if (!object.isMesh)
+                return;
+
+            console.log(
+                "GLB object:",
+                object.name
+            );
+
+            const name =
+                object.name.toLowerCase();
+
+            if (
+                name.includes("water") ||
+                name.includes("pond")
+            ) {
+
+                if (!pondWater) {
+
+                    pondWater =
+                        object;
+
+                    console.log(
+                        "Pond water detected:",
+                        object.name
+                    );
+
+                }
+
+            }
+
+        }
+    );
+
+    if (!pondWater) {
+
+        console.warn(
+            "No object containing 'water' or 'pond' found."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   AUDIO
+===================================================== */
+
+function setupAudio() {
+
+    audio =
+        new Audio(AUDIO_PATH);
+
+    audio.preload = "auto";
+
+    audio.loop = false;
+
+    audio.volume =
+        Number(volume.value);
+
+    audio.addEventListener(
+        "loadedmetadata",
+        () => {
+
+            audioReady = true;
+
+            updateTime();
+
+        }
+    );
+
+    audio.addEventListener(
+        "timeupdate",
+        updateTime
+    );
+
+    audio.addEventListener(
+        "ended",
+        () => {
+
+            playButton.textContent =
+                "▶";
+
+            fieldStatus.textContent =
+                "Field at rest";
+
+        }
+    );
+}
+
+
+/* =====================================================
+   PLAY / PAUSE
+===================================================== */
+
+async function togglePlayback() {
+
+    if (!audio)
+        return;
+
+    if (audio.paused) {
+
+        try {
+
+            /*
+             * This is important for browsers.
+             * The first play is triggered by
+             * the user's click.
+             */
+
+            await audio.play();
+
+            playButton.textContent =
+                "Ⅱ";
+
+            fieldStatus.textContent =
+                "Field disturbed";
+
+        }
+        catch (error) {
+
+            console.error(
+                "Audio playback failed:",
+                error
+            );
+
+        }
+
+    }
+    else {
+
+        audio.pause();
+
+        playButton.textContent =
+            "▶";
+
+        fieldStatus.textContent =
+            "Field suspended";
+
+    }
+
+}
+
+
+/* =====================================================
+   RESTART
+===================================================== */
+
+function restartAudio() {
+
+    if (!audio)
+        return;
+
+    audio.currentTime = 0;
+
+    updatePondFromAudio();
+
+    if (audio.paused) {
+
+        playButton.textContent =
+            "▶";
+
+        fieldStatus.textContent =
+            "Field at rest";
+
+    }
+
+}
+
+
+/* =====================================================
+   TIME
+===================================================== */
+
+function formatTime(seconds) {
+
+    if (!Number.isFinite(seconds))
+        return "00:00";
+
+    const mins =
+        Math.floor(seconds / 60);
+
+    const secs =
+        Math.floor(seconds % 60);
+
+    return (
+        String(mins).padStart(2, "0")
+        + ":" +
+        String(secs).padStart(2, "0")
+    );
+
+}
+
+
+function updateTime() {
+
+    if (!audio)
+        return;
+
+    const current =
+        audio.currentTime || 0;
+
+    const duration =
+        audio.duration || 200;
+
+    timeDisplay.textContent =
+        formatTime(current)
+        + " / "
+        + formatTime(duration);
+
+    progress.value =
+        duration > 0
+            ? current / duration * 100
+            : 0;
+
+}
+
+
+/* =====================================================
+   SEEK
+===================================================== */
+
+progress.addEventListener(
+    "input",
+    () => {
+
+        if (!audio)
+            return;
+
+        const duration =
+            audio.duration || 200;
+
+        audio.currentTime =
+            Number(progress.value) /
+            100 *
+            duration;
+
+        updatePondFromAudio();
+
+    }
+);
+
+
+/* =====================================================
+   VOLUME
+===================================================== */
+
+volume.addEventListener(
+    "input",
+    () => {
+
+        if (!audio)
+            return;
+
+        audio.volume =
+            Number(volume.value);
+
+    }
+);
+
+
+/* =====================================================
+   MUTE
+===================================================== */
+
+muteButton.addEventListener(
+    "click",
+    () => {
+
+        if (!audio)
+            return;
+
+        audio.muted =
+            !audio.muted;
+
+        muteButton.textContent =
+            audio.muted
+                ? "MUTE"
+                : "VOL";
+
+    }
+);
+
+
+/* =====================================================
+   FRAME LOOKUP
+===================================================== */
+
+function getFrameAtTime(
+    time
+) {
+
+    if (!frames.length)
+        return null;
+
+    const framePosition =
+        time * FPS;
+
+    const index =
+        Math.floor(framePosition);
+
+    const nextIndex =
+        Math.min(
+            index + 1,
+            frames.length - 1
+        );
+
+    const a =
+        frames[
+            Math.max(
+                0,
+                Math.min(
+                    index,
+                    frames.length - 1
+                )
+            )
+        ];
+
+    const b =
+        frames[nextIndex];
+
+    if (!a)
+        return null;
+
+    const fraction =
+        framePosition -
+        Math.floor(framePosition);
+
+    return {
+        a,
+        b,
+        fraction
+    };
+
+}
+
+
+/* =====================================================
+   JSON VALUE INTERPOLATION
+===================================================== */
+
+function interpolate(
+    a,
+    b,
+    t
+) {
+
+    if (
+        typeof a !== "number" ||
+        typeof b !== "number"
+    ) {
+        return a || 0;
+    }
+
+    return a +
+        (b - a) * t;
+
+}
+
+
+/* =====================================================
+   POND ANIMATION
+===================================================== */
+
+function updatePondFromAudio() {
+
+    if (!animationReady)
+        return;
+
+    if (!audio)
+        return;
+
+    const data =
+        getFrameAtTime(
+            audio.currentTime
+        );
+
+    if (!data)
+        return;
+
+    currentFrame =
+        data.a.frame;
+
+    const frameA =
+        data.a;
+
+    const frameB =
+        data.b;
+
+    const t =
+        data.fraction;
+
+    const energy =
+        interpolate(
+            frameA.energy,
+            frameB.energy,
+            t
+        );
+
+    const bass =
+        interpolate(
+            frameA.bass,
+            frameB.bass,
+            t
+        );
+
+    const mid =
+        interpolate(
+            frameA.mid,
+            frameB.mid,
+            t
+        );
+
+    const high =
+        interpolate(
+            frameA.high,
+            frameB.high,
+            t
+        );
+
+    const onset =
+        interpolate(
+            frameA.onset,
+            frameB.onset,
+            t
+        );
+
+
+    /*
+     * The important part:
+     *
+     * The JSON controls the intensity
+     * of the water material.
+     *
+     * We DON'T generate random patterns.
+     *
+     * We DON'T analyse the MP3.
+     *
+     * The JSON is the source of truth.
+     */
+
+    if (pondWater) {
+
+        const material =
+            pondWater.material;
+
+        if (material) {
+
+            /*
+             * Make the water slightly
+             * brighter during energetic
+             * parts of the music.
+             */
+
+            const intensity =
+                Math.min(
+                    1,
+                    energy * 4
+                    + bass * 2
+                );
+
+            if (
+                material.color
+            ) {
+
+                const base =
+                    new THREE.Color(
+                        0x263c35
+                    );
+
+                const active =
+                    new THREE.Color(
+                        0x55776b
+                    );
+
+                material.color.lerpColors(
+                    base,
+                    active,
+                    intensity * 0.45
+                );
+
+            }
+
+
+            /*
+             * Subtle roughness response.
+             */
+
+            if (
+                "roughness" in material
+            ) {
+
+                material.roughness =
+                    THREE.MathUtils.clamp(
+                        0.24
+                        - bass * 0.15,
+                        0.08,
+                        0.3
+                    );
+
+            }
+
+        }
+
+
+        /*
+         * If your GLB water has a shader
+         * or morph targets, these values
+         * are exposed here for future
+         * deformation.
+         */
+
+        pondWater.userData.audioEnergy =
+            energy;
+
+        pondWater.userData.bass =
+            bass;
+
+        pondWater.userData.mid =
+            mid;
+
+        pondWater.userData.high =
+            high;
+
+        pondWater.userData.onset =
+            onset;
+
+    }
+
+
+    /*
+     * Store the complete current JSON
+     * frame on the water object.
+     *
+     * This makes the webpage architecture
+     * ready for actual vertex/shader
+     * displacement.
+     */
+
+    if (pondWater) {
+
+        pondWater.userData.currentFrame =
+            frameA;
+
+        pondWater.userData.nextFrame =
+            frameB;
+
+        pondWater.userData.frameBlend =
+            t;
+
+    }
+
+}
+
+
+/* =====================================================
+   SUBTLE CAMERA MOVEMENT
+===================================================== */
+
+let cameraTime = 0;
+
+function updateCamera() {
+
+    cameraTime += 0.0015;
+
+    /*
+     * Very small movement.
+     *
+     * The landscape itself does NOT rotate.
+     */
+
+    const targetX =
+        Math.sin(cameraTime) * 0.25;
+
+    const targetY =
+        10 +
+        Math.sin(cameraTime * 0.7)
+        * 0.08;
+
+    camera.position.x =
+        THREE.MathUtils.lerp(
+            camera.position.x,
+            15 + targetX,
+            0.008
+        );
+
+    camera.position.y =
+        THREE.MathUtils.lerp(
+            camera.position.y,
+            targetY,
+            0.008
+        );
+
+}
+
+
+/* =====================================================
+   ENTER EXPERIENCE
+===================================================== */
+
+enterButton.addEventListener(
+    "click",
+    async () => {
+
+        entered = true;
+
+        intro.classList.add(
+            "hidden"
+        );
+
+        /*
+         * We deliberately do not
+         * automatically play audio.
+         *
+         * The user controls the music.
+         */
+
+        if (audio) {
+
+            audio.volume =
+                Number(volume.value);
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   BUTTON EVENTS
+===================================================== */
+
+playButton.addEventListener(
+    "click",
+    togglePlayback
+);
+
+restartButton.addEventListener(
+    "click",
+    restartAudio
+);
+
+
+/* =====================================================
+   RESIZE
+===================================================== */
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        camera.aspect =
+            window.innerWidth /
+            window.innerHeight;
+
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(
+            window.innerWidth,
+            window.innerHeight
+        );
+
+    }
+);
+
+
+/* =====================================================
+   MAIN ANIMATION LOOP
+===================================================== */
+
+function animate() {
+
+    requestAnimationFrame(
+        animate
+    );
+
+    updatePondFromAudio();
+
+    updateCamera();
+
+    controls.update();
+
+    renderer.render(
+        scene,
+        camera
+    );
+
+}
+
+animate();
+
+
+/* =====================================================
+   INITIALIZATION
+===================================================== */
+
+async function initialize() {
+
+    try {
+
+        /*
+         * Load JSON and GLB in parallel.
+         */
+
+        await Promise.all([
+            loadAnimationData(),
+            loadPond()
+        ]);
+
+        setupAudio();
+
+        loadingProgress.style.width =
+            "100%";
+
+        loadingText.textContent =
+            "The pond is ready";
+
+        setTimeout(
+            () => {
+
+                loading.classList.add(
+                    "hidden"
+                );
+
+            },
+            700
+        );
+
+    }
+    catch (error) {
+
+        console.error(error);
+
+        loadingText.textContent =
+            "Something disturbed the field";
+
+        loadingProgress.style.width =
+            "0%";
+
+    }
+
+}
+
+initialize();
+
+</script>
+
+</body>
+</html>
