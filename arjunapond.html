@@ -1,403 +1,714 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>Addy's Pond</title>
 
+
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
+
+/* ============================================================
+   RESET
+============================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    background:
+        #07100d;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+
+/* ============================================================
+   THREE.JS
+============================================================ */
+
+#scene {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+}
+
+
+canvas {
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+}
+
+
+/* ============================================================
+   MINIMAL MUSIC PLAYER
+============================================================ */
+
+#music-player {
+
+    position: fixed;
+
+    top: 22px;
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    width:
+        min(520px, calc(100vw - 40px));
+
+    z-index: 20;
+
+    padding:
+        10px 15px 9px;
+
+    border-radius:
+        14px;
+
+    background:
+        rgba(
+            7,
+            13,
+            11,
+            0.48
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.10
+        );
+
+    backdrop-filter:
+        blur(14px);
+
+    -webkit-backdrop-filter:
+        blur(14px);
+
+    opacity:
+        0.82;
+
+    transition:
+        opacity 0.35s ease;
+}
+
+
+#music-player:hover {
+
+    opacity:
+        1;
+}
+
+
+/* ============================================================
+   TRACK TITLE
+============================================================ */
+
+#track-name {
+
+    text-align:
+        center;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.72
+        );
+
+    font-size:
+        9px;
+
+    letter-spacing:
+        0.28em;
+
+    text-transform:
+        uppercase;
+
+    margin-bottom:
+        7px;
+}
+
+
+/* ============================================================
+   PROGRESS
+============================================================ */
+
+#timeline {
+
+    position:
+        relative;
+
+    width:
+        100%;
+
+    height:
+        13px;
+
+    cursor:
+        pointer;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+}
+
+
+#timeline-line {
+
+    position:
+        absolute;
+
+    left:
+        0;
+
+    right:
+        0;
+
+    height:
+        2px;
+
+    border-radius:
+        10px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.15
+        );
+}
+
+
+#timeline-fill {
+
+    position:
+        absolute;
+
+    left:
+        0;
+
+    width:
+        0%;
+
+    height:
+        2px;
+
+    border-radius:
+        10px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.72
+        );
+}
+
+
+#timeline-dot {
+
+    position:
+        absolute;
+
+    left:
+        0%;
+
+    width:
+        7px;
+
+    height:
+        7px;
+
+    border-radius:
+        50%;
+
+    background:
+        #ffffff;
+
+    transform:
+        translateX(-50%);
+
+    box-shadow:
+        0 0 8px
+        rgba(
+            255,
+            255,
+            255,
+            0.7
+        );
+
+    pointer-events:
+        none;
+}
+
+
+/* ============================================================
+   CONTROL ROW
+============================================================ */
+
+#controls {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        8px;
+
+    margin-top:
+        4px;
+}
+
+
+.control {
+
+    border:
+        none;
+
+    background:
+        transparent;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.60
+        );
+
+    font-size:
+        12px;
+
+    width:
+        28px;
+
+    height:
+        24px;
+
+    border-radius:
+        7px;
+
+    cursor:
+        pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.control:hover {
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.09
+        );
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.95
+        );
+}
+
+
+#play {
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.92
+        );
+
+    font-size:
+        13px;
+}
+
+
+/* ============================================================
+   VOLUME
+============================================================ */
+
+#volume-wrapper {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        5px;
+
+    margin-left:
+        5px;
+}
+
+
+#volume-icon {
+
+    font-size:
+        11px;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.55
+        );
+}
+
+
+#volume {
+
+    width:
+        65px;
+
+    height:
+        3px;
+
+    accent-color:
+        rgba(
+            255,
+            255,
+            255,
+            0.8
+        );
+
+    cursor:
+        pointer;
+}
+
+
+/* ============================================================
+   TIME
+============================================================ */
+
+#time {
+
+    position:
+        absolute;
+
+    right:
+        16px;
+
+    top:
+        11px;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.38
+        );
+
+    font-size:
+        8px;
+
+    font-variant-numeric:
+        tabular-nums;
+}
+
+
+/* ============================================================
+   STATUS
+============================================================ */
+
+#status {
+
+    position:
+        fixed;
+
+    bottom:
+        22px;
+
+    left:
+        50%;
+
+    transform:
+        translateX(-50%);
+
+    z-index:
+        10;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.38
+        );
+
+    font-size:
+        8px;
+
+    letter-spacing:
+        0.25em;
+
+    text-transform:
+        uppercase;
+
+    pointer-events:
+        none;
+}
+
+
+/* ============================================================
+   LOADING
+============================================================ */
+
+#loading {
+
+    position:
+        fixed;
+
+    inset:
+        0;
+
+    z-index:
+        100;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    background:
+        #07100d;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.55
+        );
+
+    font-size:
+        10px;
+
+    letter-spacing:
+        0.22em;
+
+    text-transform:
+        uppercase;
+
+    transition:
+        opacity 1s ease;
+}
+
+
+#loading.hidden {
+
+    opacity:
+        0;
+
+    pointer-events:
+        none;
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 600px) {
+
+    #music-player {
+
+        top:
+            13px;
+
+        width:
+            calc(100vw - 24px);
+
+        padding:
+            9px 12px 8px;
+
     }
 
-    html,
-    body {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        background: #07100d;
-        font-family: Arial, Helvetica, sans-serif;
-    }
+    #track-name {
 
-    body {
-        position: relative;
-    }
+        font-size:
+            8px;
 
-    /* =========================================================
-       3D WORLD
-    ========================================================= */
-
-    #scene {
-        position: fixed;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    canvas {
-        display: block;
-        width: 100%;
-        height: 100%;
-    }
-
-    /* =========================================================
-       TOP MUSIC PLAYER
-    ========================================================= */
-
-    #player {
-        position: fixed;
-        top: 22px;
-        left: 50%;
-        transform: translateX(-50%);
-
-        width: min(680px, calc(100vw - 30px));
-
-        padding: 14px 18px 13px;
-
-        background: rgba(5, 12, 10, 0.76);
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 18px;
-
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
-
-        box-shadow:
-            0 15px 45px rgba(0,0,0,0.35);
-
-        z-index: 20;
-    }
-
-    #track-title {
-        text-align: center;
-        color: rgba(255,255,255,0.92);
-        font-size: 13px;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        margin-bottom: 10px;
-    }
-
-    #progress-row {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .time {
-        width: 42px;
-        color: rgba(255,255,255,0.58);
-        font-size: 10px;
-        font-variant-numeric: tabular-nums;
-    }
-
-    #duration {
-        text-align: right;
-    }
-
-    #progress-container {
-        position: relative;
-        flex: 1;
-        height: 20px;
-
-        display: flex;
-        align-items: center;
-
-        cursor: pointer;
-    }
-
-    #progress-track {
-        position: absolute;
-        left: 0;
-        right: 0;
-        height: 3px;
-
-        border-radius: 10px;
-        background: rgba(255,255,255,0.15);
-    }
-
-    #progress-fill {
-        position: absolute;
-        left: 0;
-        height: 3px;
-
-        width: 0%;
-
-        border-radius: 10px;
-        background: rgba(220,240,222,0.9);
-    }
-
-    #progress-dot {
-        position: absolute;
-
-        width: 10px;
-        height: 10px;
-
-        left: 0%;
-
-        transform: translateX(-50%);
-
-        border-radius: 50%;
-
-        background: #ffffff;
-
-        box-shadow:
-            0 0 10px rgba(255,255,255,0.65);
-
-        pointer-events: none;
-    }
-
-    /* =========================================================
-       CONTROLS
-    ========================================================= */
-
-    #controls {
-        margin-top: 8px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        gap: 8px;
-    }
-
-    .control {
-        width: 34px;
-        height: 30px;
-
-        border: 0;
-        border-radius: 9px;
-
-        background: rgba(255,255,255,0.07);
-        color: rgba(255,255,255,0.82);
-
-        cursor: pointer;
-
-        transition:
-            background 0.2s ease,
-            transform 0.2s ease;
-    }
-
-    .control:hover {
-        background: rgba(255,255,255,0.15);
-        transform: translateY(-1px);
-    }
-
-    #play {
-        width: 42px;
-        background: rgba(255,255,255,0.13);
-    }
-
-    /* =========================================================
-       VOLUME
-    ========================================================= */
-
-    #volume-area {
-        margin-left: 12px;
-
-        display: flex;
-        align-items: center;
-        gap: 7px;
-    }
-
-    #volume-icon {
-        color: rgba(255,255,255,0.65);
-        font-size: 13px;
     }
 
     #volume {
-        width: 80px;
-        accent-color: white;
-        cursor: pointer;
-    }
 
-    /* =========================================================
-       STATUS
-    ========================================================= */
+        width:
+            48px;
+
+    }
 
     #status {
-        position: fixed;
 
-        bottom: 22px;
-        left: 50%;
+        bottom:
+            14px;
 
-        transform: translateX(-50%);
-
-        display: flex;
-        align-items: center;
-        gap: 7px;
-
-        color: rgba(255,255,255,0.48);
-
-        font-size: 9px;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-
-        z-index: 10;
-
-        pointer-events: none;
     }
 
-    #status-dot {
-        width: 6px;
-        height: 6px;
+}
 
-        border-radius: 50%;
-
-        background: rgba(255,255,255,0.25);
-
-        transition:
-            transform 0.15s ease,
-            background 0.15s ease;
-    }
-
-    /* =========================================================
-       LOADING
-    ========================================================= */
-
-    #loading {
-        position: fixed;
-        inset: 0;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        background: #07100d;
-
-        color: rgba(255,255,255,0.65);
-
-        font-size: 11px;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-
-        z-index: 100;
-    }
-
-    #loading.hidden {
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 1s ease;
-    }
-
-    /* =========================================================
-       MOBILE
-    ========================================================= */
-
-    @media (max-width: 600px) {
-
-        #player {
-            top: 12px;
-            padding: 11px 12px;
-            border-radius: 15px;
-        }
-
-        #track-title {
-            font-size: 10px;
-            margin-bottom: 7px;
-        }
-
-        #controls {
-            gap: 5px;
-        }
-
-        .control {
-            width: 31px;
-            height: 28px;
-        }
-
-        #volume-area {
-            margin-left: 5px;
-        }
-
-        #volume {
-            width: 60px;
-        }
-    }
 </style>
 
-<!-- =========================================================
-     THREE.JS
-========================================================= -->
+
+<!-- ============================================================
+     THREE.JS IMPORT MAP
+============================================================ -->
 
 <script type="importmap">
 {
     "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+        "three":
+            "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+
+        "three/addons/":
+            "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
     }
 }
 </script>
 
 </head>
 
+
 <body>
+
+
+<!-- ============================================================
+     SCENE
+============================================================ -->
 
 <div id="scene"></div>
 
-<!-- =========================================================
+
+<!-- ============================================================
      LOADING
-========================================================= -->
+============================================================ -->
 
 <div id="loading">
-    Entering Addy's Pond
+    ADDY'S POND
 </div>
 
-<!-- =========================================================
+
+<!-- ============================================================
      MUSIC PLAYER
-========================================================= -->
+============================================================ -->
 
-<div id="player">
+<div id="music-player">
 
-    <div id="track-title">
+    <div id="track-name">
         ADDY'S POND
     </div>
 
-    <div id="progress-row">
 
-        <div class="time" id="current-time">
-            0:00
-        </div>
+    <div id="timeline">
 
-        <div id="progress-container">
+        <div id="timeline-line"></div>
 
-            <div id="progress-track"></div>
+        <div id="timeline-fill"></div>
 
-            <div id="progress-fill"></div>
-
-            <div id="progress-dot"></div>
-
-        </div>
-
-        <div class="time" id="duration">
-            0:00
-        </div>
+        <div id="timeline-dot"></div>
 
     </div>
 
+
     <div id="controls">
 
-        <button class="control" id="replay" title="Replay">
+        <button
+            class="control"
+            id="replay"
+            title="Replay"
+        >
             ↻
         </button>
 
-        <button class="control" id="stop" title="Stop">
+
+        <button
+            class="control"
+            id="stop"
+            title="Stop"
+        >
             ■
         </button>
 
-        <button class="control" id="play" title="Play">
+
+        <button
+            class="control"
+            id="play"
+            title="Play"
+        >
             ▶
         </button>
 
-        <button class="control" id="pause" title="Pause">
+
+        <button
+            class="control"
+            id="pause"
+            title="Pause"
+        >
             ❚❚
         </button>
 
-        <div id="volume-area">
+
+        <div id="volume-wrapper">
 
             <span id="volume-icon">
-                🔊
+                ◖
             </span>
 
             <input
@@ -406,38 +717,40 @@
                 min="0"
                 max="1"
                 step="0.01"
-                value="0.75"
+                value="0.72"
             >
 
         </div>
 
     </div>
 
+
+    <div id="time">
+        0:00
+    </div>
+
 </div>
 
-<!-- =========================================================
+
+<!-- ============================================================
      STATUS
-========================================================= -->
+============================================================ -->
 
 <div id="status">
-
-    <div id="status-dot"></div>
-
-    <span id="status-text">
-        STILL WATER
-    </span>
-
+    STILL WATER
 </div>
 
-<!-- =========================================================
+
+<!-- ============================================================
      AUDIO
-========================================================= -->
+============================================================ -->
 
 <audio
     id="audio"
     preload="auto"
-    src="./assets/arjunaaaaa.mp3">
-</audio>
+    src="./assets/arjunaaaaa.mp3"
+></audio>
+
 
 <script type="module">
 
@@ -449,7 +762,7 @@ import {
 
 
 // ============================================================
-// CONFIGURATION
+// CONFIG
 // ============================================================
 
 const GLB_PATH =
@@ -458,7 +771,8 @@ const GLB_PATH =
 const JSON_PATH =
     "./assets/arjuna_pond_data.json";
 
-const FPS = 30;
+const FPS =
+    30;
 
 
 // ============================================================
@@ -466,60 +780,82 @@ const FPS = 30;
 // ============================================================
 
 const sceneContainer =
-    document.getElementById("scene");
+    document.getElementById(
+        "scene"
+    );
 
 const loading =
-    document.getElementById("loading");
+    document.getElementById(
+        "loading"
+    );
 
 const audio =
-    document.getElementById("audio");
+    document.getElementById(
+        "audio"
+    );
 
 const playButton =
-    document.getElementById("play");
+    document.getElementById(
+        "play"
+    );
 
 const pauseButton =
-    document.getElementById("pause");
+    document.getElementById(
+        "pause"
+    );
 
 const stopButton =
-    document.getElementById("stop");
+    document.getElementById(
+        "stop"
+    );
 
 const replayButton =
-    document.getElementById("replay");
+    document.getElementById(
+        "replay"
+    );
 
-const volumeSlider =
-    document.getElementById("volume");
+const volume =
+    document.getElementById(
+        "volume"
+    );
 
-const progressContainer =
-    document.getElementById("progress-container");
+const timeline =
+    document.getElementById(
+        "timeline"
+    );
 
-const progressFill =
-    document.getElementById("progress-fill");
+const timelineFill =
+    document.getElementById(
+        "timeline-fill"
+    );
 
-const progressDot =
-    document.getElementById("progress-dot");
+const timelineDot =
+    document.getElementById(
+        "timeline-dot"
+    );
 
-const currentTimeElement =
-    document.getElementById("current-time");
+const timeDisplay =
+    document.getElementById(
+        "time"
+    );
 
-const durationElement =
-    document.getElementById("duration");
-
-const statusDot =
-    document.getElementById("status-dot");
-
-const statusText =
-    document.getElementById("status-text");
+const status =
+    document.getElementById(
+        "status"
+    );
 
 
 // ============================================================
-// THREE.JS
+// THREE SCENE
 // ============================================================
 
 const scene =
     new THREE.Scene();
 
 scene.background =
-    new THREE.Color(0x07100d);
+    new THREE.Color(
+        0x07100d
+    );
 
 
 // ============================================================
@@ -528,7 +864,7 @@ scene.background =
 
 const camera =
     new THREE.PerspectiveCamera(
-        42,
+        38,
         window.innerWidth /
         window.innerHeight,
         0.1,
@@ -542,12 +878,14 @@ const camera =
 
 const renderer =
     new THREE.WebGLRenderer({
-        antialias: true,
-        alpha: false
+        antialias: true
     });
 
 renderer.setPixelRatio(
-    Math.min(window.devicePixelRatio, 2)
+    Math.min(
+        window.devicePixelRatio,
+        2
+    )
 );
 
 renderer.setSize(
@@ -564,77 +902,85 @@ renderer.toneMapping =
 renderer.toneMappingExposure =
     1.05;
 
-sceneContainer.appendChild(renderer.domElement);
+sceneContainer.appendChild(
+    renderer.domElement
+);
 
 
 // ============================================================
 // LIGHTING
 // ============================================================
 
-const ambient =
+const hemisphere =
     new THREE.HemisphereLight(
-        0xcde8dc,
-        0x152019,
+        0xcce4d8,
+        0x18231c,
         2.0
     );
 
-scene.add(ambient);
+scene.add(
+    hemisphere
+);
 
 
 const sun =
     new THREE.DirectionalLight(
-        0xffe6bb,
-        3.0
+        0xffe3bd,
+        3.2
     );
 
 sun.position.set(
-    -8,
-    14,
-    7
+    -10,
+    15,
+    8
 );
 
-scene.add(sun);
+scene.add(
+    sun
+);
 
 
 const fill =
     new THREE.DirectionalLight(
-        0x9cc9c1,
-        1.1
+        0x8ebdb2,
+        1.0
     );
 
 fill.position.set(
     8,
-    7,
-    -8
+    8,
+    -10
 );
 
-scene.add(fill);
+scene.add(
+    fill
+);
 
 
 // ============================================================
-// WORLD
+// VARIABLES
 // ============================================================
 
-let pondModel = null;
+let pondModel =
+    null;
 
-let pondWater = null;
+let pondWater =
+    null;
 
-let waterPositionAttribute = null;
+let waterPosition =
+    null;
 
-let waterOriginalPositions = null;
+let originalPositions =
+    null;
 
-let waterBounds = null;
+let waterBounds =
+    null;
 
+let frames =
+    [];
 
-// ============================================================
-// JSON DATA
-// ============================================================
-
-let jsonData = null;
-
-let frames = [];
-
-let rippleSources = [];
+let rippleSources =
+    [];
 
 
 // ============================================================
@@ -644,25 +990,27 @@ let rippleSources = [];
 async function loadJSON() {
 
     const response =
-        await fetch(JSON_PATH);
+        await fetch(
+            JSON_PATH
+        );
 
     if (!response.ok) {
+
         throw new Error(
-            "Could not load JSON: " +
-            response.status
+            "JSON failed to load"
         );
+
     }
 
-    jsonData =
+    const data =
         await response.json();
 
     frames =
-        jsonData.frames || [];
+        data.frames || [];
 
     console.log(
-        "JSON loaded:",
-        frames.length,
-        "frames"
+        "JSON frames:",
+        frames.length
     );
 
 }
@@ -674,57 +1022,64 @@ async function loadJSON() {
 
 function findWater(model) {
 
-    let candidates = [];
+    let result =
+        null;
 
-    model.traverse(object => {
+    model.traverse(
+        object => {
 
-        if (!object.isMesh)
-            return;
+            if (!object.isMesh)
+                return;
 
-        const name =
-            object.name.toLowerCase();
+            const name =
+                object.name
+                .toLowerCase();
 
-        if (
-            name.includes("water") ||
-            name.includes("pond") ||
-            name.includes("lake")
-        ) {
+            if (
+                name.includes(
+                    "water"
+                )
+            ) {
 
-            candidates.push(object);
+                result =
+                    object;
+
+            }
 
         }
-
-    });
-
-    console.log(
-        "Possible water meshes:",
-        candidates.map(
-            x => x.name
-        )
     );
 
-    if (candidates.length === 0) {
+    if (!result) {
 
-        console.warn(
-            "No obvious water mesh found."
+        model.traverse(
+            object => {
+
+                if (!object.isMesh)
+                    return;
+
+                const name =
+                    object.name
+                    .toLowerCase();
+
+                if (
+                    name.includes(
+                        "pond"
+                    )
+                ) {
+
+                    if (!result)
+                        result =
+                            object;
+
+                }
+
+            }
         );
 
-        return null;
     }
 
-    /*
-        Prefer the object explicitly called water.
-    */
+    return result;
 
-    const exact =
-        candidates.find(
-            x =>
-                x.name.toLowerCase()
-                .includes("water")
-        );
-
-    return exact ||
-           candidates[0];
 }
 
 
@@ -732,42 +1087,56 @@ function findWater(model) {
 // PREPARE WATER
 // ============================================================
 
-function prepareWater(water) {
+function prepareWater(
+    water
+) {
 
     if (!water)
         return;
 
+
     /*
-        Convert indexed geometry so every visible
-        vertex can be independently displaced.
+        Convert indexed mesh so
+        individual vertices can move.
     */
 
-    if (water.geometry.index) {
+    if (
+        water.geometry.index
+    ) {
 
         water.geometry =
-            water.geometry.toNonIndexed();
+            water.geometry
+            .toNonIndexed();
 
     }
 
+
     const position =
-        water.geometry.attributes.position;
+        water.geometry
+        .attributes
+        .position;
+
 
     if (!position) {
 
         console.warn(
-            "Water has no position attribute."
+            "Water has no vertices"
         );
 
         return;
+
     }
 
-    waterPositionAttribute =
+
+    waterPosition =
         position;
 
-    waterOriginalPositions =
+
+    originalPositions =
         new Float32Array(
             position.array
         );
+
 
     waterBounds =
         new THREE.Box3()
@@ -775,70 +1144,48 @@ function prepareWater(water) {
             position
         );
 
+
     console.log(
-        "WATER FOUND:",
+        "WATER:",
         water.name
     );
 
     console.log(
-        "Water vertices:",
+        "VERTICES:",
         position.count
     );
 
+
     /*
-        Slightly translucent water.
+        Make water reflective.
     */
 
-    if (water.material) {
+    if (
+        water.material &&
+        !Array.isArray(
+            water.material
+        )
+    ) {
 
-        if (
-            Array.isArray(
-                water.material
-            )
-        ) {
+        water.material
+            .transparent =
+            true;
 
-            water.material =
-                water.material.map(
-                    material => {
+        water.material
+            .opacity =
+            0.9;
 
-                        material.transparent =
-                            true;
+        water.material
+            .roughness =
+            0.16;
 
-                        material.opacity =
-                            Math.min(
-                                material.opacity ?? 1,
-                                0.9
-                            );
-
-                        material.roughness =
-                            0.18;
-
-                        return material;
-
-                    }
-                );
-
-        } else {
-
-            water.material.transparent =
-                true;
-
-            water.material.opacity =
-                Math.min(
-                    water.material.opacity ?? 1,
-                    0.9
-                );
-
-            water.material.roughness =
-                0.18;
-        }
     }
 
 }
 
 
 // ============================================================
-// CREATE DETERMINISTIC RIPPLE SOURCES
+// RIPPLE SOURCES
 // ============================================================
 
 function createRippleSources() {
@@ -848,8 +1195,10 @@ function createRippleSources() {
     if (!frames.length)
         return;
 
-    let lastFrame =
-        -1000;
+
+    let previous =
+        -999;
+
 
     for (
         let i = 0;
@@ -861,82 +1210,96 @@ function createRippleSources() {
             frames[i];
 
         const onset =
-            Number(frame.onset || 0);
+            Number(
+                frame.onset || 0
+            );
+
+
+        /*
+            Stronger onset threshold
+            gives clear musical events.
+        */
 
         if (
-            onset > 0.18 &&
-            i - lastFrame > 7
+            onset > 0.12 &&
+            i - previous > 6
         ) {
 
-            /*
-                Deterministic pseudo-random
-                coordinates.
-
-                IMPORTANT:
-                These are coordinates in the
-                POND'S LOCAL coordinate system.
-
-                Therefore when the GLB rotates,
-                the ripples rotate with it.
-            */
-
-            const seed =
+            const s1 =
                 Math.sin(
-                    i * 12.9898
-                ) * 43758.5453;
+                    i * 91.73
+                );
 
-            const seed2 =
+            const s2 =
                 Math.sin(
-                    i * 78.233
-                ) * 43758.5453;
+                    i * 47.19
+                );
+
 
             const randomX =
-                seed -
-                Math.floor(seed);
+                (
+                    s1 + 1
+                ) / 2;
+
 
             const randomZ =
-                seed2 -
-                Math.floor(seed2);
+                (
+                    s2 + 1
+                ) / 2;
 
-            const x =
-                THREE.MathUtils.lerp(
-                    waterBounds?.min.x ?? -4,
-                    waterBounds?.max.x ?? 4,
-                    randomX
-                );
 
-            const z =
-                THREE.MathUtils.lerp(
-                    waterBounds?.min.z ?? -3,
-                    waterBounds?.max.z ?? 3,
-                    randomZ
-                );
+            const minX =
+                waterBounds.min.x;
+
+            const maxX =
+                waterBounds.max.x;
+
+            const minZ =
+                waterBounds.min.z;
+
+            const maxZ =
+                waterBounds.max.z;
+
 
             rippleSources.push({
 
-                frame: i,
+                frame:
+                    i,
 
-                x,
+                x:
+                    THREE.MathUtils.lerp(
+                        minX,
+                        maxX,
+                        randomX
+                    ),
 
-                z,
+                z:
+                    THREE.MathUtils.lerp(
+                        minZ,
+                        maxZ,
+                        randomZ
+                    ),
 
                 strength:
                     THREE.MathUtils.clamp(
-                        onset * 3.0,
-                        0.35,
+                        onset * 4.5,
+                        0.45,
                         1.0
                     )
 
             });
 
-            lastFrame = i;
+
+            previous =
+                i;
 
         }
 
     }
 
+
     console.log(
-        "Ripple sources:",
+        "RIPPLES:",
         rippleSources.length
     );
 
@@ -947,20 +1310,27 @@ function createRippleSources() {
 // FRAME INTERPOLATION
 // ============================================================
 
-function getInterpolatedFrame(time) {
+function getFrame(
+    time
+) {
 
     if (!frames.length)
         return null;
 
-    const exactFrame =
+
+    const position =
         THREE.MathUtils.clamp(
             time * FPS,
             0,
             frames.length - 1
         );
 
+
     const index =
-        Math.floor(exactFrame);
+        Math.floor(
+            position
+        );
+
 
     const next =
         Math.min(
@@ -968,16 +1338,22 @@ function getInterpolatedFrame(time) {
             frames.length - 1
         );
 
-    const t =
-        exactFrame - index;
+
+    const amount =
+        position -
+        index;
+
 
     return {
 
-        a: frames[index],
+        a:
+            frames[index],
 
-        b: frames[next],
+        b:
+            frames[next],
 
-        t
+        t:
+            amount
 
     };
 
@@ -988,108 +1364,141 @@ function getInterpolatedFrame(time) {
 // LERP
 // ============================================================
 
-function lerp(a, b, t) {
+function lerp(
+    a,
+    b,
+    t
+) {
 
-    return a +
-        (b - a) * t;
+    return (
+        a +
+        (
+            b - a
+        ) * t
+    );
 
 }
 
 
 // ============================================================
-// WATER ANIMATION
+// WATER DEFORMATION
 // ============================================================
 
-function deformWater(time) {
+function animateWater(
+    time
+) {
 
     if (
-        !pondWater ||
-        !waterPositionAttribute ||
-        !waterOriginalPositions
-    ) {
+        !waterPosition ||
+        !originalPositions
+    )
         return;
-    }
+
 
     const data =
-        getInterpolatedFrame(time);
+        getFrame(
+            time
+        );
 
     if (!data)
         return;
 
-    const a =
-        data.a;
-
-    const b =
-        data.b;
-
-    const t =
-        data.t;
 
     const energy =
         lerp(
-            Number(a.energy || 0),
-            Number(b.energy || 0),
-            t
+            Number(
+                data.a.energy || 0
+            ),
+            Number(
+                data.b.energy || 0
+            ),
+            data.t
         );
+
 
     const bass =
         lerp(
-            Number(a.bass || 0),
-            Number(b.bass || 0),
-            t
+            Number(
+                data.a.bass || 0
+            ),
+            Number(
+                data.b.bass || 0
+            ),
+            data.t
         );
+
 
     const mid =
         lerp(
-            Number(a.mid || 0),
-            Number(b.mid || 0),
-            t
+            Number(
+                data.a.mid || 0
+            ),
+            Number(
+                data.b.mid || 0
+            ),
+            data.t
         );
+
 
     const high =
         lerp(
-            Number(a.high || 0),
-            Number(b.high || 0),
-            t
+            Number(
+                data.a.high || 0
+            ),
+            Number(
+                data.b.high || 0
+            ),
+            data.t
         );
 
-    const energyStrength =
-        THREE.MathUtils.clamp(
-            energy * 7,
-            0,
-            1
-        );
-
-    const bassStrength =
-        THREE.MathUtils.clamp(
-            bass * 8,
-            0,
-            1
-        );
-
-    const midStrength =
-        THREE.MathUtils.clamp(
-            mid * 10,
-            0,
-            1
-        );
-
-    const highStrength =
-        THREE.MathUtils.clamp(
-            high * 15,
-            0,
-            1
-        );
 
     const currentFrame =
         time * FPS;
 
+
     const positions =
-        waterPositionAttribute.array;
+        waterPosition.array;
+
+
+    /*
+        Exaggerated enough to make
+        the JSON patterns clearly visible.
+    */
+
+    const bassAmount =
+        THREE.MathUtils.clamp(
+            bass * 12,
+            0,
+            1
+        );
+
+
+    const midAmount =
+        THREE.MathUtils.clamp(
+            mid * 16,
+            0,
+            1
+        );
+
+
+    const highAmount =
+        THREE.MathUtils.clamp(
+            high * 22,
+            0,
+            1
+        );
+
+
+    const energyAmount =
+        THREE.MathUtils.clamp(
+            energy * 10,
+            0,
+            1
+        );
 
 
     // ========================================================
-    // DEFORM EVERY WATER VERTEX
+    // VERTICES
     // ========================================================
 
     for (
@@ -1098,28 +1507,22 @@ function deformWater(time) {
         i += 3
     ) {
 
-        const originalX =
-            waterOriginalPositions[i];
-
-        const originalY =
-            waterOriginalPositions[i + 1];
-
-        const originalZ =
-            waterOriginalPositions[i + 2];
-
-
         const x =
-            originalX;
+            originalPositions[i];
+
+        const y =
+            originalPositions[i + 1];
 
         const z =
-            originalZ;
+            originalPositions[i + 2];
 
 
-        let displacement = 0;
+        let wave =
+            0;
 
 
         // ====================================================
-        // JSON ONSET RIPPLE WAVES
+        // EVENT RIPPLE WAVES
         // ====================================================
 
         for (
@@ -1131,25 +1534,36 @@ function deformWater(time) {
             const ripple =
                 rippleSources[r];
 
+
             const age =
                 currentFrame -
                 ripple.frame;
 
+
             if (
                 age < 0 ||
-                age > FPS * 3
-            ) {
+                age > FPS * 3.5
+            )
                 continue;
-            }
+
+
+            /*
+                Expanding circular wave.
+            */
 
             const radius =
-                age * 0.055;
+                age * 0.085;
+
 
             const dx =
-                x - ripple.x;
+                x -
+                ripple.x;
+
 
             const dz =
-                z - ripple.z;
+                z -
+                ripple.z;
+
 
             const distance =
                 Math.sqrt(
@@ -1157,18 +1571,22 @@ function deformWater(time) {
                     dz * dz
                 );
 
+
             const ring =
                 distance -
                 radius;
 
-            const width =
-                0.18 +
-                bassStrength * 0.15;
 
-            const ringShape =
+            const width =
+                0.12 +
+                bassAmount * 0.10;
+
+
+            const ringWave =
                 Math.exp(
                     -(
-                        ring * ring
+                        ring *
+                        ring
                     ) /
                     (
                         width *
@@ -1176,121 +1594,121 @@ function deformWater(time) {
                     )
                 );
 
+
+            const oscillation =
+                Math.sin(
+                    ring * 10
+                );
+
+
             const decay =
                 Math.exp(
                     -age /
                     (
-                        FPS * 1.8
+                        FPS * 1.7
                     )
                 );
 
-            displacement +=
-                ringShape *
+
+            wave +=
+
+                ringWave *
+                oscillation *
                 decay *
                 ripple.strength *
-                0.32;
+                0.55;
 
         }
 
 
         // ====================================================
-        // LOW FREQUENCY WATER MOTION
+        // BROAD MUSICAL WATER MOTION
         // ====================================================
 
-        displacement +=
+        wave +=
 
             Math.sin(
-                x * 1.1 +
-                currentFrame * 0.055
+                x * 0.9 +
+                currentFrame * 0.07
             )
 
             *
 
             Math.cos(
-                z * 0.85 +
-                currentFrame * 0.043
+                z * 0.8 +
+                currentFrame * 0.05
             )
 
             *
 
-            bassStrength *
-            0.065;
+            bassAmount *
+            0.08;
 
 
         // ====================================================
-        // MID FREQUENCY DETAIL
+        // MID DETAIL
         // ====================================================
 
-        displacement +=
+        wave +=
 
             Math.sin(
-                x * 2.4 -
-                z * 1.7 +
-                currentFrame * 0.10
+                x * 2.7 -
+                z * 1.9 +
+                currentFrame * 0.13
             )
 
             *
 
-            midStrength *
-            0.028;
+            midAmount *
+            0.035;
 
 
         // ====================================================
-        // HIGH FREQUENCY DETAIL
+        // HIGH DETAIL
         // ====================================================
 
-        displacement +=
+        wave +=
 
             Math.sin(
-                x * 5.2 +
-                z * 4.7 +
-                currentFrame * 0.18
+                x * 6.0 +
+                z * 5.0 +
+                currentFrame * 0.2
             )
 
             *
 
-            highStrength *
-            0.012;
+            highAmount *
+            0.015;
 
 
         // ====================================================
         // ENERGY
         // ====================================================
 
-        displacement *=
-            0.55 +
-            energyStrength * 0.8;
+        wave *=
+            0.7 +
+            energyAmount;
 
 
         // ====================================================
-        // SAFETY LIMIT
+        // FINAL LIMIT
         // ====================================================
 
-        displacement =
+        wave =
             THREE.MathUtils.clamp(
-                displacement,
-                -0.28,
-                0.38
+                wave,
+                -0.45,
+                0.55
             );
 
 
-        /*
-            IMPORTANT:
-
-            The water itself remains in the GLB's
-            local coordinate system.
-
-            Therefore the GLB can rotate freely
-            and the pattern remains attached to it.
-        */
-
         positions[i + 1] =
-            originalY +
-            displacement;
+            y + wave;
 
     }
 
-    waterPositionAttribute.needsUpdate =
+
+    waterPosition.needsUpdate =
         true;
 
 }
@@ -1303,10 +1721,14 @@ function deformWater(time) {
 async function loadGLB() {
 
     return new Promise(
-        (resolve, reject) => {
+        (
+            resolve,
+            reject
+        ) => {
 
             const loader =
                 new GLTFLoader();
+
 
             loader.load(
 
@@ -1317,10 +1739,6 @@ async function loadGLB() {
                     pondModel =
                         gltf.scene;
 
-                    /*
-                        Add the entire GLB as ONE
-                        rotating world.
-                    */
 
                     scene.add(
                         pondModel
@@ -1328,22 +1746,18 @@ async function loadGLB() {
 
 
                     // ==========================================
-                    // CENTER THE WHOLE GLB
+                    // CENTER MODEL
                     // ==========================================
 
-                    const box =
+                    let box =
                         new THREE.Box3()
                         .setFromObject(
                             pondModel
                         );
 
+
                     const center =
                         box.getCenter(
-                            new THREE.Vector3()
-                        );
-
-                    const size =
-                        box.getSize(
                             new THREE.Vector3()
                         );
 
@@ -1354,23 +1768,23 @@ async function loadGLB() {
                     pondModel.position.z =
                         -center.z;
 
+
                     pondModel.position.y =
                         -box.min.y;
 
 
-                    /*
-                        Slightly smaller than before.
-                    */
+                    // ==========================================
+                    // SMALLER WORLD
+                    // ==========================================
 
                     pondModel.scale.setScalar(
-                        0.78
+                        0.72
                     );
 
 
-                    /*
-                        Find water AFTER
-                        centering/scaling.
-                    */
+                    // ==========================================
+                    // WATER
+                    // ==========================================
 
                     pondWater =
                         findWater(
@@ -1383,63 +1797,74 @@ async function loadGLB() {
                     );
 
 
-                    /*
-                        Ripple source positions
-                        use the actual water bounds.
-                    */
-
                     createRippleSources();
 
 
                     // ==========================================
-                    // CAMERA
+                    // CAMERA FIT
                     // ==========================================
 
-                    const finalBox =
+                    box =
                         new THREE.Box3()
                         .setFromObject(
                             pondModel
                         );
 
+
                     const finalCenter =
-                        finalBox.getCenter(
+                        box.getCenter(
                             new THREE.Vector3()
                         );
 
-                    const finalSize =
-                        finalBox.getSize(
+
+                    const size =
+                        box.getSize(
                             new THREE.Vector3()
                         );
 
-                    const maxDimension =
+
+                    const largest =
                         Math.max(
-                            finalSize.x,
-                            finalSize.y,
-                            finalSize.z
+                            size.x,
+                            size.y,
+                            size.z
                         );
 
 
                     /*
-                        High camera looking downward.
+                        Elevated cinematic
+                        observation angle.
                     */
 
                     camera.position.set(
-                        0,
-                        maxDimension * 1.45,
-                        maxDimension * 0.48
+
+                        largest * 0.08,
+
+                        largest * 1.55,
+
+                        largest * 0.72
+
                     );
 
 
                     camera.lookAt(
+
                         finalCenter.x,
+
                         finalCenter.y,
+
                         finalCenter.z
+
                     );
 
 
                     console.log(
-                        "GLB size:",
-                        finalSize
+                        "GLB loaded"
+                    );
+
+                    console.log(
+                        "Water:",
+                        pondWater
                     );
 
                     console.log(
@@ -1456,7 +1881,9 @@ async function loadGLB() {
 
                 error => {
 
-                    reject(error);
+                    reject(
+                        error
+                    );
 
                 }
 
@@ -1472,29 +1899,41 @@ async function loadGLB() {
 // FORMAT TIME
 // ============================================================
 
-function formatTime(seconds) {
+function formatTime(
+    seconds
+) {
 
     if (
-        !Number.isFinite(seconds)
-    ) {
+        !Number.isFinite(
+            seconds
+        )
+    )
         return "0:00";
-    }
+
 
     const minutes =
         Math.floor(
             seconds / 60
         );
 
+
     const secondsPart =
         Math.floor(
             seconds % 60
         );
 
+
     return (
+
         minutes +
         ":" +
-        String(secondsPart)
-        .padStart(2, "0")
+        String(
+            secondsPart
+        ).padStart(
+            2,
+            "0"
+        )
+
     );
 
 }
@@ -1504,67 +1943,66 @@ function formatTime(seconds) {
 // PLAYER
 // ============================================================
 
-playButton.addEventListener(
-    "click",
+playButton.onclick =
     async () => {
 
         try {
 
             await audio.play();
 
-        } catch (error) {
+        } catch (
+            error
+        ) {
 
             console.error(
-                "Playback failed:",
                 error
             );
 
         }
 
-    }
-);
+    };
 
 
-pauseButton.addEventListener(
-    "click",
+pauseButton.onclick =
     () => {
 
         audio.pause();
 
-    }
-);
+    };
 
 
-stopButton.addEventListener(
-    "click",
+stopButton.onclick =
     () => {
 
         audio.pause();
 
-        audio.currentTime = 0;
+        audio.currentTime =
+            0;
 
-    }
-);
+    };
 
 
-replayButton.addEventListener(
-    "click",
+replayButton.onclick =
     async () => {
 
-        audio.currentTime = 0;
+        audio.currentTime =
+            0;
 
         try {
 
             await audio.play();
 
-        } catch (error) {
+        } catch (
+            error
+        ) {
 
-            console.error(error);
+            console.error(
+                error
+            );
 
         }
 
-    }
-);
+    };
 
 
 // ============================================================
@@ -1572,48 +2010,53 @@ replayButton.addEventListener(
 // ============================================================
 
 audio.volume =
-    Number(
-        volumeSlider.value
-    );
+    0.72;
 
-volumeSlider.addEventListener(
-    "input",
+
+volume.oninput =
     () => {
 
         audio.volume =
             Number(
-                volumeSlider.value
+                volume.value
             );
 
-    }
-);
+    };
 
 
 // ============================================================
 // SEEK
 // ============================================================
 
-progressContainer.addEventListener(
+timeline.addEventListener(
     "pointerdown",
     event => {
 
-        if (!audio.duration)
+        if (
+            !audio.duration
+        )
             return;
 
+
         const rect =
-            progressContainer
+            timeline
             .getBoundingClientRect();
+
 
         const ratio =
             THREE.MathUtils.clamp(
+
                 (
                     event.clientX -
                     rect.left
                 ) /
                 rect.width,
+
                 0,
                 1
+
             );
+
 
         audio.currentTime =
             ratio *
@@ -1624,27 +2067,14 @@ progressContainer.addEventListener(
 
 
 // ============================================================
-// AUDIO EVENTS
+// AUDIO STATE
 // ============================================================
-
-audio.addEventListener(
-    "loadedmetadata",
-    () => {
-
-        durationElement.textContent =
-            formatTime(
-                audio.duration
-            );
-
-    }
-);
-
 
 audio.addEventListener(
     "play",
     () => {
 
-        statusText.textContent =
+        status.textContent =
             "POND ALIVE";
 
     }
@@ -1655,7 +2085,7 @@ audio.addEventListener(
     "pause",
     () => {
 
-        statusText.textContent =
+        status.textContent =
             "PAUSED";
 
     }
@@ -1666,7 +2096,7 @@ audio.addEventListener(
     "ended",
     () => {
 
-        statusText.textContent =
+        status.textContent =
             "STILL WATER";
 
     }
@@ -1674,7 +2104,7 @@ audio.addEventListener(
 
 
 // ============================================================
-// SMOOTH ANIMATION CLOCK
+// SMOOTH PLAYER
 // ============================================================
 
 function updatePlayer() {
@@ -1685,100 +2115,38 @@ function updatePlayer() {
     const current =
         audio.currentTime || 0;
 
-    const progress =
+
+    if (
         duration > 0
-            ? current / duration
-            : 0;
+    ) {
+
+        const progress =
+            current /
+            duration;
 
 
-    progressFill.style.width =
-        (progress * 100) +
-        "%";
+        timelineFill.style.width =
+            (
+                progress *
+                100
+            ) +
+            "%";
 
 
-    progressDot.style.left =
-        (progress * 100) +
-        "%";
-
-
-    currentTimeElement.textContent =
-        formatTime(
-            current
-        );
-
-
-    /*
-        Energy-reactive status indicator.
-    */
-
-    const frame =
-        getInterpolatedFrame(
-            current
-        );
-
-    if (frame) {
-
-        const energy =
-            lerp(
-                Number(
-                    frame.a.energy || 0
-                ),
-                Number(
-                    frame.b.energy || 0
-                ),
-                frame.t
-            );
-
-        const intensity =
-            THREE.MathUtils.clamp(
-                energy * 18,
-                0,
-                1
-            );
-
-        statusDot.style.transform =
-            `scale(${1 + intensity * 1.8})`;
-
-        statusDot.style.background =
-            `rgba(
-                220,
-                240,
-                222,
-                ${0.3 + intensity * 0.7}
-            )`;
+        timelineDot.style.left =
+            (
+                progress *
+                100
+            ) +
+            "%";
 
     }
 
-}
 
-
-// ============================================================
-// WORLD ROTATION
-// ============================================================
-
-function updateWorldRotation(time) {
-
-    if (!pondModel)
-        return;
-
-    /*
-        One complete rotation roughly every
-        75 seconds.
-
-        The water is a child of pondModel,
-        so its entire deformation field rotates
-        together with the landscape.
-    */
-
-    const rotationSpeed =
-        (
-            Math.PI * 2
-        ) /
-        75;
-
-    pondModel.rotation.y =
-        time *
-        rotationSpeed;
+    timeDisplay.textContent =
+        formatTime(
+            current
+        );
 
 }
 
@@ -1797,6 +2165,7 @@ window.addEventListener(
 
         camera.updateProjectionMatrix();
 
+
         renderer.setSize(
             window.innerWidth,
             window.innerHeight
@@ -1807,7 +2176,7 @@ window.addEventListener(
 
 
 // ============================================================
-// MAIN ANIMATION LOOP
+// ANIMATION
 // ============================================================
 
 function animate() {
@@ -1818,35 +2187,23 @@ function animate() {
 
 
     /*
-        AUDIO IS THE MASTER CLOCK.
-    */
+        NO GLB ROTATION.
 
-    const audioTime =
-        audio.currentTime || 0;
+        The world stays completely still.
+    */
 
 
     /*
-        JSON drives the water.
+        Audio controls JSON time.
     */
 
-    deformWater(
-        audioTime
+    animateWater(
+        audio.currentTime || 0
     );
 
 
     /*
-        GLB rotation is based on the
-        same elapsed world clock.
-    */
-
-    updateWorldRotation(
-        performance.now() /
-        1000
-    );
-
-
-    /*
-        Smooth player movement.
+        Smooth progress dot.
     */
 
     updatePlayer();
@@ -1872,20 +2229,26 @@ async function start() {
 
         await loadGLB();
 
+
         loading.classList.add(
             "hidden"
         );
 
+
         animate();
 
-    } catch (error) {
+    } catch (
+        error
+    ) {
 
         console.error(
             error
         );
 
+
         loading.textContent =
             "Could not load Addy's Pond";
+
 
         loading.style.color =
             "#ffaaaa";
