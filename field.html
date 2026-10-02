@@ -7,10 +7,12 @@
 
 <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    content="width=device-width, initial-scale=1.0,
+             maximum-scale=1.0, user-scalable=no,
+             viewport-fit=cover"
 >
 
-<title>DRAVYA</title>
+<title>DRAVYA FIELD</title>
 
 <link rel="icon" type="image/png" href="assets/logo.png">
 
@@ -18,7 +20,7 @@
 
 /* =========================================================
    DRAVYA FIELD
-   CINEMATIC VIDEO → STATIC FIELD
+   CINEMATIC ENTRY → DRAVYA FIELD
    ========================================================= */
 
 
@@ -36,7 +38,7 @@
 
 
 /* =========================================================
-   GLOBAL RESET
+   GLOBAL
    ========================================================= */
 
 *,
@@ -46,7 +48,6 @@
     margin: 0;
     padding: 0;
 }
-
 
 html,
 body {
@@ -63,27 +64,24 @@ body {
 
     overscroll-behavior: none;
 
-    -webkit-overflow-scrolling: none;
+    -webkit-font-smoothing: antialiased;
 
 }
-
 
 body {
 
     width: 100vw;
     height: 100dvh;
 
-    overflow: hidden;
-
     position: fixed;
-
     inset: 0;
 
+    color: #ffffff;
 }
 
 
 /* =========================================================
-   CINEMATIC VIDEO LAYER
+   CINEMATIC ENTRY
    ========================================================= */
 
 #entry {
@@ -115,13 +113,8 @@ body {
     transition:
         opacity 1.8s ease,
         visibility 1.8s ease;
-
 }
 
-
-/* =========================================================
-   VIDEO
-   ========================================================= */
 
 #entryVideo {
 
@@ -136,19 +129,14 @@ body {
 
     background: #000;
 
-    /*
-     * Desktop:
-     * fill the entire viewport.
-     */
     object-fit: cover;
 
     object-position: center center;
-
 }
 
 
 /* =========================================================
-   STATIC FIELD
+   DRAVYA FIELD
    ========================================================= */
 
 #field {
@@ -162,11 +150,6 @@ body {
 
     overflow: hidden;
 
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
     background: #02050d;
 
     opacity: 0;
@@ -178,11 +161,11 @@ body {
     transition:
         opacity 1.8s ease,
         visibility 1.8s ease;
-
 }
 
-    /* =========================================================
-   POST-ENTRY VACUUM FLUCTUATION BACKGROUND
+
+/* =========================================================
+   FIELD BACKGROUND
    ========================================================= */
 
 #fieldBackground {
@@ -202,7 +185,37 @@ body {
 
     pointer-events: none;
 
+    opacity: 0.62;
+
 }
+
+
+/* =========================================================
+   DARK OVERLAY
+   ========================================================= */
+
+#field::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(2,5,13,0.08) 0%,
+            rgba(2,5,13,0.30) 48%,
+            rgba(2,5,13,0.82) 100%
+        );
+
+}
+
 
 /* =========================================================
    FIELD VISIBLE
@@ -220,7 +233,7 @@ body.field-visible #field {
 
 
 /* =========================================================
-   FIELD CONTENT
+   MAIN CONTENT
    ========================================================= */
 
 .field-content {
@@ -230,25 +243,34 @@ body.field-visible #field {
     z-index: 2;
 
     width: 100%;
-    max-width: 1200px;
+    height: 100%;
+
+    overflow-y: auto;
+    overflow-x: hidden;
 
     padding:
-        20px
-        clamp(20px, 5vw, 70px);
+        42px
+        clamp(22px, 7vw, 100px)
+        80px;
 
     display: flex;
 
     flex-direction: column;
 
     align-items: center;
-    justify-content: center;
 
     text-align: center;
 
+    scrollbar-width: none;
 }
 
+.field-content::-webkit-scrollbar {
+    display: none;
+}
+
+
 /* =========================================================
-   DRAVYA
+   TOP DRAVYA
    ========================================================= */
 
 .logo {
@@ -257,92 +279,539 @@ body.field-visible #field {
 
     font-family: "Dark", sans-serif;
 
-    font-size: clamp(55px, 9vw, 135px);
+    font-size: clamp(42px, 6vw, 82px);
 
     font-weight: normal;
 
-    line-height: 0.95;
+    line-height: 1;
 
-    letter-spacing: 0.08em;
+    letter-spacing: 0.13em;
 
     white-space: nowrap;
 
     text-align: center;
 
+    text-shadow:
+        0 0 25px rgba(255,255,255,0.08);
+
+    opacity: 0;
+
+    transform: translateY(-12px);
+
+    animation:
+        logoReveal 1.8s ease forwards;
+
+    animation-delay: 0.5s;
 }
 
 
 /* =========================================================
-   LATEST RELEASE
+   FIELD LABEL
    ========================================================= */
 
-.latest {
+.field-label {
 
-    margin-top: clamp(24px, 4vh, 42px);
-
-    color: rgba(255,255,255,0.72);
+    margin-top: 12px;
 
     font-family: "Dark", sans-serif;
 
-    font-size: clamp(10px, 1vw, 15px);
+    font-size: clamp(8px, 0.8vw, 11px);
 
-    font-weight: normal;
+    letter-spacing: 0.42em;
 
-    letter-spacing: 0.24em;
+    color: rgba(255,255,255,0.42);
 
     text-transform: uppercase;
 
-    text-align: center;
+    opacity: 0;
+
+    animation:
+        fadeUp 1.4s ease forwards;
+
+    animation-delay: 1s;
+}
+
+
+/* =========================================================
+   INTRODUCTION
+   ========================================================= */
+
+.introduction {
+
+    width: min(850px, 100%);
+
+    margin-top: clamp(55px, 8vh, 95px);
+
+    opacity: 0;
+
+    animation:
+        fadeUp 1.8s ease forwards;
+
+    animation-delay: 1.25s;
+}
+
+
+.introduction p {
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(16px, 1.55vw, 23px);
+
+    line-height: 1.85;
+
+    font-weight: normal;
+
+    color:
+        rgba(255,255,255,0.82);
+
+    letter-spacing: 0.015em;
+}
+
+
+.introduction p + p {
+
+    margin-top: 27px;
+
+}
+
+
+.introduction .emphasis {
+
+    color: #ffffff;
 
 }
 
 
 /* =========================================================
-   LINKS
+   DIVIDER
    ========================================================= */
 
-.links {
+.divider {
 
-    margin-top: clamp(18px, 3vh, 30px);
+    width: 1px;
+
+    height: 60px;
+
+    margin-top: 58px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            rgba(255,255,255,0.45),
+            transparent
+        );
+
+    opacity: 0;
+
+    animation:
+        fadeIn 1.5s ease forwards;
+
+    animation-delay: 2.3s;
+}
+
+
+/* =========================================================
+   EMERGENCE STATEMENT
+   ========================================================= */
+
+.emergence {
+
+    width: min(780px, 100%);
+
+    margin-top: 42px;
+
+    opacity: 0;
+
+    animation:
+        fadeUp 1.6s ease forwards;
+
+    animation-delay: 2.55s;
+}
+
+
+.emergence p {
+
+    font-family:
+        "Dark",
+        sans-serif;
+
+    font-size:
+        clamp(13px, 1.15vw, 17px);
+
+    line-height: 1.8;
+
+    letter-spacing: 0.08em;
+
+    color:
+        rgba(255,255,255,0.68);
+}
+
+
+.emergence strong {
+
+    color: #ffffff;
+
+    font-weight: normal;
+
+}
+
+
+/* =========================================================
+   FIELD CONSTELLATION
+   ========================================================= */
+
+.fields {
+
+    position: relative;
+
+    width: min(1000px, 100%);
+
+    margin-top: 70px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 1px;
+
+    background:
+        rgba(255,255,255,0.08);
+
+    border:
+        1px solid rgba(255,255,255,0.10);
+
+    opacity: 0;
+
+    animation:
+        fieldsReveal 2s ease forwards;
+
+    animation-delay: 3s;
+}
+
+
+/* =========================================================
+   INDIVIDUAL FIELD
+   ========================================================= */
+
+.field-item {
+
+    position: relative;
+
+    min-height: 150px;
+
+    padding: 34px 20px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-decoration: none;
+
+    background:
+        rgba(2,5,13,0.35);
+
+    overflow: hidden;
+
+    transition:
+        background 0.6s ease,
+        transform 0.6s ease;
+}
+
+
+.field-item::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    opacity: 0.22;
+
+    box-shadow:
+        0 0 18px rgba(255,255,255,0.6);
+
+    transition:
+        opacity 0.5s ease,
+        transform 0.5s ease;
+}
+
+
+.field-item::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255,255,255,0.07),
+            transparent 65%
+        );
+
+    opacity: 0;
+
+    transition:
+        opacity 0.6s ease;
+}
+
+
+.field-item:hover {
+
+    background:
+        rgba(255,255,255,0.045);
+
+    transform: translateY(-3px);
+
+}
+
+
+.field-item:hover::before {
+
+    opacity: 0.9;
+
+    transform: scale(1.8);
+
+}
+
+
+.field-item:hover::after {
+
+    opacity: 1;
+
+}
+
+
+/* =========================================================
+   FIELD NAME
+   ========================================================= */
+
+.field-name {
+
+    position: relative;
+
+    z-index: 2;
+
+    font-family: "Dark", sans-serif;
+
+    font-size:
+        clamp(13px, 1.2vw, 18px);
+
+    letter-spacing:
+        0.18em;
+
+    color: #ffffff;
+
+    text-transform: uppercase;
+
+}
+
+
+/* =========================================================
+   FIELD SUBTITLE
+   ========================================================= */
+
+.field-number {
+
+    position: relative;
+
+    z-index: 2;
+
+    margin-top: 12px;
+
+    font-family: "Dark", sans-serif;
+
+    font-size: 8px;
+
+    letter-spacing: 0.28em;
+
+    color:
+        rgba(255,255,255,0.30);
+}
+
+
+/* =========================================================
+   BOTTOM
+   ========================================================= */
+
+.footer {
+
+    margin-top: 70px;
+
+    padding-bottom: 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 18px;
+
+    opacity: 0;
+
+    animation:
+        fadeUp 1.5s ease forwards;
+
+    animation-delay: 3.5s;
+}
+
+
+.footer-text {
+
+    font-family: "Dark", sans-serif;
+
+    font-size: 9px;
+
+    letter-spacing: 0.32em;
+
+    color:
+        rgba(255,255,255,0.28);
+
+    text-transform: uppercase;
+}
+
+
+.footer-links {
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
-    gap: clamp(24px, 4vw, 65px);
-
-    white-space: nowrap;
-
+    gap: 30px;
 }
 
 
-.links a {
+.footer-links a {
 
-    color: #ffffff;
+    color:
+        rgba(255,255,255,0.42);
 
     font-family: "Dark", sans-serif;
 
-    font-size: clamp(14px, 1.4vw, 22px);
+    font-size: 9px;
 
-    font-weight: normal;
-
-    letter-spacing: 0.12em;
+    letter-spacing: 0.16em;
 
     text-decoration: none;
 
     transition:
-        opacity 0.3s ease,
-        transform 0.3s ease;
+        color 0.3s ease,
+        opacity 0.3s ease;
+}
+
+
+.footer-links a:hover {
+
+    color: #ffffff;
 
 }
 
 
-.links a:hover {
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
 
-    opacity: 0.55;
+@keyframes logoReveal {
 
-    transform: translateY(-2px);
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(-12px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+@keyframes fadeUp {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(18px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+
+@keyframes fieldsReveal {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(25px)
+            scale(0.98);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
 
 }
 
@@ -353,15 +822,10 @@ body.field-visible #field {
 
 @media (min-width: 901px) {
 
-    /*
-     * Desktop video fills the viewport.
-     * This creates the cinematic "entering the field"
-     * effect.
-     */
-
     #entryVideo {
 
         width: 100vw;
+
         height: 100vh;
 
         object-fit: cover;
@@ -375,20 +839,25 @@ body.field-visible #field {
    TABLET
    ========================================================= */
 
-@media (min-width: 601px) and (max-width: 900px) {
+@media
+(min-width: 601px)
+and
+(max-width: 900px) {
 
     #entryVideo {
 
         width: 100vw;
+
         height: 100dvh;
 
         object-fit: cover;
 
     }
 
-    .logo {
+    .fields {
 
-        font-size: clamp(55px, 12vw, 95px);
+        grid-template-columns:
+            repeat(2, 1fr);
 
     }
 
@@ -401,23 +870,10 @@ body.field-visible #field {
 
 @media (max-width: 600px) {
 
-    /*
-     * IMPORTANT:
-     *
-     * On phones we do NOT use "cover".
-     *
-     * The full Blender video remains visible and centered.
-     * This prevents:
-     *
-     * - cropping
-     * - stretching
-     * - horizontal overflow
-     * - vertical overflow
-     */
-
     #entryVideo {
 
         width: 100vw;
+
         height: 100dvh;
 
         object-fit: contain;
@@ -429,55 +885,95 @@ body.field-visible #field {
 
     .field-content {
 
-        width: 100%;
-
         padding:
-            20px
+            32px
             18px
-            max(20px, env(safe-area-inset-bottom));
+            70px;
 
     }
 
 
     .logo {
-    width: 100%;
-    max-width: 100%;
-    font-size: 38px;
-    letter-spacing: 0.035em;
-    text-align: center;
-    white-space: nowrap;
-}
 
-
-    .latest {
-
-        margin-top: 24px;
-
-        font-size: 10px;
-
-        letter-spacing: 0.20em;
-
-    }
-
-
-    .links {
-
-        width: 100%;
-
-        margin-top: 18px;
-
-        gap: 0;
-
-        justify-content: space-between;
-
-    }
-
-
-    .links a {
-
-        font-size: clamp(13px, 4vw, 17px);
+        font-size: 38px;
 
         letter-spacing: 0.08em;
+
+    }
+
+
+    .field-label {
+
+        font-size: 7px;
+
+        letter-spacing: 0.30em;
+
+    }
+
+
+    .introduction {
+
+        margin-top: 48px;
+
+    }
+
+
+    .introduction p {
+
+        font-size: 15px;
+
+        line-height: 1.75;
+
+    }
+
+
+    .emergence {
+
+        margin-top: 34px;
+
+    }
+
+
+    .emergence p {
+
+        font-size: 11px;
+
+        line-height: 1.8;
+
+        letter-spacing: 0.055em;
+
+    }
+
+
+    .divider {
+
+        height: 45px;
+
+        margin-top: 42px;
+
+    }
+
+
+    .fields {
+
+        margin-top: 48px;
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .field-item {
+
+        min-height: 105px;
+
+    }
+
+
+    .footer {
+
+        margin-top: 55px;
 
     }
 
@@ -489,79 +985,24 @@ body.field-visible #field {
    ========================================================= */
 
 @media (max-width: 380px) {
-    .logo {
-        width: 100%;
-        font-size: 38px;
-        letter-spacing: 0.03em;
-        text-align: center;
-    }
-
-    .latest {
-        margin-top: 18px;
-        font-size: 9px;
-    }
-
-    .links a {
-        font-size: 11px;
-    }
-}
-
-
-    .latest {
-
-        margin-top: 20px;
-
-        font-size: 9px;
-
-    }
-
-
-    .links a {
-
-        font-size: 12px;
-
-    }
-
-}
-
-
-/* =========================================================
-   LANDSCAPE PHONES
-   ========================================================= */
-
-@media (
-    max-height: 500px
-) and (
-    orientation: landscape
-) {
-
-    #entryVideo {
-
-        width: 100vw;
-        height: 100dvh;
-
-        object-fit: contain;
-
-    }
-
 
     .logo {
 
-        font-size: clamp(42px, 11vw, 70px);
+        font-size: 34px;
 
     }
 
 
-    .latest {
+    .introduction p {
 
-        margin-top: 14px;
+        font-size: 14px;
 
     }
 
 
-    .links {
+    .field-item {
 
-        margin-top: 12px;
+        min-height: 95px;
 
     }
 
@@ -574,11 +1015,15 @@ body.field-visible #field {
 
 @media (prefers-reduced-motion: reduce) {
 
-    #entry,
-    #field,
-    .links a {
+    *,
+    *::before,
+    *::after {
 
-        transition: none;
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
 
     }
 
@@ -594,9 +1039,6 @@ body.field-visible #field {
 
 <!-- =======================================================
      CINEMATIC FIELD ENTRY
-
-     THIS STARTS AUTOMATICALLY WHEN FIELD.HTML OPENS.
-     THERE IS NO SECOND ENTER BUTTON.
      ======================================================= -->
 
 <section id="entry">
@@ -613,11 +1055,8 @@ body.field-visible #field {
 </section>
 
 
-
 <!-- =======================================================
-     STATIC DRAVYA FIELD
-
-     THIS APPEARS ONLY AFTER THE VIDEO FINISHES.
+     DRAVYA FIELD
      ======================================================= -->
 
 <main id="field">
@@ -632,104 +1071,231 @@ body.field-visible #field {
         preload="auto"
     ></video>
 
+
     <div class="field-content">
+
+
+        <!-- =================================================
+             DRAVYA
+             ================================================= -->
 
         <h1 class="logo">
             DRAVYA
         </h1>
 
+        <div class="field-label">
+            THE UNDERLYING FIELD
+        </div>
 
-        <nav class="links">
 
-            <a href="sounds.html">
-                SOUNDS
+        <!-- =================================================
+             INTRODUCTION
+             ================================================= -->
+
+        <section class="introduction">
+
+            <p>
+                Dravya field has been perturbed,
+                and the perturbation has resulted in
+                many states.
+            </p>
+
+            <p>
+                We now know from Quantum Field Theory
+                that there are different fields —
+                <span class="emphasis">
+                    up, down, and other quark fields.
+                </span>
+                But where do these fields exist?
+                Do they exist all at once?
+                How are they arranged?
+            </p>
+
+            <p>
+                These were some of the questions that
+                inspired <span class="emphasis">DRAVYA</span>
+                to take shape.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             DIVIDER
+             ================================================= -->
+
+        <div class="divider"></div>
+
+
+        <!-- =================================================
+             EMERGENCE
+             ================================================= -->
+
+        <section class="emergence">
+
+            <p>
+                Following are the different fields emerging
+                from a tiny perturbation of the DRAVYA field —
+                fields with a
+                <strong>
+                    unified fundamental underlying field:
+                    DRAVYA.
+                </strong>
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             EMERGING FIELDS
+             ================================================= -->
+
+        <section class="fields">
+
+
+            <a
+                class="field-item"
+                href="sounds.html"
+            >
+
+                <span class="field-name">
+                    SOUND FIELD
+                </span>
+
+                <span class="field-number">
+                    01
+                </span>
+
             </a>
 
-            <a href="art.html">
-                ART
+
+            <a
+                class="field-item"
+                href="fiction.html"
+            >
+
+                <span class="field-name">
+                    FICTION FIELD
+                </span>
+
+                <span class="field-number">
+                    02
+                </span>
+
             </a>
 
-            <a href="fiction.html">
-                FICTION
+
+            <a
+                class="field-item"
+                href="#"
+            >
+
+                <span class="field-name">
+                    LORE FIELD
+                </span>
+
+                <span class="field-number">
+                    03
+                </span>
+
             </a>
 
-        </nav>
-<div
-    style="
-        margin-top: 22px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 28px;
-    "
->
-    <a
-        href="https://www.instagram.com/dravya.field/"
-        target="_blank"
-        rel="noopener noreferrer"
-        style="
-            color: rgba(255,255,255,0.55);
-            font-family: 'Dark', sans-serif;
-            font-size: 11px;
-            letter-spacing: 0.14em;
-            text-decoration: none;
-            transition: opacity 0.3s ease, color 0.3s ease;
-        "
-        onmouseover="this.style.color='#ffffff'; this.style.opacity='1'"
-        onmouseout="this.style.color='rgba(255,255,255,0.55)'; this.style.opacity='1'"
-    >
-        INSTAGRAM
-    </a>
 
-    <a
-        href="https://youtube.com/@dravyafield?si=8srQj84tA3-2EzTV"
-        target="_blank"
-        rel="noopener noreferrer"
-        style="
-            color: rgba(255,255,255,0.55);
-            font-family: 'Dark', sans-serif;
-            font-size: 11px;
-            letter-spacing: 0.14em;
-            text-decoration: none;
-            transition: opacity 0.3s ease, color 0.3s ease;
-        "
-        onmouseover="this.style.color='#ffffff'; this.style.opacity='1'"
-        onmouseout="this.style.color='rgba(255,255,255,0.55)'; this.style.opacity='1'"
-    >
-        YOUTUBE
-    </a>
-</div>
+            <a
+                class="field-item"
+                href="#"
+            >
 
-        <div
-    style="
-        margin-top: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    "
->
-    <a
-        href="https://rzp.io/rzp/dravyafield"
-        target="_blank"
-        rel="noopener noreferrer"
-        style="
-            color: rgba(255,255,255,0.45);
-            font-family: 'Dark', sans-serif;
-            font-size: 10px;
-            letter-spacing: 0.16em;
-            text-decoration: none;
-            transition: opacity 0.3s ease, color 0.3s ease;
-        "
-        onmouseover="this.style.color='#ffffff'; this.style.opacity='1'"
-        onmouseout="this.style.color='rgba(255,255,255,0.45)'; this.style.opacity='1'"
-    >
-        SUPPORT DRAVYA
-    </a>
-</div>
+                <span class="field-name">
+                    LANDSCAPES FIELD
+                </span>
+
+                <span class="field-number">
+                    04
+                </span>
+
+            </a>
+
+
+            <a
+                class="field-item"
+                href="#"
+            >
+
+                <span class="field-name">
+                    PHYSICS FIELD
+                </span>
+
+                <span class="field-number">
+                    05
+                </span>
+
+            </a>
+
+
+            <a
+                class="field-item"
+                href="#"
+            >
+
+                <span class="field-name">
+                    ADIONIC FIELD
+                </span>
+
+                <span class="field-number">
+                    06
+                </span>
+
+            </a>
+
+
+        </section>
+
+
+        <!-- =================================================
+             FOOTER
+             ================================================= -->
+
+        <footer class="footer">
+
+            <div class="footer-text">
+                OBSERVE · DISTURB · CREATE
+            </div>
+
+            <div class="footer-links">
+
+                <a
+                    href="https://www.instagram.com/dravya.field/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    INSTAGRAM
+                </a>
+
+                <a
+                    href="https://youtube.com/@dravyafield?si=8srQj84tA3-2EzTV"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    YOUTUBE
+                </a>
+
+                <a
+                    href="https://rzp.io/rzp/dravyafield"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    SUPPORT
+                </a>
+
+            </div>
+
+        </footer>
+
+
     </div>
 
 </main>
-
 
 
 <script>
@@ -739,6 +1305,7 @@ body.field-visible #field {
    ========================================================= */
 
 const entry = document.getElementById("entry");
+
 const video = document.getElementById("entryVideo");
 
 let finished = false;
@@ -756,11 +1323,6 @@ function startVideo() {
 
         playPromise.catch(() => {
 
-            /*
-             * Some browsers may block autoplay temporarily.
-             * The video is muted, so retrying is safe.
-             */
-
             video.muted = true;
 
             video.play().catch(() => {});
@@ -773,7 +1335,7 @@ function startVideo() {
 
 
 /* =========================================================
-   VIDEO FINISHED
+   FINISH CINEMATIC ENTRY
    ========================================================= */
 
 function finishField() {
@@ -784,22 +1346,24 @@ function finishField() {
 
 
     /*
-     * Begin static page immediately underneath.
+     * Reveal the DRAVYA FIELD underneath.
      */
+
     document.body.classList.add("field-visible");
 
 
     /*
-     * Fade the cinematic video away.
+     * Fade the cinematic entry away.
      */
+
     entry.style.opacity = "0";
 
     entry.style.pointerEvents = "none";
 
 
     /*
-     * After the fade completes,
-     * completely hide the cinematic layer.
+     * Completely remove the video layer
+     * after the transition.
      */
 
     setTimeout(() => {
@@ -814,7 +1378,7 @@ function finishField() {
 
 
 /* =========================================================
-   NORMAL END EVENT
+   NORMAL VIDEO END
    ========================================================= */
 
 video.addEventListener(
@@ -855,35 +1419,43 @@ window.addEventListener(
 
 
 /* =========================================================
-   ABSOLUTELY NO SCROLLING
+   PREVENT PAGE SCROLL GESTURES
    ========================================================= */
 
 window.addEventListener(
     "wheel",
     event => {
-        event.preventDefault();
-    },
-    { passive: false }
-);
 
+        /*
+         * Allow scrolling inside the field content.
+         * The original page locked the whole viewport;
+         * the new field itself is scrollable on smaller
+         * screens because the introduction is longer.
+         */
 
-window.addEventListener(
-    "touchmove",
-    event => {
+        if (
+            event.target.closest(".field-content")
+        ) {
+            return;
+        }
+
         event.preventDefault();
+
     },
     { passive: false }
 );
 
 
 /* =========================================================
-   PREVENT TOUCH GESTURES FROM MOVING THE PAGE
+   TOUCH
    ========================================================= */
 
 document.addEventListener(
     "gesturestart",
     event => {
+
         event.preventDefault();
+
     }
 );
 
@@ -891,7 +1463,9 @@ document.addEventListener(
 document.addEventListener(
     "gesturechange",
     event => {
+
         event.preventDefault();
+
     }
 );
 
@@ -899,7 +1473,9 @@ document.addEventListener(
 document.addEventListener(
     "gestureend",
     event => {
+
         event.preventDefault();
+
     }
 );
 
