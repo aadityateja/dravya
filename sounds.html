@@ -4,19 +4,20 @@
 
 <head>
 
-```
 <meta charset="UTF-8">
 
 <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
 >
 
-<title>DRAVYA — Sounds</title>
+<title>DRAVYA — PERTURBATION</title>
 
 <meta
-    name="description"
-    content="DRAVYA Sounds."
+name="description"
+content="PERTURBATION — four tracks, four states, one field. An extended play by DRAVYA & A.D.D.Y."
+
 >
 
 <link
@@ -25,597 +26,1279 @@
     href="assets/logo.png"
 >
 
-
 <style>
 
-    /* =========================================================
-       DRAVYA — SOUNDS
-       ========================================================= */
+/* =========================================================
+   DRAVYA — PERTURBATION
+   ========================================================= */
 
-    @font-face {
 
-        font-family: "Germania";
+/* =========================================================
+   FONTS
+   ========================================================= */
 
-        src:
-            url("assets/fonts/SuperKeys.ttf")
-            format("truetype");
+@font-face {
 
-        font-weight: normal;
-        font-style: normal;
+    font-family: "Interdim";
 
-        font-display: swap;
+    src:
+        url("assets/fonts/INTERDIM.TTF")
+        format("truetype");
+
+    font-weight: normal;
+    font-style: normal;
+
+    font-display: swap;
+}
+
+
+@font-face {
+
+    font-family: "SuperKeys";
+
+    src:
+        url("assets/fonts/SuperKeys.ttf")
+        format("truetype");
+
+    font-weight: normal;
+    font-style: normal;
+
+    font-display: swap;
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+}
+
+
+html {
+
+    scroll-behavior: smooth;
+}
+
+
+html,
+body {
+
+    width: 100%;
+
+    min-height: 100%;
+
+    overflow-x: hidden;
+}
+
+
+body {
+
+    font-family: "Interdim", sans-serif;
+
+    background: #02050b;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   BACKGROUND
+   ========================================================= */
+
+#background-video {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    object-fit: cover;
+
+    object-position: center center;
+
+    z-index: -5;
+
+    pointer-events: none;
+
+    filter:
+        brightness(0.38)
+        contrast(1.15)
+        saturate(1.08);
+}
+
+
+.video-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.48),
+            rgba(0, 3, 9, 0.62) 48%,
+            rgba(0, 3, 9, 0.92)
+        );
+
+    z-index: -4;
+
+    pointer-events: none;
+}
+
+
+.field-layer {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 50% 25%,
+            rgba(45, 135, 255, 0.11),
+            transparent 42%
+        ),
+        radial-gradient(
+            circle at 50% 80%,
+            rgba(80, 150, 255, 0.05),
+            transparent 50%
+        );
+
+    z-index: -3;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+nav {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    padding: 25px 42px;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    z-index: 50;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.58),
+            transparent
+        );
+}
+
+
+.nav-logo {
+
+    font-family: "SuperKeys", sans-serif;
+
+    font-size: 20px;
+
+    letter-spacing: 0.22em;
+}
+
+
+.nav-links {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 30px;
+}
+
+
+.nav-links a {
+
+    color:
+        rgba(255, 255, 255, 0.78);
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    letter-spacing: 0.10em;
+
+    transition:
+        opacity 0.3s ease,
+        color 0.3s ease;
+}
+
+
+.nav-links a:hover {
+
+    color: #ffffff;
+
+    opacity: 1;
+
+    text-shadow:
+        0 0 14px
+        rgba(120, 190, 255, 0.85);
+}
+
+
+.nav-links .active {
+
+    color: #ffffff;
+
+    opacity: 1;
+}
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+section {
+
+    position: relative;
+
+    width: 100%;
+}
+
+
+.section-inner {
+
+    width: min(
+        1120px,
+        calc(100% - 48px)
+    );
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding:
+        140px 24px
+        100px;
+}
+
+
+.hero-inner {
+
+    width: min(
+        1100px,
+        100%
+    );
+
+    text-align: center;
+}
+
+
+.eyebrow {
+
+    font-size: 12px;
+
+    letter-spacing: 0.35em;
+
+    opacity: 0.58;
+
+    margin-bottom: 28px;
+}
+
+
+.hero-title {
+
+    font-family: "Interdim", sans-serif;
+
+    font-size:
+        clamp(
+            65px,
+            14vw,
+            170px
+        );
+
+    line-height: 0.82;
+
+    font-weight: normal;
+
+    letter-spacing: 0.06em;
+
+    text-shadow:
+        0 0 35px
+        rgba(80, 160, 255, 0.20);
+
+    animation:
+        titleGlow 7s ease-in-out infinite;
+}
+
+
+@keyframes titleGlow {
+
+    0%,
+    100% {
+
+        text-shadow:
+            0 0 25px
+            rgba(80, 160, 255, 0.12);
     }
 
+    50% {
 
-    /* =========================================================
-       RESET
-       ========================================================= */
+        text-shadow:
+            0 0 55px
+            rgba(80, 160, 255, 0.30);
+    }
+}
 
-    * {
 
-        margin: 0;
-        padding: 0;
+.hero-subtitle {
 
-        box-sizing: border-box;
+    margin-top: 34px;
+
+    font-size:
+        clamp(
+            11px,
+            1.5vw,
+            15px
+        );
+
+    letter-spacing: 0.24em;
+
+    opacity: 0.72;
+
+    line-height: 1.8;
+}
+
+
+.hero-description {
+
+    max-width: 650px;
+
+    margin:
+        32px auto 0;
+
+    font-family: "Interdim", sans-serif;
+
+    font-size: 14px;
+
+    line-height: 2;
+
+    letter-spacing: 0.08em;
+
+    opacity: 0.56;
+}
+
+
+.scroll-indicator {
+
+    margin-top: 75px;
+
+    font-size: 10px;
+
+    letter-spacing: 0.30em;
+
+    opacity: 0.35;
+
+    animation:
+        breathe 3s ease-in-out infinite;
+}
+
+
+@keyframes breathe {
+
+    0%,
+    100% {
+        opacity: 0.22;
     }
 
-
-    html,
-    body {
-
-        width: 100%;
-        min-height: 100%;
-
-        overflow-x: hidden;
+    50% {
+        opacity: 0.62;
     }
+}
 
 
-    body {
+/* =========================================================
+   ARTWORK
+   ========================================================= */
 
-        font-family: "Germania", sans-serif;
+.art-section {
 
-        background: #02050b;
-
-        color: #ffffff;
-    }
-
-
-    /* =========================================================
-       BACKGROUND
-       ========================================================= */
-
-    #background-video {
-
-        position: fixed;
-
-        inset: 0;
-
-        width: 100vw;
-        height: 100vh;
-
-        object-fit: cover;
-        object-position: center center;
-
-        z-index: -3;
-
-        pointer-events: none;
-
-        filter:
-            brightness(0.48)
-            contrast(1.12)
-            saturate(1.05);
-    }
+    padding:
+        80px 0
+        130px;
+}
 
 
-    .video-overlay {
+.section-label {
 
-        position: fixed;
+    text-align: center;
 
-        inset: 0;
+    font-size: 11px;
 
-        width: 100%;
-        height: 100%;
+    letter-spacing: 0.32em;
 
-        background:
-            rgba(0, 0, 0, 0.28);
+    opacity: 0.42;
 
-        z-index: -2;
-
-        pointer-events: none;
-    }
+    margin-bottom: 28px;
+}
 
 
-    .field-layer {
+.art-grid {
 
-        position: fixed;
+    display: grid;
 
-        inset: 0;
+    grid-template-columns:
+        repeat(3, 1fr);
 
-        background:
-            radial-gradient(
-                circle at center,
-                rgba(30, 110, 210, 0.08),
-                transparent 65%
-            );
+    gap: 10px;
 
-        z-index: -1;
+    max-width: 1000px;
 
-        pointer-events: none;
-    }
+    margin: 0 auto;
+}
 
 
-    /* =========================================================
-       NAVIGATION
-       ========================================================= */
+.art-card {
+
+    position: relative;
+
+    aspect-ratio: 1 / 1;
+
+    overflow: hidden;
+
+    background: #03070d;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.10);
+
+    cursor: pointer;
+}
+
+
+.art-card img {
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    opacity: 0.88;
+
+    transition:
+        transform 0.8s cubic-bezier(
+            0.2,
+            0.8,
+            0.2,
+            1
+        ),
+        opacity 0.5s ease,
+        filter 0.5s ease;
+}
+
+
+.art-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(50, 140, 255, 0.08),
+            transparent 50%,
+            rgba(0, 0, 0, 0.28)
+        );
+
+    pointer-events: none;
+}
+
+
+.art-card:hover img {
+
+    transform: scale(1.045);
+
+    opacity: 1;
+
+    filter:
+        brightness(1.08)
+        contrast(1.05);
+}
+
+
+/* =========================================================
+   PERTURBATION IDEA
+   ========================================================= */
+
+.idea-section {
+
+    padding:
+        100px 0
+        150px;
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, 0.06);
+}
+
+
+.idea-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        0.75fr 1.25fr;
+
+    gap: 90px;
+
+    align-items: start;
+}
+
+
+.idea-heading {
+
+    font-size:
+        clamp(
+            38px,
+            5vw,
+            68px
+        );
+
+    line-height: 0.95;
+
+    font-weight: normal;
+
+    letter-spacing: 0.04em;
+
+    opacity: 0.94;
+}
+
+
+.idea-heading span {
+
+    display: block;
+
+    opacity: 0.28;
+
+    margin-top: 7px;
+}
+
+
+.idea-copy {
+
+    max-width: 650px;
+
+    font-size: 15px;
+
+    line-height: 2.1;
+
+    letter-spacing: 0.045em;
+
+    opacity: 0.67;
+}
+
+
+.idea-copy p {
+
+    margin-bottom: 24px;
+}
+
+
+.idea-highlight {
+
+    margin-top: 35px;
+
+    padding:
+        22px 26px;
+
+    border-left:
+        1px solid
+        rgba(130, 200, 255, 0.45);
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(40, 120, 210, 0.08),
+            transparent
+        );
+
+    font-size: 13px;
+
+    line-height: 1.9;
+
+    letter-spacing: 0.08em;
+
+    opacity: 0.78;
+}
+
+
+/* =========================================================
+   STATES
+   ========================================================= */
+
+.states-section {
+
+    padding:
+        110px 0
+        150px;
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, 0.06);
+}
+
+
+.states-header {
+
+    text-align: center;
+
+    margin-bottom: 65px;
+}
+
+
+.states-title {
+
+    font-size:
+        clamp(
+            42px,
+            6vw,
+            78px
+        );
+
+    font-weight: normal;
+
+    letter-spacing: 0.06em;
+
+    line-height: 1;
+}
+
+
+.states-subtitle {
+
+    margin-top: 20px;
+
+    font-size: 12px;
+
+    letter-spacing: 0.22em;
+
+    opacity: 0.43;
+}
+
+
+.state-list {
+
+    max-width: 980px;
+
+    margin: 0 auto;
+}
+
+
+.state {
+
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns:
+        90px
+        1fr
+        130px;
+
+    gap: 30px;
+
+    align-items: center;
+
+    padding:
+        34px 10px;
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, 0.10);
+
+    transition:
+        background 0.35s ease,
+        padding 0.35s ease;
+}
+
+
+.state:last-child {
+
+    border-bottom:
+        1px solid
+        rgba(255, 255, 255, 0.10);
+}
+
+
+.state:hover {
+
+    background:
+        rgba(40, 120, 210, 0.055);
+
+    padding-left: 22px;
+
+    padding-right: 22px;
+}
+
+
+.state-number {
+
+    font-size: 11px;
+
+    letter-spacing: 0.22em;
+
+    opacity: 0.32;
+}
+
+
+.state-main {
+
+    min-width: 0;
+}
+
+
+.state-name {
+
+    font-size:
+        clamp(
+            25px,
+            3vw,
+            38px
+        );
+
+    line-height: 1;
+
+    font-weight: normal;
+
+    letter-spacing: 0.06em;
+}
+
+
+.state-description {
+
+    margin-top: 12px;
+
+    font-size: 12px;
+
+    line-height: 1.8;
+
+    letter-spacing: 0.07em;
+
+    opacity: 0.48;
+
+    max-width: 650px;
+}
+
+
+.state-symbol {
+
+    text-align: right;
+
+    font-size: 11px;
+
+    letter-spacing: 0.18em;
+
+    opacity: 0.32;
+}
+
+
+/* =========================================================
+   FOUR STATE VISUAL LINE
+   ========================================================= */
+
+.state-line {
+
+    width: 100%;
+
+    max-width: 700px;
+
+    height: 1px;
+
+    margin:
+        70px auto 0;
+
+    position: relative;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(120, 190, 255, 0.4),
+            transparent
+        );
+}
+
+
+.state-line::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 50%;
+
+    width: 7px;
+    height: 7px;
+
+    transform:
+        translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 20px
+        rgba(120, 190, 255, 0.8);
+}
+
+
+/* =========================================================
+   LISTEN
+   ========================================================= */
+
+.listen-section {
+
+    padding:
+        120px 0
+        150px;
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, 0.06);
+}
+
+
+.listen-header {
+
+    text-align: center;
+
+    margin-bottom: 48px;
+}
+
+
+.listen-title {
+
+    font-size:
+        clamp(
+            35px,
+            5vw,
+            62px
+        );
+
+    font-weight: normal;
+
+    letter-spacing: 0.05em;
+}
+
+
+.listen-subtitle {
+
+    margin-top: 18px;
+
+    font-size: 12px;
+
+    letter-spacing: 0.20em;
+
+    opacity: 0.43;
+}
+
+
+.platform-grid {
+
+    width: min(
+        760px,
+        100%
+    );
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+}
+
+
+.platform {
+
+    min-height: 58px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0 20px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.16);
+
+    background:
+        rgba(0, 8, 18, 0.28);
+
+    backdrop-filter: blur(9px);
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    letter-spacing: 0.10em;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.platform:hover {
+
+    transform:
+        translateY(-3px);
+
+    border-color:
+        rgba(120, 200, 255, 0.65);
+
+    background:
+        rgba(30, 100, 180, 0.16);
+
+    box-shadow:
+        0 0 25px
+        rgba(40, 130, 230, 0.16);
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+
+    padding:
+        40px 20px
+        60px;
+
+    text-align: center;
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, 0.05);
+}
+
+
+.observer {
+
+    font-size: 10px;
+
+    letter-spacing: 0.20em;
+
+    opacity: 0.30;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 800px) {
 
     nav {
 
-        position: fixed;
-
-        top: 0;
-        left: 0;
-
-        width: 100%;
-
-        padding: 25px 42px;
-
-        display: flex;
-
-        justify-content: space-between;
-        align-items: center;
-
-        z-index: 20;
-
-        background:
-            linear-gradient(
-                to bottom,
-                rgba(0, 0, 0, 0.52),
-                transparent
-            );
-    }
-
-
-    .nav-logo {
-
-        font-size: 20px;
-
-        letter-spacing: 0.22em;
+        padding:
+            20px;
     }
 
 
     .nav-links {
 
-        display: flex;
-
-        align-items: center;
-
-        gap: 30px;
+        gap: 14px;
     }
 
 
     .nav-links a {
 
-        color:
-            rgba(255, 255, 255, 0.78);
-
-        text-decoration: none;
-
-        font-size: 14px;
-
-        letter-spacing: 0.10em;
-
-        transition:
-            opacity 0.3s ease,
-            color 0.3s ease;
+        font-size: 10px;
     }
 
 
-    .nav-links a:hover {
+    .section-inner {
 
-        color: #ffffff;
-
-        opacity: 1;
-
-        text-shadow:
-            0 0 12px
-            rgba(120, 190, 255, 0.8);
+        width:
+            calc(100% - 32px);
     }
 
 
-    /* =========================================================
-       MAIN
-       ========================================================= */
-
-    main {
-
-        position: relative;
-
-        z-index: 2;
-
-        width: 100%;
-        min-height: 100vh;
-
-        display: flex;
-
-        align-items: center;
-        justify-content: center;
+    .hero {
 
         padding:
-            130px 30px 70px;
+            130px 20px
+            80px;
     }
 
 
-    .sounds-content {
-
-        width: 100%;
-
-        max-width: 1000px;
-
-        text-align: center;
-    }
-
-
-    /* =========================================================
-       SOUNDS
-       ========================================================= */
-
-    .sounds-title {
-
-        color: #ffffff;
+    .hero-title {
 
         font-size:
             clamp(
-                58px,
-                11vw,
-                135px
+                55px,
+                18vw,
+                100px
             );
-
-        line-height: 0.9;
-
-        font-weight: normal;
-
-        letter-spacing: 0.08em;
-
-        text-shadow:
-            0 0 30px
-            rgba(80, 160, 255, 0.18);
     }
 
 
-    .sounds-subtitle {
+    .hero-description {
 
-        margin-top: 28px;
+        font-size: 12px;
 
-        font-size: 15px;
-
-        letter-spacing: 0.20em;
-
-        opacity: 0.68;
+        line-height: 1.9;
     }
 
 
-    /* =========================================================
-       LISTEN
-       ========================================================= */
+    .art-grid {
 
-    .listen-title {
+        grid-template-columns:
+            repeat(2, 1fr);
 
-        margin-top: 55px;
-
-        margin-bottom: 28px;
-
-        font-size: 20px;
-
-        letter-spacing: 0.18em;
-
-        opacity: 0.88;
+        gap: 7px;
     }
 
 
-    /* =========================================================
-       STREAMING LINKS
-       ========================================================= */
+    .idea-grid {
+
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+    }
+
+
+    .idea-copy {
+
+        font-size: 13px;
+    }
+
+
+    .state {
+
+        grid-template-columns:
+            48px
+            1fr;
+
+        gap: 18px;
+
+        padding:
+            28px 5px;
+    }
+
+
+    .state-symbol {
+
+        display: none;
+    }
+
+
+    .state:hover {
+
+        padding-left: 12px;
+
+        padding-right: 12px;
+    }
+
 
     .platform-grid {
 
-        width: 100%;
+        grid-template-columns: 1fr;
+    }
+}
 
-        max-width: 720px;
 
-        margin: 0 auto;
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
 
-        display: grid;
+@media (max-width: 460px) {
 
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+    nav {
 
-        gap: 12px;
+        padding:
+            17px 14px;
+    }
+
+
+    .nav-logo {
+
+        font-size: 15px;
+    }
+
+
+    .nav-links {
+
+        gap: 9px;
+    }
+
+
+    .nav-links a {
+
+        font-size: 8px;
+
+        letter-spacing: 0.06em;
+    }
+
+
+    .hero {
+
+        min-height: 90vh;
+
+        padding:
+            120px 15px
+            70px;
+    }
+
+
+    .eyebrow {
+
+        font-size: 9px;
+
+        letter-spacing: 0.23em;
+    }
+
+
+    .hero-title {
+
+        font-size: 55px;
+    }
+
+
+    .hero-subtitle {
+
+        font-size: 9px;
+
+        letter-spacing: 0.14em;
+    }
+
+
+    .hero-description {
+
+        font-size: 11px;
+
+        letter-spacing: 0.04em;
+    }
+
+
+    .art-grid {
+
+        gap: 5px;
+    }
+
+
+    .idea-heading {
+
+        font-size: 40px;
+    }
+
+
+    .states-title {
+
+        font-size: 42px;
+    }
+
+
+    .state-name {
+
+        font-size: 25px;
+    }
+
+
+    .state-description {
+
+        font-size: 10px;
     }
 
 
     .platform {
 
-        min-height: 56px;
+        min-height: 52px;
 
-        display: flex;
-
-        align-items: center;
-        justify-content: center;
-
-        padding: 0 20px;
-
-        border:
-            1px solid
-            rgba(255, 255, 255, 0.18);
-
-        background:
-            rgba(0, 8, 18, 0.25);
-
-        backdrop-filter: blur(8px);
-
-        color: #ffffff;
-
-        text-decoration: none;
-
-        font-size: 14px;
-
-        letter-spacing: 0.08em;
-
-        transition:
-            transform 0.25s ease,
-            border-color 0.25s ease,
-            background 0.25s ease,
-            box-shadow 0.25s ease;
+        font-size: 11px;
     }
-
-
-    .platform:hover {
-
-        transform:
-            translateY(-3px);
-
-        border-color:
-            rgba(120, 200, 255, 0.65);
-
-        background:
-            rgba(30, 100, 180, 0.16);
-
-        box-shadow:
-            0 0 25px
-            rgba(40, 130, 230, 0.16);
-    }
-
-
-    /* =========================================================
-       FOOTER
-       ========================================================= */
-
-    .observer {
-
-        margin-top: 70px;
-
-        font-size: 12px;
-
-        letter-spacing: 0.15em;
-
-        opacity: 0.42;
-    }
-
-
-    .observer span {
-
-        opacity: 0.85;
-    }
-
-
-    /* =========================================================
-       MOBILE
-       ========================================================= */
-
-    @media (max-width: 700px) {
-
-        nav {
-
-            padding: 20px;
-        }
-
-
-        .nav-logo {
-
-            font-size: 17px;
-        }
-
-
-        .nav-links {
-
-            gap: 14px;
-        }
-
-
-        .nav-links a {
-
-            font-size: 11px;
-        }
-
-
-        main {
-
-            padding:
-                115px 18px 50px;
-        }
-
-
-        .sounds-content {
-
-            width: 100%;
-        }
-
-
-        .sounds-title {
-
-            font-size: 58px;
-
-            letter-spacing: 0.06em;
-
-            text-align: center;
-        }
-
-
-        .sounds-subtitle {
-
-            margin-top: 22px;
-
-            font-size: 11px;
-
-            letter-spacing: 0.16em;
-        }
-
-
-        .listen-title {
-
-            margin-top: 42px;
-
-            margin-bottom: 22px;
-
-            font-size: 16px;
-
-            letter-spacing: 0.14em;
-        }
-
-
-        .platform-grid {
-
-            width: 100%;
-
-            grid-template-columns: 1fr;
-
-            gap: 10px;
-        }
-
-
-        .platform {
-
-            min-height: 52px;
-
-            font-size: 13px;
-        }
-
-
-        .observer {
-
-            margin-top: 50px;
-
-            font-size: 10px;
-        }
-    }
-
-
-    /* =========================================================
-       SMALL PHONES
-       ========================================================= */
-
-    @media (max-width: 420px) {
-
-        nav {
-
-            padding:
-                18px 15px;
-        }
-
-
-        .nav-logo {
-
-            font-size: 15px;
-        }
-
-
-        .nav-links {
-
-            gap: 10px;
-        }
-
-
-        .nav-links a {
-
-            font-size: 9px;
-
-            letter-spacing: 0.07em;
-        }
-
-
-        main {
-
-            padding:
-                105px 15px 40px;
-        }
-
-
-        .sounds-title {
-
-            font-size: 48px;
-
-            letter-spacing: 0.04em;
-        }
-
-
-        .sounds-subtitle {
-
-            font-size: 9px;
-
-            letter-spacing: 0.13em;
-        }
-
-
-        .listen-title {
-
-            margin-top: 36px;
-
-            font-size: 14px;
-        }
-
-
-        .platform {
-
-            min-height: 50px;
-
-            font-size: 12px;
-        }
-    }
+}
 
 </style>
-```
 
 </head>
 
 <body>
 
-```
 <!-- =========================================================
      DRAVYA FIELD BACKGROUND
      ========================================================= -->
 
 <video
-    id="background-video"
-    autoplay
-    muted
-    loop
-    playsinline
-    preload="auto"
+id="background-video"
+autoplay
+muted
+loop
+playsinline
+preload="auto"
+
 >
 
-    <source
-        src="assets/dravya_vacuum_fluctuation_10s.mp4"
-        type="video/mp4"
-    >
+```
+<source
+    src="assets/dravya_vacuum_fluctuation_10s.mp4"
+    type="video/mp4"
+>
+```
 
 </video>
-
 
 <div class="video-overlay"></div>
 
 <div class="field-layer"></div>
-
-
 
 <!-- =========================================================
      NAVIGATION
@@ -623,170 +1306,572 @@
 
 <nav>
 
-    <div class="nav-logo">
-        DRAVYA
-    </div>
+```
+<div class="nav-logo">
+    DRAVYA
+</div>
 
 
-    <div class="nav-links">
+<div class="nav-links">
 
-        <a href="index.html">
-            HOME
-        </a>
+    <a href="index.html">
+        HOME
+    </a>
 
-        <a href="sounds.html">
-            SOUNDS
-        </a>
+    <a
+        href="sounds.html"
+        class="active"
+    >
+        SOUNDS
+    </a>
 
-        <a href="art.html">
-            ART
-        </a>
+    <a href="art.html">
+        ART
+    </a>
 
-        <a href="fiction.html">
-            FICTION
-        </a>
+    <a href="fiction.html">
+        FICTION
+    </a>
 
-    </div>
+</div>
+```
 
 </nav>
 
-
-
 <!-- =========================================================
-     SOUNDS
+     HERO
      ========================================================= -->
 
-<main>
+<section class="hero">
 
-    <div class="sounds-content">
+```
+<div class="hero-inner">
 
-
-        <h1 class="sounds-title">
-            SOUNDS
-        </h1>
-
-
-        <div class="sounds-subtitle">
-            PERTURBATION - AN EXTENDED PLAY BY DRAVYA & A . D . D . Y
-        </div>
+    <div class="eyebrow">
+        DRAVYA FIELD / SOUND
+    </div>
 
 
-        <div class="listen-title">
-            LISTEN TO THE DRAVYA FIELD
-        </div>
+    <h1 class="hero-title">
+        PERTURBATION
+    </h1>
 
 
-        <div class="platform-grid">
+    <div class="hero-subtitle">
+        FOUR TRACKS · FOUR STATES · ONE FIELD
+    </div>
 
 
-            <!-- SPOTIFY -->
+    <div class="hero-description">
 
-            <a
-                class="platform"
-                href="https://open.spotify.com/album/1mGaUPvNOITy7iHRRi4wYW?si=LFa5I10zRtGdklEtWLtR9g"
-                target="_blank"
-                rel="noopener noreferrer"
+        An extended play by DRAVYA &amp; A.D.D.Y.<br>
+
+        A disturbance introduced into the field,
+        expressed through sound.
+
+    </div>
+
+
+    <div class="scroll-indicator">
+        ENTER THE PERTURBATION ↓
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- =========================================================
+     EP ARTWORK
+     ========================================================= -->
+
+<section class="art-section">
+
+```
+<div class="section-inner">
+
+    <div class="section-label">
+        PERTURBATION / VISUAL STATES
+    </div>
+
+
+    <div class="art-grid">
+
+
+        <div class="art-card">
+
+            <img
+                src="assets/perturbation1.png"
+                alt="PERTURBATION artwork 1"
             >
-                Spotify
-            </a>
-
-
-            <!-- APPLE MUSIC -->
-
-            <a
-                class="platform"
-                href="https://music.apple.com/us/album/perturbation-ep/6807654715"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Apple Music
-            </a>
-
-
-            <!-- YOUTUBE MUSIC -->
-
-            <a
-                class="platform"
-                href="https://music.youtube.com/playlist?list=OLAK5uy_ki6GIRLyc_9V3c_Rg7Yy2FG7MGb-Wykzs&si=SO2tWB5mS8BAN7jv"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                YouTube Music
-            </a>
-
-
-            <!-- AMAZON MUSIC -->
-
-            <a
-                class="platform"
-                href="https://music.amazon.in/albums/B0HHHHHF2Q?marketplaceId=A21TJRUUN4KGV&musicTerritory=IN&ref=dm_sh_DpyaGZuSx7Qm8rjHodnANMTvq"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Amazon Music
-            </a>
-
-
-            <!-- JIOSAAVN -->
-
-            <a
-                class="platform"
-                href="https://www.jiosaavn.com/album/perturbation/NMyABBMvlmo_"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                JioSaavn
-            </a>
-
-
-            <!-- GAANA -->
-
-            <a
-                class="platform"
-                href="https://gaana.com/album/perturbation-GWwLRPqLbp"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Gaana
-            </a>
-
-
-            <!-- SOUNDCLOUD -->
-
-            <a
-                class="platform"
-                href="https://soundcloud.com/dravya-music/sets/perturbation-1?si=6a2443d0a6934356acb8995ec80d8424&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                SoundCloud
-            </a>
-
 
         </div>
 
 
-    
+        <div class="art-card">
+
+            <img
+                src="assets/perturbation2.png"
+                alt="PERTURBATION artwork 2"
+            >
+
+        </div>
+
+
+        <div class="art-card">
+
+            <img
+                src="assets/perturbation3.png"
+                alt="PERTURBATION artwork 3"
+            >
+
+        </div>
+
+
+        <div class="art-card">
+
+            <img
+                src="assets/perturbation4.png"
+                alt="PERTURBATION artwork 4"
+            >
+
+        </div>
+
+
+        <div class="art-card">
+
+            <img
+                src="assets/perturbation5.png"
+                alt="PERTURBATION artwork 5"
+            >
+
+        </div>
+
+
+        <div class="art-card">
+
+            <img
+                src="assets/perturbation6.png"
+                alt="PERTURBATION artwork 6"
+            >
+
+        </div>
 
 
     </div>
 
-</main>
+</div>
+```
+
+</section>
+
+<!-- =========================================================
+     WHAT IS PERTURBATION
+     ========================================================= -->
+
+<section class="idea-section">
+
+```
+<div class="section-inner">
+
+    <div class="idea-grid">
 
 
+        <div>
+
+            <h2 class="idea-heading">
+
+                A FIELD
+
+                <span>PERTURBED.</span>
+
+            </h2>
+
+        </div>
+
+
+        <div class="idea-copy">
+
+            <p>
+
+                In physics, a perturbation is a disturbance
+                introduced into a system.
+
+            </p>
+
+
+            <p>
+
+                Something changes.
+                The field responds.
+                A new state emerges.
+
+            </p>
+
+
+            <p>
+
+                <strong>PERTURBATION</strong> begins with this
+                idea and translates it into sound.
+
+                Rather than treating each track as an isolated
+                song, the EP explores four different states of
+                the same field.
+
+            </p>
+
+
+            <p>
+
+                The disturbance is not the end of the system.
+                It is what allows the system to reveal
+                something different.
+
+            </p>
+
+
+            <div class="idea-highlight">
+
+                DRAVYA FIELD DISTURBANCE<br>
+
+                A perturbation occurs.<br>
+
+                The field responds.<br>
+
+                A state appears.
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- =========================================================
+     FOUR STATES
+     ========================================================= -->
+
+<section class="states-section">
+
+```
+<div class="section-inner">
+
+
+    <div class="states-header">
+
+        <h2 class="states-title">
+            FOUR STATES
+        </h2>
+
+
+        <div class="states-subtitle">
+            ONE FIELD · FOUR EXPRESSIONS
+        </div>
+
+    </div>
+
+
+    <div class="state-list">
+
+
+        <!-- STATE 01 -->
+
+        <div class="state">
+
+            <div class="state-number">
+                01
+            </div>
+
+
+            <div class="state-main">
+
+                <div class="state-name">
+                    GROUND STATE
+                </div>
+
+
+                <div class="state-description">
+
+                    The field before the disturbance.
+                    Quiet, present, and already alive.
+
+                </div>
+
+            </div>
+
+
+            <div class="state-symbol">
+                GROUND
+            </div>
+
+        </div>
+
+
+        <!-- STATE 02 -->
+
+        <div class="state">
+
+            <div class="state-number">
+                02
+            </div>
+
+
+            <div class="state-main">
+
+                <div class="state-name">
+                    RED SHIFT — SANJE
+                </div>
+
+
+                <div class="state-description">
+
+                    The field begins to move.
+                    A shift in state, expressed through
+                    sound and colour.
+
+                </div>
+
+            </div>
+
+
+            <div class="state-symbol">
+                SHIFT
+            </div>
+
+        </div>
+
+
+        <!-- STATE 03 -->
+
+        <div class="state">
+
+            <div class="state-number">
+                03
+            </div>
+
+
+            <div class="state-main">
+
+                <div class="state-name">
+                    PHASE SHIFT
+                </div>
+
+
+                <div class="state-description">
+
+                    The disturbance changes phase.
+                    The same field, experienced differently.
+
+                </div>
+
+            </div>
+
+
+            <div class="state-symbol">
+                PHASE
+            </div>
+
+        </div>
+
+
+        <!-- STATE 04 -->
+
+        <div class="state">
+
+            <div class="state-number">
+                04
+            </div>
+
+
+            <div class="state-main">
+
+                <div class="state-name">
+                    EXCITED STATE
+                </div>
+
+
+                <div class="state-description">
+
+                    Energy has been introduced.
+                    The field is no longer in its ground state.
+
+                </div>
+
+            </div>
+
+
+            <div class="state-symbol">
+                EXCITED
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="state-line"></div>
+
+</div>
+```
+
+</section>
+
+<!-- =========================================================
+     LISTEN
+     ========================================================= -->
+
+<section class="listen-section">
+
+```
+<div class="section-inner">
+
+
+    <div class="listen-header">
+
+        <h2 class="listen-title">
+            LISTEN TO THE FIELD
+        </h2>
+
+
+        <div class="listen-subtitle">
+            PERTURBATION / DRAVYA &amp; A.D.D.Y.
+        </div>
+
+    </div>
+
+
+    <div class="platform-grid">
+
+
+        <!-- SPOTIFY -->
+
+        <a
+            class="platform"
+            href="https://open.spotify.com/album/1mGaUPvNOITy7iHRRi4wYW?si=LFa5I10zRtGdklEtWLtR9g"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            SPOTIFY
+        </a>
+
+
+        <!-- APPLE MUSIC -->
+
+        <a
+            class="platform"
+            href="https://music.apple.com/us/album/perturbation-ep/6807654715"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            APPLE MUSIC
+        </a>
+
+
+        <!-- YOUTUBE MUSIC -->
+
+        <a
+            class="platform"
+            href="https://music.youtube.com/playlist?list=OLAK5uy_ki6GIRLyc_9V3c_Rg7Yy2FG7MGb-Wykzs&si=SO2tWB5mS8BAN7jv"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            YOUTUBE MUSIC
+        </a>
+
+
+        <!-- AMAZON MUSIC -->
+
+        <a
+            class="platform"
+            href="https://music.amazon.in/albums/B0HHHHHF2Q?marketplaceId=A21TJRUUN4KGV&musicTerritory=IN&ref=dm_sh_DpyaGZuSx7Qm8rjHodnANMTvq"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            AMAZON MUSIC
+        </a>
+
+
+        <!-- JIOSAAVN -->
+
+        <a
+            class="platform"
+            href="https://www.jiosaavn.com/album/perturbation/NMyABBMvlmo_"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            JIOSAAVN
+        </a>
+
+
+        <!-- GAANA -->
+
+        <a
+            class="platform"
+            href="https://gaana.com/album/perturbation-GWwLRPqLbp"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            GAANA
+        </a>
+
+
+        <!-- SOUNDCLOUD -->
+
+        <a
+            class="platform"
+            href="https://soundcloud.com/dravya-music/sets/perturbation-1?si=6a2443d0a6934356acb8995ec80d8424&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            SOUNDCLOUD
+        </a>
+
+
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+
+<footer>
+
+```
+<div class="observer">
+
+    DRAVYA FIELD DISTURBANCE · OBSERVE · DISTURB · CREATE
+
+</div>
+```
+
+</footer>
+
+<!-- =========================================================
+     SCRIPT
+     ========================================================= -->
 
 <script>
 
-    const video =
-        document.getElementById(
-            "background-video"
-        );
+const video =
+    document.getElementById(
+        "background-video"
+    );
 
 
-    video.play().catch(() => {});
+video.play().catch(() => {});
+
 
 </script>
-```
 
 </body>
 
