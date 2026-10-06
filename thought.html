@@ -1,0 +1,2268 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DRAVYA — Foundations</title>
+
+<style>
+@font-face {
+    font-family: "SuperKeys";
+    src: url("SuperKeys.ttf");
+}
+
+@font-face {
+    font-family: "Interdim";
+    src: url("INTERDIM.TTF");
+}
+
+@font-face {
+    font-family: "Minecraft";
+    src: url("Minecraft.ttf");
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: #050505;
+    color: #e9e9e9;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+/* =========================================================
+   FIELD BACKGROUND
+========================================================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.035), transparent 28%),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.025), transparent 30%);
+    z-index: -2;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+    z-index: -1;
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    z-index: 1000;
+    background: rgba(5,5,5,0.72);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.logo {
+    font-family: Minecraft;
+    font-size: 17px;
+    letter-spacing: 3px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 22px;
+}
+
+.nav-links a {
+    color: #999;
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: white;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 120px 25px 80px;
+}
+
+.hero-field {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle,
+        rgba(255,255,255,0.08),
+        rgba(255,255,255,0.025) 25%,
+        transparent 65%);
+    animation: breathe 8s ease-in-out infinite;
+}
+
+@keyframes breathe {
+    0%,100% {
+        transform: scale(0.9);
+        opacity: 0.45;
+    }
+    50% {
+        transform: scale(1.08);
+        opacity: 0.8;
+    }
+}
+
+.hero-content {
+    position: relative;
+    max-width: 1000px;
+}
+
+.eyebrow {
+    font-family: Interdim;
+    letter-spacing: 6px;
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 28px;
+}
+
+.hero h1 {
+    font-family: Minecraft;
+    font-size: clamp(70px, 14vw, 180px);
+    font-weight: normal;
+    letter-spacing: 8px;
+    margin: 0;
+}
+
+.hero h2 {
+    font-family: Interdim;
+    font-size: clamp(22px, 4vw, 46px);
+    font-weight: normal;
+    letter-spacing: 5px;
+    margin: 25px 0;
+    color: #bbb;
+}
+
+.hero p {
+    max-width: 700px;
+    margin: 35px auto;
+    color: #888;
+    line-height: 1.9;
+    font-size: 15px;
+}
+
+.enter {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 15px 28px;
+    border: 1px solid #555;
+    color: white;
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 3px;
+    transition: 0.3s;
+}
+
+.enter:hover {
+    background: white;
+    color: black;
+}
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+section {
+    max-width: 1200px;
+    margin: auto;
+    padding: 130px 30px;
+}
+
+.section-number {
+    font-family: Interdim;
+    color: #555;
+    font-size: 11px;
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+}
+
+.section-title {
+    font-family: Minecraft;
+    font-size: clamp(38px, 7vw, 80px);
+    font-weight: normal;
+    margin: 0 0 25px;
+    letter-spacing: 3px;
+}
+
+.section-intro {
+    max-width: 750px;
+    color: #888;
+    line-height: 1.9;
+    font-size: 16px;
+}
+
+/* =========================================================
+   CORE STATEMENT
+========================================================= */
+
+.statement {
+    margin-top: 70px;
+    padding: 60px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.025);
+}
+
+.statement .big {
+    font-family: Interdim;
+    font-size: clamp(30px, 5vw, 65px);
+    line-height: 1.15;
+    margin-bottom: 30px;
+}
+
+.statement p {
+    color: #888;
+    max-width: 700px;
+    line-height: 1.8;
+}
+
+/* =========================================================
+   EPISTEMIC GRID
+========================================================= */
+
+.foundation-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    margin-top: 70px;
+    background: rgba(255,255,255,0.08);
+}
+
+.foundation {
+    background: #070707;
+    padding: 32px;
+    min-height: 240px;
+    cursor: pointer;
+    transition: 0.35s;
+}
+
+.foundation:hover {
+    background: #101010;
+}
+
+.foundation .type {
+    color: #666;
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+}
+
+.foundation h3 {
+    font-family: Interdim;
+    font-weight: normal;
+    font-size: 27px;
+    margin: 0 0 18px;
+}
+
+.foundation p {
+    color: #777;
+    line-height: 1.7;
+    font-size: 13px;
+}
+
+.foundation .arrow {
+    margin-top: 25px;
+    color: #555;
+}
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 50px 0 30px;
+}
+
+.filter {
+    border: 1px solid #333;
+    padding: 10px 15px;
+    color: #777;
+    font-size: 10px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    background: transparent;
+}
+
+.filter.active,
+.filter:hover {
+    color: white;
+    border-color: #aaa;
+}
+
+/* =========================================================
+   IDEA CARDS
+========================================================= */
+
+.idea-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.idea {
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 30px;
+    background: rgba(255,255,255,0.015);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.idea:hover {
+    border-color: #555;
+    transform: translateY(-3px);
+}
+
+.idea-meta {
+    display: flex;
+    justify-content: space-between;
+    color: #555;
+    font-size: 9px;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+}
+
+.idea h3 {
+    font-family: Interdim;
+    font-size: 25px;
+    font-weight: normal;
+    margin: 0 0 15px;
+}
+
+.idea p {
+    color: #777;
+    line-height: 1.7;
+    font-size: 13px;
+}
+
+.details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+.idea.open .details {
+    max-height: 500px;
+}
+
+.details-inner {
+    padding-top: 25px;
+    border-top: 1px solid #222;
+    margin-top: 20px;
+    color: #999;
+    line-height: 1.8;
+    font-size: 13px;
+}
+
+.equation {
+    font-family: Georgia, serif;
+    font-size: 22px;
+    color: #ddd;
+    padding: 20px 0;
+}
+
+/* =========================================================
+   THOUGHT EXPERIMENT
+========================================================= */
+
+.experiment {
+    margin-top: 70px;
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 50px;
+    position: relative;
+    overflow: hidden;
+}
+
+.experiment-number {
+    font-size: 10px;
+    color: #555;
+    letter-spacing: 4px;
+}
+
+.experiment h3 {
+    font-family: Interdim;
+    font-size: 42px;
+    font-weight: normal;
+    margin: 20px 0;
+}
+
+.experiment-stage {
+    margin: 40px 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: #222;
+}
+
+.stage {
+    background: #080808;
+    padding: 25px;
+    min-height: 150px;
+}
+
+.stage span {
+    display: block;
+    color: #555;
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+
+.stage strong {
+    font-weight: normal;
+    color: #ddd;
+    line-height: 1.5;
+}
+
+.experiment-question {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 24px;
+    color: #bbb;
+    max-width: 750px;
+}
+
+/* =========================================================
+   ASSUMPTION MACHINE
+========================================================= */
+
+.machine {
+    margin-top: 70px;
+    border: 1px solid #222;
+    padding: 45px;
+}
+
+.machine-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.machine-title {
+    font-family: Interdim;
+    font-size: 32px;
+}
+
+.assumption-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 40px 0;
+}
+
+.assumption-btn {
+    border: 1px solid #333;
+    padding: 12px 15px;
+    background: transparent;
+    color: #888;
+    cursor: pointer;
+}
+
+.assumption-btn:hover {
+    color: white;
+    border-color: white;
+}
+
+.machine-result {
+    min-height: 150px;
+    border-top: 1px solid #222;
+    padding-top: 30px;
+}
+
+.machine-result h3 {
+    font-family: Interdim;
+    font-size: 28px;
+    font-weight: normal;
+}
+
+/* =========================================================
+   PARADOX
+========================================================= */
+
+.paradox {
+    margin-top: 70px;
+    min-height: 500px;
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 50px;
+    background:
+        radial-gradient(circle,
+        rgba(255,255,255,0.045),
+        transparent 65%);
+}
+
+.paradox-content {
+    max-width: 800px;
+}
+
+.paradox-label {
+    color: #555;
+    font-size: 10px;
+    letter-spacing: 5px;
+}
+
+.paradox h3 {
+    font-family: Interdim;
+    font-size: clamp(40px, 7vw, 85px);
+    font-weight: normal;
+    margin: 25px 0;
+}
+
+.paradox p {
+    color: #777;
+    line-height: 1.8;
+}
+
+/* =========================================================
+   KNOWLEDGE STATUS
+========================================================= */
+
+.status-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: #222;
+    margin-top: 60px;
+}
+
+.status {
+    padding: 28px 18px;
+    background: #080808;
+    text-align: center;
+}
+
+.status h4 {
+    font-family: Interdim;
+    font-weight: normal;
+    font-size: 18px;
+}
+
+.status p {
+    color: #666;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   DEEP QUESTION
+========================================================= */
+
+.question-wall {
+    margin-top: 80px;
+}
+
+.question {
+    border-top: 1px solid #222;
+    padding: 28px 0;
+    font-family: Georgia, serif;
+    font-size: clamp(22px, 3vw, 38px);
+    color: #aaa;
+    transition: 0.3s;
+}
+
+.question:hover {
+    color: white;
+    padding-left: 20px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-top: 1px solid #151515;
+    padding: 60px 25px;
+}
+
+.footer-content {
+    max-width: 850px;
+}
+
+.footer-content h2 {
+    font-family: Minecraft;
+    font-size: clamp(50px, 10vw, 120px);
+    font-weight: normal;
+    margin: 0;
+}
+
+.footer-content p {
+    color: #666;
+    line-height: 1.9;
+    max-width: 600px;
+    margin: 30px auto;
+}
+
+.footer-line {
+    margin-top: 70px;
+    color: #444;
+    letter-spacing: 4px;
+    font-size: 10px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .nav-links {
+        display: none;
+    }
+
+    .foundation-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .idea-list {
+        grid-template-columns: 1fr;
+    }
+
+    .experiment-stage {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .status-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .statement {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 550px) {
+
+    section {
+        padding: 90px 20px;
+    }
+
+    .experiment {
+        padding: 30px 20px;
+    }
+
+    .experiment-stage {
+        grid-template-columns: 1fr;
+    }
+
+    .machine {
+        padding: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ======================================================
+     NAVIGATION
+====================================================== -->
+
+<nav>
+
+    <div class="logo">DRAVYA</div>
+
+    <div class="nav-links">
+        <a href="#foundations">Foundations</a>
+        <a href="#experiments">Experiments</a>
+        <a href="#assumptions">Assumptions</a>
+        <a href="#paradoxes">Paradoxes</a>
+        <a href="#unknown">Unknown</a>
+    </div>
+
+</nav>
+
+
+<!-- ======================================================
+     HERO
+====================================================== -->
+
+<header class="hero">
+
+    <div class="hero-field"></div>
+
+    <div class="hero-content">
+
+        <div class="eyebrow">
+            DRAVYA / FIELD OF THOUGHT
+        </div>
+
+        <h1>FOUNDATIONS</h1>
+
+        <h2>WHAT DO WE ACTUALLY ASSUME?</h2>
+
+        <p>
+            Physics is often presented as a collection of facts,
+            equations and discoveries.
+            But beneath every theory lies another layer:
+            definitions, postulates, principles, assumptions,
+            mathematical structures, experiments and consequences.
+        </p>
+
+        <a class="enter" href="#foundations">
+            ENTER THE FOUNDATIONS
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- ======================================================
+     INTRODUCTION
+====================================================== -->
+
+<section id="foundations">
+
+    <div class="section-number">01 / THE QUESTION</div>
+
+    <h2 class="section-title">
+        BEFORE THE EQUATION
+    </h2>
+
+    <p class="section-intro">
+
+        Before a theorem can be derived,
+        something must be accepted.
+        Before a law can be tested,
+        something must be defined.
+        Before an interpretation can be proposed,
+        something must have been measured.
+
+        <br><br>
+
+        Physics is not one continuous layer of certainty.
+
+        It is a structure.
+
+    </p>
+
+    <div class="statement">
+
+        <div class="big">
+            NOT ALL STATEMENTS IN PHYSICS HAVE THE SAME STATUS.
+        </div>
+
+        <p>
+            A postulate is not the same thing as a theorem.
+            A definition is not an experimental fact.
+            A mathematical consequence is not automatically
+            an interpretation.
+            A successful model is not necessarily the final description
+            of reality.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     EPISTEMIC MAP
+====================================================== -->
+
+<section>
+
+    <div class="section-number">02 / THE STRUCTURE</div>
+
+    <h2 class="section-title">
+        THE SCAFFOLD
+    </h2>
+
+    <p class="section-intro">
+        Explore the different kinds of statements that build
+        physical theories.
+    </p>
+
+    <div class="foundation-grid">
+
+        <div class="foundation">
+
+            <div class="type">STARTING POINT</div>
+
+            <h3>POSTULATE</h3>
+
+            <p>
+                A statement accepted as a starting point
+                within a physical theory.
+            </p>
+
+            <div class="arrow">→ ACCEPTED →</div>
+
+        </div>
+
+
+        <div class="foundation">
+
+            <div class="type">PRECISION</div>
+
+            <h3>DEFINITION</h3>
+
+            <p>
+                A precise specification of what a physical or
+                mathematical quantity means.
+            </p>
+
+            <div class="arrow">→ DEFINED →</div>
+
+        </div>
+
+
+        <div class="foundation">
+
+            <div class="type">STRUCTURE</div>
+
+            <h3>AXIOM</h3>
+
+            <p>
+                A foundational statement from which a formal
+                mathematical system is constructed.
+            </p>
+
+            <div class="arrow">→ BUILT UPON →</div>
+
+        </div>
+
+
+        <div class="foundation">
+
+            <div class="type">CONSEQUENCE</div>
+
+            <h3>THEOREM</h3>
+
+            <p>
+                A statement demonstrated from previously established
+                assumptions and mathematical reasoning.
+            </p>
+
+            <div class="arrow">→ DERIVED →</div>
+
+        </div>
+
+
+        <div class="foundation">
+
+            <div class="type">OBSERVATION</div>
+
+            <h3>EMPIRICAL FACT</h3>
+
+            <p>
+                Something supported by observation,
+                measurement or experiment.
+            </p>
+
+            <div class="arrow">→ TESTED →</div>
+
+        </div>
+
+
+        <div class="foundation">
+
+            <div class="type">INTERPRETATION</div>
+
+            <h3>MEANING</h3>
+
+            <p>
+                A conceptual interpretation of what a mathematical
+                formalism or experimental result means.
+            </p>
+
+            <div class="arrow">→ INTERPRETED →</div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     REAL FOUNDATIONS
+====================================================== -->
+
+<section>
+
+    <div class="section-number">03 / ACTUAL PHYSICS</div>
+
+    <h2 class="section-title">
+        THE FOUNDATIONS
+    </h2>
+
+    <p class="section-intro">
+        These are not merely thought experiments.
+        These are examples of the actual structures,
+        principles and postulates used by physicists.
+    </p>
+
+    <div class="filters">
+
+        <button class="filter active" onclick="filterIdeas('all', this)">
+            ALL
+        </button>
+
+        <button class="filter" onclick="filterIdeas('relativity', this)">
+            RELATIVITY
+        </button>
+
+        <button class="filter" onclick="filterIdeas('quantum', this)">
+            QUANTUM
+        </button>
+
+        <button class="filter" onclick="filterIdeas('classical', this)">
+            CLASSICAL
+        </button>
+
+        <button class="filter" onclick="filterIdeas('thermo', this)">
+            THERMO
+        </button>
+
+        <button class="filter" onclick="filterIdeas('field', this)">
+            FIELD
+        </button>
+
+    </div>
+
+
+    <div class="idea-list">
+
+
+        <!-- RELATIVITY -->
+
+        <div class="idea" data-category="relativity" onclick="toggleIdea(this)">
+
+            <div class="idea-meta">
+                <span>POSTULATE</span>
+                <span>RELATIVITY</span>
+            </div>
+
+            <h3>Principle of Relativity</h3>
+
+            <p>
+                The laws of physics take the same form in all inertial frames.
+            </p>
+
+            <div class="details">
+                <div class="details-inner">
+
+                    The statement is not merely saying
+                    "everything looks the same."
+
+                    It specifies a symmetry of physical law.
+
+                    <div class="equation">
+                        Physics ≠ dependent on inertial viewpoint
+                    </div>
+
+                    <b>Question:</b>
+                    What must the universe look like
+                    if no inertial observer is privileged?
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="idea" data-category="relativity" onclick="toggleIdea(this)">
+
+            <div class="idea-meta">
+                <span>POSTULATE</span>
+                <span>RELATIVITY</span>
+            </div>
+
+            <h3>Invariant Speed of Light</h3>
+
+            <p>
+                In special relativity, every inertial observer measures
+                the same vacuum speed of light.
+            </p>
+
+            <div class="details">
+                <div class="details-inner">
+
+                    The surprising consequence is that
+                    space and time cannot remain absolute.
+
+                    <div class="equation">
+                        c = constant
+                    </div>
+
+                    The disturbance is simple:
+
+                    <br><br>
+
+                    <b>What if time were absolute instead?</b>
+
+                    Classical intuition begins to fail.
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="idea" data-category="relativity" onclick="toggleIdea(this)">
+
+            <div class="idea-meta">
+                <span>PRINCIPLE</span>
+                <span>GENERAL RELATIVITY</span>
+            </div>
+
+            <h3>Equivalence Principle</h3>
+
+            <p>
+                Locally, the effects of a uniform gravitational field
+                and uniform acceleration can be made equivalent.
+            </p>
+
+            <div class="details">
+                <div class="details-inner">
+
+                    Imagine an observer inside a closed elevator.
+
+                    Is the force they feel gravity?
+
+                    Or acceleration?
+
+                    Without looking outside,
+                    the local experiment cannot distinguish
+                    the two under the idealized conditions.
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- QUANTUM -->
+
+        <div class="idea" data-category="quantum" onclick="toggleIdea(this)">
+
+            <div class="idea-meta">
+                <span>POSTULATE</span>
+                <span>QUANTUM</span>
+            </div>
+
+            <h3>Quantum State</h3>
+
+            <p>
+                A quantum system is represented by a state
+                in an appropriate Hilbert space.
+            </p>
+
+            <div class="details">
+                <div class="details-inner">
+
+                    The quantum state is not simply
+                    a classical list of hidden properties.
+
+                    It is a mathematical object from which
+                    probabilities of measurement outcomes
+                    can be calculated.
+
+                    <div class="equation">
+                        |ψ⟩
+                    </div>
+
+                    <b>Question:</b>
+
+                    Is the quantum state physically real,
+                    informational, or something else?
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="idea" data-category="quantum" onclick="toggleIdea(this)">
+
+            <div class="idea-meta">
+                <span>RULE</span>
+                <span>QUANTUM</span>
+            </div>
+
+            <h3>Born Rule</h3>
+
+            <p>
+                Quantum amplitudes determine probabilities
+                of measurement outcomes.
+            </p>
+
+            <div class="details">
+                <div class="details-inner">
+
+                    For a state |ψ⟩ and measurement associated
+                    with a projector P:
+
+                    <div class="equation">
+                        P(outcome) = ⟨ψ|P|ψ⟩
+                    </div>
+
+                    The mathematics produces probabilities.
+
+                    But then comes the deeper question:
+
+                    <br><br>
+
+                    <b>Why does nature give us probabilities at all?</b>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="idea" data-category="quantum" onclick="toggleIdea(this)">
+
+            <div class="idea-meta">
+                <span>PRINCIPLE</span>
+                <span>QUANTUM</span>
+            </div>
+
+            <h3>Superposition</h3>
+
+            <p>
+                Quantum states can exist as linear combinations
+                of other allowed states.
+            </p>
+
+            <div class="details">
+                <div class="details-inner">
+
+                    If |ψ₁⟩ and |ψ₂⟩ are allowed states,
+
+                    <div class="equation">
+                        |ψ⟩ = a|ψ₁⟩ + b|ψ₂⟩
+                    </div>
+
+                    The strange part is not merely that
+                    two possibilities are written together.
+
+                    It is that the amplitudes can interfere.
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- CLASSICAL -->
+
+        <div class="idea" data-category="classical" onclick="toggleIdea(this)">
+
+            <div class="idea-meta">
+                <span>LAW</span>
+                <span>CLASSICAL</span>
+            </div>
+
+            <h3>Newton's Second Law</h3>
+
+            <p>
+                Dynamics connects force, momentum and motion.
+            </p>
+
+            <div class="details">
+                <div class="details-inner">
+
+                    In its general form:
+
+                    <div class="equation">
+                        F = dp/dt
+                    </div>
+
+                    For constant mass:
+
+                    <div class="equation">
+                        F = ma
+                    </div>
+
+                    It is extraordinarily successful
+                    within its domain of applicability.
+
+                    But it is not the final description
+                    of relativistic or quantum dynamics.
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- THERMO -->
+
+        <div class="idea" data-category="thermo" onclick="toggleIdea(this)">
+
+            <div class="idea-meta">
+                <span>LAW</span>
+                <span>THERMODYNAMICS</span>
+            </div>
+
+            <h3>Second Law</h3>
+
+            <p>
+                Entropy places a directional constraint
+                on macroscopic processes.
+            </p>
+
+            <div class="details">
+                <div class="details-inner">
+
+                    For an isolated macroscopic system,
+                    entropy does not decrease in ordinary
+                    thermodynamic evolution.
+
+                    <div class="equation">
+                        ΔS ≥ 0
+                    </div>
+
+                    But microscopic dynamics can be reversible.
+
+                    So:
+
+                    <br><br>
+
+                    <b>Where does the arrow of time come from?</b>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- FIELD -->
+
+        <div class="idea" data-category="field" onclick="toggleIdea(this)">
+
+            <div class="idea-meta">
+                <span>THEOREM</span>
+                <span>FIELD THEORY</span>
+            </div>
+
+            <h3>Noether's Theorem</h3>
+
+            <p>
+                Continuous symmetries of the action correspond
+                to conserved quantities.
+            </p>
+
+            <div class="details">
+                <div class="details-inner">
+
+                    Symmetry is not merely aesthetic.
+
+                    It can generate conservation laws.
+
+                    <div class="equation">
+                        Symmetry → Conservation
+                    </div>
+
+                    Time-translation symmetry:
+
+                    → energy conservation
+
+                    Space-translation symmetry:
+
+                    → momentum conservation
+
+                    Rotational symmetry:
+
+                    → angular momentum conservation
+
+                    <br><br>
+
+                    <b>What happens when the symmetry is broken?</b>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     THOUGHT EXPERIMENTS
+====================================================== -->
+
+<section id="experiments">
+
+    <div class="section-number">04 / DISTURB</div>
+
+    <h2 class="section-title">
+        THOUGHT EXPERIMENTS
+    </h2>
+
+    <p class="section-intro">
+
+        Physics often advances by constructing impossible rooms,
+        perfect clocks, frictionless worlds, sealed elevators,
+        imaginary observers and universes stripped of everything
+        except one question.
+
+    </p>
+
+
+    <div class="experiment">
+
+        <div class="experiment-number">
+            THOUGHT EXPERIMENT / 001
+        </div>
+
+        <h3>THE ELEVATOR</h3>
+
+        <div class="experiment-stage">
+
+            <div class="stage">
+                <span>OBSERVE</span>
+                <strong>
+                    You are inside a sealed elevator.
+                </strong>
+            </div>
+
+            <div class="stage">
+                <span>ASSUME</span>
+                <strong>
+                    The elevator accelerates upward.
+                </strong>
+            </div>
+
+            <div class="stage">
+                <span>DISTURB</span>
+                <strong>
+                    Remove every outside reference.
+                </strong>
+            </div>
+
+            <div class="stage">
+                <span>QUESTION</span>
+                <strong>
+                    Can you know whether gravity exists?
+                </strong>
+            </div>
+
+        </div>
+
+        <div class="experiment-question">
+            "What can an observer know if the experiment
+            is restricted to a local region of spacetime?"
+        </div>
+
+    </div>
+
+
+    <div class="experiment">
+
+        <div class="experiment-number">
+            THOUGHT EXPERIMENT / 002
+        </div>
+
+        <h3>SCHRODINGER'S CAT</h3>
+
+        <div class="experiment-stage">
+
+            <div class="stage">
+                <span>OBSERVE</span>
+                <strong>
+                    A quantum event controls a macroscopic device.
+                </strong>
+            </div>
+
+            <div class="stage">
+                <span>ASSUME</span>
+                <strong>
+                    Quantum evolution applies to the whole setup.
+                </strong>
+            </div>
+
+            <div class="stage">
+                <span>DISTURB</span>
+                <strong>
+                    Place the entire system inside a sealed box.
+                </strong>
+            </div>
+
+            <div class="stage">
+                <span>QUESTION</span>
+                <strong>
+                    Where does quantum description stop?
+                </strong>
+            </div>
+
+        </div>
+
+        <div class="experiment-question">
+            The cat was never merely the point.
+            The point was the tension between mathematical
+            quantum evolution and our classical description
+            of measurement.
+        </div>
+
+    </div>
+
+
+    <div class="experiment">
+
+        <div class="experiment-number">
+            THOUGHT EXPERIMENT / 003
+        </div>
+
+        <h3>MAXWELL'S DEMON</h3>
+
+        <div class="experiment-stage">
+
+            <div class="stage">
+                <span>OBSERVE</span>
+                <strong>
+                    Gas molecules move randomly.
+                </strong>
+            </div>
+
+            <div class="stage">
+                <span>ASSUME</span>
+                <strong>
+                    A microscopic being can measure molecules.
+                </strong>
+            </div>
+
+            <div class="stage">
+                <span>DISTURB</span>
+                <strong>
+                    Let the demon sort fast and slow particles.
+                </strong>
+            </div>
+
+            <div class="stage">
+                <span>QUESTION</span>
+                <strong>
+                    Can entropy be defeated by information?
+                </strong>
+            </div>
+
+        </div>
+
+        <div class="experiment-question">
+            Information itself becomes part of the physical story.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     ASSUMPTION MACHINE
+====================================================== -->
+
+<section id="assumptions">
+
+    <div class="section-number">05 / DISTURB THE FOUNDATION</div>
+
+    <h2 class="section-title">
+        THE ASSUMPTION MACHINE
+    </h2>
+
+    <p class="section-intro">
+        Select an assumption.
+        Disturb it.
+        Follow what happens.
+    </p>
+
+
+    <div class="machine">
+
+        <div class="machine-top">
+
+            <div class="machine-title">
+                WHAT IF?
+            </div>
+
+        </div>
+
+
+        <div class="assumption-buttons">
+
+            <button class="assumption-btn"
+                    onclick="disturb('time')">
+                ABSOLUTE TIME
+            </button>
+
+            <button class="assumption-btn"
+                    onclick="disturb('determinism')">
+                DETERMINISM
+            </button>
+
+            <button class="assumption-btn"
+                    onclick="disturb('symmetry')">
+                SYMMETRY
+            </button>
+
+            <button class="assumption-btn"
+                    onclick="disturb('locality')">
+                LOCALITY
+            </button>
+
+            <button class="assumption-btn"
+                    onclick="disturb('continuity')">
+                CONTINUITY
+            </button>
+
+            <button class="assumption-btn"
+                    onclick="disturb('equilibrium')">
+                EQUILIBRIUM
+            </button>
+
+        </div>
+
+
+        <div class="machine-result" id="machineResult">
+
+            <h3>
+                Choose an assumption.
+            </h3>
+
+            <p>
+                The system will show what happens
+                when the assumption is disturbed.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     PARADOXES
+====================================================== -->
+
+<section id="paradoxes">
+
+    <div class="section-number">06 / WHEN INTUITION BREAKS</div>
+
+    <h2 class="section-title">
+        PARADOXES
+    </h2>
+
+    <p class="section-intro">
+        Sometimes the problem is not the observation.
+        It is the framework we are using to understand it.
+    </p>
+
+
+    <div class="paradox">
+
+        <div class="paradox-content">
+
+            <div class="paradox-label">
+                THE TWIN PARADOX
+            </div>
+
+            <h3>WHO AGED?</h3>
+
+            <p>
+                Two observers begin together.
+                One follows a journey through spacetime.
+                They meet again.
+
+                <br><br>
+
+                Their clocks do not necessarily agree.
+
+                <br><br>
+
+                The paradox is resolved within relativity —
+                but it forces us to abandon the idea
+                that time is universally shared.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="paradox">
+
+        <div class="paradox-content">
+
+            <div class="paradox-label">
+                INFORMATION
+            </div>
+
+            <h3>WHERE DID IT GO?</h3>
+
+            <p>
+                A black hole forms.
+                Matter falls inward.
+                The black hole radiates and eventually evaporates.
+
+                <br><br>
+
+                If quantum evolution preserves information,
+                how can the final radiation appear thermal?
+
+                <br><br>
+
+                The black-hole information problem
+                touches quantum theory, gravity,
+                thermodynamics and the meaning of information itself.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="paradox">
+
+        <div class="paradox-content">
+
+            <div class="paradox-label">
+                COSMOLOGY
+            </div>
+
+            <h3>WHERE IS EVERYONE?</h3>
+
+            <p>
+                The universe is vast.
+                Stars are abundant.
+                The ingredients for planets appear common.
+
+                <br><br>
+
+                If technological civilizations are not extremely rare,
+                why don't we see evidence of them?
+
+                <br><br>
+
+                The Fermi paradox does not have
+                one accepted solution.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     THEOREMS
+====================================================== -->
+
+<section>
+
+    <div class="section-number">07 / CONSEQUENCES</div>
+
+    <h2 class="section-title">
+        WHEN ASSUMPTIONS SPEAK
+    </h2>
+
+    <p class="section-intro">
+        A theorem is different from a postulate.
+        It is something that follows from established structure.
+    </p>
+
+
+    <div class="idea-list">
+
+        <div class="idea">
+
+            <div class="idea-meta">
+                <span>THEOREM</span>
+                <span>SYMMETRY</span>
+            </div>
+
+            <h3>Noether</h3>
+
+            <p>
+                Continuous symmetry is connected to conservation laws.
+            </p>
+
+            <div class="details" style="max-height:500px;">
+
+                <div class="details-inner">
+
+                    Start with an action possessing
+                    a continuous symmetry.
+
+                    <br><br>
+
+                    Follow the mathematics.
+
+                    <div class="equation">
+                        symmetry → conserved current
+                    </div>
+
+                    The result connects what a system
+                    <i>looks like under transformation</i>
+                    with what it <i>preserves dynamically</i>.
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="idea">
+
+            <div class="idea-meta">
+                <span>THEOREM</span>
+                <span>QUANTUM</span>
+            </div>
+
+            <h3>Bell</h3>
+
+            <p>
+                Certain classes of local hidden-variable theories
+                make statistical predictions that differ from quantum mechanics.
+            </p>
+
+            <div class="details" style="max-height:500px;">
+
+                <div class="details-inner">
+
+                    Experiments violate Bell inequalities.
+
+                    The significance is not:
+
+                    "Quantum mechanics is magical."
+
+                    The real lesson is:
+
+                    <br><br>
+
+                    <b>
+                    Some combination of classical intuitions
+                    about locality, realism and hidden variables
+                    cannot reproduce all quantum predictions.
+                    </b>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="idea">
+
+            <div class="idea-meta">
+                <span>THEOREM</span>
+                <span>RELATIVITY</span>
+            </div>
+
+            <h3>CPT</h3>
+
+            <p>
+                Under broad assumptions of relativistic quantum field theory,
+                CPT symmetry emerges as a fundamental structural result.
+            </p>
+
+            <div class="details" style="max-height:500px;">
+
+                <div class="details-inner">
+
+                    Charge conjugation.
+
+                    Parity.
+
+                    Time reversal.
+
+                    Together:
+
+                    <div class="equation">
+                        C × P × T
+                    </div>
+
+                    The theorem connects deep properties
+                    of quantum field theory with spacetime structure.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     STATUS OF KNOWLEDGE
+====================================================== -->
+
+<section>
+
+    <div class="section-number">08 / EPISTEMOLOGY</div>
+
+    <h2 class="section-title">
+        WHAT DO WE KNOW?
+    </h2>
+
+    <p class="section-intro">
+        DRAVYA separates established physics from interpretation
+        and speculation.
+    </p>
+
+
+    <div class="status-grid">
+
+        <div class="status">
+
+            <h4>OBSERVED</h4>
+
+            <p>
+                Supported directly or indirectly
+                by experiment and measurement.
+            </p>
+
+        </div>
+
+        <div class="status">
+
+            <h4>ESTABLISHED</h4>
+
+            <p>
+                Repeatedly successful theoretical
+                framework within its domain.
+            </p>
+
+        </div>
+
+        <div class="status">
+
+            <h4>DERIVED</h4>
+
+            <p>
+                Follows mathematically from
+                accepted assumptions.
+            </p>
+
+        </div>
+
+        <div class="status">
+
+            <h4>INTERPRETED</h4>
+
+            <p>
+                A conceptual account of what
+                the formalism means.
+            </p>
+
+        </div>
+
+        <div class="status">
+
+            <h4>UNKNOWN</h4>
+
+            <p>
+                Questions for which physics
+                does not yet have a settled answer.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     UNRESOLVED
+====================================================== -->
+
+<section id="unknown">
+
+    <div class="section-number">09 / BEYOND THE MAP</div>
+
+    <h2 class="section-title">
+        UNRESOLVED
+    </h2>
+
+    <p class="section-intro">
+
+        The frontier is not only where we discover
+        new particles or better measurements.
+
+        Sometimes the frontier is a question
+        whose language itself is incomplete.
+
+    </p>
+
+
+    <div class="question-wall">
+
+        <div class="question">
+            What is a quantum state?
+        </div>
+
+        <div class="question">
+            Is spacetime fundamental?
+        </div>
+
+        <div class="question">
+            What is dark matter?
+        </div>
+
+        <div class="question">
+            What is dark energy?
+        </div>
+
+        <div class="question">
+            Why does the universe contain more matter than antimatter?
+        </div>
+
+        <div class="question">
+            How does gravity become quantum?
+        </div>
+
+        <div class="question">
+            What happened in the earliest universe?
+        </div>
+
+        <div class="question">
+            Why these laws?
+        </div>
+
+        <div class="question">
+            Why these constants?
+        </div>
+
+        <div class="question">
+            What does "nothing" actually mean?
+        </div>
+
+        <div class="question">
+            Is information fundamental?
+        </div>
+
+        <div class="question">
+            What makes a measurement a measurement?
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     FORBIDDEN QUESTIONS
+====================================================== -->
+
+<section>
+
+    <div class="section-number">10 / THE EDGE</div>
+
+    <h2 class="section-title">
+        QUESTIONS PHYSICS CANNOT YET CLOSE
+    </h2>
+
+    <div class="statement">
+
+        <div class="big">
+            ASK THE QUESTION.
+        </div>
+
+        <p>
+
+            But know what kind of question it is.
+
+            <br><br>
+
+            Is it experimentally testable?
+
+            <br>
+
+            Is it mathematically defined?
+
+            <br>
+
+            Is it a physical hypothesis?
+
+            <br>
+
+            Is it an interpretation?
+
+            <br>
+
+            Is it philosophy?
+
+            <br>
+
+            Or are we simply asking a question
+            for which our current framework has no language?
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     FINAL
+====================================================== -->
+
+<footer>
+
+    <div class="footer-content">
+
+        <h2>OBSERVE.</h2>
+
+        <p>
+
+            Observe what nature does.
+
+            <br><br>
+
+            Disturb the assumptions.
+
+            <br><br>
+
+            Follow the mathematics.
+
+            <br><br>
+
+            Test the consequence.
+
+            <br><br>
+
+            And when the answer disappears —
+
+            <br>
+
+            <b>ask a better question.</b>
+
+        </p>
+
+        <div class="footer-line">
+            DRAVYA FIELD / OBSERVE · DISTURB · CREATE
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- ======================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+/* =========================================================
+   EXPAND IDEA
+========================================================= */
+
+function toggleIdea(element) {
+
+    element.classList.toggle("open");
+
+}
+
+
+/* =========================================================
+   FILTER FOUNDATIONS
+========================================================= */
+
+function filterIdeas(category, button) {
+
+    document.querySelectorAll(".filter").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    document.querySelectorAll(".idea").forEach(card => {
+
+        if (
+            category === "all" ||
+            card.dataset.category === category
+        ) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+
+    });
+
+}
+
+
+/* =========================================================
+   ASSUMPTION MACHINE
+========================================================= */
+
+const assumptionData = {
+
+    time: {
+
+        title: "DISTURB: ABSOLUTE TIME",
+
+        text:
+        "Classical mechanics treats time as universal. " +
+        "Disturb that assumption and inertial observers can disagree " +
+        "about elapsed time and simultaneity. " +
+        "Special relativity emerges as a new structure of spacetime."
+
+    },
+
+    determinism: {
+
+        title: "DISTURB: DETERMINISM",
+
+        text:
+        "Classical trajectories can be determined from initial conditions. " +
+        "Quantum mechanics replaces this picture with a framework " +
+        "that predicts probabilities for measurement outcomes."
+
+    },
+
+    symmetry: {
+
+        title: "DISTURB: SYMMETRY",
+
+        text:
+        "Symmetry can generate conservation laws. " +
+        "Disturb the symmetry and conserved quantities can change. " +
+        "In modern physics, symmetry breaking becomes a central mechanism."
+
+    },
+
+    locality: {
+
+        title: "DISTURB: LOCALITY",
+
+        text:
+        "Classical intuition strongly favors local influences. " +
+        "Quantum entanglement produces correlations that cannot be reproduced " +
+        "by local hidden-variable theories satisfying Bell's assumptions."
+
+    },
+
+    continuity: {
+
+        title: "DISTURB: CONTINUITY",
+
+        text:
+        "Classical physics often treats quantities as continuously variable. " +
+        "Quantum theory introduces discrete spectra in many physical systems. " +
+        "The disturbance changes what 'possible values' can mean."
+
+    },
+
+    equilibrium: {
+
+        title: "DISTURB: EQUILIBRIUM",
+
+        text:
+        "Thermodynamics is built around macroscopic states and equilibrium. " +
+        "Move away from equilibrium and statistical mechanics, transport theory " +
+        "and nonequilibrium physics become necessary."
+
+    }
+
+};
+
+
+function disturb(key) {
+
+    const data = assumptionData[key];
+
+    const result = document.getElementById("machineResult");
+
+    result.innerHTML = `
+
+        <h3>${data.title}</h3>
+
+        <p>${data.text}</p>
+
+    `;
+
+}
+
+
+/* =========================================================
+   SMALL FIELD MOVEMENT
+========================================================= */
+
+document.addEventListener("mousemove", function(e) {
+
+    const field = document.querySelector(".hero-field");
+
+    if (!field) return;
+
+    const x = (e.clientX / window.innerWidth - 0.5) * 20;
+    const y = (e.clientY / window.innerHeight - 0.5) * 20;
+
+    field.style.transform =
+        `translate(${x}px, ${y}px) scale(1)`;
+
+});
+
+</script>
+
+</body>
+</html>
+```
