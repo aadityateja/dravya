@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DRAVYA / THE ROCK</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400&display=swap');
+
+:root {
+    --bg: #020508;
+    --text: #f2f1eb;
+    --muted: rgba(242,241,235,0.52);
+    --soft: rgba(242,241,235,0.18);
+    --accent: #d7c69a;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", sans-serif;
+    overflow-x: hidden;
+}
+
+body.story-active {
+    cursor: none;
+}
+
+/* =========================================================
+   GRAIN
+========================================================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.055;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+}
+
+/* =========================================================
+   NAV
+========================================================= */
+
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 900;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 26px 34px;
+
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+
+    mix-blend-mode: difference;
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+}
+
+.nav-center {
+    opacity: 0.55;
+}
+
+.nav-right {
+    cursor: pointer;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    position: relative;
+    height: 100vh;
+    min-height: 700px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 72%,
+            rgba(33,57,68,0.42),
+            transparent 42%
+        ),
+        linear-gradient(
+            to bottom,
+            #020508 0%,
+            #071219 45%,
+            #071923 68%,
+            #020609 100%
+        );
+}
+
+.hero-content {
+    position: relative;
+    z-index: 20;
+
+    width: min(900px, 90vw);
+
+    text-align: center;
+
+    opacity: 0;
+    transform: translateY(30px);
+
+    animation: heroIn 2.8s ease forwards;
+    animation-delay: 1.2s;
+}
+
+.hero-location {
+    font-family: "Space Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--muted);
+    margin-bottom: 35px;
+}
+
+.hero h1 {
+    margin: 0;
+
+    font-size: clamp(70px, 15vw, 190px);
+    line-height: 0.8;
+
+    font-weight: 300;
+    letter-spacing: -0.075em;
+}
+
+.hero-subtitle {
+    margin-top: 42px;
+
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+
+    color: rgba(255,255,255,0.46);
+}
+
+/* =========================================================
+   OCEAN
+========================================================= */
+
+.ocean {
+    position: absolute;
+    left: -10%;
+    right: -10%;
+    bottom: -5%;
+    height: 42%;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(14,38,49,0.25),
+            rgba(1,8,12,0.95)
+        );
+
+    transform: perspective(500px) rotateX(8deg);
+}
+
+.wave {
+    position: absolute;
+    left: -5%;
+    width: 110%;
+    height: 90px;
+
+    border-top: 1px solid rgba(180,210,216,0.07);
+
+    border-radius: 50%;
+
+    animation: waveMove 10s linear infinite;
+}
+
+.wave:nth-child(1) {
+    bottom: 60%;
+    opacity: .45;
+}
+
+.wave:nth-child(2) {
+    bottom: 48%;
+    animation-duration: 14s;
+    opacity: .28;
+}
+
+.wave:nth-child(3) {
+    bottom: 34%;
+    animation-duration: 18s;
+    opacity: .22;
+}
+
+.wave:nth-child(4) {
+    bottom: 19%;
+    animation-duration: 22s;
+    opacity: .14;
+}
+
+@keyframes waveMove {
+    from {
+        transform: translateX(-4%) scaleX(1);
+    }
+
+    50% {
+        transform: translateX(4%) scaleX(1.04);
+    }
+
+    to {
+        transform: translateX(-4%) scaleX(1);
+    }
+}
+
+/* =========================================================
+   HORIZON
+========================================================= */
+
+.horizon {
+    position: absolute;
+    top: 67%;
+    left: 0;
+    right: 0;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(220,225,216,.12),
+            transparent
+        );
+
+    opacity: .65;
+}
+
+/* =========================================================
+   SUN
+========================================================= */
+
+.sun {
+    position: absolute;
+
+    width: 9px;
+    height: 9px;
+
+    left: 50%;
+    top: 66.6%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background: #eee7ce;
+
+    box-shadow:
+        0 0 30px rgba(245,230,190,.22),
+        0 0 100px rgba(245,230,190,.08);
+
+    opacity: .45;
+}
+
+/* =========================================================
+   STORY SECTIONS
+========================================================= */
+
+.story {
+    position: relative;
+    background: #020608;
+}
+
+.scene {
+    position: relative;
+
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 15vh 8vw;
+
+    overflow: hidden;
+}
+
+.scene-content {
+    position: relative;
+    z-index: 10;
+
+    width: min(850px, 90vw);
+
+    opacity: 0;
+    transform: translateY(45px);
+
+    transition:
+        opacity 1.8s ease,
+        transform 1.8s cubic-bezier(.2,.7,.2,1);
+}
+
+.scene.visible .scene-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scene.center .scene-content {
+    text-align: center;
+}
+
+.scene-text {
+    font-size: clamp(25px, 3.5vw, 52px);
+    line-height: 1.35;
+    font-weight: 300;
+    letter-spacing: -0.025em;
+}
+
+.scene-text.small {
+    font-size: clamp(18px, 2vw, 27px);
+    line-height: 1.7;
+}
+
+.scene-label {
+    margin-bottom: 32px;
+
+    font-family: "Space Mono", monospace;
+    font-size: 10px;
+
+    letter-spacing: .3em;
+    text-transform: uppercase;
+
+    color: var(--muted);
+}
+
+.pause {
+    min-height: 120vh;
+}
+
+/* =========================================================
+   OCEAN SCENES
+========================================================= */
+
+.water-scene {
+    background:
+        radial-gradient(
+            ellipse at 50% 70%,
+            rgba(15,49,63,.65),
+            transparent 55%
+        );
+}
+
+.water {
+    position: absolute;
+    inset: 0;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 34px,
+            rgba(120,170,180,.025) 35px,
+            transparent 36px
+        );
+
+    opacity: .8;
+}
+
+/* =========================================================
+   ROCK
+========================================================= */
+
+.rock-scene {
+    min-height: 130vh;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #02070a,
+            #06131a 55%,
+            #010405
+        );
+}
+
+.rock {
+    position: absolute;
+
+    bottom: -4%;
+    left: 50%;
+
+    width: 180px;
+    height: 110px;
+
+    transform:
+        translateX(-50%)
+        rotate(-4deg);
+
+    background:
+        linear-gradient(
+            135deg,
+            #111918,
+            #050908
+        );
+
+    clip-path: polygon(
+        3% 80%,
+        17% 40%,
+        38% 20%,
+        61% 17%,
+        84% 42%,
+        100% 100%,
+        0% 100%
+    );
+
+    box-shadow:
+        0 -10px 40px rgba(0,0,0,.8);
+}
+
+.rock-reflection {
+    position: absolute;
+
+    bottom: -13%;
+    left: 50%;
+
+    width: 250px;
+    height: 100px;
+
+    transform:
+        translateX(-50%)
+        scaleY(-1);
+
+    background: rgba(10,20,21,.15);
+
+    filter: blur(14px);
+}
+
+/* =========================================================
+   FIELD
+========================================================= */
+
+.field-scene {
+    min-height: 120vh;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #0a171b 0%,
+            #03080a 42%,
+            #010304 100%
+        );
+}
+
+#field {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+}
+
+/* =========================================================
+   DAWN
+========================================================= */
+
+.dawn-scene {
+    min-height: 120vh;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #020508 0%,
+            #07131a 48%,
+            #463b2c 78%,
+            #b9955f 100%
+        );
+}
+
+.dawn-light {
+    position: absolute;
+
+    width: 400px;
+    height: 400px;
+
+    left: 50%;
+    top: 65%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,221,154,.8) 0%,
+            rgba(238,182,92,.24) 25%,
+            transparent 70%
+        );
+
+    filter: blur(5px);
+
+    opacity: .45;
+}
+
+/* =========================================================
+   ENDING
+========================================================= */
+
+.ending {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    background: #010304;
+}
+
+.ending-title {
+    font-size: clamp(55px, 11vw, 150px);
+    font-weight: 300;
+
+    letter-spacing: -.07em;
+}
+
+.ending-line {
+    width: 1px;
+    height: 100px;
+
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(255,255,255,.4),
+        transparent
+    );
+
+    margin: 60px 0;
+}
+
+.ending-text {
+    max-width: 700px;
+
+    font-size: clamp(22px, 3vw, 42px);
+    line-height: 1.5;
+
+    font-weight: 300;
+}
+
+/* =========================================================
+   FIELD END
+========================================================= */
+
+.final-field {
+    position: relative;
+
+    min-height: 100vh;
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #010203;
+}
+
+.final-field canvas {
+    position: absolute;
+    inset: 0;
+}
+
+.final-content {
+    position: relative;
+    z-index: 10;
+
+    text-align: center;
+
+    opacity: 0;
+    transform: translateY(25px);
+
+    transition: 2s ease;
+}
+
+.final-field.visible .final-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.final-content h2 {
+    font-size: clamp(65px, 12vw, 170px);
+
+    font-weight: 300;
+
+    letter-spacing: -.08em;
+
+    margin: 0 0 30px;
+}
+
+.final-content p {
+    font-size: 10px;
+
+    letter-spacing: .35em;
+
+    text-transform: uppercase;
+
+    color: var(--muted);
+
+    line-height: 2.5;
+}
+
+/* =========================================================
+   FACT NOTE
+========================================================= */
+
+.fact {
+    position: absolute;
+
+    bottom: 30px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: min(600px, 85vw);
+
+    text-align: center;
+
+    font-family: "Space Mono", monospace;
+
+    font-size: 8px;
+
+    line-height: 1.7;
+
+    letter-spacing: .08em;
+
+    color: rgba(255,255,255,.25);
+}
+
+/* =========================================================
+   CURSOR
+========================================================= */
+
+.cursor {
+    position: fixed;
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    pointer-events: none;
+
+    z-index: 2000;
+
+    transform: translate(-50%, -50%);
+
+    mix-blend-mode: difference;
+
+    opacity: 0;
+}
+
+body.story-active .cursor {
+    opacity: 1;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .nav {
+        padding: 20px;
+    }
+
+    .nav-center {
+        display: none;
+    }
+
+    .scene {
+        padding: 12vh 7vw;
+    }
+
+    .rock {
+        width: 130px;
+        height: 85px;
+    }
+
+    .fact {
+        bottom: 20px;
+    }
+}
+</style>
+</head>
+
+<body class="story-active">
+
+<!-- =======================================================
+     NAVIGATION
+======================================================= -->
+
+<nav class="nav">
+    <a href="#">DRAVYA</a>
+
+    <div class="nav-center">
+        INCIDENT / 001
+    </div>
+
+    <div class="nav-right" id="soundToggle">
+        SOUND / OFF
+    </div>
+</nav>
+
+
+<!-- =======================================================
+     CUSTOM CURSOR
+======================================================= -->
+
+<div class="cursor" id="cursor"></div>
+
+
+<!-- =======================================================
+     HERO
+======================================================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-location">
+            KANYAKUMARI / DECEMBER / 1892
+        </div>
+
+        <h1>THE ROCK</h1>
+
+        <div class="hero-subtitle">
+            DRAVYA / INCIDENT 001
+        </div>
+
+    </div>
+
+    <div class="horizon"></div>
+
+    <div class="sun"></div>
+
+    <div class="ocean">
+
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     STORY
+======================================================= -->
+
+<main class="story">
+
+
+<!-- -------------------------------------------------------
+     SCENE 01
+-------------------------------------------------------- -->
+
+<section class="scene center">
+
+    <div class="scene-content">
+
+        <div class="scene-label">
+            KANYAKUMARI
+        </div>
+
+        <div class="scene-text">
+            A young monk stands at the southern edge of India.
+        </div>
+
+        <br><br>
+
+        <div class="scene-text small">
+            Behind him is land.<br>
+            Ahead is the sea.<br>
+            And beyond the water—
+            <br><br>
+            a rock.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- -------------------------------------------------------
+     SCENE 02
+-------------------------------------------------------- -->
+
+<section class="scene water-scene">
+
+    <div class="water"></div>
+
+    <div class="scene-content">
+
+        <div class="scene-label">
+            THE SHORE
+        </div>
+
+        <div class="scene-text">
+            He has travelled a long way.
+        </div>
+
+        <br>
+
+        <div class="scene-text small">
+
+            Through villages.<br>
+            Through cities.<br><br>
+
+            Through places where he has seen India's beauty—
+            <br>
+            and its suffering.
+
+            <br><br>
+
+            Now there is nowhere further to walk.
+
+            <br><br>
+
+            <strong>
+                The land has ended.
+            </strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- -------------------------------------------------------
+     SCENE 03
+-------------------------------------------------------- -->
+
+<section class="scene water-scene">
+
+    <div class="scene-content center">
+
+        <div class="scene-label">
+            THE ROCK
+        </div>
+
+        <div class="scene-text">
+
+            The waves strike it.
+
+            <br><br>
+
+            Again.<br>
+            Again.<br>
+            Again.
+
+            <br><br>
+
+            The rock doesn't move.
+
+        </div>
+
+        <br><br>
+
+        <div class="scene-text small">
+
+            He watches.
+
+            <br><br>
+
+            Then—
+
+            <br><br>
+
+            <strong>
+                he enters the water.
+            </strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- -------------------------------------------------------
+     SCENE 04
+-------------------------------------------------------- -->
+
+<section class="scene water-scene">
+
+    <div class="water"></div>
+
+    <div class="scene-content center">
+
+        <div class="scene-label">
+            THE SWIM
+        </div>
+
+        <div class="scene-text small">
+
+            No music.
+
+            <br><br>
+
+            Only breathing.<br>
+            Water.<br>
+            Wind.
+
+            <br><br>
+
+            The shoreline gradually disappears.
+
+            <br><br>
+
+            The world becomes smaller.
+
+            <br><br>
+
+            There is no crowd.<br>
+            No road.<br>
+            No monastery.<br>
+            No classroom.<br>
+            No argument.
+
+            <br><br>
+
+            Only the ocean.
+
+            <br><br>
+
+            And the rock.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- -------------------------------------------------------
+     SCENE 05
+-------------------------------------------------------- -->
+
+<section class="scene rock-scene">
+
+    <div class="rock-reflection"></div>
+    <div class="rock"></div>
+
+    <div class="scene-content center">
+
+        <div class="scene-label">
+            ARRIVAL
+        </div>
+
+        <div class="scene-text">
+
+            He reaches it.
+
+            <br><br>
+
+            Climbs.
+
+            <br><br>
+
+            Sits.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- -------------------------------------------------------
+     SCENE 06 — SILENCE
+-------------------------------------------------------- -->
+
+<section class="scene center pause">
+
+    <div class="scene-content">
+
+        <div class="scene-label">
+            SILENCE
+        </div>
+
+        <div class="scene-text">
+
+            The ocean surrounds him.
+
+        </div>
+
+        <br><br>
+
+        <div class="scene-text small">
+
+            India is behind him.
+
+            <br><br>
+
+            The horizon surrounds him.
+
+            <br><br>
+
+            He begins to meditate.
+
+        </div>
+
+        <br><br>
+
+        <div class="scene-text">
+
+            And here—
+
+            <br><br>
+
+            we don't invent his thoughts.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- -------------------------------------------------------
+     SCENE 07 — FIELD
+-------------------------------------------------------- -->
+
+<section class="scene field-scene">
+
+    <canvas id="field"></canvas>
+
+    <div class="scene-content center">
+
+        <div class="scene-label">
+            THE FIELD
+        </div>
+
+        <div class="scene-text">
+
+            What happens when a person steps outside the thing they are trying to understand?
+
+        </div>
+
+        <br><br>
+
+        <div class="scene-text small">
+
+            From the rock,
+            <br>
+            the shore becomes a line.
+
+            <br><br>
+
+            The villages become points.
+
+            <br><br>
+
+            The distances collapse.
+
+            <br><br>
+
+            The individual becomes part of something larger.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- -------------------------------------------------------
+     SCENE 08
+-------------------------------------------------------- -->
+
+<section class="scene center">
+
+    <div class="scene-content">
+
+        <div class="scene-text">
+
+            Perhaps this is why distance matters.
+
+        </div>
+
+        <br><br>
+
+        <div class="scene-text">
+
+            Not because leaving changes the world.
+
+        </div>
+
+        <br><br>
+
+        <div class="scene-text">
+
+            But because sometimes—
+
+            <br><br>
+
+            <strong>
+                leaving changes the observer.
+            </strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- -------------------------------------------------------
+     SCENE 09 — MONTAGE
+-------------------------------------------------------- -->
+
+<section class="scene center">
+
+    <div class="scene-content">
+
+        <div class="scene-label">
+            INDIA
+        </div>
+
+        <div class="scene-text small">
+
+            Temples.
+
+            <br><br>
+
+            Villages.
+
+            <br><br>
+
+            People.
+
+            <br><br>
+
+            Books.
+
+            <br><br>
+
+            Poverty.
+
+            <br><br>
+
+            Knowledge.
+
+            <br><br>
+
+            Memory.
+
+            <br><br>
+
+            Possibility.
+
+        </div>
+
+        <br><br>
+
+        <div class="scene-text">
+            Then back to the rock.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- -------------------------------------------------------
+     SCENE 10 — QUESTION
+-------------------------------------------------------- -->
+
+<section class="scene center">
+
+    <div class="scene-content">
+
+        <div class="scene-text">
+
+            A civilisation can inherit an enormous past
+
+            <br><br>
+
+            and still have no idea what its future will become.
+
+        </div>
+
+        <br><br><br>
+
+        <div class="scene-text">
+
+            Perhaps the question is not
+
+            <br><br>
+
+            <em>“What were we?”</em>
+
+            <br><br>
+
+            but
+
+            <br><br>
+
+            <strong>
+                “What can we become?”
+            </strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- -------------------------------------------------------
+     SCENE 11 — STILLNESS
+-------------------------------------------------------- -->
+
+<section class="scene water-scene center">
+
+    <div class="water"></div>
+
+    <div class="scene-content">
+
+        <div class="scene-label">
+            THE OCEAN
+        </div>
+
+        <div class="scene-text small">
+
+            The sun begins to fall.
+
+            <br><br>
+
+            The rock becomes a silhouette.
+
+            <br><br>
+
+            The waves continue.
+
+            <br><br>
+
+            Nothing around him has stopped.
+
+            <br><br>
+
+            But he remains still.
+
+        </div>
+
+        <br><br>
+
+        <div class="scene-text">
+
+            Stillness is not the absence of movement.
+
+            <br><br>
+
+            It is a place from which movement can be observed.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- -------------------------------------------------------
+     SCENE 12 — DAWN
+-------------------------------------------------------- -->
+
+<section class="scene dawn-scene">
+
+    <div class="dawn-light"></div>
+
+    <div class="scene-content center">
+
+        <div class="scene-label">
+            DAWN
+        </div>
+
+        <div class="scene-text small">
+
+            Black.
+
+            <br><br>
+
+            Then—
+
+            <br><br>
+
+            a thin line of light.
+
+            <br><br>
+
+            The horizon.
+
+            <br><br>
+
+            The sun rises.
+
+        </div>
+
+        <br><br>
+
+        <div class="scene-text">
+
+            The same ocean.
+
+            <br><br>
+
+            The same land.
+
+            <br><br>
+
+            But the observer has changed.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- -------------------------------------------------------
+     SCENE 13 — RETURN
+-------------------------------------------------------- -->
+
+<section class="scene center">
+
+    <div class="scene-content">
+
+        <div class="scene-text">
+
+            He returns toward the shore.
+
+        </div>
+
+        <br><br>
+
+        <div class="scene-text small">
+
+            The journey back is not the same journey.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- -------------------------------------------------------
+     ENDING
+-------------------------------------------------------- -->
+
+<section class="ending">
+
+    <div class="scene-content visible">
+
+        <div class="ending-title">
+            THE ROCK
+        </div>
+
+        <div class="ending-line"></div>
+
+        <div class="ending-text">
+
+            Sometimes you have to leave the shore
+            <br>
+            to see where you came from.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- -------------------------------------------------------
+     DRAVYA FIELD
+-------------------------------------------------------- -->
+
+<section class="scene center">
+
+    <div class="scene-content">
+
+        <div class="scene-label">
+            DRAVYA FIELD
+        </div>
+
+        <div class="scene-text">
+
+            OBSERVE
+
+        </div>
+
+        <br>
+
+        <div class="scene-text small">
+
+            The world as it is.
+
+        </div>
+
+        <br><br><br>
+
+        <div class="scene-text">
+
+            DISTURB
+
+        </div>
+
+        <br>
+
+        <div class="scene-text small">
+
+            Step away from it.<br>
+            Ask a different question.
+
+        </div>
+
+        <br><br><br>
+
+        <div class="scene-text">
+
+            CREATE
+
+        </div>
+
+        <br>
+
+        <div class="scene-text small">
+
+            Return to the world<br>
+            carrying something new.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- -------------------------------------------------------
+     FINAL FIELD
+-------------------------------------------------------- -->
+
+<section class="final-field" id="finalField">
+
+    <canvas id="finalCanvas"></canvas>
+
+    <div class="final-content">
+
+        <h2>DRAVYA</h2>
+
+        <p>
+            REAL MOMENTS<br>
+            REAL PEOPLE<br>
+            REAL DISTURBANCES
+        </p>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<script>
+
+/* =========================================================
+   INTERSECTION OBSERVER
+========================================================= */
+
+const scenes = document.querySelectorAll(".scene");
+
+const observer = new IntersectionObserver(
+    entries => {
+
+        entries.forEach(entry => {
+
+            if (entry.isIntersecting) {
+
+                entry.target.classList.add("visible");
+
+            }
+
+        });
+
+    },
+    {
+        threshold: 0.25
+    }
+);
+
+scenes.forEach(scene => observer.observe(scene));
+
+
+/* =========================================================
+   FINAL FIELD OBSERVER
+========================================================= */
+
+const finalField = document.getElementById("finalField");
+
+const finalObserver = new IntersectionObserver(
+    entries => {
+
+        entries.forEach(entry => {
+
+            if (entry.isIntersecting) {
+
+                finalField.classList.add("visible");
+
+            }
+
+        });
+
+    },
+    {
+        threshold: 0.3
+    }
+);
+
+finalObserver.observe(finalField);
+
+
+/* =========================================================
+   CUSTOM CURSOR
+========================================================= */
+
+const cursor = document.getElementById("cursor");
+
+window.addEventListener("mousemove", e => {
+
+    cursor.style.left = e.clientX + "px";
+    cursor.style.top = e.clientY + "px";
+
+});
+
+
+/* =========================================================
+   FIELD PARTICLES
+========================================================= */
+
+const fieldCanvas = document.getElementById("field");
+const fieldCtx = fieldCanvas.getContext("2d");
+
+let particles = [];
+
+function resizeField() {
+
+    fieldCanvas.width = window.innerWidth;
+    fieldCanvas.height = window.innerHeight;
+
+}
+
+resizeField();
+
+window.addEventListener("resize", resizeField);
+
+
+for (let i = 0; i < 80; i++) {
+
+    particles.push({
+
+        x: Math.random(),
+        y: Math.random(),
+
+        vx: (Math.random() - 0.5) * 0.0003,
+        vy: (Math.random() - 0.5) * 0.0003,
+
+        r: Math.random() * 1.5 + 0.3
+
+    });
+
+}
+
+
+function drawField() {
+
+    fieldCtx.clearRect(
+        0,
+        0,
+        fieldCanvas.width,
+        fieldCanvas.height
+    );
+
+    const w = fieldCanvas.width;
+    const h = fieldCanvas.height;
+
+    for (let p of particles) {
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > 1) p.vx *= -1;
+        if (p.y < 0 || p.y > 1) p.vy *= -1;
+
+        fieldCtx.beginPath();
+
+        fieldCtx.arc(
+            p.x * w,
+            p.y * h,
+            p.r,
+            0,
+            Math.PI * 2
+        );
+
+        fieldCtx.fillStyle =
+            "rgba(220,225,205,0.22)";
+
+        fieldCtx.fill();
+
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+
+        for (let j = i + 1; j < particles.length; j++) {
+
+            const a = particles[i];
+            const b = particles[j];
+
+            const dx = (a.x - b.x) * w;
+            const dy = (a.y - b.y) * h;
+
+            const distance =
+                Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 130) {
+
+                const alpha =
+                    (1 - distance / 130) * 0.055;
+
+                fieldCtx.beginPath();
+
+                fieldCtx.moveTo(
+                    a.x * w,
+                    a.y * h
+                );
+
+                fieldCtx.lineTo(
+                    b.x * w,
+                    b.y * h
+                );
+
+                fieldCtx.strokeStyle =
+                    `rgba(220,225,205,${alpha})`;
+
+                fieldCtx.stroke();
+
+            }
+
+        }
+
+    }
+
+    requestAnimationFrame(drawField);
+
+}
+
+drawField();
+
+
+/* =========================================================
+   FINAL DRAVYA FIELD
+========================================================= */
+
+const finalCanvas =
+    document.getElementById("finalCanvas");
+
+const finalCtx =
+    finalCanvas.getContext("2d");
+
+let finalParticles = [];
+
+function resizeFinal() {
+
+    finalCanvas.width = window.innerWidth;
+    finalCanvas.height = window.innerHeight;
+
+}
+
+resizeFinal();
+
+window.addEventListener("resize", resizeFinal);
+
+
+for (let i = 0; i < 160; i++) {
+
+    finalParticles.push({
+
+        angle: Math.random() * Math.PI * 2,
+
+        radius:
+            Math.random() *
+            Math.min(
+                window.innerWidth,
+                window.innerHeight
+            ) * 0.4,
+
+        speed:
+            0.0001 +
+            Math.random() * 0.0004,
+
+        size:
+            Math.random() * 1.5 + 0.2
+
+    });
+
+}
+
+
+function drawFinalField() {
+
+    finalCtx.fillStyle =
+        "rgba(1,3,4,0.18)";
+
+    finalCtx.fillRect(
+        0,
+        0,
+        finalCanvas.width,
+        finalCanvas.height
+    );
+
+    const cx =
+        finalCanvas.width / 2;
+
+    const cy =
+        finalCanvas.height / 2;
+
+    for (let p of finalParticles) {
+
+        p.angle += p.speed;
+
+        const x =
+            cx +
+            Math.cos(p.angle) * p.radius;
+
+        const y =
+            cy +
+            Math.sin(p.angle) *
+            p.radius *
+            0.48;
+
+        finalCtx.beginPath();
+
+        finalCtx.arc(
+            x,
+            y,
+            p.size,
+            0,
+            Math.PI * 2
+        );
+
+        finalCtx.fillStyle =
+            "rgba(220,220,200,0.35)";
+
+        finalCtx.fill();
+
+    }
+
+    requestAnimationFrame(drawFinalField);
+
+}
+
+drawFinalField();
+
+
+/* =========================================================
+   SOUND PLACEHOLDER
+========================================================= */
+
+const soundToggle =
+    document.getElementById("soundToggle");
+
+let soundOn = false;
+
+soundToggle.addEventListener("click", () => {
+
+    soundOn = !soundOn;
+
+    soundToggle.textContent =
+        soundOn
+            ? "SOUND / ON"
+            : "SOUND / OFF";
+
+});
+
+
+/* =========================================================
+   SUBTLE PARALLAX
+========================================================= */
+
+window.addEventListener("scroll", () => {
+
+    const scrollY = window.scrollY;
+
+    const heroContent =
+        document.querySelector(".hero-content");
+
+    const hero =
+        document.querySelector(".hero");
+
+    if (scrollY < window.innerHeight) {
+
+        const progress =
+            scrollY / window.innerHeight;
+
+        heroContent.style.transform =
+            `translateY(${progress * -80}px)`;
+
+        heroContent.style.opacity =
+            Math.max(0, 1 - progress * 1.5);
+
+        hero.style.backgroundPosition =
+            `center ${progress * 80}px`;
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
