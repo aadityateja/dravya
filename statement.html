@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DRAVYA / STATEMENTS</title>
+<meta name="description" content="Statements that disturbed the people who made them — and questions they leave behind.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root{
+  --bg:#050505;--fg:#f1f0e9;--muted:#898983;--dim:#4e4e49;
+  --line:#242421;--card:#0a0a09;--accent:#d9ff57;--warm:#d9b887;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,Arial,sans-serif}
+body:before{
+ content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.045;
+ background-image:radial-gradient(#fff .5px,transparent .5px);background-size:7px 7px
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+
+.header{
+ height:74px;border-bottom:1px solid var(--line);padding:0 5vw;
+ display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;
+ z-index:30;background:rgba(5,5,5,.86);backdrop-filter:blur(14px)
+}
+.logo{font:700 13px "Space Mono";letter-spacing:.08em}
+.nav{display:flex;gap:28px;font:10px "Space Mono";color:var(--muted)}
+.nav a:hover{color:var(--accent)}
+
+.hero{
+ min-height:88vh;padding:12vh 7vw 9vh;display:flex;align-items:center;
+ border-bottom:1px solid var(--line);position:relative;overflow:hidden
+}
+.hero-orbit{
+ position:absolute;width:72vw;height:72vw;border:1px solid #181816;border-radius:50%;
+ right:-33vw;top:-19vw;box-shadow:0 0 130px rgba(217,255,87,.025)
+}
+.hero-orbit:after{
+ content:"";position:absolute;width:48%;height:48%;border:1px solid #1d1d1a;
+ border-radius:50%;left:26%;top:26%
+}
+.kicker{font:700 10px "Space Mono";color:var(--accent);letter-spacing:.18em;margin-bottom:30px}
+h1{font-size:clamp(65px,12.5vw,180px);line-height:.77;letter-spacing:-.085em;margin:0;max-width:1100px}
+.hero-copy{max-width:650px;color:#aaa9a3;font-size:17px;line-height:1.7;margin-top:45px}
+.hero-copy strong{color:var(--fg)}
+
+.manifesto{
+ padding:75px 7vw;border-bottom:1px solid var(--line);
+ display:grid;grid-template-columns:1fr 2.2fr;gap:8vw
+}
+.label{font:10px "Space Mono";color:var(--accent);letter-spacing:.14em}
+.manifesto-text{font-size:clamp(25px,3.3vw,47px);line-height:1.13;letter-spacing:-.04em}
+.manifesto-text em{color:var(--muted);font-style:normal}
+
+.controls{padding:27px 7vw;border-bottom:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap}
+.filter{
+ cursor:pointer;padding:10px 13px;border:1px solid var(--line);background:transparent;
+ color:var(--muted);font:10px "Space Mono";transition:.2s
+}
+.filter:hover,.filter.active{background:var(--accent);color:#050505;border-color:var(--accent)}
+
+.grid{
+ padding:1px 0 100px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:1px;background:var(--line)
+}
+.card{
+ background:var(--card);padding:38px 5vw 42px;min-height:610px;
+ display:flex;flex-direction:column;justify-content:space-between;position:relative;
+ transition:.35s
+}
+.card:hover{background:#0d0d0c}
+.card.hidden{display:none}
+.number{position:absolute;right:28px;top:24px;color:#444;font:10px "Space Mono"}
+.tag{font:9px "Space Mono";color:var(--accent);letter-spacing:.14em}
+.quote{
+ font-family:Georgia,serif;font-size:clamp(25px,3vw,39px);line-height:1.18;
+ letter-spacing:-.025em;max-width:720px;margin:78px 0 45px
+}
+.quote:before{content:"“";color:var(--accent);font-size:1.8em;vertical-align:-.22em;margin-right:5px}
+.author{font-weight:600;font-size:15px}
+.meta{font:9px "Space Mono";color:#64645f;line-height:1.7;margin-top:7px}
+.status{display:inline-block;margin-top:10px;font:9px "Space Mono";color:var(--accent)}
+.status.disputed{color:#e2a35c}
+
+.layers{margin-top:32px;border-top:1px solid var(--line)}
+.layer{border-bottom:1px solid var(--line);padding:20px 0}
+.layer-title{font:9px "Space Mono";letter-spacing:.12em;color:var(--muted);margin-bottom:10px}
+.layer-text{font-size:14px;line-height:1.75;color:#aaa9a3}
+.question .layer-title{color:var(--accent)}
+.question .layer-text{color:var(--fg);font-size:16px}
+
+.sources{
+ padding:75px 7vw;border-top:1px solid var(--line);border-bottom:1px solid var(--line)
+}
+.sources p{max-width:850px;color:#777;line-height:1.7;font-size:13px}
+.source-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);margin-top:35px}
+.source-box{background:var(--card);padding:25px}
+.source-box b{font:10px "Space Mono";color:var(--accent)}
+.source-box p{font-size:12px;margin-bottom:0}
+
+.closing{text-align:center;padding:130px 7vw 145px}
+.closing h2{font-size:clamp(38px,6.5vw,90px);line-height:.94;letter-spacing:-.065em;margin:0}
+.closing h2 span{color:var(--accent)}
+.closing p{font:10px "Space Mono";color:#555;margin-top:38px;letter-spacing:.1em}
+
+footer{
+ border-top:1px solid var(--line);padding:23px 5vw;display:flex;
+ justify-content:space-between;color:#4d4d48;font:9px "Space Mono"
+}
+
+@media(max-width:850px){
+ .nav{display:none}
+ .manifesto{grid-template-columns:1fr;gap:25px}
+ .grid{grid-template-columns:1fr}
+ .source-grid{grid-template-columns:1fr}
+ .card{min-height:auto;padding:35px 7vw 45px}
+ .hero{min-height:78vh}
+}
+</style>
+</head>
+
+<body>
+<header class="header">
+ <div class="logo">DRAVYA / STATEMENTS</div>
+ <nav class="nav">
+  <a href="#field">FIELD</a>
+  <a href="#statements">STATEMENTS</a>
+  <a href="#method">METHOD</a>
+ </nav>
+</header>
+
+<section class="hero" id="field">
+ <div class="hero-orbit"></div>
+ <div>
+  <div class="kicker">FIELD 01 — SCIENCE / THOUGHT / DISTURBANCE</div>
+  <h1>THE<br>STATEMENT<br>FIELD.</h1>
+  <p class="hero-copy">
+   Words left behind by people who disturbed our picture of reality.
+   <br><br>
+   <strong>Not lessons. Not commandments. Not decoration.</strong>
+   <br>
+   Statements to enter. Questions to carry out.
+  </p>
+ </div>
+</section>
+
+<section class="manifesto">
+ <div class="label">DRAVYA / APPROACH</div>
+ <div class="manifesto-text">
+  A scientist makes a statement.<br>
+  <em>We do not immediately ask what it means.</em><br><br>
+  We ask:<br>
+  <strong>What happens if I stay inside it long enough?</strong>
+ </div>
+</section>
+
+<div class="controls" id="statements">
+ <button class="filter active" data-filter="all">ALL</button>
+ <button class="filter" data-filter="indian">INDIAN MINDS</button>
+ <button class="filter" data-filter="quantum">QUANTUM</button>
+ <button class="filter" data-filter="cosmos">COSMOS</button>
+ <button class="filter" data-filter="knowledge">KNOWLEDGE</button>
+ <button class="filter" data-filter="human">HUMAN</button>
+ <button class="filter" data-filter="reality">REALITY</button>
+</div>
+
+<main class="grid">
+
+<article class="card" data-tags="quantum reality knowledge">
+ <span class="number">01</span><div>
+  <div class="tag">REALITY / QUANTUM</div>
+  <div class="quote">What we observe is not nature itself, but nature exposed to our method of questioning.</div>
+ </div>
+ <div>
+  <div class="author">Werner Heisenberg</div>
+  <div class="meta">Physics and Philosophy · 1958</div>
+  <div class="status">DOCUMENTED</div>
+  <div class="layers">
+   <div class="layer"><div class="layer-title">ADDY'S DISTURBANCE</div><div class="layer-text">We do not simply look at reality. We construct a question, build an instrument capable of asking it, and then call the response an observation. The detector is part of the story. The question is part of the story.</div></div>
+   <div class="layer question"><div class="layer-title">QUESTION LEFT BEHIND</div><div class="layer-text">If every observation arrives through a method, where does “reality itself” begin?</div></div>
+  </div>
+ </div>
+</article>
+
+<article class="card" data-tags="quantum reality">
+ <span class="number">02</span><div>
+  <div class="tag">QUANTUM / LIMIT</div>
+  <div class="quote">Not only is the Universe stranger than we think, it is stranger than we can think.</div>
+ </div>
+ <div>
+  <div class="author">Werner Heisenberg</div>
+  <div class="meta">Across the Frontiers · 1972</div>
+  <div class="status">DOCUMENTED</div>
+  <div class="layers">
+   <div class="layer"><div class="layer-title">ADDY'S DISTURBANCE</div><div class="layer-text">The frightening part is not that reality is strange. It is that the mind doing the imagining is itself a product of that reality. We are trying to contain the universe using a brain that evolved inside one tiny corner of it.</div></div>
+   <div class="layer question"><div class="layer-title">QUESTION LEFT BEHIND</div><div class="layer-text">Can a system fully understand the reality that produced the system?</div></div>
+  </div>
+ </div>
+</article>
+
+<article class="card" data-tags="quantum knowledge">
+ <span class="number">03</span><div>
+  <div class="tag">QUANTUM / UNDERSTANDING</div>
+  <div class="quote">I think I can safely say that nobody understands quantum mechanics.</div>
+ </div>
+ <div>
+  <div class="author">Richard P. Feynman</div>
+  <div class="meta">The Character of Physical Law · 1964 lecture</div>
+  <div class="status">DOCUMENTED</div>
+  <div class="layers">
+   <div class="layer"><div class="layer-title">ADDY'S DISTURBANCE</div><div class="layer-text">This is not an invitation to ignorance. It is an attack on false familiarity. We can calculate an electron beautifully without possessing a satisfying mental picture of what an electron “really is.” Maybe the frontier begins exactly where intuition fails.</div></div>
+   <div class="layer question"><div class="layer-title">QUESTION LEFT BEHIND</div><div class="layer-text">Is mathematical mastery the same thing as understanding?</div></div>
+  </div>
+ </div>
+</article>
+
+<article class="card" data-tags="quantum knowledge indian">
+ <span class="number">04</span><div>
+  <div class="tag">INDIAN / QUANTUM</div>
+  <div class="quote">The new ideas of physics are not merely an extension of the old ideas.</div>
+ </div>
+ <div>
+  <div class="author">Satyendra Nath Bose</div>
+  <div class="meta">Associated with his reflections on the development of modern physics</div>
+  <div class="status">CONTEXT REQUIRED</div>
+  <div class="layers">
+   <div class="layer"><div class="layer-title">ADDY'S DISTURBANCE</div><div class="layer-text">A new theory does not always add another floor to an old building. Sometimes it changes what counts as a floor. Quantum mechanics did not simply make classical physics more accurate; it forced physics to reconsider what “state”, “particle” and “measurement” could mean.</div></div>
+   <div class="layer question"><div class="layer-title">QUESTION LEFT BEHIND</div><div class="layer-text">When a theory breaks intuition, should intuition be repaired — or replaced?</div></div>
+  </div>
+ </div>
+</article>
+
+<article class="card" data-tags="knowledge reality human">
+ <span class="number">05</span><div>
+  <div class="tag">KNOWLEDGE / SELF</div>
+  <div class="quote">The first principle is that you must not fool yourself — and you are the easiest person to fool.</div>
+ </div>
+ <div>
+  <div class="author">Richard P. Feynman</div>
+  <div class="meta">“Cargo Cult Science” · Caltech commencement · 1974</div>
+  <div class="status">DOCUMENTED</div>
+  <div class="layers">
+   <div class="layer"><div class="layer-title">ADDY'S DISTURBANCE</div><div class="layer-text">The most dangerous instrument in a laboratory may be the scientist carrying the instrument. Desire can bend interpretation. Ego can edit data. A beautiful theory can become a trap precisely because we want it to be true.</div></div>
+   <div class="layer question"><div class="layer-title">QUESTION LEFT BEHIND</div><div class="layer-text">How would I know that I am wrong if I desperately want to be right?</div></div>
+  </div>
+ </div>
+</article>
+
+<article class="card" data-tags="cosmos reality human">
+ <span class="number">06</span><div>
+  <div class="tag">COSMOS / SELF</div>
+  <div class="quote">We're made of star-stuff. We are a way for the cosmos to know itself.</div>
+ </div>
+ <div>
+  <div class="author">Carl Sagan</div>
+  <div class="meta">Cosmos · “The Shores of the Cosmic Ocean” · 1980</div>
+  <div class="status">DOCUMENTED / POPULARLY QUOTED</div>
+  <div class="layers">
+   <div class="layer"><div class="layer-title">ADDY'S DISTURBANCE</div><div class="layer-text">The observer is not outside the universe. The observer is made by it. Carbon became chemistry, chemistry became life, life became nervous systems, and eventually matter began asking where it came from.</div></div>
+   <div class="layer question"><div class="layer-title">QUESTION LEFT BEHIND</div><div class="layer-text">What does it mean when matter becomes capable of asking questions about matter?</div></div>
+  </div>
+ </div>
+</article>
+
+<article class="card" data-tags="indian cosmos knowledge">
+ <span class="number">07</span><div>
+  <div class="tag">INDIAN / COSMOS</div>
+  <div class="quote">The pursuit of science, seeking the truth, is a noble occupation.</div>
+ </div>
+ <div>
+  <div class="author">Subrahmanyan Chandrasekhar</div>
+  <div class="meta">Associated with Chandrasekhar's reflections on scientific pursuit</div>
+  <div class="status">ATTRIBUTION TO VERIFY</div>
+  <div class="layers">
+   <div class="layer"><div class="layer-title">ADDY'S DISTURBANCE</div><div class="layer-text">Truth isn't necessarily useful. It isn't necessarily profitable. It doesn't necessarily make life comfortable. And yet someone can spend an entire lifetime asking a question whose answer may never benefit them personally.</div></div>
+   <div class="layer question"><div class="layer-title">QUESTION LEFT BEHIND</div><div class="layer-text">What makes a question worth pursuing when the answer gives nothing back?</div></div>
+  </div>
+ </div>
+</article>
+
+<article class="card" data-tags="indian human knowledge">
+ <span class="number">08</span><div>
+  <div class="tag">INDIAN / VISION</div>
+  <div class="quote">Dream, dream, dream. Dreams transform into thoughts and thoughts result in action.</div>
+ </div>
+ <div>
+  <div class="author">A. P. J. Abdul Kalam</div>
+  <div class="meta">Widely associated with Kalam's public lectures and writings</div>
+  <div class="status">WIDELY ATTRIBUTED</div>
+  <div class="layers">
+   <div class="layer"><div class="layer-title">ADDY'S DISTURBANCE</div><div class="layer-text">A dream is a disturbance before it becomes a physical object. First it exists as an impossible configuration inside a mind. Then equations, drawings, experiments, machines and people begin moving around it.</div></div>
+   <div class="layer question"><div class="layer-title">QUESTION LEFT BEHIND</div><div class="layer-text">At what moment does an imagined future become a real physical process?</div></div>
+  </div>
+ </div>
+</article>
+
+<article class="card" data-tags="indian reality knowledge">
+ <span class="number">09</span><div>
+  <div class="tag">INDIAN / NATURE</div>
+  <div class="quote">The true wealth of a nation lies in its people.</div>
+ </div>
+ <div>
+  <div class="author">C. V. Raman</div>
+  <div class="meta">Quote attribution requires primary-source verification</div>
+  <div class="status">PROVENANCE REQUIRED</div>
+  <div class="layers">
+   <div class="layer"><div class="layer-title">ADDY'S DISTURBANCE</div><div class="layer-text">A country is usually described through territory, resources and infrastructure. But none of those things explain why a civilization produces new questions. Perhaps the rarest resource is a mind that refuses to stop wondering.</div></div>
+   <div class="layer question"><div class="layer-title">QUESTION LEFT BEHIND</div><div class="layer-text">Can curiosity itself be considered a national resource?</div></div>
+  </div>
+ </div>
+</article>
+
+<article class="card" data-tags="indian cosmos knowledge">
+ <span class="number">10</span><div>
+  <div class="tag">INDIAN / STARS</div>
+  <div class="quote">The study of the stars is a pursuit of the truth about the universe.</div>
+ </div>
+ <div>
+  <div class="author">Meghnad Saha</div>
+  <div class="meta">Saha's scientific legacy: stellar atmospheres and ionisation physics</div>
+  <div class="status">THEME / NOT A VERBATIM QUOTE</div>
+  <div class="layers">
+   <div class="layer"><div class="layer-title">ADDY'S DISTURBANCE</div><div class="layer-text">A star is impossibly distant, yet its light reaches a detector on Earth and becomes temperature, composition, velocity and physics. An equation written here can tell us what happened there.</div></div>
+   <div class="layer question"><div class="layer-title">QUESTION LEFT BEHIND</div><div class="layer-text">How much of a distant object can be reconstructed from a single messenger: light?</div></div>
+  </div>
+ </div>
+</article>
+
+<article class="card" data-tags="indian reality human">
+ <span class="number">11</span><div>
+  <div class="tag">INDIAN / BOUNDARIES</div>
+  <div class="quote">The frontier between the living and the non-living is not as sharp as we imagine.</div>
+ </div>
+ <div>
+  <div class="author">Jagadish Chandra Bose</div>
+  <div class="meta">Interpretive statement based on Bose's experimental work; not a verbatim quotation</div>
+  <div class="status">INTERPRETIVE</div>
+  <div class="layers">
+   <div class="layer"><div class="layer-title">ADDY'S DISTURBANCE</div><div class="layer-text">We like boundaries. Alive / dead. Matter / mind. Organic / inorganic. Bose's experiments made those comfortable categories feel less absolute by asking how organisms respond to physical stimuli.</div></div>
+   <div class="layer question"><div class="layer-title">QUESTION LEFT BEHIND</div><div class="layer-text">Are our categories properties of nature — or properties of the human mind?</div></div>
+  </div>
+ </div>
+</article>
+
+<article class="card" data-tags="reality quantum cosmos">
+ <span class="number">12</span><div>
+  <div class="tag">SCIENCE / MYSTERY</div>
+  <div class="quote">One may say the eternal mystery of the world is its comprehensibility.</div>
+ </div>
+ <div>
+  <div class="author">Albert Einstein</div>
+  <div class="meta">“Physics and Reality” · 1936</div>
+  <div class="status">DOCUMENTED</div>
+  <div class="layers">
+   <div class="layer"><div class="layer-title">ADDY'S DISTURBANCE</div><div class="layer-text">The universe does not owe us intelligibility. Yet a mind made of matter can discover equations describing stars, atoms and spacetime. The mystery is not only what exists. It is that existence can become legible.</div></div>
+   <div class="layer question"><div class="layer-title">QUESTION LEFT BEHIND</div><div class="layer-text">Why should mathematics invented inside a human mind describe a universe that existed before humans?</div></div>
+  </div>
+ </div>
+</article>
+
+<article class="card" data-tags="reality quantum cosmos">
+ <span class="number">13</span><div>
+  <div class="tag">QUANTUM / FAITH / PROVENANCE</div>
+  <div class="quote">The first gulp from the glass of natural sciences will turn you into an atheist, but at the bottom of the glass God is waiting for you.</div>
+ </div>
+ <div>
+  <div class="author">Werner Heisenberg <span style="color:#e0a35c">?</span></div>
+  <div class="meta">Commonly attributed; earliest located attribution is late 20th century and the primary source is unclear</div>
+  <div class="status disputed">DISPUTED ATTRIBUTION</div>
+  <div class="layers">
+   <div class="layer"><div class="layer-title">ADDY'S DISTURBANCE</div><div class="layer-text">Forget the meme for a moment. The interesting object is the trajectory: explanation strips away familiar gods, mechanisms replace mystery — and then the deeper you go, the mystery returns in another form. Whether that “bottom of the glass” is God, mathematics, ignorance, or simply the unknown is not answered by the sentence.</div></div>
+   <div class="layer question"><div class="layer-title">QUESTION LEFT BEHIND</div><div class="layer-text">When explanation reaches its boundary, must the unknown become spiritual — or can it remain unknown?</div></div>
+  </div>
+ </div>
+</article>
+
+<article class="card" data-tags="knowledge human reality">
+ <span class="number">14</span><div>
+  <div class="tag">CREATION / UNDERSTANDING</div>
+  <div class="quote">What I cannot create, I do not understand.</div>
+ </div>
+ <div>
+  <div class="author">Richard P. Feynman</div>
+  <div class="meta">Inscription on Feynman's blackboard · 1988</div>
+  <div class="status">DOCUMENTED</div>
+  <div class="layers">
+   <div class="layer"><div class="layer-title">ADDY'S DISTURBANCE</div><div class="layer-text">For DRAVYA, this becomes almost a manifesto. Understanding is not only knowing a description. It is being able to rebuild a small piece of the phenomenon — an equation, simulation, sound, image, experiment or story.</div></div>
+   <div class="layer question"><div class="layer-title">QUESTION LEFT BEHIND</div><div class="layer-text">Can I claim to understand something if I cannot reproduce even a small part of its behaviour?</div></div>
+  </div>
+ </div>
+</article>
+
+</main>
+
+<section class="sources" id="method">
+ <div class="label">DRAVYA / METHOD</div>
+ <p>
+   This archive deliberately separates historical evidence from interpretation.
+   A quotation may be <b>DOCUMENTED</b>, <b>WIDELY ATTRIBUTED</b>,
+   <b>CONTEXT REQUIRED</b>, or <b>DISPUTED</b>. Interpretations marked
+   “Addy's Disturbance” are original readings and should never be mistaken for
+   the scientist's own explanation.
+ </p>
+ <div class="source-grid">
+  <div class="source-box"><b>01 / STATEMENT</b><p>The words, with their historical context and provenance.</p></div>
+  <div class="source-box"><b>02 / DISTURBANCE</b><p>The DRAVYA reading — what the statement makes us notice.</p></div>
+  <div class="source-box"><b>03 / QUESTION</b><p>The unresolved question the visitor carries away.</p></div>
+ </div>
+</section>
+
+<section class="closing">
+ <h2>DO NOT<br>COLLECT QUOTES.<br><span>LET THEM DISTURB YOU.</span></h2>
+ <p>DRAVYA / STATEMENTS · OBSERVE · DISTURB · CREATE</p>
+</section>
+
+<footer>
+ <span>DRAVYA / ADDY</span>
+ <span>FIELD 01 — STATEMENTS</span>
+</footer>
+
+<script>
+const buttons=document.querySelectorAll('.filter');
+const cards=document.querySelectorAll('.card');
+
+buttons.forEach(button=>{
+ button.addEventListener('click',()=>{
+  buttons.forEach(b=>b.classList.remove('active'));
+  button.classList.add('active');
+  const filter=button.dataset.filter;
+  cards.forEach(card=>{
+   const tags=card.dataset.tags.split(' ');
+   card.classList.toggle('hidden',filter!=='all' && !tags.includes(filter));
+  });
+  document.querySelector('#statements').scrollIntoView({behavior:'smooth',block:'start'});
+ });
+});
+</script>
+</body>
+</html>
