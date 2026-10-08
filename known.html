@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DRAVYA / KNOWN</title>
+
+<style>
+
+@font-face {
+    font-family: SuperKeys;
+    src: url("fonts/SuperKeys.ttf");
+}
+
+@font-face {
+    font-family: Minecraft;
+    src: url("fonts/Minecraft.ttf");
+}
+
+@font-face {
+    font-family: Interdim;
+    src: url("fonts/INTERDIM.TTF");
+}
+
+:root {
+    --bg: #050505;
+    --fg: #f1f1f1;
+    --muted: #777;
+    --line: #242424;
+    --dim: #111;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: Interdim, Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+/* --------------------------------------------------
+   INTRO
+-------------------------------------------------- */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 7vw;
+    position: relative;
+}
+
+.hero-index {
+    position: absolute;
+    top: 35px;
+    left: 40px;
+    font-family: Minecraft;
+    font-size: 18px;
+    letter-spacing: 4px;
+}
+
+.hero-number {
+    position: absolute;
+    top: 35px;
+    right: 40px;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 3px;
+}
+
+.hero h1 {
+    font-family: Minecraft;
+    font-size: clamp(80px, 17vw, 240px);
+    font-weight: normal;
+    letter-spacing: -8px;
+    line-height: .75;
+    margin: 0;
+}
+
+.hero-sub {
+    margin-top: 50px;
+    max-width: 650px;
+    font-size: clamp(18px, 2vw, 28px);
+    line-height: 1.5;
+    color: #aaa;
+}
+
+.hero-sub strong {
+    color: white;
+}
+
+.scroll {
+    position: absolute;
+    bottom: 35px;
+    left: 40px;
+    color: #555;
+    font-size: 10px;
+    letter-spacing: 4px;
+}
+
+/* --------------------------------------------------
+   QUOTE
+-------------------------------------------------- */
+
+.quote {
+    min-height: 80vh;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    padding: 10vw;
+}
+
+.quote-inner {
+    max-width: 1000px;
+}
+
+.quote-text {
+    font-family: Georgia, serif;
+    font-size: clamp(35px, 5vw, 80px);
+    line-height: 1.08;
+    letter-spacing: -2px;
+}
+
+.quote-author {
+    margin-top: 50px;
+    color: #666;
+    font-size: 11px;
+    letter-spacing: 4px;
+}
+
+.quote-note {
+    margin-top: 25px;
+    max-width: 600px;
+    color: #666;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* --------------------------------------------------
+   PHILOSOPHY
+-------------------------------------------------- */
+
+.statement {
+    padding: 12vw 7vw;
+    border-bottom: 1px solid var(--line);
+}
+
+.statement-label {
+    color: #555;
+    letter-spacing: 4px;
+    font-size: 10px;
+    margin-bottom: 35px;
+}
+
+.statement h2 {
+    font-family: Minecraft;
+    font-weight: normal;
+    font-size: clamp(45px, 8vw, 120px);
+    line-height: .9;
+    margin: 0;
+}
+
+.statement p {
+    margin-top: 50px;
+    max-width: 700px;
+    color: #999;
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+/* --------------------------------------------------
+   NAV
+-------------------------------------------------- */
+
+.library {
+    padding: 80px 5vw;
+}
+
+.library-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 60px;
+    gap: 30px;
+}
+
+.library-title {
+    font-family: Minecraft;
+    font-size: clamp(45px, 8vw, 100px);
+    font-weight: normal;
+}
+
+.library-count {
+    color: #555;
+    font-size: 11px;
+    letter-spacing: 3px;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 45px;
+}
+
+.filter {
+    background: transparent;
+    border: 1px solid #292929;
+    color: #777;
+    padding: 10px 14px;
+    font-family: inherit;
+    font-size: 10px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.filter:hover,
+.filter.active {
+    color: white;
+    border-color: white;
+}
+
+/* --------------------------------------------------
+   DERIVATIONS
+-------------------------------------------------- */
+
+.derivation {
+    border-top: 1px solid var(--line);
+}
+
+.derivation:last-child {
+    border-bottom: 1px solid var(--line);
+}
+
+.derivation-head {
+    display: grid;
+    grid-template-columns: 80px 1fr 180px 40px;
+    gap: 20px;
+    align-items: center;
+    padding: 27px 10px;
+    cursor: pointer;
+}
+
+.derivation-head:hover {
+    background: #080808;
+}
+
+.number {
+    color: #444;
+    font-size: 12px;
+}
+
+.name {
+    font-size: 18px;
+}
+
+.category {
+    color: #555;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.arrow {
+    color: #555;
+    transition: transform .3s;
+}
+
+.derivation.open .arrow {
+    transform: rotate(45deg);
+}
+
+.derivation-body {
+    display: none;
+    padding: 0 80px 45px 110px;
+    max-width: 1000px;
+}
+
+.derivation.open .derivation-body {
+    display: block;
+}
+
+.equation {
+    border-left: 1px solid #333;
+    padding: 25px 30px;
+    margin: 20px 0;
+    font-family: Georgia, serif;
+    font-size: clamp(20px, 3vw, 34px);
+    color: #eee;
+    overflow-x: auto;
+}
+
+.derivation-body p {
+    color: #777;
+    line-height: 1.8;
+}
+
+.steps {
+    margin-top: 30px;
+}
+
+.step {
+    padding: 14px 0;
+    border-bottom: 1px solid #181818;
+    color: #aaa;
+}
+
+.step span {
+    color: #444;
+    margin-right: 20px;
+}
+
+/* --------------------------------------------------
+   SPECIAL SECTION
+-------------------------------------------------- */
+
+.particle {
+    margin-top: 150px;
+    padding: 10vw 7vw;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.particle h2 {
+    font-family: Minecraft;
+    font-weight: normal;
+    font-size: clamp(50px, 9vw, 130px);
+    line-height: .85;
+    margin: 0;
+}
+
+.particle p {
+    max-width: 650px;
+    color: #777;
+    line-height: 1.8;
+    margin-top: 40px;
+}
+
+/* --------------------------------------------------
+   FOOTER
+-------------------------------------------------- */
+
+footer {
+    padding: 80px 40px;
+    color: #444;
+    font-size: 10px;
+    letter-spacing: 3px;
+    display: flex;
+    justify-content: space-between;
+}
+
+@media(max-width:700px) {
+
+    .derivation-head {
+        grid-template-columns: 45px 1fr 30px;
+    }
+
+    .category {
+        display: none;
+    }
+
+    .derivation-body {
+        padding-left: 45px;
+        padding-right: 20px;
+    }
+
+    .hero-index,
+    .hero-number {
+        left: 20px;
+        right: auto;
+    }
+
+    .hero-number {
+        display: none;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<!-- ==================================================
+     HERO
+================================================== -->
+
+<section class="hero">
+
+    <div class="hero-index">
+        DRAVYA
+    </div>
+
+    <div class="hero-number">
+        FIELD / 02
+    </div>
+
+    <h1>KNOWN</h1>
+
+    <div class="hero-sub">
+        <strong>Learn what has already been learned.</strong><br>
+        Then try to move beyond it.
+    </div>
+
+    <div class="scroll">
+        SCROLL TO ENTER THE LIBRARY
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+     FEYNMAN
+================================================== -->
+
+<section class="quote">
+
+    <div class="quote-inner">
+
+        <div class="quote-text">
+            “What I cannot create,<br>
+            I do not understand.”
+        </div>
+
+        <div class="quote-author">
+            RICHARD P. FEYNMAN
+        </div>
+
+        <div class="quote-note">
+            Written on Feynman's blackboard at the time of his death.
+            Below it was another instruction:
+            “Know how to solve every problem that has been solved.”
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+     DRAVYA STATEMENT
+================================================== -->
+
+<section class="statement">
+
+    <div class="statement-label">
+        THE IDEA
+    </div>
+
+    <h2>
+        BEFORE<br>
+        THE UNKNOWN
+    </h2>
+
+    <p>
+        Every discovery begins somewhere inside an enormous structure
+        of things already known.
+
+        <br><br>
+
+        Physics is not a collection of equations to memorize.
+        It is a network of relationships that can be reconstructed.
+
+        <br><br>
+
+        This is a map of those relationships.
+
+        <br><br>
+
+        <strong>
+        If you call yourself a physicist,
+        how much of this can you derive without looking?
+        </strong>
+    </p>
+
+</section>
+
+
+<!-- ==================================================
+     LIBRARY
+================================================== -->
+
+<section class="library">
+
+    <div class="library-head">
+
+        <div class="library-title">
+            THE<br>LIBRARY
+        </div>
+
+        <div class="library-count">
+            CORE DERIVATIONS
+        </div>
+
+    </div>
+
+
+    <div class="filters">
+
+        <button class="filter active" data-filter="all">
+            ALL
+        </button>
+
+        <button class="filter" data-filter="math">
+            MATHEMATICS
+        </button>
+
+        <button class="filter" data-filter="classical">
+            CLASSICAL
+        </button>
+
+        <button class="filter" data-filter="em">
+            ELECTROMAGNETISM
+        </button>
+
+        <button class="filter" data-filter="qm">
+            QUANTUM
+        </button>
+
+        <button class="filter" data-filter="relativity">
+            RELATIVITY
+        </button>
+
+        <button class="filter" data-filter="stat">
+            STATISTICAL
+        </button>
+
+        <button class="filter" data-filter="qft">
+            QFT
+        </button>
+
+        <button class="filter" data-filter="particle">
+            PARTICLE
+        </button>
+
+        <button class="filter" data-filter="nuclear">
+            NUCLEAR
+        </button>
+
+    </div>
+
+
+    <div id="derivations"></div>
+
+</section>
+
+
+<!-- ==================================================
+     PARTICLE / NUCLEAR
+================================================== -->
+
+<section class="particle">
+
+    <h2>
+        INTO<br>
+        MATTER
+    </h2>
+
+    <p>
+        The deeper the map goes, the less the equations look
+        like isolated formulas.
+
+        Classical mechanics becomes a language of symmetries.
+        Quantum mechanics becomes amplitudes.
+        Relativity becomes geometry.
+        Quantum field theory turns particles into excitations
+        of fields.
+
+        And nuclear physics becomes the place where these ideas
+        meet matter, energy, interaction and experiment.
+    </p>
+
+</section>
+
+
+<footer>
+
+    <div>
+        DRAVYA / KNOWN
+    </div>
+
+    <div>
+        OBSERVE · DISTURB · CREATE
+    </div>
+
+</footer>
+
+
+<script>
+
+/* ==================================================
+   DERIVATION DATABASE
+================================================== */
+
+const derivations = [
+
+/* ---------------- MATHEMATICS ---------------- */
+
+{
+    cat: "math",
+    name: "Taylor Expansion",
+    eq: "f(x)=Σₙ [f⁽ⁿ⁾(a)/n!] (x−a)ⁿ",
+    text: "The local language behind approximation, perturbation theory and effective descriptions.",
+    steps: [
+        "Start from differentiability",
+        "Repeatedly differentiate the function",
+        "Construct the local polynomial",
+        "Identify the remainder"
+    ]
+},
+
+{
+    cat: "math",
+    name: "Fourier Transform",
+    eq: "f(x)=∫ dk /√(2π)  f̃(k)eⁱᵏˣ",
+    text: "The bridge between position and momentum, time and frequency, space and wave-number.",
+    steps: [
+        "Construct basis of complex exponentials",
+        "Project function onto the basis",
+        "Obtain Fourier coefficients",
+        "Reconstruct the original function"
+    ]
+},
+
+{
+    cat: "math",
+    name: "Gaussian Integral",
+    eq: "∫₋∞∞ e⁻ˣ² dx = √π",
+    text: "One of the most important integrals in physics, appearing throughout probability, statistical mechanics and quantum theory.",
+    steps: [
+        "Square the integral",
+        "Convert to two dimensions",
+        "Use polar coordinates",
+        "Evaluate the resulting radial integral"
+    ]
+},
+
+/* ---------------- CLASSICAL ---------------- */
+
+{
+    cat: "classical",
+    name: "Newton's Second Law",
+    eq: "F = dp/dt",
+    text: "Dynamics from momentum conservation and the definition of force.",
+    steps: [
+        "Define momentum p",
+        "Consider change of momentum",
+        "Take the differential limit",
+        "Recover F = ma for constant mass"
+    ]
+},
+
+{
+    cat: "classical",
+    name: "Work–Energy Theorem",
+    eq: "W = ∫ F·dr = ΔK",
+    text: "Force integrated along a trajectory becomes a change in kinetic energy.",
+    steps: [
+        "Start with F = ma",
+        "Use a = dv/dt",
+        "Convert dt using dr = vdt",
+        "Integrate"
+    ]
+},
+
+{
+    cat: "classical",
+    name: "Lagrange Equations",
+    eq: "d/dt(∂L/∂q̇ᵢ) − ∂L/∂qᵢ = 0",
+    text: "Reformulate mechanics through the principle of stationary action.",
+    steps: [
+        "Define the action S",
+        "Vary the trajectory",
+        "Integrate by parts",
+        "Demand δS = 0",
+        "Obtain Euler–Lagrange equations"
+    ]
+},
+
+{
+    cat: "classical",
+    name: "Hamilton's Equations",
+    eq: "q̇ᵢ = ∂H/∂pᵢ   ,   ṗᵢ = −∂H/∂qᵢ",
+    text: "Mechanics reformulated in phase space.",
+    steps: [
+        "Define canonical momentum",
+        "Perform Legendre transformation",
+        "Construct Hamiltonian",
+        "Derive canonical equations"
+    ]
+},
+
+{
+    cat: "classical",
+    name: "Simple Harmonic Oscillator",
+    eq: "ẍ + ω²x = 0",
+    text: "The universal local approximation around a stable equilibrium.",
+    steps: [
+        "Expand potential around equilibrium",
+        "Keep quadratic term",
+        "Apply Newton's equation",
+        "Identify angular frequency"
+    ]
+},
+
+/* ---------------- EM ---------------- */
+
+{
+    cat: "em",
+    name: "Wave Equation from Maxwell",
+    eq: "∇²E − (1/c²)∂²E/∂t² = 0",
+    text: "Electromagnetism predicts propagating waves.",
+    steps: [
+        "Start from Faraday's law",
+        "Take the curl",
+        "Use Ampère–Maxwell law",
+        "Apply vector identities",
+        "Identify c"
+    ]
+},
+
+{
+    cat: "em",
+    name: "Electrostatic Potential",
+    eq: "∇²φ = −ρ/ε₀",
+    text: "Poisson's equation connects charge density to electric potential.",
+    steps: [
+        "Use E = −∇φ",
+        "Apply Gauss's law",
+        "Take divergence",
+        "Obtain Poisson equation"
+    ]
+},
+
+/* ---------------- RELATIVITY ---------------- */
+
+{
+    cat: "relativity",
+    name: "Lorentz Transformations",
+    eq: "x′ = γ(x−vt)",
+    text: "The coordinate transformation required by invariant light speed.",
+    steps: [
+        "Demand invariance of spacetime interval",
+        "Assume linear transformation",
+        "Apply relative-motion symmetry",
+        "Solve for γ"
+    ]
+},
+
+{
+    cat: "relativity",
+    name: "Energy–Momentum Relation",
+    eq: "E² = p²c² + m²c⁴",
+    text: "The relativistic relation connecting energy, momentum and invariant mass.",
+    steps: [
+        "Define four-momentum",
+        "Construct Lorentz invariant",
+        "Evaluate invariant in rest frame",
+        "Recover energy–momentum relation"
+    ]
+},
+
+{
+    cat: "relativity",
+    name: "Mass–Energy Equivalence",
+    eq: "E₀ = mc²",
+    text: "Rest energy emerges directly from relativistic energy.",
+    steps: [
+        "Use relativistic energy",
+        "Set p = 0",
+        "Identify rest energy"
+    ]
+},
+
+/* ---------------- QUANTUM ---------------- */
+
+{
+    cat: "qm",
+    name: "Schrödinger Equation",
+    eq: "iℏ ∂ψ/∂t = Ĥψ",
+    text: "The central dynamical equation of non-relativistic quantum mechanics.",
+    steps: [
+        "Associate energy with time evolution",
+        "Associate momentum with spatial translations",
+        "Construct the Hamiltonian operator",
+        "Apply it to the wavefunction"
+    ]
+},
+
+{
+    cat: "qm",
+    name: "Particle in a Box",
+    eq: "Eₙ = n²π²ℏ² / 2mL²",
+    text: "Quantization emerging from boundary conditions.",
+    steps: [
+        "Write time-independent Schrödinger equation",
+        "Solve inside the box",
+        "Apply ψ(0)=ψ(L)=0",
+        "Quantize allowed wave numbers",
+        "Obtain energy spectrum"
+    ]
+},
+
+{
+    cat: "qm",
+    name: "Hydrogen Atom",
+    eq: "Eₙ = −13.6 eV/n²",
+    text: "The fundamental bound-state spectrum of the Coulomb problem.",
+    steps: [
+        "Write Coulomb Hamiltonian",
+        "Separate center-of-mass motion",
+        "Transform to spherical coordinates",
+        "Solve angular equation",
+        "Solve radial equation",
+        "Obtain quantized spectrum"
+    ]
+},
+
+{
+    cat: "qm",
+    name: "Angular Momentum Algebra",
+    eq: "[Lᵢ,Lⱼ] = iℏ εᵢⱼₖ Lₖ",
+    text: "The algebra underlying orbital and spin angular momentum.",
+    steps: [
+        "Define angular momentum operators",
+        "Evaluate commutators",
+        "Identify rotational algebra",
+        "Construct ladder operators"
+    ]
+},
+
+{
+    cat: "qm",
+    name: "Uncertainty Relation",
+    eq: "Δx Δp ≥ ℏ/2",
+    text: "A consequence of non-commuting observables.",
+    steps: [
+        "Define operator variances",
+        "Use Cauchy–Schwarz inequality",
+        "Apply commutator relation",
+        "Obtain the uncertainty bound"
+    ]
+},
+
+/* ---------------- STAT ---------------- */
+
+{
+    cat: "stat",
+    name: "Boltzmann Distribution",
+    eq: "P(E) ∝ e⁻ᴱ/ᵏᴮᵀ",
+    text: "The probability distribution governing thermal equilibrium.",
+    steps: [
+        "Consider system plus reservoir",
+        "Count reservoir microstates",
+        "Expand entropy",
+        "Identify temperature",
+        "Obtain exponential weighting"
+    ]
+},
+
+{
+    cat: "stat",
+    name: "Partition Function",
+    eq: "Z = Σᵢ e⁻ᵝᴱⁱ",
+    text: "The generating object from which thermodynamic quantities can be extracted.",
+    steps: [
+        "Sum statistical weights",
+        "Define Z",
+        "Construct Helmholtz free energy",
+        "Differentiate to obtain observables"
+    ]
+},
+
+/* ---------------- QFT ---------------- */
+
+{
+    cat: "qft",
+    name: "Klein–Gordon Equation",
+    eq: "(□ + m²)φ = 0",
+    text: "Relativistic wave equation for a scalar field.",
+    steps: [
+        "Start from relativistic energy–momentum relation",
+        "Promote energy and momentum to operators",
+        "Apply operators to scalar field",
+        "Obtain covariant equation"
+    ]
+},
+
+{
+    cat: "qft",
+    name: "Dirac Equation",
+    eq: "(iγᵘ∂ᵤ − m)ψ = 0",
+    text: "A relativistic quantum equation whose structure naturally contains spin and antiparticles.",
+    steps: [
+        "Demand first-order equation in spacetime derivatives",
+        "Factorize relativistic dispersion relation",
+        "Introduce gamma matrices",
+        "Impose Clifford algebra",
+        "Obtain Dirac equation"
+    ]
+},
+
+{
+    cat: "qft",
+    name: "Noether's Theorem",
+    eq: "continuous symmetry → conserved current",
+    text: "The bridge between symmetry and conservation laws.",
+    steps: [
+        "Start with an action",
+        "Apply continuous transformation",
+        "Demand action invariance",
+        "Construct conserved current",
+        "Obtain conserved charge"
+    ]
+},
+
+{
+    cat: "qft",
+    name: "Canonical Quantization of a Scalar Field",
+    eq: "[φ(x), π(y)] = iℏδ³(x−y)",
+    text: "Promotion of a classical field into a quantum field.",
+    steps: [
+        "Construct classical field Lagrangian",
+        "Define canonical momentum",
+        "Impose equal-time commutation relations",
+        "Expand field in creation and annihilation operators"
+    ]
+},
+
+{
+    cat: "qft",
+    name: "Feynman Propagator",
+    eq: "Δ_F(x−y) = ∫ d⁴p/(2π)⁴  i e⁻ⁱᵖ·⁽ˣ⁻ʸ⁾ /(p²−m²+iε)",
+    text: "The object describing propagation amplitudes of a quantum field.",
+    steps: [
+        "Construct time-ordered two-point function",
+        "Expand the free field",
+        "Evaluate vacuum expectation value",
+        "Fourier transform",
+        "Obtain momentum-space propagator"
+    ]
+},
+
+/* ---------------- PARTICLE ---------------- */
+
+{
+    cat: "particle",
+    name: "Invariant Mass",
+    eq: "s = (p₁+p₂)²",
+    text: "The Lorentz-invariant foundation of collider kinematics.",
+    steps: [
+        "Construct total four-momentum",
+        "Square the four-vector",
+        "Use Lorentz invariance",
+        "Interpret invariant as center-of-mass energy"
+    ]
+},
+
+{
+    cat: "particle",
+    name: "Two-Body Decay",
+    eq: "A → B + C",
+    text: "The fundamental kinematic problem behind particle decay.",
+    steps: [
+        "Apply four-momentum conservation",
+        "Move to parent rest frame",
+        "Set final momenta equal and opposite",
+        "Solve invariant equations",
+        "Obtain daughter momentum"
+    ]
+},
+
+{
+    cat: "particle",
+    name: "Scattering Cross Section",
+    eq: "dσ = (1/flux)|M|² dΦ",
+    text: "The bridge from quantum amplitude to experimentally measurable event rates.",
+    steps: [
+        "Construct transition amplitude",
+        "Square the amplitude",
+        "Average initial states",
+        "Sum final states",
+        "Insert phase space",
+        "Normalize by incoming flux"
+    ]
+},
+
+{
+    cat: "particle",
+    name: "Fermi Golden Rule",
+    eq: "Γ = (2π/ℏ)|⟨f|V|i⟩|²ρ(E_f)",
+    text: "Transition rate from perturbation theory.",
+    steps: [
+        "Start from time-dependent perturbation theory",
+        "Evaluate transition amplitude",
+        "Take long-time limit",
+        "Recover energy-conserving delta function",
+        "Identify density of final states"
+    ]
+},
+
+/* ---------------- NUCLEAR ---------------- */
+
+{
+    cat: "nuclear",
+    name: "Semi-Empirical Mass Formula",
+    eq: "B(A,Z)=aᵥA−aₛA²ᐟ³−a𝚌 Z²/A¹ᐟ³−aₐ(A−2Z)²/A ± δ",
+    text: "A macroscopic model connecting nuclear binding to volume, surface, Coulomb, asymmetry and pairing effects.",
+    steps: [
+        "Volume contribution",
+        "Surface correction",
+        "Coulomb repulsion",
+        "Neutron–proton asymmetry",
+        "Pairing correction"
+    ]
+},
+
+{
+    cat: "nuclear",
+    name: "Radioactive Decay Law",
+    eq: "N(t)=N₀e⁻ˡᵃᵐᵇᵈᵃᵗ",
+    text: "Exponential decay emerging from a constant probability per unit time.",
+    steps: [
+        "Define decay probability",
+        "Write differential equation",
+        "Separate variables",
+        "Integrate",
+        "Apply initial condition"
+    ]
+},
+
+{
+    cat: "nuclear",
+    name: "Nuclear Radius",
+    eq: "R ≈ R₀A¹ᐟ³",
+    text: "The scaling relation revealing approximately constant nuclear density.",
+    steps: [
+        "Assume approximately constant nuclear density",
+        "Relate volume to nucleon number",
+        "Solve for radius"
+    ]
+},
+
+{
+    cat: "nuclear",
+    name: "Nuclear Binding Energy",
+    eq: "B = [Zmₚ + Nmₙ − Mₙᵤ𝚌]c²",
+    text: "Mass defect converted into binding energy.",
+    steps: [
+        "Count free nucleon masses",
+        "Subtract nuclear mass",
+        "Apply E = mc²",
+        "Interpret difference as binding energy"
+    ]
+},
+
+{
+    cat: "nuclear",
+    name: "Scattering from a Central Potential",
+    eq: "dσ/dΩ = |f(θ,φ)|²",
+    text: "The basic relation connecting scattering amplitude to angular distribution.",
+    steps: [
+        "Construct incident and scattered waves",
+        "Define asymptotic scattering amplitude",
+        "Calculate probability current",
+        "Form differential cross section"
+    ]
+},
+
+{
+    cat: "nuclear",
+    name: "Partial-Wave Expansion",
+    eq: "f(θ)=Σₗ (2l+1) fₗ Pₗ(cosθ)",
+    text: "A central tool for quantum scattering and nuclear reaction analysis.",
+    steps: [
+        "Expand wavefunction in angular momentum eigenstates",
+        "Solve radial equation",
+        "Extract phase shifts",
+        "Construct scattering amplitude"
+    ]
+}
+
+];
+
+
+/* ==================================================
+   RENDER
+================================================== */
+
+const container = document.getElementById("derivations");
+
+function render(filter = "all") {
+
+    container.innerHTML = "";
+
+    let list = derivations.filter(d =>
+        filter === "all" || d.cat === filter
+    );
+
+    list.forEach((d, index) => {
+
+        const item = document.createElement("div");
+
+        item.className = "derivation";
+
+        item.innerHTML = `
+
+            <div class="derivation-head">
+
+                <div class="number">
+                    ${String(index + 1).padStart(2,"0")}
+                </div>
+
+                <div class="name">
+                    ${d.name}
+                </div>
+
+                <div class="category">
+                    ${d.cat}
+                </div>
+
+                <div class="arrow">
+                    +
+                </div>
+
+            </div>
+
+            <div class="derivation-body">
+
+                <div class="equation">
+                    ${d.eq}
+                </div>
+
+                <p>
+                    ${d.text}
+                </p>
+
+                <div class="steps">
+
+                    ${d.steps.map((s,i)=>`
+                        <div class="step">
+                            <span>${String(i+1).padStart(2,"0")}</span>
+                            ${s}
+                        </div>
+                    `).join("")}
+
+                </div>
+
+            </div>
+        `;
+
+        item.querySelector(".derivation-head")
+            .addEventListener("click", () => {
+                item.classList.toggle("open");
+            });
+
+        container.appendChild(item);
+
+    });
+
+}
+
+
+/* ==================================================
+   FILTERS
+================================================== */
+
+document.querySelectorAll(".filter").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        document
+            .querySelectorAll(".filter")
+            .forEach(b => b.classList.remove("active"));
+
+        button.classList.add("active");
+
+        render(button.dataset.filter);
+
+    });
+
+});
+
+
+render();
+
+</script>
+
+</body>
+</html>
