@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DRAVYA / PHYSICS — The Evolution of Frameworks</title>
+
+<style>
+@font-face {
+    font-family: "SuperKeys";
+    src: url("SuperKeys.ttf");
+}
+
+@font-face {
+    font-family: "Minecraft";
+    src: url("Minecraft.ttf");
+}
+
+:root {
+    --bg: #050505;
+    --fg: #f2f2f2;
+    --muted: #777;
+    --line: #252525;
+    --accent: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+/* --------------------------------------------------
+   FIELD BACKGROUND
+-------------------------------------------------- */
+
+canvas#field {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+/* --------------------------------------------------
+   HEADER
+-------------------------------------------------- */
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 22px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 20;
+    mix-blend-mode: difference;
+}
+
+.logo {
+    font-family: "Minecraft", monospace;
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+.header-right {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* --------------------------------------------------
+   HERO
+-------------------------------------------------- */
+
+.hero {
+    min-height: 100vh;
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    padding: 40px;
+}
+
+.kicker {
+    font-size: 10px;
+    letter-spacing: 6px;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+.hero h1 {
+    margin: 0;
+    font-family: "Minecraft", monospace;
+    font-size: clamp(45px, 9vw, 130px);
+    letter-spacing: 8px;
+    font-weight: normal;
+}
+
+.hero-sub {
+    margin-top: 28px;
+    max-width: 620px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #999;
+}
+
+.observe {
+    position: absolute;
+    bottom: 35px;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: #555;
+}
+
+/* --------------------------------------------------
+   INTRO
+-------------------------------------------------- */
+
+.intro {
+    position: relative;
+    z-index: 2;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12vw;
+}
+
+.intro-inner {
+    max-width: 850px;
+}
+
+.intro-label {
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.intro h2 {
+    font-size: clamp(30px, 5vw, 65px);
+    font-weight: 300;
+    line-height: 1.1;
+    margin: 0 0 35px;
+}
+
+.intro p {
+    color: #888;
+    font-size: 16px;
+    line-height: 2;
+    max-width: 680px;
+}
+
+/* --------------------------------------------------
+   TIMELINE
+-------------------------------------------------- */
+
+.timeline {
+    position: relative;
+    z-index: 2;
+    width: min(1100px, 90%);
+    margin: auto;
+    padding-bottom: 200px;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        #333 5%,
+        #333 95%,
+        transparent
+    );
+}
+
+/* --------------------------------------------------
+   ERA
+-------------------------------------------------- */
+
+.era {
+    position: relative;
+    margin: 180px 0;
+}
+
+.era-marker {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 13px;
+    height: 13px;
+    border: 1px solid white;
+    background: black;
+    border-radius: 50%;
+    z-index: 3;
+    transition: 0.4s;
+}
+
+.era:hover .era-marker {
+    box-shadow: 0 0 30px white;
+    transform: translateX(-50%) scale(1.5);
+}
+
+.era-content {
+    width: 45%;
+    padding: 30px;
+    border: 1px solid #1c1c1c;
+    background: rgba(5,5,5,0.75);
+    backdrop-filter: blur(8px);
+    transition: 0.4s;
+}
+
+.era-content:hover {
+    border-color: #555;
+    transform: translateY(-5px);
+}
+
+.era:nth-child(odd) .era-content {
+    margin-right: auto;
+}
+
+.era:nth-child(even) .era-content {
+    margin-left: auto;
+}
+
+.year {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: #666;
+}
+
+.name {
+    margin-top: 15px;
+    font-size: 28px;
+    font-weight: 300;
+}
+
+.person {
+    margin-top: 7px;
+    color: #777;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.section-label {
+    margin-top: 32px;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: #555;
+}
+
+.description {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #aaa;
+}
+
+.equation {
+    margin-top: 25px;
+    padding: 18px;
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
+
+    font-family: Georgia, serif;
+    font-size: 24px;
+    text-align: center;
+
+    color: #eee;
+}
+
+.disturbance {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px dashed #292929;
+
+    font-size: 12px;
+    line-height: 1.7;
+    color: #777;
+}
+
+.disturbance strong {
+    color: #aaa;
+    font-weight: normal;
+}
+
+/* --------------------------------------------------
+   FULL WIDTH DISTURBANCE
+-------------------------------------------------- */
+
+.disturbance-section {
+    position: relative;
+    z-index: 2;
+    min-height: 80vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    padding: 10vw;
+}
+
+.disturbance-section h2 {
+    font-size: clamp(35px, 7vw, 90px);
+    font-weight: 200;
+    line-height: 1;
+    max-width: 1000px;
+    margin: 0;
+}
+
+.disturbance-section span {
+    display: block;
+    margin-top: 30px;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: #555;
+}
+
+/* --------------------------------------------------
+   UNFINISHED FIELD
+-------------------------------------------------- */
+
+.future {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    padding: 12vw 8vw;
+}
+
+.future-label {
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: #555;
+}
+
+.future h2 {
+    font-size: clamp(40px, 8vw, 110px);
+    font-weight: 200;
+    margin: 30px 0 70px;
+    line-height: 0.95;
+}
+
+.questions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: #222;
+}
+
+.question {
+    padding: 35px;
+    min-height: 160px;
+    background: #050505;
+    transition: 0.3s;
+}
+
+.question:hover {
+    background: #0c0c0c;
+}
+
+.question-number {
+    font-size: 9px;
+    color: #444;
+    letter-spacing: 3px;
+}
+
+.question h3 {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.question p {
+    color: #666;
+    line-height: 1.6;
+    font-size: 13px;
+}
+
+/* --------------------------------------------------
+   FOOTER
+-------------------------------------------------- */
+
+footer {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid #1b1b1b;
+    padding: 35px;
+    display: flex;
+    justify-content: space-between;
+    color: #444;
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+/* --------------------------------------------------
+   MOBILE
+-------------------------------------------------- */
+
+@media (max-width: 700px) {
+
+    header {
+        padding: 18px;
+    }
+
+    .header-right {
+        display: none;
+    }
+
+    .timeline::before {
+        left: 10px;
+    }
+
+    .era {
+        margin: 100px 0;
+        padding-left: 35px;
+    }
+
+    .era-marker {
+        left: 10px;
+    }
+
+    .era-content,
+    .era:nth-child(odd) .era-content,
+    .era:nth-child(even) .era-content {
+        width: 100%;
+        margin: 0;
+    }
+
+    .questions {
+        grid-template-columns: 1fr;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<canvas id="field"></canvas>
+
+<header>
+    <div class="logo">DRAVYA</div>
+
+    <div class="header-right">
+        PHYSICS / THE FIELD OF IDEAS
+    </div>
+</header>
+
+
+<!-- ==================================================
+     HERO
+================================================== -->
+
+<section class="hero">
+
+    <div class="kicker">
+        OBSERVE · DISTURB · CREATE
+    </div>
+
+    <h1>PHYSICS</h1>
+
+    <div class="hero-sub">
+        A chronological journey through the frameworks humans
+        created to describe the structure, motion and behaviour
+        of reality.
+    </div>
+
+    <div class="observe">
+        SCROLL TO DISTURB THE FIELD ↓
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+     INTRO
+================================================== -->
+
+<section class="intro">
+
+    <div class="intro-inner">
+
+        <div class="intro-label">
+            DRAVYA / 001
+        </div>
+
+        <h2>
+            Physics is not a finished story.
+        </h2>
+
+        <p>
+            Every generation inherits a picture of reality.
+            Then something refuses to fit.
+            An orbit.
+            A spectrum.
+            A measurement.
+            A particle.
+            A field.
+        </p>
+
+        <p>
+            The disturbance forces us to construct a new framework.
+            Classical mechanics.
+            Electromagnetism.
+            Relativity.
+            Quantum mechanics.
+            Quantum field theory.
+        </p>
+
+        <p>
+            This is the history of those disturbances.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+     TIMELINE
+================================================== -->
+
+<main class="timeline">
+
+
+<!-- ANCIENT -->
+<section class="era">
+
+    <div class="era-marker"></div>
+
+    <div class="era-content">
+
+        <div class="year">c. 300 BCE</div>
+
+        <div class="name">NATURAL PHILOSOPHY</div>
+
+        <div class="person">
+            ARISTOTLE · ARCHIMEDES · ANCIENT SCIENCE
+        </div>
+
+        <div class="section-label">
+            OBSERVATION
+        </div>
+
+        <div class="description">
+            Humans begin asking systematic questions about
+            motion, matter, geometry, astronomy and the nature
+            of the physical world.
+        </div>
+
+        <div class="section-label">
+            FRAMEWORK
+        </div>
+
+        <div class="description">
+            Nature is interpreted through geometry,
+            observation, logic and philosophical principles.
+        </div>
+
+        <div class="disturbance">
+            <strong>DISTURBANCE →</strong>
+            Can motion itself be described mathematically?
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- HELIOCENTRIC -->
+<section class="era">
+
+    <div class="era-marker"></div>
+
+    <div class="era-content">
+
+        <div class="year">1543 → 1609</div>
+
+        <div class="name">THE HELIOCENTRIC REVOLUTION</div>
+
+        <div class="person">
+            COPERNICUS · KEPLER · GALILEO
+        </div>
+
+        <div class="section-label">
+            DISTURBANCE
+        </div>
+
+        <div class="description">
+            The Earth is removed from the centre of the
+            astronomical picture.
+        </div>
+
+        <div class="section-label">
+            FRAMEWORK
+        </div>
+
+        <div class="description">
+            Planetary motion can be described through
+            mathematical laws rather than purely philosophical
+            constructions.
+        </div>
+
+        <div class="equation">
+            T² ∝ a³
+        </div>
+
+        <div class="disturbance">
+            <strong>DISTURBANCE →</strong>
+            What universal law could explain both falling bodies
+            and planetary motion?
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- NEWTON -->
+<section class="era">
+
+    <div class="era-marker"></div>
+
+    <div class="era-content">
+
+        <div class="year">1687</div>
+
+        <div class="name">CLASSICAL MECHANICS</div>
+
+        <div class="person">
+            ISAAC NEWTON
+        </div>
+
+        <div class="section-label">
+            FRAMEWORK
+        </div>
+
+        <div class="description">
+            Motion becomes a mathematical structure.
+            The same gravitational framework describes
+            phenomena on Earth and in the heavens.
+        </div>
+
+        <div class="equation">
+            F = ma
+            <br><br>
+            F = Gm₁m₂ / r²
+        </div>
+
+        <div class="section-label">
+            ACHIEVEMENT
+        </div>
+
+        <div class="description">
+            Mechanics, astronomy and terrestrial motion become
+            parts of one mathematical framework.
+        </div>
+
+        <div class="disturbance">
+            <strong>DISTURBANCE →</strong>
+            What happens when matter, heat and light enter the picture?
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- THERMODYNAMICS -->
+<section class="era">
+
+    <div class="era-marker"></div>
+
+    <div class="era-content">
+
+        <div class="year">1800s</div>
+
+        <div class="name">THERMODYNAMICS</div>
+
+        <div class="person">
+            CARNOT · CLAUSIUS · BOLTZMANN
+        </div>
+
+        <div class="section-label">
+            OBSERVATION
+        </div>
+
+        <div class="description">
+            Heat flows. Engines transform energy.
+            Macroscopic systems exhibit irreversible behaviour.
+        </div>
+
+        <div class="section-label">
+            FRAMEWORK
+        </div>
+
+        <div class="description">
+            Energy, entropy and statistical behaviour become
+            fundamental concepts.
+        </div>
+
+        <div class="equation">
+            ΔS ≥ 0
+        </div>
+
+        <div class="disturbance">
+            <strong>DISTURBANCE →</strong>
+            What is matter doing underneath the macroscopic world?
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ELECTROMAGNETISM -->
+<section class="era">
+
+    <div class="era-marker"></div>
+
+    <div class="era-content">
+
+        <div class="year">1865</div>
+
+        <div class="name">ELECTROMAGNETISM</div>
+
+        <div class="person">
+            FARADAY · MAXWELL
+        </div>
+
+        <div class="section-label">
+            DISTURBANCE
+        </div>
+
+        <div class="description">
+            Electricity and magnetism reveal themselves as
+            interconnected aspects of a deeper field structure.
+        </div>
+
+        <div class="section-label">
+            FRAMEWORK
+        </div>
+
+        <div class="description">
+            Maxwell's equations unify electricity, magnetism
+            and electromagnetic waves.
+        </div>
+
+        <div class="equation">
+            ∇ · E = ρ / ε₀
+            <br><br>
+            ∇ × E = −∂B/∂t
+        </div>
+
+        <div class="disturbance">
+            <strong>CONSEQUENCE →</strong>
+            Light itself is an electromagnetic phenomenon.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- RELATIVITY -->
+<section class="era">
+
+    <div class="era-marker"></div>
+
+    <div class="era-content">
+
+        <div class="year">1905</div>
+
+        <div class="name">SPECIAL RELATIVITY</div>
+
+        <div class="person">
+            ALBERT EINSTEIN
+        </div>
+
+        <div class="section-label">
+            DISTURBANCE
+        </div>
+
+        <div class="description">
+            Classical ideas of absolute space and absolute time
+            cannot survive the structure of electromagnetism.
+        </div>
+
+        <div class="section-label">
+            FRAMEWORK
+        </div>
+
+        <div class="description">
+            Space and time become aspects of a unified spacetime.
+        </div>
+
+        <div class="equation">
+            E = mc²
+        </div>
+
+        <div class="disturbance">
+            <strong>DISTURBANCE →</strong>
+            What if gravity is not a force at all?
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- GENERAL RELATIVITY -->
+<section class="era">
+
+    <div class="era-marker"></div>
+
+    <div class="era-content">
+
+        <div class="year">1915</div>
+
+        <div class="name">GENERAL RELATIVITY</div>
+
+        <div class="person">
+            ALBERT EINSTEIN
+        </div>
+
+        <div class="section-label">
+            FRAMEWORK
+        </div>
+
+        <div class="description">
+            Gravity becomes geometry.
+            Matter and energy influence the structure of spacetime,
+            while spacetime determines motion.
+        </div>
+
+        <div class="equation">
+            Gμν + Λgμν = 8πGTμν
+        </div>
+
+        <div class="disturbance">
+            <strong>DISTURBANCE →</strong>
+            The microscopic world does not obey classical intuition.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- QUANTUM -->
+<section class="era">
+
+    <div class="era-marker"></div>
+
+    <div class="era-content">
+
+        <div class="year">1900 → 1928</div>
+
+        <div class="name">QUANTUM MECHANICS</div>
+
+        <div class="person">
+            PLANCK · EINSTEIN · BOHR · HEISENBERG ·
+            SCHRÖDINGER · DIRAC
+        </div>
+
+        <div class="section-label">
+            OBSERVATION
+        </div>
+
+        <div class="description">
+            Blackbody radiation, atomic spectra and microscopic
+            phenomena refuse to fit classical physics.
+        </div>
+
+        <div class="section-label">
+            FRAMEWORK
+        </div>
+
+        <div class="description">
+            Physical quantities become quantized.
+            The state of a system is described by a quantum state,
+            with probabilities emerging from its mathematical structure.
+        </div>
+
+        <div class="equation">
+            E = hν
+            <br><br>
+            iℏ ∂ψ/∂t = Ĥψ
+        </div>
+
+        <div class="disturbance">
+            <strong>DISTURBANCE →</strong>
+            Can quantum mechanics and special relativity
+            describe the same world?
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- NUCLEAR -->
+<section class="era">
+
+    <div class="era-marker"></div>
+
+    <div class="era-content">
+
+        <div class="year">1911 → 1932</div>
+
+        <div class="name">THE NUCLEAR WORLD</div>
+
+        <div class="person">
+            RUTHERFORD · CHADWICK · FERMI
+        </div>
+
+        <div class="section-label">
+            DISCOVERY
+        </div>
+
+        <div class="description">
+            The atom reveals a tiny dense nucleus.
+            Later, the neutron joins the proton as a constituent
+            of nuclear matter.
+        </div>
+
+        <div class="section-label">
+            FRAMEWORK
+        </div>
+
+        <div class="description">
+            Nuclear physics emerges as a new layer of physical reality.
+        </div>
+
+        <div class="disturbance">
+            <strong>DISTURBANCE →</strong>
+            What are the particles inside matter really made of?
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- QFT -->
+<section class="era">
+
+    <div class="era-marker"></div>
+
+    <div class="era-content">
+
+        <div class="year">1920s → 1940s</div>
+
+        <div class="name">QUANTUM FIELD THEORY</div>
+
+        <div class="person">
+            DIRAC · FEYNMAN · SCHWINGER · TOMONAGA
+        </div>
+
+        <div class="section-label">
+            FRAMEWORK
+        </div>
+
+        <div class="description">
+            Quantum mechanics meets special relativity.
+            Fields become fundamental mathematical objects,
+            and what we call particles can emerge as excitations
+            of those fields.
+        </div>
+
+        <div class="equation">
+            ℒ = ℒ(field, ∂field)
+        </div>
+
+        <div class="disturbance">
+            <strong>NEW LANGUAGE →</strong>
+            Reality can be described in terms of interacting fields.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- STANDARD MODEL -->
+<section class="era">
+
+    <div class="era-marker"></div>
+
+    <div class="era-content">
+
+        <div class="year">1960s → 1970s</div>
+
+        <div class="name">THE STANDARD MODEL</div>
+
+        <div class="person">
+            QUARKS · GAUGE FIELDS · HIGGS
+        </div>
+
+        <div class="section-label">
+            FRAMEWORK
+        </div>
+
+        <div class="description">
+            Electromagnetic, weak and strong interactions
+            become components of a quantum field-theoretic
+            description of elementary particles.
+        </div>
+
+        <div class="equation">
+            SU(3) × SU(2) × U(1)
+        </div>
+
+        <div class="section-label">
+            STRUCTURE
+        </div>
+
+        <div class="description">
+            Quarks.
+            Leptons.
+            Gauge bosons.
+            Higgs field.
+        </div>
+
+        <div class="disturbance">
+            <strong>DISTURBANCE →</strong>
+            The framework works extraordinarily well.
+            But it is not the whole story.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- HIGGS -->
+<section class="era">
+
+    <div class="era-marker"></div>
+
+    <div class="era-content">
+
+        <div class="year">2012</div>
+
+        <div class="name">HIGGS BOSON</div>
+
+        <div class="person">
+            CERN · ATLAS · CMS
+        </div>
+
+        <div class="section-label">
+            OBSERVATION
+        </div>
+
+        <div class="description">
+            A new particle is observed at the Large Hadron Collider
+            with properties consistent with the Higgs boson.
+        </div>
+
+        <div class="section-label">
+            FRAMEWORK
+        </div>
+
+        <div class="description">
+            The discovery provides experimental confirmation
+            of a crucial part of the Standard Model.
+        </div>
+
+        <div class="disturbance">
+            <strong>AND YET →</strong>
+            Dark matter remains.
+            Dark energy remains.
+            Gravity remains outside the Standard Model.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- NEUTRINOS -->
+<section class="era">
+
+    <div class="era-marker"></div>
+
+    <div class="era-content">
+
+        <div class="year">1998 →</div>
+
+        <div class="name">NEUTRINO OSCILLATIONS</div>
+
+        <div class="person">
+            ATMOSPHERIC · SOLAR · ACCELERATOR EXPERIMENTS
+        </div>
+
+        <div class="section-label">
+            DISTURBANCE
+        </div>
+
+        <div class="description">
+            Neutrinos change flavour as they propagate.
+            The phenomenon implies that neutrinos have mass.
+        </div>
+
+        <div class="section-label">
+            CONSEQUENCE
+        </div>
+
+        <div class="description">
+            The minimal Standard Model must be extended.
+            A tiny property opens a much larger question.
+        </div>
+
+        <div class="disturbance">
+            <strong>QUESTION →</strong>
+            What else is hiding beyond the framework?
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- ==================================================
+     BIG DISTURBANCE
+================================================== -->
+
+<section class="disturbance-section">
+
+    <div>
+
+        <h2>
+            Every framework<br>
+            contains its own disturbance.
+        </h2>
+
+        <span>
+            THE HISTORY OF PHYSICS IS NOT OVER
+        </span>
+
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+     FUTURE
+================================================== -->
+
+<section class="future">
+
+    <div class="future-label">
+        DRAVYA / 002 — THE UNFINISHED FIELD
+    </div>
+
+    <h2>
+        What remains?
+    </h2>
+
+    <div class="questions">
+
+        <div class="question">
+            <div class="question-number">01</div>
+            <h3>Quantum Gravity</h3>
+            <p>
+                How do quantum theory and spacetime become
+                part of one framework?
+            </p>
+        </div>
+
+        <div class="question">
+            <div class="question-number">02</div>
+            <h3>Dark Matter</h3>
+            <p>
+                What is the invisible matter shaping galaxies
+                and large-scale structure?
+            </p>
+        </div>
+
+        <div class="question">
+            <div class="question-number">03</div>
+            <h3>Dark Energy</h3>
+            <p>
+                Why is the expansion of the universe accelerating?
+            </p>
+        </div>
+
+        <div class="question">
+            <div class="question-number">04</div>
+            <h3>Matter–Antimatter</h3>
+            <p>
+                Why does the observable universe contain
+                so much more matter than antimatter?
+            </p>
+        </div>
+
+        <div class="question">
+            <div class="question-number">05</div>
+            <h3>Neutrino Mass</h3>
+            <p>
+                What mechanism gives neutrinos their tiny masses?
+            </p>
+        </div>
+
+        <div class="question">
+            <div class="question-number">06</div>
+            <h3>Beyond the Standard Model</h3>
+            <p>
+                Is the Standard Model a final framework,
+                or another layer of approximation?
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <div>
+        DRAVYA / PHYSICS
+    </div>
+
+    <div>
+        OBSERVE · DISTURB · CREATE
+    </div>
+
+</footer>
+
+
+<script>
+
+/* ==================================================
+   FIELD PARTICLES
+================================================== */
+
+const canvas = document.getElementById("field");
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+let mouse = {
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2
+};
+
+function resize() {
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+}
+
+window.addEventListener("resize", resize);
+
+resize();
+
+
+class Particle {
+
+    constructor() {
+
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+
+        this.vx = (Math.random() - 0.5) * 0.15;
+        this.vy = (Math.random() - 0.5) * 0.15;
+
+        this.size = Math.random() * 1.5 + 0.2;
+
+    }
+
+    update() {
+
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0 || this.x > canvas.width)
+            this.vx *= -1;
+
+        if (this.y < 0 || this.y > canvas.height)
+            this.vy *= -1;
+
+        const dx = this.x - mouse.x;
+        const dy = this.y - mouse.y;
+
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 180) {
+
+            const force = (180 - distance) / 180;
+
+            this.x += dx * force * 0.002;
+            this.y += dy * force * 0.002;
+
+        }
+
+    }
+
+    draw() {
+
+        ctx.beginPath();
+
+        ctx.arc(
+            this.x,
+            this.y,
+            this.size,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle = "rgba(255,255,255,0.4)";
+        ctx.fill();
+
+    }
+
+}
+
+
+for (let i = 0; i < 120; i++) {
+
+    particles.push(new Particle());
+
+}
+
+
+function connect() {
+
+    for (let i = 0; i < particles.length; i++) {
+
+        for (let j = i + 1; j < particles.length; j++) {
+
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 100) {
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    particles[i].x,
+                    particles[i].y
+                );
+
+                ctx.lineTo(
+                    particles[j].x,
+                    particles[j].y
+                );
+
+                ctx.strokeStyle =
+                    `rgba(255,255,255,${0.08 * (1 - distance / 100)})`;
+
+                ctx.stroke();
+
+            }
+
+        }
+
+    }
+
+}
+
+
+function animate() {
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    particles.forEach(p => {
+
+        p.update();
+        p.draw();
+
+    });
+
+    connect();
+
+    requestAnimationFrame(animate);
+
+}
+
+animate();
+
+
+/* ==================================================
+   MOUSE DISTURBANCE
+================================================== */
+
+window.addEventListener("mousemove", e => {
+
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+
+});
+
+
+/* ==================================================
+   SCROLL DISTURBANCE
+================================================== */
+
+let lastScroll = 0;
+
+window.addEventListener("scroll", () => {
+
+    const current = window.scrollY;
+
+    const velocity = Math.abs(current - lastScroll);
+
+    if (velocity > 20) {
+
+        particles.forEach(p => {
+
+            p.vx += (Math.random() - 0.5) * 0.02;
+            p.vy += (Math.random() - 0.5) * 0.02;
+
+        });
+
+    }
+
+    lastScroll = current;
+
+});
+
+</script>
+
+</body>
+</html>
