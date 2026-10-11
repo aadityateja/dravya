@@ -672,6 +672,11 @@ body.field-visible #field {
 
 <body>
 
+<audio
+    id="introMusic"
+    src="assets/intro.wav"
+    preload="auto"
+></audio>
 <!-- =======================================================
      CINEMATIC ENTRY
      ======================================================= -->
@@ -930,48 +935,83 @@ body.field-visible #field {
 
 
 <script>
-
 /* =========================================================
-   DRAVYA FIELD — VIDEO TRANSITION
+   DRAVYA FIELD — SYNCHRONIZED ENTRY + INTRO MUSIC
    ========================================================= */
 
 const entry = document.getElementById("entry");
 const video = document.getElementById("entryVideo");
+const music = document.getElementById("introMusic");
 
 let finished = false;
-
+let started = false;
 
 /* =========================================================
-   START VIDEO
+   START VIDEO AND MUSIC TOGETHER
    ========================================================= */
 
-function startVideo() {
+async function startExperience() {
+    if (started) return;
+    started = true;
 
-    const playPromise = video.play();
+    video.muted = true;
+    music.volume = 1;
 
-    if (playPromise !== undefined) {
-
-        playPromise.catch(() => {
-
-            video.muted = true;
-
-            video.play().catch(() => {});
-
-        });
-
+    try {
+        await Promise.all([
+            video.play(),
+            music.play()
+        ]);
+    } catch (error) {
+        // Some browsers require a user interaction
+        // before allowing audio playback.
+        started = false;
+        showStartPrompt();
     }
-
 }
 
+/* =========================================================
+   USER-INITIATED FALLBACK FOR AUTOPLAY RESTRICTIONS
+   ========================================================= */
+
+function showStartPrompt() {
+    if (document.getElementById("startExperience")) return;
+
+    const button = document.createElement("button");
+    button.id = "startExperience";
+    button.textContent = "ENTER DRAVYA";
+    
+    Object.assign(button.style, {
+        position: "fixed",
+        inset: "auto auto 35px 50%",
+        transform: "translateX(-50%)",
+        zIndex: "200",
+        padding: "15px 25px",
+        background: "rgba(2,5,13,0.85)",
+        color: "#fff",
+        border: "1px solid rgba(255,255,255,0.35)",
+        fontFamily: "Dark, sans-serif",
+        fontSize: "12px",
+        letterSpacing: "0.2em",
+        cursor: "pointer"
+    });
+
+    button.addEventListener("click", async () => {
+        button.remove();
+        started = false;
+        await startExperience();
+    }, { once: true });
+
+    document.body.appendChild(button);
+}
 
 /* =========================================================
-   FINISH ENTRY
+   FINISH CINEMATIC ENTRY
+   Music continues into the DRAVYA FIELD.
    ========================================================= */
 
 function finishField() {
-
     if (finished) return;
-
     finished = true;
 
     document.body.classList.add("field-visible");
@@ -980,47 +1020,34 @@ function finishField() {
     entry.style.pointerEvents = "none";
 
     setTimeout(() => {
-
         entry.style.visibility = "hidden";
         video.pause();
-
     }, 2000);
-
 }
 
-
 /* =========================================================
-   VIDEO END
+   VIDEO COMPLETION
    ========================================================= */
 
 video.addEventListener("ended", finishField);
 
-
-/* =========================================================
-   SAFETY END
-   ========================================================= */
-
 video.addEventListener("timeupdate", () => {
-
     if (
         video.duration &&
         video.currentTime >= video.duration - 0.08
     ) {
         finishField();
     }
-
 });
-
 
 /* =========================================================
    AUTOPLAY
    ========================================================= */
 
-window.addEventListener("load", startVideo);
-
+window.addEventListener("load", startExperience);
 
 /* =========================================================
-   TOUCH GESTURES
+   PREVENT PINCH GESTURES
    ========================================================= */
 
 document.addEventListener("gesturestart", event => {
@@ -1034,8 +1061,6 @@ document.addEventListener("gesturechange", event => {
 document.addEventListener("gestureend", event => {
     event.preventDefault();
 });
-
 </script>
-
 </body>
 </html>
