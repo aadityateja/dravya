@@ -677,6 +677,7 @@ body.field-visible #field {
     src="assets/intro.wav"
     preload="auto"
 ></audio>
+    <audio id="vacuumMusic" src="assets/vacc.wav" preload="auto" loop></audio>
 <!-- =======================================================
      CINEMATIC ENTRY
      ======================================================= -->
@@ -934,44 +935,46 @@ body.field-visible #field {
 </main>
 
 
+
 <script>
 /* =========================================================
-   DRAVYA FIELD — SYNCHRONIZED ENTRY + INTRO MUSIC
+   DRAVYA — CINEMATIC AUDIO SEQUENCE
+   INTRO → TRANSITION → FIELD ATMOSPHERE
    ========================================================= */
 
 const entry = document.getElementById("entry");
 const video = document.getElementById("entryVideo");
-const music = document.getElementById("introMusic");
+const introMusic = document.getElementById("introMusic");
+const vacuumMusic = document.getElementById("vacuumMusic");
 
 let finished = false;
 let started = false;
 
 /* =========================================================
-   START VIDEO AND MUSIC TOGETHER
+   START THE CINEMATIC
    ========================================================= */
 
 async function startExperience() {
-    if (started) return;
+    if (started || finished) return;
     started = true;
 
     video.muted = true;
-    music.volume = 1;
+    introMusic.volume = 1;
+    vacuumMusic.volume = 0;
 
     try {
         await Promise.all([
             video.play(),
-            music.play()
+            introMusic.play()
         ]);
     } catch (error) {
-        // Some browsers require a user interaction
-        // before allowing audio playback.
         started = false;
         showStartPrompt();
     }
 }
 
 /* =========================================================
-   USER-INITIATED FALLBACK FOR AUTOPLAY RESTRICTIONS
+   AUTOPLAY FALLBACK
    ========================================================= */
 
 function showStartPrompt() {
@@ -980,10 +983,11 @@ function showStartPrompt() {
     const button = document.createElement("button");
     button.id = "startExperience";
     button.textContent = "ENTER DRAVYA";
-    
+
     Object.assign(button.style, {
         position: "fixed",
-        inset: "auto auto 35px 50%",
+        left: "50%",
+        bottom: "35px",
         transform: "translateX(-50%)",
         zIndex: "200",
         padding: "15px 25px",
@@ -1006,18 +1010,33 @@ function showStartPrompt() {
 }
 
 /* =========================================================
-   FINISH CINEMATIC ENTRY
-   Music continues into the DRAVYA FIELD.
+   TRANSITION INTO THE FIELD
    ========================================================= */
 
-function finishField() {
+async function finishField() {
     if (finished) return;
     finished = true;
 
+    // Stop the entry music before starting the next track.
+    introMusic.pause();
+    introMusic.currentTime = 0;
+
+    // Reveal the DRAVYA FIELD.
     document.body.classList.add("field-visible");
 
+    // Fade out the cinematic.
     entry.style.opacity = "0";
     entry.style.pointerEvents = "none";
+
+    // Start the vacuum atmosphere as the content appears.
+    try {
+        vacuumMusic.currentTime = 0;
+        vacuumMusic.volume = 1;
+        await vacuumMusic.play();
+    } catch (error) {
+        // Audio playback may require a previous user gesture.
+        console.warn("Field audio could not autoplay.", error);
+    }
 
     setTimeout(() => {
         entry.style.visibility = "hidden";
@@ -1026,7 +1045,7 @@ function finishField() {
 }
 
 /* =========================================================
-   VIDEO COMPLETION
+   VIDEO END DETECTION
    ========================================================= */
 
 video.addEventListener("ended", finishField);
@@ -1047,7 +1066,7 @@ video.addEventListener("timeupdate", () => {
 window.addEventListener("load", startExperience);
 
 /* =========================================================
-   PREVENT PINCH GESTURES
+   TOUCH GESTURES
    ========================================================= */
 
 document.addEventListener("gesturestart", event => {
