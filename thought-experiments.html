@@ -1,0 +1,1119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050505">
+<meta name="description" content="DRAVYA — Thought Experiments. A cinematic archive of ideas that challenge our understanding of reality.">
+<title>DRAVYA — Thought Experiments</title>
+
+<style>
+:root {
+  --bg: #050505;
+  --fg: #e9e8e3;
+  --muted: #777770;
+  --line: rgba(235,235,225,.15);
+  --accent: #c6ff71;
+  --serif: Georgia, "Times New Roman", serif;
+  --sans: Inter, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-color: #383832 var(--bg);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+
+button, input { font: inherit; }
+
+::selection {
+  color: #050505;
+  background: var(--accent);
+}
+
+#universe {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .65;
+}
+
+.site {
+  position: relative;
+  z-index: 1;
+}
+
+nav {
+  min-height: 74px;
+  padding: 0 6vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.nav-brand {
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: .24em;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  color: var(--muted);
+}
+
+.nav-right a {
+  text-decoration: none;
+}
+
+.nav-right a:hover { color: var(--accent); }
+
+.hero {
+  min-height: 620px;
+  min-height: min(760px, 88svh);
+  padding: 100px 8vw 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .25em;
+}
+
+.hero h1 {
+  font-size: clamp(48px, 9.3vw, 132px);
+  font-weight: 400;
+  line-height: .91;
+  letter-spacing: -.085em;
+  margin: 32px 0;
+  max-width: 1050px;
+}
+
+.hero h1 span {
+  display: block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -.065em;
+  color: #85857d;
+}
+
+.hero-description {
+  font-size: 14px;
+  line-height: 1.9;
+  color: #aaa9a2;
+  max-width: 420px;
+}
+
+.hero-bottom {
+  margin-top: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 20px;
+}
+
+.enter-link {
+  display: inline-flex;
+  gap: 16px;
+  align-items: center;
+  padding: 15px 20px;
+  border: 1px solid var(--line);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: .16em;
+  transition: .25s;
+}
+
+.enter-link:hover {
+  color: #050505;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.hero-index {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .15em;
+}
+
+.section {
+  padding: 90px 8vw;
+  border-top: 1px solid var(--line);
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 25px;
+  margin-bottom: 45px;
+}
+
+.section-heading h2 {
+  font-weight: 400;
+  letter-spacing: -.055em;
+  font-size: clamp(32px, 5vw, 64px);
+  margin: 16px 0 0;
+}
+
+.section-heading p {
+  max-width: 260px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 30px;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  padding: 9px 12px;
+  cursor: pointer;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.filter:hover,
+.filter.active {
+  color: var(--fg);
+  border-color: var(--fg);
+}
+
+.search {
+  width: min(100%, 220px);
+  background: transparent;
+  color: var(--fg);
+  border: none;
+  border-bottom: 1px solid var(--line);
+  padding: 10px 2px;
+  outline: none;
+  font-size: 12px;
+}
+
+.search:focus { border-color: var(--accent); }
+
+.search::placeholder { color: var(--muted); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.experiment {
+  position: relative;
+  background: rgba(5,5,5,.94);
+  min-height: 335px;
+  padding: 27px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: background .3s;
+  outline-offset: -3px;
+}
+
+.experiment:hover,
+.experiment:focus-visible {
+  background: #11120e;
+}
+
+.experiment:hover .visual,
+.experiment:focus-visible .visual {
+  border-color: rgba(198,255,113,.45);
+}
+
+.card-top,
+.card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.card-number,
+.card-type,
+.card-bottom {
+  font-size: 9px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.card-type { color: var(--accent); }
+
+.visual {
+  height: 120px;
+  margin: 28px 0;
+  border: 1px solid rgba(255,255,255,.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .3s;
+}
+
+.visual svg {
+  width: 100%;
+  height: 100%;
+  max-width: 340px;
+  overflow: visible;
+}
+
+.experiment h3 {
+  font-family: var(--serif);
+  font-size: clamp(24px, 3vw, 35px);
+  line-height: 1.1;
+  font-weight: 400;
+  letter-spacing: -.04em;
+  margin: 0 0 12px;
+}
+
+.experiment .teaser {
+  color: #92928b;
+  font-size: 12px;
+  line-height: 1.8;
+  max-width: 390px;
+  margin: 0 0 30px;
+}
+
+.card-bottom {
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  margin-top: auto;
+}
+
+.arrow {
+  font-size: 17px;
+  color: var(--fg);
+  transition: transform .2s;
+}
+
+.experiment:hover .arrow { transform: translate(3px,-3px); }
+
+.empty {
+  display: none;
+  padding: 40px 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.statement {
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 95px 8vw;
+  border-top: 1px solid var(--line);
+}
+
+.statement blockquote {
+  margin: 25px 0;
+  max-width: 900px;
+  font: clamp(30px, 5vw, 64px)/1.15 var(--serif);
+  letter-spacing: -.045em;
+}
+
+.statement blockquote em {
+  color: #8b8b82;
+}
+
+.statement .attribution {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+footer {
+  padding: 28px 6vw;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+footer a { text-decoration: none; }
+footer a:hover { color: var(--accent); }
+
+/* Experiment detail overlay */
+
+.detail {
+  position: fixed;
+  z-index: 10;
+  inset: 0;
+  background: rgba(0,0,0,.94);
+  backdrop-filter: blur(18px);
+  overflow-y: auto;
+  display: none;
+}
+
+.detail.open { display: block; }
+
+.detail-inner {
+  max-width: 900px;
+  margin: auto;
+  padding: 25px 6vw 100px;
+}
+
+.detail-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  padding: 12px 0 25px;
+}
+
+.detail-nav button {
+  background: none;
+  border: 1px solid var(--line);
+  color: var(--fg);
+  cursor: pointer;
+  padding: 10px 14px;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.detail-nav button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.detail-hero {
+  min-height: 250px;
+  padding: 65px 0 35px;
+}
+
+.detail-hero h2 {
+  font: clamp(42px, 8vw, 90px)/.98 var(--serif);
+  letter-spacing: -.06em;
+  font-weight: 400;
+  margin: 28px 0;
+}
+
+.detail-hero .cinema {
+  font-size: 15px;
+  color: #b3b2aa;
+  line-height: 1.9;
+  max-width: 650px;
+}
+
+.detail-visual {
+  height: 250px;
+  border: 1px solid var(--line);
+  margin: 15px 0 65px;
+  overflow: hidden;
+}
+
+.detail-visual svg {
+  width: 100%;
+  height: 100%;
+}
+
+.detail-copy {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 30px;
+  padding: 28px 0;
+  border-top: 1px solid var(--line);
+}
+
+.detail-copy h3 {
+  font-size: 10px;
+  letter-spacing: .16em;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 4px 0;
+}
+
+.detail-copy p {
+  font-size: 13px;
+  line-height: 2;
+  color: #c0bfb7;
+  margin: 0;
+}
+
+.question {
+  margin: 45px 0;
+  padding: 30px;
+  border: 1px solid var(--line);
+}
+
+.question span {
+  color: var(--accent);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+}
+
+.question p {
+  font: clamp(25px, 4vw, 40px)/1.35 var(--serif);
+  margin: 20px 0 0;
+}
+
+.detail-sources {
+  border-top: 1px solid var(--line);
+  padding-top: 25px;
+}
+
+.detail-sources h3 {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.detail-sources a {
+  display: block;
+  width: fit-content;
+  margin: 14px 0;
+  font-size: 12px;
+  color: #c0bfb7;
+  text-underline-offset: 4px;
+}
+
+.detail-sources a:hover { color: var(--accent); }
+
+.detail-status {
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--muted);
+  margin-top: 25px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 650px) {
+  nav { padding: 0 5vw; }
+  .nav-right { gap: 13px; }
+  .nav-right a { font-size: 9px; }
+  .hero { padding: 85px 6vw; }
+  .hero-bottom { align-items: start; flex-direction: column; }
+  .section { padding: 70px 5vw; }
+  .section-heading { align-items: start; flex-direction: column; }
+  .grid { grid-template-columns: 1fr; }
+  .experiment { min-height: 310px; padding: 22px; }
+  .statement { padding: 75px 6vw; }
+  .detail-copy { grid-template-columns: 1fr; gap: 15px; }
+  .detail-inner { padding: 20px 6vw 70px; }
+  .detail-visual { height: 180px; }
+  footer { padding: 25px 5vw; flex-wrap: wrap; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<canvas id="universe" aria-hidden="true"></canvas>
+
+<div class="site">
+  <nav>
+    <a class="nav-brand" href="index.html">DRAVYA</a>
+    <div class="nav-right">
+      <a href="index.html">Field</a>
+      <a href="#archive">Archive</a>
+      <span>01 / 08</span>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">DRAVYA / A FIELD OF IDEAS</div>
+
+    <h1>
+      Thought
+      <span>Experiments.</span>
+    </h1>
+
+    <p class="hero-description">
+      No apparatus. No laboratory. Only an idea taken to its limits.
+      Enter imagined worlds that expose the strange foundations
+      of reality, observation, time and existence.
+    </p>
+
+    <div class="hero-bottom">
+      <a class="enter-link" href="#archive">
+        Enter the archive <span>↘</span>
+      </a>
+      <span class="hero-index">PHYSICS / PHILOSOPHY / POSSIBILITY</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="archive">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">THE COLLECTION / 001—008</div>
+          <h2>Worlds within ideas.</h2>
+        </div>
+        <p>
+          Eight thought experiments. Eight fractures in our
+          ordinary picture of reality. Select one to enter.
+        </p>
+      </div>
+
+      <div class="toolbar">
+        <div class="filters" aria-label="Filter experiments">
+          <button class="filter active" data-filter="All">All</button>
+          <button class="filter" data-filter="Quantum">Quantum</button>
+          <button class="filter" data-filter="Cosmos">Cosmos</button>
+          <button class="filter" data-filter="Thermodynamics">Entropy</button>
+          <button class="filter" data-filter="Relativity">Relativity</button>
+          <button class="filter" data-filter="Philosophy">Philosophy</button>
+        </div>
+        <input class="search" id="search" type="search"
+          placeholder="Search the archive..." aria-label="Search experiments">
+      </div>
+
+      <div class="grid" id="grid"></div>
+      <div class="empty" id="empty">No experiment found. Try another idea.</div>
+    </section>
+
+    <section class="statement">
+      <div class="eyebrow">A QUESTION, NOT AN ANSWER</div>
+      <blockquote>
+        The universe does not become less strange
+        because <em>we become familiar with it.</em>
+      </blockquote>
+      <div class="attribution">DRAVYA / OBSERVE · DISTURB · CREATE</div>
+    </section>
+  </main>
+
+  <footer>
+    <a href="index.html">DRAVYA — FIELD</a>
+    <span>Ideas are not all evidence.</span>
+    <a href="#archive">Return to the archive ↑</a>
+  </footer>
+</div>
+
+<section class="detail" id="detail" role="dialog"
+  aria-modal="true" aria-labelledby="detail-title">
+  <div class="detail-inner">
+    <div class="detail-nav">
+      <span class="eyebrow">DRAVYA / INCIDENT</span>
+      <button id="close-detail" type="button">Close ×</button>
+    </div>
+    <div id="detail-content"></div>
+  </div>
+</section>
+
+<script>
+const experiments = [
+{
+  id: "one-electron",
+  number: "001",
+  title: "The One-Electron Universe",
+  category: "Quantum",
+  year: "1940",
+  status: "Historical speculation · Not an accepted model",
+  teaser: "What if every electron in existence were the same electron?",
+  cinema: "A line enters spacetime. It folds, doubles back, crosses itself, and travels through the history of the cosmos. At one instant, the line intersects the present in countless places. Each intersection looks like another electron.",
+  scenario: "John Archibald Wheeler proposed to Richard Feynman the striking idea that all electrons might be one entity tracing a complicated path through time. In the picture, a segment traveling backward in time could be interpreted as a positron.",
+  example: "Imagine a cosmic film reel. Instead of thousands of separate electron characters, there is one worldline, looping through time. Every time the film intersects a frame, we count another electron. The positron is represented by a segment running in the opposite time direction.",
+  physics: "The idea draws on the deep relationship between electrons and positrons in relativistic quantum theory. But the one-electron universe itself is not accepted physics: it has serious problems, including the observed imbalance between electrons and positrons. In modern quantum field theory, electrons are excitations of an electron field; identical electrons are not normally treated as individually labeled copies.",
+  question: "If every electron were one entity, what would it mean for two particles to be different?",
+  sources: [
+    ["PBS Space Time — The One-Electron Universe", "https://www.pbs.org/video/the-one-electron-universe-i1nqof/"],
+    ["Richard Feynman's Nobel Lecture", "https://www.nobelprize.org/prizes/physics/1965/feynman/lecture/"]
+  ],
+  art: "worldline"
+},
+{
+  id: "boltzmann-brain",
+  number: "002",
+  title: "The Boltzmann Brain",
+  category: "Cosmos",
+  year: "Cosmology",
+  status: "A cosmological puzzle · Not an observed phenomenon",
+  teaser: "Could a solitary brain with false memories be statistically easier to produce than an entire universe?",
+  cinema: "Darkness without beginning. No stars, no planets, no history. Then, for a fleeting moment, a brain forms from a random fluctuation. It remembers a childhood, a sky full of stars, a life that may never have happened. Then it dissolves back into the dark.",
+  scenario: "In some cosmological models, rare thermal or quantum fluctuations in a sufficiently old universe could produce observers with apparent memories. This raises a disturbing statistical question: would such isolated observers outnumber observers who evolved through a long cosmic history?",
+  example: "Compare two extraordinary events. One is a universe developing stars, planets, life and observers over billions of years. The other is a brief fluctuation producing a single brain that merely appears to remember such a history. Which event is more probable depends on the cosmological model and the assumptions used to count observers.",
+  physics: "The puzzle draws on statistical mechanics, entropy and cosmology. Boltzmann's work helped explain how macroscopic thermodynamic behavior relates to microscopic states. The modern Boltzmann-brain problem is a test of certain cosmological models, not a claim that brains actually appear from nowhere. A model that predicts typical observers should have unreliable memories may be in serious trouble.",
+  question: "What would justify trusting your memories of the universe?",
+  sources: [
+    ["Stanford Encyclopedia of Philosophy — Boltzmann's Work in Statistical Physics", "https://plato.stanford.edu/entries/statphys-boltzmann/"],
+    ["Boltzmann Brain — overview", "https://en.wikipedia.org/wiki/Boltzmann_brain"]
+  ],
+  art: "brain"
+},
+{
+  id: "wigners-friend",
+  number: "003",
+  title: "Wigner's Friend",
+  category: "Quantum",
+  year: "1961",
+  status: "Quantum foundations · Interpretation remains debated",
+  teaser: "Can two observers give different accounts of the same quantum event?",
+  cinema: "A sealed laboratory floats in an endless dark. Inside, a scientist measures a quantum system and records a definite result. Outside, another scientist describes the entire sealed laboratory using quantum mechanics. The two descriptions seem to tell different stories.",
+  scenario: "Eugene Wigner imagined a friend performing a quantum measurement inside a laboratory. Wigner, outside, treats the friend, apparatus and measured system as one quantum system. Under suitable idealized assumptions, the outside description can preserve a superposition that the friend describes as a definite outcome.",
+  example: "The friend measures a spin and sees up. From the friend's perspective, the measurement has an outcome. Wigner has not yet interacted with the lab and instead models the combined lab as a superposition of possible measurement outcomes. The puzzle asks how those descriptions fit together.",
+  physics: "This is a thought experiment about the measurement problem and the status of quantum states. It does not establish that human consciousness creates reality, nor that an actual contradiction must occur in every interpretation. Different quantum interpretations treat the observer, measurement and state differently. More elaborate Wigner-friend experiments explore which combinations of assumptions can be maintained.",
+  question: "When does a possibility become an outcome — and for whom?",
+  sources: [
+    ["Quantum Foundations — Wigner's Friend", "https://www.quantumfoundations.org/wigners-friend-thought-experiment.html"],
+    ["Wigner's Friend — overview", "https://en.wikipedia.org/wiki/Wigner%27s_friend"]
+  ],
+  art: "lab"
+},
+{
+  id: "schrodinger-cat",
+  number: "004",
+  title: "Schrödinger's Cat",
+  category: "Quantum",
+  year: "1935",
+  status: "Foundational thought experiment",
+  teaser: "What happens when quantum uncertainty is extended to the world of cats and boxes?",
+  cinema: "A box stands in an empty room. Inside, an atom waits to decay. A detector is connected to a mechanism that could release poison. One hour passes. Outside the box, nothing appears to have happened. Yet the description of what lies inside becomes deeply strange.",
+  scenario: "Erwin Schrödinger imagined a cat in a sealed box, linked to a radioactive decay event. If the atom decays, a mechanism kills the cat; if it does not, the cat survives. The example exposes the difficulty of applying quantum superposition to ordinary macroscopic objects.",
+  example: "Suppose the atom has a 50% chance of decaying during the chosen interval. Quantum theory assigns a superposition to the relevant microscopic alternatives. If the whole setup is treated as an isolated quantum system, the corresponding description includes correlated live-cat and dead-cat branches.",
+  physics: "Schrödinger introduced this scenario to challenge and clarify the implications of quantum mechanics, not to establish that everyday cats are simply seen as both alive and dead. Decoherence helps explain why interference between macroscopic alternatives becomes extraordinarily difficult to observe. What counts as a definite outcome remains connected to deeper questions about quantum measurement and interpretation.",
+  question: "Where, exactly, does the quantum description give way to the world we experience?",
+  sources: [
+    ["American Physical Society — Schrödinger's Cat", "https://www.aps.org/apsnews/2002/03/march-1935-schroedingers-paradoxical-cat"],
+    ["NASA Fermi — Schrödinger's Cat", "https://fermi.gsfc.nasa.gov/science/constellations/pages/schrodinger.html"]
+  ],
+  art: "cat"
+},
+{
+  id: "maxwell-demon",
+  number: "005",
+  title: "Maxwell's Demon",
+  category: "Thermodynamics",
+  year: "1867",
+  status: "Thought experiment · Modern resolution involves information",
+  teaser: "Could an intelligent observer apparently reverse the natural flow of heat?",
+  cinema: "Two chambers share a wall. Gas molecules collide in every direction. Between the chambers, a tiny door opens and closes. An unseen gatekeeper watches every molecule, allowing some to pass while rejecting others. Slowly, one side becomes hot and the other cold.",
+  scenario: "James Clerk Maxwell imagined a small being that could sort fast and slow gas molecules between two chambers without apparently doing work. The resulting temperature difference seems to challenge the second law of thermodynamics.",
+  example: "The demon lets fast molecules enter chamber B and slow molecules enter chamber A. If this sorting could occur without any physical or informational cost, a temperature difference could grow without the usual expenditure of work.",
+  physics: "The apparent paradox exposes the relationship between entropy, measurement and information. A demon must acquire, store and eventually reset information about molecular states. In standard analyses, the thermodynamic cost of information processing and memory erasure prevents a simple free violation of the second law.",
+  question: "Can information be used to manipulate physical reality without paying a physical price?",
+  sources: [
+    ["Stanford Encyclopedia of Philosophy — Boltzmann's Work in Statistical Physics", "https://plato.stanford.edu/entries/statphys-boltzmann/"],
+    ["Maxwell's Demon — overview", "https://en.wikipedia.org/wiki/Maxwell%27s_demon"]
+  ],
+  art: "demon"
+},
+{
+  id: "einstein-light",
+  number: "006",
+  title: "Chasing a Beam of Light",
+  category: "Relativity",
+  year: "1895 · Retrospective thought experiment",
+  status: "Historical thought experiment · Relativity is experimentally established",
+  teaser: "What would you see if you could race alongside a beam of light?",
+  cinema: "You are sixteen. You imagine running faster and faster beside a ray of light. At last, you catch it. Beside you is a frozen wave, motionless in space. The image seems simple. Its consequences are not.",
+  scenario: "Einstein later described imagining what it would mean to chase a light wave. Classical electromagnetic theory does not permit the simple stationary light wave that this picture suggests. The tension helped motivate his thinking about space, time and relativity.",
+  example: "Imagine a surfer trying to match the speed of a wave. For ordinary waves, a suitable observer can move with the wave. But in special relativity, an inertial observer cannot move at the speed of light, and every inertial observer measures vacuum light at the same speed.",
+  physics: "Special relativity, published in 1905, reconciles the principle of relativity with the invariance of the vacuum speed of light. The familiar story is a useful illustration, but it should not be treated as the sole cause of the theory; Einstein's development drew on broader theoretical and experimental questions.",
+  question: "If time and space depend on the observer, what does it mean for two observers to share one reality?",
+  sources: [
+    ["Einstein's Light Beam — discussion of classic thought experiments", "https://www.wired.com/2007/05/st-best-4/"]
+  ],
+  art: "light"
+},
+{
+  id: "fermi-paradox",
+  number: "007",
+  title: "The Fermi Paradox",
+  category: "Cosmos",
+  year: "1950",
+  status: "Open scientific question · No confirmed extraterrestrial civilization",
+  teaser: "If the universe is so vast, where is everybody?",
+  cinema: "Billions of stars burn across the night. Planets form. Some may have oceans. Some may have chemistry that resembles the chemistry that preceded life on Earth. Civilizations could rise and fall across cosmic time. Yet the sky remains silent.",
+  scenario: "The Fermi paradox contrasts the immense number of stars and potentially habitable worlds with the lack of confirmed evidence for extraterrestrial civilizations. It asks why we have not observed convincing signs of them, if technological life is common and detectable.",
+  example: "Imagine a civilization that develops interstellar travel millions of years before humanity. Even slow expansion over enormous timescales might appear to make a galaxy-wide presence possible. Yet that conclusion depends on assumptions about the origin, survival, expansion and detectability of civilizations.",
+  physics: "There is no established contradiction in physics. The paradox depends on uncertain estimates of how often life begins, intelligence evolves, technology develops and civilizations remain detectable. We have not confirmed extraterrestrial life or a technological signal, and absence of confirmed detection is not proof that no one exists.",
+  question: "Is the universe silent — or are we asking the wrong question?",
+  sources: [
+    ["NASA — Are We Alone?", "https://science.nasa.gov/universe/search-for-life/"]
+  ],
+  art: "cosmos"
+},
+{
+  id: "simulation",
+  number: "008",
+  title: "The Simulation Argument",
+  category: "Philosophy",
+  year: "2003",
+  status: "Philosophical argument · No empirical proof of simulation",
+  teaser: "Could an apparently physical universe be generated by a deeper computational reality?",
+  cinema: "You touch a wall. It feels solid. You look at the stars and measure their light. Every observation obeys a pattern. But imagine, for a moment, that the laws you discover are not the deepest layer of existence. Imagine that they are the rules of a system running beneath your world.",
+  scenario: "Philosopher Nick Bostrom's simulation argument considers a set of conditional possibilities involving the survival of advanced civilizations, their ability to run vast numbers of ancestor simulations, and the proportion of observers who might exist inside them.",
+  example: "Suppose a future civilization could create many realistic simulated worlds containing conscious observers. If it did so in enormous numbers, simulated observers might outnumber observers in the original world. Under particular assumptions, this affects how one reasons about which kind of observer one is.",
+  physics: "This is not an established physical theory or evidence that our universe is simulated. The argument depends on controversial assumptions about consciousness, computation, civilizations and observer counting. It does not offer a generally accepted experiment that demonstrates we live in a simulation.",
+  question: "If a world obeys consistent laws and contains conscious observers, what would distinguish it from a deeper reality?",
+  sources: [
+    ["Nick Bostrom — Are You Living in a Computer Simulation?", "https://simulation-argument.com/simulation.html"]
+  ],
+  art: "simulation"
+}
+];
+
+const NS = "http://www.w3.org/2000/svg";
+
+function svg(content, label = "") {
+  return `<svg viewBox="0 0 400 160" role="img"
+    aria-label="${label}" xmlns="${NS}">${content}</svg>`;
+}
+
+function artFor(type, large = false) {
+  const glow = large ? 7 : 4;
+  const common = `fill="none" stroke="#c6ff71" stroke-width="1.1"`;
+  const faint = `fill="none" stroke="#aaa99f" stroke-opacity=".35" stroke-width=".7"`;
+  let s = "";
+
+  if (type === "worldline") {
+    s = `<path ${faint} d="M200 10 V150"/>
+      <path ${faint} d="M20 80 H380"/>
+      <path ${common} d="M35 142 C120 142 120 18 200 18 S280 142 365 142"/>
+      <path ${common} d="M35 130 C120 130 120 30 200 30 S280 130 365 130" opacity=".35"/>
+      <circle cx="200" cy="80" r="${glow}" fill="#c6ff71"/>
+      <circle cx="200" cy="80" r="18" fill="none" stroke="#c6ff71" stroke-opacity=".4"/>`;
+  } else if (type === "brain") {
+    s = `<circle cx="200" cy="80" r="56" ${faint}/>
+      <circle cx="200" cy="80" r="34" ${faint}/>
+      <path ${common} d="M198 44 C164 30 145 62 163 78 C140 97 164 126 190 108 C204 132 232 111 223 93 C249 73 224 44 204 54 C200 48 199 46 198 44 Z"/>
+      <path ${faint} d="M197 48 V110 M169 66 L192 77 M222 62 L203 79 M172 95 L193 89 M222 98 L205 91"/>`;
+  } else if (type === "lab") {
+    s = `<rect x="105" y="23" width="190" height="114" ${faint}/>
+      <rect x="125" y="40" width="150" height="80" ${common}/>
+      <circle cx="165" cy="80" r="15" ${common}/>
+      <path ${common} d="M181 80 H224"/>
+      <circle cx="242" cy="80" r="14" ${common}/>
+      <path ${faint} d="M200 23 V137"/>
+      <circle cx="200" cy="80" r="5" fill="#c6ff71"/>`;
+  } else if (type === "cat") {
+    s = `<rect x="116" y="25" width="168" height="110" ${faint}/>
+      <path ${common} d="M159 100 L160 70 L176 80 L200 75 L224 80 L240 70 L241 100 Q200 130 159 100 Z"/>
+      <circle cx="184" cy="92" r="2" fill="#c6ff71"/>
+      <circle cx="216" cy="92" r="2" fill="#c6ff71"/>
+      <path ${common} d="M195 102 L200 106 L205 102"/>
+      <path ${faint} d="M200 10 V25 M200 135 V150"/>`;
+  } else if (type === "demon") {
+    s = `<rect x="62" y="35" width="276" height="90" ${faint}/>
+      <path ${common} d="M200 35 V125"/>
+      <g fill="#c6ff71">
+        <circle cx="95" cy="58" r="3"/><circle cx="125" cy="90" r="3"/>
+        <circle cx="163" cy="66" r="3"/><circle cx="183" cy="105" r="3"/>
+        <circle cx="228" cy="55" r="3"/><circle cx="262" cy="92" r="3"/>
+        <circle cx="295" cy="65" r="3"/><circle cx="315" cy="105" r="3"/>
+      </g>
+      <path ${faint} d="M95 58 L125 90 L163 66 L183 105 M228 55 L262 92 L295 65 L315 105"/>`;
+  } else if (type === "light") {
+    s = `<path ${faint} d="M20 80 H380"/>
+      <path ${common} d="M30 80 Q45 30 60 80 T90 80 T120 80 T150 80 T180 80 T210 80 T240 80 T270 80 T300 80 T330 80 T360 80"/>
+      <path ${common} d="M30 40 H360" opacity=".5"/>
+      <path ${faint} d="M360 30 V130"/>
+      <circle cx="200" cy="80" r="5" fill="#c6ff71"/>`;
+  } else if (type === "cosmos") {
+    s = `<circle cx="200" cy="80" r="60" ${faint}/>
+      <ellipse cx="200" cy="80" rx="100" ry="30" transform="rotate(-30 200 80)" ${common}/>
+      <ellipse cx="200" cy="80" rx="140" ry="48" transform="rotate(25 200 80)" ${faint}/>
+      <circle cx="200" cy="80" r="4" fill="#c6ff71"/>
+      <circle cx="120" cy="43" r="2" fill="#c6ff71"/>
+      <circle cx="292" cy="105" r="2" fill="#c6ff71"/>
+      <circle cx="270" cy="48" r="2" fill="#c6ff71"/>`;
+  } else {
+    s = `<rect x="80" y="25" width="240" height="110" ${faint}/>
+      <rect x="102" y="43" width="196" height="74" ${common}/>
+      <path ${faint} d="M80 80 H320 M200 25 V135"/>
+      <path ${common} d="M102 95 L150 56 L195 89 L245 50 L298 95"/>
+      <circle cx="200" cy="80" r="5" fill="#c6ff71"/>`;
+  }
+
+  return svg(s, type + " conceptual illustration");
+}
+
+const grid = document.getElementById("grid");
+const search = document.getElementById("search");
+const empty = document.getElementById("empty");
+const detail = document.getElementById("detail");
+const detailContent = document.getElementById("detail-content");
+
+let activeFilter = "All";
+let lastFocus = null;
+
+function renderCards() {
+  const q = search.value.trim().toLowerCase();
+
+  const visible = experiments.filter(e => {
+    const matchesCategory = activeFilter === "All" ||
+      e.category === activeFilter;
+
+    const searchable = [
+      e.title, e.category, e.teaser, e.cinema,
+      e.scenario, e.example, e.physics
+    ].join(" ").toLowerCase();
+
+    return matchesCategory && searchable.includes(q);
+  });
+
+  grid.innerHTML = visible.map(e => `
+    <article class="experiment" tabindex="0" role="button"
+      data-id="${e.id}" aria-label="Explore ${e.title}">
+      <div class="card-top">
+        <span class="card-number">INCIDENT / ${e.number}</span>
+        <span class="card-type">${e.category}</span>
+      </div>
+      <div class="visual">${artFor(e.art)}</div>
+      <h3>${e.title}</h3>
+      <p class="teaser">${e.teaser}</p>
+      <div class="card-bottom">
+        <span>${e.year}</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </div>
+    </article>
+  `).join("");
+
+  empty.style.display = visible.length ? "none" : "block";
+}
+
+function openExperiment(id, trigger) {
+  const e = experiments.find(item => item.id === id);
+  if (!e) return;
+
+  lastFocus = trigger || document.activeElement;
+
+  detailContent.innerHTML = `
+    <header class="detail-hero">
+      <div class="eyebrow">INCIDENT ${e.number} / ${e.category}</div>
+      <h2 id="detail-title">${e.title}</h2>
+      <p class="cinema">${e.cinema}</p>
+    </header>
+
+    <div class="detail-visual">${artFor(e.art, true)}</div>
+
+    <section class="detail-copy">
+      <h3>The scenario</h3>
+      <p>${e.scenario}</p>
+    </section>
+
+    <section class="detail-copy">
+      <h3>Imagine this</h3>
+      <p>${e.example}</p>
+    </section>
+
+    <section class="detail-copy">
+      <h3>What physics says</h3>
+      <p>${e.physics}</p>
+    </section>
+
+    <div class="question">
+      <span>The disturbance</span>
+      <p>${e.question}</p>
+    </div>
+
+    <section class="detail-sources">
+      <h3>Further reading / sources</h3>
+      ${e.sources.map(([label, url]) =>
+        `<a href="${url}" target="_blank" rel="noopener noreferrer">${label} ↗</a>`
+      ).join("")}
+    </section>
+
+    <div class="detail-status">${e.status}</div>
+  `;
+
+  detail.classList.add("open");
+  document.body.style.overflow = "hidden";
+  document.getElementById("close-detail").focus();
+}
+
+function closeExperiment() {
+  detail.classList.remove("open");
+  document.body.style.overflow = "";
+  if (lastFocus && typeof lastFocus.focus === "function") {
+    lastFocus.focus();
+  }
+}
+
+grid.addEventListener("click", event => {
+  const card = event.target.closest(".experiment");
+  if (card) openExperiment(card.dataset.id, card);
+});
+
+grid.addEventListener("keydown", event => {
+  if (event.target.classList.contains("experiment") &&
+      (event.key === "Enter" || event.key === " ")) {
+    event.preventDefault();
+    openExperiment(event.target.dataset.id, event.target);
+  }
+});
+
+document.querySelectorAll(".filter").forEach(button => {
+  button.addEventListener("click", () => {
+    activeFilter = button.dataset.filter;
+
+    document.querySelectorAll(".filter").forEach(item => {
+      const selected = item === button;
+      item.classList.toggle("active", selected);
+      item.setAttribute("aria-pressed", String(selected));
+    });
+
+    renderCards();
+  });
+
+  button.setAttribute(
+    "aria-pressed",
+    String(button.classList.contains("active"))
+  );
+});
+
+search.addEventListener("input", renderCards);
+document.getElementById("close-detail").addEventListener("click", closeExperiment);
+
+detail.addEventListener("click", event => {
+  if (event.target === detail) closeExperiment();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && detail.classList.contains("open")) {
+    closeExperiment();
+  }
+});
+
+renderCards();
+
+/* Quiet, ambient particles: no libraries required. */
+const canvas = document.getElementById("universe");
+const ctx = canvas.getContext("2d");
+const reducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+);
+
+let width = 0, height = 0, particles = [], frame = 0;
+
+function resizeCanvas() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  width = window.innerWidth;
+  height = window.innerHeight;
+
+  canvas.width = Math.floor(width * dpr);
+  canvas.height = Math.floor(height * dpr);
+  canvas.style.width = width + "px";
+  canvas.style.height = height + "px";
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const count = Math.min(75, Math.floor(width / 18));
+  particles = Array.from({length: count}, () => ({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    r: Math.random() * 1.1 + .25,
+    speed: Math.random() * .12 + .025,
+    phase: Math.random() * Math.PI * 2
+  }));
+
+  drawCanvas();
+}
+
+function drawCanvas() {
+  ctx.clearRect(0, 0, width, height);
+
+  particles.forEach((p, i) => {
+    const pulse = .18 + .24 *
+      (0.5 + 0.5 * Math.sin(p.phase + frame * .008));
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(198,255,113,${pulse})`;
+    ctx.fill();
+
+    if (!reducedMotion.matches) {
+      p.y -= p.speed;
+      if (p.y < -3) {
+        p.y = height + 3;
+        p.x = Math.random() * width;
+      }
+    }
+
+    for (let j = i + 1; j < particles.length; j++) {
+      const other = particles[j];
+      const dx = p.x - other.x;
+      const dy = p.y - other.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < 95) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(other.x, other.y);
+        ctx.strokeStyle =
+          `rgba(198,255,113,${.045 * (1 - distance / 95)})`;
+        ctx.stroke();
+      }
+    }
+  });
+
+  frame++;
+  if (!reducedMotion.matches) {
+    requestAnimationFrame(drawCanvas);
+  }
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+</script>
+</body>
+</html>
