@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="137 — a quiet scientific archive about the fine-structure constant, its history, and the question of why it has this value.">
+  <meta name="theme-color" content="#071A33">
+  <title>137 — A Number That Refuses to Explain Itself</title>
+  <style>
+    /* CONFIGURATION — edit the title, subtitle and colours in CONFIG below.
+       Change the remaining archive copy directly in its semantic section. */
+    :root {
+      --night: #071A33;
+      --phosphor: #F4F5F7;
+      --page-width: 74rem;
+      --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 6.5rem; }
+    body {
+      margin: 0;
+      background: var(--night);
+      color: var(--phosphor);
+      font-family: var(--mono);
+      font-size: 1rem;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    body, button, a { color: var(--phosphor); }
+    a { text-decoration-thickness: 1px; text-underline-offset: .24em; }
+    a:visited { color: var(--phosphor); }
+    a:hover { text-decoration-thickness: 2px; }
+    a:focus-visible, button:focus-visible, summary:focus-visible {
+      outline: 2px solid var(--phosphor);
+      outline-offset: 4px;
+    }
+    button { font: inherit; }
+    ::selection { color: var(--night); background: var(--phosphor); }
+    .skip-link {
+      position: fixed;
+      z-index: 10;
+      top: .75rem;
+      left: .75rem;
+      padding: .5rem .75rem;
+      background: var(--phosphor);
+      color: var(--night);
+      transform: translateY(-160%);
+    }
+    .skip-link:focus { transform: translateY(0); }
+    .gate {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 2rem 1.25rem;
+      text-align: center;
+    }
+    .gate-inner { width: min(100%, 52rem); }
+    .gate-number {
+      margin: 0;
+      font-size: clamp(9rem, 29vw, 24rem);
+      font-weight: 400;
+      letter-spacing: -.105em;
+      line-height: .83;
+    }
+    .gate-title {
+      margin: 2.5rem 0 .75rem;
+      font-size: clamp(.76rem, 1.7vw, 1rem);
+      font-weight: 400;
+      letter-spacing: .19em;
+      line-height: 1.6;
+    }
+    .gate-lines { margin: 1.5rem 0 3.75rem; line-height: 1.95; }
+    .entry-button, .value-button, .equation-button, .answer-button {
+      border: 1px solid var(--phosphor);
+      border-radius: 0;
+      background: var(--night);
+      color: var(--phosphor);
+      cursor: pointer;
+    }
+    .entry-button { padding: .8rem 1.1rem; font-size: .78rem; letter-spacing: .12em; }
+    .entry-button:hover, .value-button:hover, .equation-button:hover, .answer-button:hover,
+    .value-button[aria-pressed="true"], .equation-button[aria-pressed="true"], .answer-button[aria-pressed="true"] {
+      background: var(--phosphor);
+      color: var(--night);
+    }
+    .gate-foot { margin: 2.25rem 0 0; font-size: .66rem; letter-spacing: .13em; }
+    .archive { display: none; }
+    .entered .gate { display: none; }
+    .entered .archive { display: block; animation: arrival .42s ease-out both; }
+    @keyframes arrival { from { transform: translateY(.65rem); } to { transform: translateY(0); } }
+    .topline {
+      position: sticky;
+      z-index: 5;
+      top: 0;
+      border-bottom: 1px solid var(--phosphor);
+      background: var(--night);
+    }
+    .topline-inner {
+      width: min(calc(100% - 2.5rem), var(--page-width));
+      margin: 0 auto;
+      padding: .8rem 0 .65rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+    .wordmark { flex: 0 0 auto; font-size: .7rem; line-height: 1.4; text-decoration: none; letter-spacing: .06em; }
+    .wordmark small { font-size: .58rem; }
+    .index-nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .15rem 1.1rem; }
+    .index-nav a { font-size: .63rem; letter-spacing: .07em; text-decoration: none; }
+    .index-nav a:hover, .index-nav a:focus-visible { text-decoration: underline; }
+    .page { width: min(calc(100% - 2.5rem), var(--page-width)); margin: 0 auto; }
+    .section { padding: clamp(5rem, 12vw, 10rem) 0; border-bottom: 1px solid var(--phosphor); }
+    .section:first-child { padding-top: clamp(4rem, 9vw, 7rem); }
+    .section-meta, .eyebrow, .small-label {
+      margin: 0 0 1.4rem;
+      font-size: .66rem;
+      font-weight: 400;
+      letter-spacing: .15em;
+      line-height: 1.55;
+      text-transform: uppercase;
+    }
+    h1, h2, h3, p { overflow-wrap: anywhere; }
+    h1, h2, h3 { font-weight: 400; line-height: 1.22; }
+    h2 { max-width: 18ch; margin: 0 0 2.25rem; font-size: clamp(2.2rem, 6vw, 5rem); letter-spacing: -.065em; }
+    h3 { margin: 0 0 .8rem; font-size: clamp(1.15rem, 2.3vw, 1.65rem); }
+    p { max-width: 70ch; margin: 0 0 1.2rem; }
+    .lead { max-width: 54ch; font-size: clamp(1.05rem, 2vw, 1.35rem); }
+    .muted { max-width: 68ch; }
+    .hero-number { margin: 1.75rem 0 1rem; font-size: clamp(5rem, 19vw, 15rem); letter-spacing: -.1em; line-height: .9; }
+    .hero-subtitle { margin: 0 0 3.25rem; max-width: 44ch; font-size: clamp(1rem, 2vw, 1.3rem); }
+    .value-switch, .equation-switch, .answers { display: flex; flex-wrap: wrap; gap: .6rem; margin: 2rem 0; }
+    .value-button, .equation-button, .answer-button { padding: .55rem .75rem; font-size: .74rem; }
+    .value-display {
+      min-height: 5.2rem;
+      margin: 2rem 0 1rem;
+      padding: 1.2rem 0;
+      border-top: 1px solid var(--phosphor);
+      border-bottom: 1px solid var(--phosphor);
+      font-size: clamp(1.3rem, 4vw, 2.7rem);
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+    .value-keys { margin: 2rem 0; padding: 0; list-style: none; }
+    .value-keys li { padding: .75rem 0; border-bottom: 1px solid var(--phosphor); }
+    .value-keys strong { font-weight: 400; }
+    .equation {
+      margin: 1.4rem 0;
+      padding: 1.1rem 0;
+      border-top: 1px solid var(--phosphor);
+      border-bottom: 1px solid var(--phosphor);
+      font-size: clamp(1.3rem, 4vw, 2.5rem);
+      text-align: center;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+    .symbols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 2rem; margin: 2rem 0; }
+    .symbols div { padding: .65rem 0; border-bottom: 1px solid var(--phosphor); }
+    .symbols dt { font-size: 1.1rem; }
+    .symbols dd { margin: .15rem 0 0; }
+    .note { margin: 2.25rem 0; padding: .85rem 1rem; border-left: 2px solid var(--phosphor); }
+    .note p:last-child { margin-bottom: 0; }
+    .columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem; }
+    .archive-index { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem 2rem; margin: 3rem 0 0; padding: 0; list-style: none; }
+    .archive-index a { font-size: .8rem; }
+    .timeline { margin: 3rem 0 0; padding: 0; list-style: none; }
+    .timeline li { display: grid; grid-template-columns: minmax(7rem, 10rem) 1fr; gap: 1.4rem; padding: 1.5rem 0; border-top: 1px solid var(--phosphor); }
+    .timeline time { font-size: .77rem; letter-spacing: .08em; }
+    .timeline p { margin-bottom: .65rem; }
+    .source-inline { font-size: .75rem; }
+    .equation-entry { margin: 2rem 0; padding: 0 0 1.8rem; border-bottom: 1px solid var(--phosphor); }
+    .equation-entry.is-active { padding-left: 1rem; border-left: 2px solid var(--phosphor); }
+    .equation-entry details { margin-top: 1rem; }
+    summary { cursor: pointer; text-decoration: underline; text-underline-offset: .22em; }
+    .answer-response { min-height: 5rem; margin: 1rem 0 0; padding: 1rem 0; border-top: 1px solid var(--phosphor); }
+    .reading-category { margin: 3rem 0 0; }
+    .reading-category h3 { padding-bottom: .8rem; border-bottom: 1px solid var(--phosphor); }
+    .reading-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 2rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+    .reading-list li { padding: .9rem 0; border-bottom: 1px solid var(--phosphor); }
+    .reading-list p { margin: .4rem 0; font-size: .85rem; }
+    .reading-list .resource-meta { font-size: .66rem; letter-spacing: .06em; }
+    .tag { display: inline-block; margin-top: .2rem; font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; }
+    .pauli-intro { max-width: 61ch; }
+    .pauli-story { margin-top: clamp(4rem, 12vw, 9rem); padding-top: 2rem; border-top: 1px solid var(--phosphor); }
+    .room-mark { margin: 2rem 0; font-size: clamp(8rem, 25vw, 20rem); letter-spacing: -.1em; line-height: .82; }
+    .quiet-gap { height: clamp(5rem, 17vw, 14rem); }
+    .pauli-coda { max-width: 61ch; }
+    .coda-number { margin: 0 0 1rem; font-size: clamp(7rem, 22vw, 18rem); letter-spacing: -.1em; line-height: .82; }
+    .coda-lines { margin: 2rem 0; font-size: clamp(1.1rem, 3vw, 2rem); line-height: 1.65; }
+    .ending { padding: clamp(5rem, 13vw, 11rem) 0; text-align: center; }
+    .ending-value { margin: 1.2rem 0 2rem; font-size: clamp(2rem, 7vw, 5rem); letter-spacing: -.06em; overflow-wrap: anywhere; }
+    .ending-lines { margin: 2rem auto; line-height: 2; }
+    .footer { padding: 2rem 0 4rem; font-size: .72rem; }
+    .footer p { margin-bottom: .45rem; }
+    .footnote { font-size: .72rem; }
+    .noscript-note { margin: 1rem 0; }
+
+    @media (max-width: 760px) {
+      .topline { position: static; }
+      .topline-inner { width: min(calc(100% - 2rem), var(--page-width)); display: block; }
+      .wordmark { display: inline-block; margin-bottom: .8rem; }
+      .index-nav { justify-content: flex-start; gap: .35rem 1rem; }
+      .index-nav a { font-size: .68rem; }
+      .page { width: min(calc(100% - 2rem), var(--page-width)); }
+      .section { padding: 5rem 0; }
+      .timeline li { grid-template-columns: 1fr; gap: .35rem; }
+      .columns, .reading-list, .symbols, .archive-index { grid-template-columns: 1fr; }
+      .gate-number { font-size: clamp(8rem, 38vw, 16rem); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+  <noscript><style>.gate{display:none!important}.archive{display:block!important}</style></noscript>
+</head>
+<body>
+  <a class="skip-link" href="#the-number">Skip to the archive</a>
+
+  <section class="gate" id="gate" aria-labelledby="gate-heading">
+    <div class="gate-inner">
+      <p class="gate-number" aria-label="137">137</p>
+      <h1 class="gate-title" id="gate-heading">THE FINE-STRUCTURE CONSTANT</h1>
+      <p class="gate-lines">A dimensionless number.<br>An electromagnetic interaction.<br>A question that remains.</p>
+      <button class="entry-button" id="enter-button" type="button">[ ENTER THE ARCHIVE ]</button>
+      <p class="gate-foot">A SMALL SCIENTIFIC ARCHIVE · EST. CURIOSITY</p>
+    </div>
+  </section>
+
+  <div class="archive" id="archive">
+    <header class="topline">
+      <div class="topline-inner">
+        <a class="wordmark" href="#the-number" aria-label="137 archive, return to the number">137<br><small>A NUMBER THAT REFUSES TO EXPLAIN ITSELF</small></a>
+        <nav class="index-nav" aria-label="Archive sections">
+          <a href="#the-number">THE NUMBER</a>
+          <a href="#fine-structure">FINE STRUCTURE</a>
+          <a href="#timeline">TIMELINE</a>
+          <a href="#pauli">PAULI</a>
+          <a href="#the-question">THE QUESTION</a>
+          <a href="#equation-desk">EQUATION DESK</a>
+          <a href="#reading-room">READING ROOM</a>
+          <a href="#about">ABOUT</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="section" id="the-number" aria-labelledby="number-title">
+        <p class="section-meta">ARCHIVE / 001 — THE CONSTANT</p>
+        <h1 class="hero-number" id="number-title">137</h1>
+        <p class="hero-subtitle" id="archive-subtitle">A scientific archive, a history of ideas, and a tribute to one of the fundamental constants of nature.</p>
+        <p class="lead">The fine-structure constant, written α, sets the scale of the electromagnetic interaction. It has no units. Its measured value is known with extraordinary precision. Its place in a deeper explanation remains open.</p>
+
+        <div class="value-switch" role="group" aria-label="Choose a way to display the constant">
+          <button class="value-button" type="button" data-value="alpha" aria-pressed="true">α</button>
+          <button class="value-button" type="button" data-value="inverse" aria-pressed="false">1/α</button>
+          <button class="value-button" type="button" data-value="approx" aria-pressed="false">1/137</button>
+        </div>
+        <p class="value-display" id="value-display" aria-live="polite">α = 7.2973525643(11) × 10<sup>−3</sup></p>
+        <p class="footnote">2022 CODATA recommended value. In parentheses, the digits give the standard uncertainty in the final quoted digits: here (11) means 0.0000000011 in the displayed coefficient, before multiplication by 10<sup>−3</sup>. <a href="https://physics.nist.gov/cuu/pdf/wall_2022.pdf">NIST/CODATA 2022 table</a>.</p>
+        <ul class="value-keys" aria-label="All three useful forms">
+          <li><strong>α</strong> &nbsp; 7.2973525643(11) × 10<sup>−3</sup></li>
+          <li><strong>α<sup>−1</sup></strong> &nbsp; 137.035999177(21)</li>
+          <li><strong>Approximation</strong> &nbsp; α ≈ 1/137</li>
+        </ul>
+        <p>The familiar 137 is a useful approximation to the reciprocal. It is not the exact reciprocal of the modern measured value.</p>
+
+        <div class="equation">α = <span aria-label="e squared over four pi epsilon naught h bar c">e<sup>2</sup> / (4πε<sub>0</sub>ℏc)</span></div>
+        <p>This is the SI expression for α. Together, the constants form a dimensionless ratio: the units cancel. A dimensionless value can be compared across unit systems without changing its number.</p>
+        <dl class="symbols">
+          <div><dt>e</dt><dd>Elementary electric charge.</dd></div>
+          <div><dt>ε<sub>0</sub></dt><dd>Vacuum permittivity.</dd></div>
+          <div><dt>ℏ</dt><dd>Reduced Planck constant, h divided by 2π.</dd></div>
+          <div><dt>c</dt><dd>Speed of light in vacuum.</dd></div>
+        </dl>
+        <p>In quantum electrodynamics, α is the low-energy electromagnetic coupling: a measure of interaction strength that organizes calculations. It is not the literal probability that an electron absorbs a photon. Amplitudes and probabilities depend on the particular quantum process.</p>
+        <p class="source-inline">Reference: <a href="https://pml.nist.gov/cuu/Constants/alpha.html">NIST, “Current advances: The fine-structure constant”</a>.</p>
+      </section>
+
+      <section class="section" id="fine-structure" aria-labelledby="fine-title">
+        <p class="section-meta">ARCHIVE / 002 — THE SPECTRUM</p>
+        <h2 id="fine-title">What does fine structure mean?</h2>
+        <p class="lead">Begin with hydrogen: one electron, one proton, and a spectrum made of distinct lines.</p>
+        <div class="columns">
+          <div>
+            <h3>Lines, then splittings</h3>
+            <p>Atoms do not emit every possible colour continuously. Their spectra contain lines corresponding to transitions between discrete energy levels. With sufficiently precise observation, some levels resolve into very close neighbours. Those small separations are called fine structure.</p>
+          </div>
+          <div>
+            <h3>A correction with a scale</h3>
+            <p>In 1916 Arnold Sommerfeld extended the Bohr model with elliptical orbits and relativistic corrections. The fine-structure constant appeared naturally and set the scale of those corrections. The old quantum model was an important step, not a complete account: it did not adequately explain electron spin.</p>
+          </div>
+        </div>
+        <p>In 1928, Paul Dirac's relativistic quantum theory of the electron brought spin into the description and accounted for hydrogen's fine-structure pattern more completely. Modern quantum theory adds further effects, including radiative corrections such as the Lamb shift.</p>
+        <div class="equation">E<sub>h</sub> = α<sup>2</sup>m<sub>e</sub>c<sup>2</sup></div>
+        <p>The Hartree energy E<sub>h</sub> is the characteristic nonrelativistic atomic energy scale. Leading fine-structure corrections are smaller by roughly α<sup>2</sup> relative to that scale: atomic binding is of order α<sup>2</sup>m<sub>e</sub>c<sup>2</sup>, while the correction is of order α<sup>4</sup>m<sub>e</sub>c<sup>2</sup>.</p>
+        <details>
+          <summary>A little more about the old model</summary>
+          <p>Sommerfeld's quantized relativistic orbits reproduced important regularities in hydrogen-like spectra. It predated modern wave mechanics and the electron-spin framework. The Dirac equation later supplied a relativistic quantum description in which spin is part of the theory itself; QED then refines energy levels through interactions with the quantized electromagnetic field.</p>
+        </details>
+        <p class="source-inline">Sources: <a href="https://pml.nist.gov/cuu/Constants/alpha.html">NIST on Sommerfeld and α</a>; <a href="https://doi.org/10.1002/andp.19163561802">Sommerfeld, 1916</a>; <a href="https://doi.org/10.1098/rspa.1928.0023">Dirac, 1928</a>.</p>
+      </section>
+
+      <section class="section" id="timeline" aria-labelledby="timeline-title">
+        <p class="section-meta">A CHRONOLOGY OF IDEAS</p>
+        <h2 id="timeline-title">The number in time</h2>
+        <p class="muted">The constant did not arrive in one moment. Related quantities, measurements, models, and explanations accumulated across generations.</p>
+        <ol class="timeline">
+          <li>
+            <time datetime="1914">BEFORE 1916</time>
+            <div><h3>The ingredients</h3><p>Helge Kragh's historical study traces discussion of relationships among electric charge, Planck's constant, and the speed of light before Sommerfeld. It gives particular attention to a 1914 paper by G. N. Lewis and E. Q. Adams, whose result was effectively a numerical expression for the later fine-structure constant.</p><a class="source-inline" href="https://doi.org/10.1088/0143-0807/24/2/357">Kragh, European Journal of Physics (2003)</a></div>
+          </li>
+          <li>
+            <time datetime="1916">1916</time>
+            <div><h3>Arnold Sommerfeld</h3><p>Sommerfeld's analysis of atomic spectral lines made the small separations quantitatively tractable within the old quantum theory. The dimensionless combination of charge, Planck's constant, and light speed governed the size of relativistic effects. His paper is the famous early home of the constant, not its only prehistory.</p><a class="source-inline" href="https://doi.org/10.1002/andp.19163561802">“Zur Quantentheorie der Spektrallinien” · Annalen der Physik</a></div>
+          </li>
+          <li>
+            <time datetime="1928">1928</time>
+            <div><h3>Paul Dirac</h3><p>Dirac's relativistic electron theory joined quantum mechanics and special relativity, gave electron spin a natural place, and explained the hydrogen fine-structure pattern within a deeper framework.</p><a class="source-inline" href="https://doi.org/10.1098/rspa.1928.0023">“The Quantum Theory of the Electron” · Proceedings of the Royal Society A</a></div>
+          </li>
+          <li>
+            <time datetime="1929">1929</time>
+            <div><h3>Arthur Eddington</h3><p>Eddington proposed a mathematical argument intended to derive a value associated with 137 from a theory of electric charge. It was a bold historical attempt, not a result accepted as established physics. His main paper was “The Charge of an Electron” in Proceedings of the Royal Society A, 122, 358–369; a short Nature item by Eddington followed later that year.</p><a class="source-inline" href="https://doi.org/10.1098/rspa.1929.0025">Original paper · Proc. R. Soc. A</a> · <a class="source-inline" href="https://www.nature.com/articles/124840b0">Eddington, Nature 124, 840 (1929)</a></div>
+          </li>
+          <li>
+            <time>1930s</time>
+            <div><h3>Debate and resistance</h3><p>Eddington's numerical ideas were debated against measurements and competing interpretations. His 1934 correspondence argued for a factor 137/136 in quantum theory. The exchange belongs to the history of attempts to explain α; it did not establish a modern derivation.</p><a class="source-inline" href="https://doi.org/10.1038/133907a0">Eddington, “The Factor 137/136 in Quantum Theory,” Nature 133, 907 (1934)</a></div>
+          </li>
+          <li>
+            <time>1940s–1950s</time>
+            <div><h3>Wolfgang Pauli</h3><p>Pauli returned to the value of α as a question about the numerical architecture of physical law. He did not discover the constant. He inherited a problem already prominent in atomic physics and kept its unexplained value in view.</p><a class="source-inline" href="https://academic.oup.com/book/25794">Charles P. Enz, <em>No Time to be Brief</em> (2002)</a></div>
+          </li>
+          <li>
+            <time>1940s–1960s</time>
+            <div><h3>Renormalised quantum electrodynamics</h3><p>Tomonaga, Schwinger, and Feynman developed methods that made precise, testable QED calculations possible. The coupling matters because predictions are organized in powers of α, while a measured quantity still belongs to a specific process and energy regime. Feynman's lectures helped carry QED's strange precision into public view; no unsupported quotation is needed to make the point.</p><a class="source-inline" href="https://www.nobelprize.org/prizes/physics/1965/summary/">Nobel Prize in Physics 1965</a></div>
+          </li>
+          <li>
+            <time datetime="1958-12-15">1958 · ZÜRICH</time>
+            <div><h3>Room 137</h3><p>Pauli died at Zürich's Red Cross Hospital on 15 December 1958. Later biographical accounts recount that he noticed his room number was 137 and took it as an unsettling coincidence. The room-number story is a recollection, not a scientific observation about the cause or meaning of his death.</p><a class="source-inline" href="https://archives.web.cern.ch/pauli_archive/biography/">CERN Archives biography</a> · <a class="source-inline" href="https://academic.oup.com/book/25794">Enz's scientific biography</a></div>
+          </li>
+          <li>
+            <time>TODAY</time>
+            <div><h3>Precision physics</h3><p>Modern experiments and QED theory constrain the low-energy value with extraordinary precision. The effective electromagnetic coupling runs with energy: the α appropriate near the Thomson limit is not the same numerical value used at high momentum transfer. The Standard Model uses this measured parameter extremely well, while the question of why its low-energy value is what it is remains open.</p><a class="source-inline" href="https://pdg.lbl.gov/2024/reviews/rpp2024-rev-standard-model.pdf">Particle Data Group, “The electromagnetic coupling” (2024)</a></div>
+          </li>
+        </ol>
+        <p class="hero-subtitle" style="margin-top:4rem">WHY THIS VALUE?</p>
+      </section>
+
+      <section class="section" id="pauli" aria-labelledby="pauli-title">
+        <p class="section-meta">ARCHIVE / 003 — THE PHYSICIST</p>
+        <h2 id="pauli-title">The Pauli archive</h2>
+        <div class="pauli-intro">
+          <p class="lead">Wolfgang Pauli was a brilliant, exacting theoretical physicist. His work changed the structure of quantum mechanics. His interest in α belonged to a scientist's persistent question: what fixes the numbers that nature gives us?</p>
+          <p>In 1925 he formulated the exclusion principle, a rule that transformed the understanding of atomic structure. The Nobel Prize in Physics followed in 1945. As a young physicist in Munich he studied with Arnold Sommerfeld, whose work had made the fine-structure constant famous. Pauli's scientific correspondence and manuscripts, preserved in the CERN Pauli Archive, record physics being made through argument, calculation, and exchange.</p>
+          <p>Pauli's relationship with Carl Gustav Jung also needs its history kept in proportion. Pauli sought psychological help during a personal crisis in the early 1930s; later, the two exchanged letters and collaborated on questions linking psychology and scientific ideas. That intellectual relationship is part of Pauli's biography. It is not evidence that psychological symbolism explains a measured physical constant.</p>
+          <p class="source-inline">Sources: <a href="https://www.nobelprize.org/prizes/physics/1945/pauli/facts/">Nobel Prize biography</a>; <a href="https://archives.web.cern.ch/pauli_archive/">CERN Pauli Archive</a>; <a href="https://library.ethz.ch/en/collections-and-archives/platforms/virtual-exhibitions/wolfgang-pauli-and-modern-physics/wolfgang-pauli-and-carl-gustav-jung.html">ETH Library on Pauli and Jung</a>.</p>
+        </div>
+
+        <div class="pauli-story">
+          <p class="eyebrow">A REPORTED RECOLLECTION · ZÜRICH · DECEMBER 1958</p>
+          <h3>The room</h3>
+          <p>In a commonly repeated account of Pauli's final days, he noticed that his room at the Red Cross Hospital was numbered 137. The story says that the coincidence disturbed him and that he believed he would not leave the hospital alive. Pauli died there on 15 December 1958. The date and hospital are documented by the CERN Archives; the room-number episode is presented here as a later biographical recollection, not as a verified transcript or a scientific fact.</p>
+          <p class="source-inline">For the biography and recollection trail: Charles P. Enz, <em>No Time to be Brief: A Scientific Biography of Wolfgang Pauli</em> (Oxford University Press, 2002); <a href="https://archives.web.cern.ch/pauli_archive/biography/">CERN Archives biography</a>.</p>
+          <div class="quiet-gap" aria-hidden="true"></div>
+          <p class="room-mark" aria-label="137">137</p>
+          <div class="pauli-coda">
+            <p class="coda-lines">A coincidence is not a physical law.<br>A mystery is not an explanation.<br>And yet, some numbers stay with us.</p>
+            <p>Pauli's fascination with α reflects an enduring human desire to understand why the laws of nature have the numerical structure they do. We can tell that story without confusing a life, a coincidence, and a physical theory.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="the-question" aria-labelledby="question-title">
+        <p class="section-meta">ARCHIVE / 005 — THE UNKNOWN</p>
+        <h2 id="question-title">The question of why</h2>
+        <p class="lead">Measurement and explanation are different kinds of knowledge.</p>
+        <div class="columns">
+          <div><h3>Measure</h3><p>Experiments and theory constrain the low-energy value with great precision. The result is empirical knowledge with an uncertainty that can be stated and improved.</p></div>
+          <div><h3>Use</h3><p>Once measured, α can be used in QED to predict observables. Agreement between prediction and experiment tests the theory and the measurement together.</p></div>
+          <div><h3>Derive</h3><p>A deeper theory would explain why the parameter has this value, rather than simply taking it as an input. The Standard Model has no universally accepted first-principles derivation of the observed low-energy α.</p></div>
+          <div><h3>Approximate</h3><p>A mathematical pattern that resembles 1/137 is not a physical explanation by itself. A proposed relationship earns that status only through a clear theory, independent consequences, and evidence.</p></div>
+        </div>
+        <div class="note"><p>Historical derivations such as Eddington's are worth studying as ideas in context. Numerological matches, unsupported geometric formulas, and coincidences are not established derivations.</p></div>
+        <h3>IF WE KNOW THE VALUE, DO WE UNDERSTAND WHY IT HAS THAT VALUE?</h3>
+        <div class="answers" role="group" aria-label="Choose what we know about alpha">
+          <button class="answer-button" type="button" data-answer="measured" aria-pressed="false">WE HAVE MEASURED IT</button>
+          <button class="answer-button" type="button" data-answer="use" aria-pressed="false">WE CAN USE IT</button>
+          <button class="answer-button" type="button" data-answer="why" aria-pressed="false">WE HAVE NOT FULLY EXPLAINED IT</button>
+        </div>
+        <p class="answer-response" id="answer-response" aria-live="polite">All three statements can be true at once: precise empirical knowledge, successful predictive use, and an unfinished fundamental explanation.</p>
+      </section>
+
+      <section class="section" id="equation-desk" aria-labelledby="desk-title">
+        <p class="section-meta">A QUIET SCIENTIFIC NOTEBOOK</p>
+        <h2 id="desk-title">The equation desk</h2>
+        <p>Choose an expression to mark it for attention. Every note remains on the page; the controls simply move the emphasis.</p>
+        <div class="equation-switch" role="group" aria-label="Emphasize an equation">
+          <button class="equation-button" type="button" data-equation="eq-alpha" aria-pressed="true">The SI definition</button>
+          <button class="equation-button" type="button" data-equation="eq-inverse" aria-pressed="false">The useful reciprocal</button>
+          <button class="equation-button" type="button" data-equation="eq-hartree" aria-pressed="false">The atomic scale</button>
+        </div>
+        <article class="equation-entry is-active" id="eq-alpha">
+          <p class="small-label">01 · THE SI EXPRESSION</p>
+          <div class="equation">α = e<sup>2</sup> / (4πε<sub>0</sub>ℏc)</div>
+          <p>The elementary charge and universal constants combine into the low-energy electromagnetic coupling. Since the units cancel, α is dimensionless.</p>
+          <p class="footnote">e is elementary charge · ε<sub>0</sub> is vacuum permittivity · ℏ is reduced Planck's constant · c is the speed of light in vacuum.</p>
+          <details><summary>Mathematical note</summary><p>In rationalized natural units commonly used in particle physics, ℏ = c = ε<sub>0</sub> = 1, and the same coupling is written α = e<sup>2</sup>/(4π). The numerical value of α stays dimensionless; the symbols change with the unit convention.</p></details>
+        </article>
+        <article class="equation-entry" id="eq-inverse">
+          <p class="small-label">02 · THE RECIPROCAL</p>
+          <div class="equation">α<sup>−1</sup> ≈ 137.036</div>
+          <p>The inverse is often quoted because it is a compact number near 137. It is the reciprocal of α, not the value of α itself. The historical shorthand α ≈ 1/137 rounds this further.</p>
+          <details><summary>Mathematical note</summary><p>The 2022 recommended inverse is 137.035999177(21). Its reciprocal is approximately 0.0072973525643. Rounding the inverse to 137 discards information and must not be mistaken for an exact identity.</p></details>
+        </article>
+        <article class="equation-entry" id="eq-hartree">
+          <p class="small-label">03 · THE ATOMIC ENERGY</p>
+          <div class="equation">E<sub>h</sub> = α<sup>2</sup>m<sub>e</sub>c<sup>2</sup></div>
+          <p>The Hartree energy is the characteristic nonrelativistic energy scale of atomic physics, expressed using the electron mass, light speed, and α.</p>
+          <p class="footnote">m<sub>e</sub> is electron mass · E<sub>h</sub> is one Hartree, about 27.2 electronvolts.</p>
+          <details><summary>Mathematical note</summary><p>Hydrogen's leading binding-energy scale is α<sup>2</sup>m<sub>e</sub>c<sup>2</sup>; the leading fine-structure terms are smaller by another factor of α<sup>2</sup>. Thus α<sup>2</sup> describes the approximate relative scale of those corrections.</p></details>
+        </article>
+      </section>
+
+      <section class="section" id="reading-room" aria-labelledby="reading-title">
+        <p class="section-meta">PRIMARY SOURCES · REFERENCE DATA · HISTORICAL SCHOLARSHIP</p>
+        <h2 id="reading-title">The reading room</h2>
+        <p class="muted">A small shelf of original work and careful context. Publisher and institutional links lead to their records; full text may require access. No paper is reproduced here.</p>
+
+        <div class="reading-category">
+          <h3>A. Original publications</h3>
+          <ul class="reading-list">
+            <li><a href="https://doi.org/10.1002/andp.19163561802">Zur Quantentheorie der Spektrallinien</a><p class="resource-meta">Arnold Sommerfeld · 1916 · Original research</p><p>The influential old-quantum-theory treatment of atomic fine structure.</p><span class="tag">ORIGINAL RESEARCH</span></li>
+            <li><a href="https://doi.org/10.1098/rspa.1929.0025">The Charge of an Electron</a><p class="resource-meta">Arthur S. Eddington · 1929 · Original research</p><p>The main paper appeared in Proceedings of the Royal Society A 122, 358–369. Its numerical proposal is historically important, not accepted modern theory.</p><span class="tag">ORIGINAL RESEARCH</span></li>
+            <li><a href="https://www.nature.com/articles/124840b0">The Charge of an Electron</a><p class="resource-meta">Arthur S. Eddington · 1929 · Nature letter</p><p>A later short Nature item by Eddington, volume 124, page 840. The similarly titled Nature 123, page 318 is Raymond T. Birge's response, not Eddington's main paper.</p><span class="tag">ORIGINAL RESEARCH</span></li>
+            <li><a href="https://doi.org/10.1038/133907a0">The Factor 137/136 in Quantum Theory</a><p class="resource-meta">Arthur S. Eddington · 1934 · Nature letter</p><p>A primary source for the debate around Eddington's numerical proposal.</p><span class="tag">ORIGINAL RESEARCH</span></li>
+            <li><a href="https://doi.org/10.1098/rspa.1928.0023">The Quantum Theory of the Electron</a><p class="resource-meta">P. A. M. Dirac · 1928 · Original research</p><p>Relativistic quantum theory that made electron spin and the hydrogen fine-structure pattern part of a coherent framework.</p><span class="tag">ORIGINAL RESEARCH</span></li>
+          </ul>
+        </div>
+
+        <div class="reading-category">
+          <h3>B. Institutional references</h3>
+          <ul class="reading-list">
+            <li><a href="https://pml.nist.gov/cuu/Constants/alpha.html">Current advances: The fine-structure constant</a><p class="resource-meta">NIST · Reference page · accessed 2026</p><p>Explains the constant's historical appearance and role as the electromagnetic coupling.</p><span class="tag">REFERENCE DATA</span></li>
+            <li><a href="https://physics.nist.gov/cuu/pdf/wall_2022.pdf">CODATA recommended values of the fundamental physical constants: 2022</a><p class="resource-meta">NIST/CODATA · 2022 · Reference data</p><p>Official recommended α and α<sup>−1</sup> values with uncertainties.</p><span class="tag">REFERENCE DATA</span></li>
+            <li><a href="https://archives.web.cern.ch/pauli_archive/">Wolfgang Pauli Archive</a><p class="resource-meta">CERN Archives · Institutional archive</p><p>Guide to Pauli's scientific books, reprints, correspondence, and manuscripts.</p><span class="tag">ARCHIVAL RECORD</span></li>
+            <li><a href="https://archives.web.cern.ch/pauli_archive/biography/">Wolfgang Pauli (1900–1958) biography</a><p class="resource-meta">CERN Archives · Institutional biography</p><p>Chronology and records for Pauli's scientific life and death in Zürich.</p><span class="tag">INSTITUTIONAL BIOGRAPHY</span></li>
+            <li><a href="https://www.nobelprize.org/prizes/physics/1945/pauli/facts/">Wolfgang Pauli — Facts</a><p class="resource-meta">Nobel Prize · Institutional biography</p><p>Prize year, motivation, and account of the exclusion principle.</p><span class="tag">INSTITUTIONAL BIOGRAPHY</span></li>
+          </ul>
+        </div>
+
+        <div class="reading-category">
+          <h3>C. Historical scholarship</h3>
+          <ul class="reading-list">
+            <li><a href="https://doi.org/10.1088/0143-0807/24/2/357">The fine-structure constant before quantum mechanics</a><p class="resource-meta">Helge Kragh · European Journal of Physics 24, 169 · 2003 · Historical scholarship</p><p>Surveys early discussion of the constant and Lewis and Adams's 1914 work.</p><span class="tag">HISTORICAL SCHOLARSHIP</span></li>
+            <li><a href="https://doi.org/10.1007/s00407-002-0065-7">Magic number: A partial history of the fine-structure constant</a><p class="resource-meta">Helge Kragh · Archive for History of Exact Sciences 57, 395–431 · 2003</p><p>Scholarly historical account of attempts to understand the number and its changing meaning.</p><span class="tag">HISTORICAL SCHOLARSHIP</span></li>
+            <li><a href="https://doi.org/10.1140/epjh/e2014-50044-7">Attempts at a Determination of the Fine-Structure Constant from First Principles: A Brief Historical Overview</a><p class="resource-meta">U. D. Jentschura and I. Nándori · European Physical Journal H 39, 591–613 · 2014</p><p>Reviews proposed derivations while distinguishing their conjectural status and limitations.</p><span class="tag">HISTORICAL SCHOLARSHIP</span></li>
+            <li><a href="https://academic.oup.com/book/25794">No Time to be Brief: A Scientific Biography of Wolfgang Pauli</a><p class="resource-meta">Charles P. Enz · Oxford University Press · 2002 · Scholarly biography</p><p>Scientific biography by Pauli's last assistant, drawing on original sources and correspondence.</p><span class="tag">HISTORICAL SCHOLARSHIP</span></li>
+          </ul>
+        </div>
+
+        <div class="reading-category">
+          <h3>D. Further exploration</h3>
+          <ul class="reading-list">
+            <li><a href="https://www.nobelprize.org/prizes/physics/1965/summary/">The Nobel Prize in Physics 1965</a><p class="resource-meta">Nobel Prize · 1965 · Institutional account</p><p>Tomonaga, Schwinger, and Feynman were recognized for fundamental work in quantum electrodynamics.</p><span class="tag">INSTITUTIONAL REFERENCE</span></li>
+            <li><a href="https://pdg.lbl.gov/2024/reviews/rpp2024-rev-standard-model.pdf">Review of Particle Physics: The electromagnetic coupling</a><p class="resource-meta">Particle Data Group · 2024 · Review</p><p>Discusses the running electromagnetic coupling and its dependence on energy scale.</p><span class="tag">REFERENCE DATA</span></li>
+            <li><a href="https://doi.org/10.1126/science.1156965">New Measurement of the Fine Structure Constant</a><p class="resource-meta">D. Hanneke, S. Fogwell, and G. Gabrielse · Science · 2008 · Precision measurement</p><p>An electron magnetic-moment measurement used to determine α and test QED.</p><span class="tag">ORIGINAL RESEARCH</span></li>
+            <li><a href="https://library.ethz.ch/en/collections-and-archives/platforms/virtual-exhibitions/wolfgang-pauli-and-modern-physics/wolfgang-pauli-and-carl-gustav-jung.html">Wolfgang Pauli and Carl Gustav Jung</a><p class="resource-meta">ETH Library · Digital exhibition · Historical reference</p><p>Places their personal and intellectual relationship in its documentary context.</p><span class="tag">HISTORICAL INTERPRETATION</span></li>
+            <li><a href="https://doi.org/10.1038/123318a0">The Electronic Charge e</a><p class="resource-meta">Raymond T. Birge · Nature 123, 318 · 1929 · Historical correspondence</p><p>Birge's contemporaneous comment on Eddington's theoretical value; useful for separating the papers sometimes conflated in citations.</p><span class="tag">HISTORICAL SOURCE</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section" id="about" aria-labelledby="about-title">
+        <p class="section-meta">ARCHIVE / NOTES</p>
+        <h2 id="about-title">About this archive</h2>
+        <div class="columns">
+          <div><h3>A small index</h3><p>These identifiers are editorial signposts for this experience. They are not historical catalogue numbers.</p>
+            <ul class="archive-index">
+              <li><a href="#the-number">ARCHIVE / 001 — THE CONSTANT</a></li>
+              <li><a href="#fine-structure">ARCHIVE / 002 — THE SPECTRUM</a></li>
+              <li><a href="#pauli">ARCHIVE / 003 — THE PHYSICIST</a></li>
+              <li><a href="#pauli">ARCHIVE / 004 — THE COINCIDENCE</a></li>
+              <li><a href="#the-question">ARCHIVE / 005 — THE UNKNOWN</a></li>
+            </ul>
+          </div>
+          <div><h3>On this page</h3><p>The archive was made to hold measurement, history, and uncertainty together. It uses text, equations, and links to original or institutional records. It does not offer a new derivation of α.</p><p>The essential content is present in this file. Navigation and emphasis controls work locally in the browser; the scientific archive does not require an API, external script, or downloaded font.</p></div>
+        </div>
+      </section>
+
+      <section class="ending" aria-label="End of the archive">
+        <p class="section-meta">END OF THE ARCHIVE</p>
+        <p class="ending-value">137.035999177(21)</p>
+        <p class="ending-lines">WE CAN MEASURE IT.<br>WE CAN USE IT.<br>WE ARE STILL ASKING WHY.</p>
+        <p>A small archive dedicated to the fine-structure constant.<br>Made for the curious.</p>
+      </section>
+    </main>
+    <footer class="footer page"><p>137 — THE FINE-STRUCTURE CONSTANT</p><p><a href="#the-number">Return to the beginning ↑</a></p></footer>
+  </div>
+
+  <script>
+    (() => {
+      const CONFIG = {
+        title: "137 — A Number That Refuses to Explain Itself",
+        subtitle: "A scientific archive, a history of ideas, and a tribute to one of the fundamental constants of nature.",
+        colors: { night: "#071A33", phosphor: "#F4F5F7" }
+      };
+      document.title = CONFIG.title;
+      document.documentElement.style.setProperty("--night", CONFIG.colors.night);
+      document.documentElement.style.setProperty("--phosphor", CONFIG.colors.phosphor);
+      document.getElementById("archive-subtitle").textContent = CONFIG.subtitle;
+
+      const body = document.body;
+      const enterButton = document.getElementById("enter-button");
+
+      enterButton.addEventListener("click", () => {
+        body.classList.add("entered");
+        document.getElementById("the-number").setAttribute("tabindex", "-1");
+        document.getElementById("the-number").focus({ preventScroll: true });
+        window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      });
+
+      const values = {
+        alpha: "α = 7.2973525643(11) × 10<sup>−3</sup>",
+        inverse: "α<sup>−1</sup> = 137.035999177(21)",
+        approx: "α ≈ 1/137"
+      };
+      const valueDisplay = document.getElementById("value-display");
+      document.querySelectorAll("[data-value]").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll("[data-value]").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+          valueDisplay.innerHTML = values[button.dataset.value];
+        });
+      });
+
+      document.querySelectorAll("[data-equation]").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll("[data-equation]").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+          document.querySelectorAll(".equation-entry").forEach((entry) => entry.classList.toggle("is-active", entry.id === button.dataset.equation));
+        });
+      });
+
+      const answerText = {
+        measured: "We have measured α. The reported value is an empirical result, with an uncertainty that describes how closely it is known.",
+        use: "We can use α in QED to calculate observable quantities. A theory can predict accurately while still taking a parameter's value as an input.",
+        why: "We have not fully explained why the low-energy value is what it is. A deeper derivation would explain that input from more fundamental principles."
+      };
+      const answerResponse = document.getElementById("answer-response");
+      document.querySelectorAll("[data-answer]").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll("[data-answer]").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+          answerResponse.textContent = answerText[button.dataset.answer];
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
