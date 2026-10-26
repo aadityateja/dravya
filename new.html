@@ -1,0 +1,561 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRI — Pixel Walker</title>
+
+<style>
+  :root {
+    --bg: #101525;
+    --panel: #1b2438;
+    --white: #f5f1dc;
+    --muted: #8e9bb5;
+    --orange: #ff762e;
+    --green: #a6ef9b;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--white);
+    font-family: "Courier New", monospace;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+  }
+
+  .app {
+    width: min(720px, 100%);
+  }
+
+  .topline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
+
+  h1 {
+    font-size: clamp(38px, 9vw, 66px);
+    line-height: 0.9;
+    letter-spacing: -5px;
+    margin: 0 0 12px;
+    color: var(--orange);
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .screen {
+    overflow: hidden;
+    border: 3px solid #39445e;
+    background: #19243a;
+    box-shadow: 8px 8px 0 #080c15;
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  .caption {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 11px 13px;
+    background: var(--panel);
+    border-top: 2px solid #39445e;
+    color: var(--green);
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .controls {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  button {
+    border: 2px solid #53617c;
+    background: var(--panel);
+    color: var(--white);
+    font: bold 12px "Courier New", monospace;
+    padding: 14px 10px;
+    cursor: pointer;
+    transition: background 0.12s, color 0.12s;
+  }
+
+  button:hover {
+    background: var(--white);
+    color: var(--bg);
+  }
+
+  button.primary {
+    background: var(--orange);
+    color: #1a1420;
+    border-color: var(--orange);
+  }
+
+  button.primary:hover {
+    background: #ff9b68;
+  }
+
+  .speed {
+    margin-top: 22px;
+    padding: 16px;
+    background: var(--panel);
+    border: 2px solid #303c55;
+  }
+
+  .speed-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  input[type="range"] {
+    width: 100%;
+    accent-color: var(--orange);
+    cursor: pointer;
+  }
+
+  .footer {
+    margin-top: 24px;
+    padding-top: 14px;
+    border-top: 1px solid #303c55;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 480px) {
+    body { padding: 16px; }
+    .controls { grid-template-columns: 1fr; }
+    .topline { letter-spacing: 1px; }
+  }
+</style>
+</head>
+
+<body>
+<main class="app">
+
+  <div class="topline">
+    <span>DRAVYA / CHARACTER LAB</span>
+    <span>PROTOTYPE 001</span>
+  </div>
+
+  <h1>TRI<span style="color:var(--white)">.</span></h1>
+
+  <div class="subtitle">
+    A little triangle. Two eyes. Four moving limbs.<br>
+    First character for a new world.
+  </div>
+
+  <section class="screen">
+    <canvas id="game" width="160" height="100"
+            aria-label="Animated pixel-art triangle character walking in place"></canvas>
+    <div class="caption">
+      <span>TRI / WALK CYCLE</span>
+      <span id="status">ANIMATING...</span>
+    </div>
+  </section>
+
+  <div class="controls">
+    <button class="primary" id="toggle">Ⅱ &nbsp; PAUSE</button>
+    <button id="reset">↺ &nbsp; RESET ANIMATION</button>
+    <button id="download">↓ &nbsp; EXPORT SPRITE SHEET</button>
+    <button id="transparent">▧ &nbsp; EXPORT TRANSPARENT TRI</button>
+  </div>
+
+  <div class="speed">
+    <div class="speed-heading">
+      <span>WALK SPEED</span>
+      <span id="speedValue">1.0×</span>
+    </div>
+    <input id="speed" type="range" min="0.4" max="2.5"
+           step="0.1" value="1">
+  </div>
+
+  <div class="footer">
+    <span>8-FRAME LOOP<br>PIXEL ART / CANVAS</span>
+    <span>NO LIBRARIES<br>MADE TO BE MODIFIED</span>
+  </div>
+
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const canvas = document.getElementById("game");
+  const ctx = canvas.getContext("2d");
+
+  // Render at a deliberately small resolution.
+  // CSS enlarges it without smoothing for a pixel-art appearance.
+  ctx.imageSmoothingEnabled = false;
+
+  const W = canvas.width;
+  const H = canvas.height;
+
+  const speedInput = document.getElementById("speed");
+  const speedValue = document.getElementById("speedValue");
+  const toggleButton = document.getElementById("toggle");
+  const resetButton = document.getElementById("reset");
+  const downloadButton = document.getElementById("download");
+  const transparentButton = document.getElementById("transparent");
+  const status = document.getElementById("status");
+
+  let playing = true;
+  let speed = 1;
+  let elapsed = 0;
+  let previousTime = 0;
+  let raf = 0;
+
+  const C = {
+    orange: "#ff762e",
+    orangeLight: "#ffad58",
+    orangeDark: "#c94d22",
+    ink: "#251d2b",
+    eyeWhite: "#fff6df",
+    pink: "#ff8c87",
+    limb: "#303b55",
+    shoe: "#f5e7c5",
+    shoeDark: "#c5b38f",
+    green: "#a6ef9b",
+    star: "#e4e8f4",
+    bg: "#19243a",
+    ground: "#303b55"
+  };
+
+  // Draw a pixelated line using integer coordinates.
+  function line(c, x1, y1, x2, y2, color, thickness = 2) {
+    c.strokeStyle = color;
+    c.lineWidth = thickness;
+    c.lineCap = "square";
+    c.lineJoin = "miter";
+    c.beginPath();
+    c.moveTo(Math.round(x1), Math.round(y1));
+    c.lineTo(Math.round(x2), Math.round(y2));
+    c.stroke();
+  }
+
+  function rect(c, x, y, w, h, color) {
+    c.fillStyle = color;
+    c.fillRect(
+      Math.round(x), Math.round(y),
+      Math.round(w), Math.round(h)
+    );
+  }
+
+  function pixel(c, x, y, color, size = 1) {
+    rect(c, x, y, size, size, color);
+  }
+
+  function polygon(c, points, color) {
+    c.fillStyle = color;
+    c.beginPath();
+    c.moveTo(points[0][0], points[0][1]);
+    for (let i = 1; i < points.length; i++) {
+      c.lineTo(points[i][0], points[i][1]);
+    }
+    c.closePath();
+    c.fill();
+  }
+
+  function circle(c, x, y, radius, color) {
+    c.fillStyle = color;
+    c.beginPath();
+    c.arc(x, y, radius, 0, Math.PI * 2);
+    c.fill();
+  }
+
+  // The entire character is drawn relative to its feet.
+  // phase is one full walk cycle from 0 to 2π.
+  function drawTRI(c, centerX, feetY, phase, characterScale = 1) {
+    c.save();
+    c.translate(centerX, feetY);
+    c.scale(characterScale, characterScale);
+
+    const swing = Math.sin(phase);
+    const opposite = Math.sin(phase + Math.PI);
+    const bounce = Math.max(0, Math.sin(phase * 2)) * 1.3;
+
+    // Subtle shadow underneath the character.
+    rect(c, -17, 0, 34, 2, "#111a2a");
+    rect(c, -12, -1, 24, 1, "#43506b");
+
+    c.save();
+    c.translate(0, -bounce);
+
+    // LEGS: alternate forward and backward.
+    // Draw behind the triangular body.
+    for (const side of [-1, 1]) {
+      const legSwing = side === -1 ? swing : opposite;
+      const hipX = side * 5;
+      const hipY = -16;
+
+      const footX = hipX + legSwing * 5;
+      const footY = -3 + Math.max(0, legSwing) * 1.3;
+      const kneeX = hipX + legSwing * 2;
+      const kneeY = -9;
+
+      line(c, hipX, hipY, kneeX, kneeY, C.limb, 3);
+      line(c, kneeX, kneeY, footX, footY, C.limb, 3);
+
+      // Tiny pixel hands are drawn below as well;
+      // shoes have a bright top and darker sole.
+      rect(c, footX - 3, footY - 1, 8, 4, C.shoeDark);
+      rect(c, footX - 3, footY - 4, 8, 4, C.shoe);
+      rect(c, footX + 2, footY - 3, 3, 2, "#fff9e8");
+      rect(c, footX - 3, footY, 9, 1, C.ink);
+    }
+
+    // ARMS: opposite to the legs.
+    for (const side of [-1, 1]) {
+      const armSwing = side === -1 ? opposite : swing;
+      const shoulderX = side * 12;
+      const shoulderY = -34;
+      const elbowX = side * 17 + armSwing * 2;
+      const elbowY = -27 + Math.abs(armSwing) * 1.5;
+      const handX = side * 17 + armSwing * 4;
+      const handY = -22 - Math.max(0, armSwing) * 2;
+
+      line(c, shoulderX, shoulderY, elbowX, elbowY, C.limb, 2);
+      line(c, elbowX, elbowY, handX, handY, C.limb, 2);
+
+      // Small square hands.
+      rect(c, handX - 2, handY - 2, 5, 5, C.orangeDark);
+      rect(c, handX - 1, handY - 2, 3, 3, C.orangeLight);
+    }
+
+    // TRIANGULAR BODY.
+    // The outline is made with hard pixel edges.
+    polygon(c, [
+      [-17, -16],
+      [-14, -20],
+      [-3, -53],
+      [0, -58],
+      [3, -53],
+      [14, -20],
+      [17, -16]
+    ], C.orangeDark);
+
+    polygon(c, [
+      [-14, -18],
+      [0, -55],
+      [14, -18]
+    ], C.orange);
+
+    // Highlight strip on the upper-left side.
+    line(c, -10, -24, -2, -47, C.orangeLight, 2);
+    pixel(c, -7, -31, "#ffd08a", 2);
+
+    // FACE: two pixel eyes.
+    // Eye whites.
+    rect(c, -9, -39, 5, 7, C.eyeWhite);
+    rect(c, 4, -39, 5, 7, C.eyeWhite);
+
+    // Pupils.
+    rect(c, -7, -37, 3, 5, C.ink);
+    rect(c, 6, -37, 3, 5, C.ink);
+
+    // Tiny eye highlights.
+    pixel(c, -7, -37, "#ffffff");
+    pixel(c, 6, -37, "#ffffff");
+
+    // Blush.
+    rect(c, -12, -31, 4, 2, C.pink);
+    rect(c, 8, -31, 4, 2, C.pink);
+
+    // Friendly pixel smile.
+    rect(c, -4, -30, 2, 2, C.ink);
+    rect(c, -2, -28, 5, 2, C.ink);
+    rect(c, 3, -30, 2, 2, C.ink);
+
+    c.restore();
+    c.restore();
+  }
+
+  function drawBackground(c) {
+    rect(c, 0, 0, W, H, C.bg);
+
+    // Fixed decorative pixel stars.
+    const stars = [
+      [12, 12], [29, 27], [48, 10], [70, 18],
+      [103, 11], [135, 22], [148, 8], [24, 51],
+      [127, 48], [145, 61], [9, 69], [57, 35]
+    ];
+
+    stars.forEach(([x, y], i) => {
+      pixel(c, x, y, i % 3 === 0 ? C.green : C.star, 1);
+    });
+
+    // Ground line and floor tiles.
+    rect(c, 0, 84, W, 2, C.ground);
+    rect(c, 0, 86, W, 14, "#222e45");
+
+    for (let x = 0; x < W; x += 16) {
+      rect(c, x, 92, 8, 1, "#303b55");
+    }
+
+    // Little floor marker.
+    rect(c, 8, 88, 3, 3, C.green);
+  }
+
+  function render(c, phase, background = true) {
+    c.save();
+    c.imageSmoothingEnabled = false;
+
+    if (background) {
+      drawBackground(c);
+    } else {
+      c.clearRect(0, 0, c.canvas.width, c.canvas.height);
+    }
+
+    drawTRI(c, W / 2, 84, phase);
+    c.restore();
+  }
+
+  function updateButton() {
+    toggleButton.textContent = playing ? "Ⅱ  PAUSE" : "▶  PLAY";
+    status.textContent = playing ? "ANIMATING..." : "PAUSED";
+  }
+
+  function animate(timestamp) {
+    if (!playing) return;
+
+    if (!previousTime) previousTime = timestamp;
+    const dt = Math.min((timestamp - previousTime) / 1000, 0.05);
+    previousTime = timestamp;
+
+    // About 1.5 seconds per cycle at 1× speed.
+    elapsed += dt * speed;
+    const phase = (elapsed / 1.5) * Math.PI * 2;
+
+    render(ctx, phase, true);
+    raf = requestAnimationFrame(animate);
+  }
+
+  function start() {
+    cancelAnimationFrame(raf);
+    previousTime = 0;
+    playing = true;
+    updateButton();
+    raf = requestAnimationFrame(animate);
+  }
+
+  toggleButton.addEventListener("click", () => {
+    playing = !playing;
+    updateButton();
+
+    if (playing) {
+      start();
+    } else {
+      cancelAnimationFrame(raf);
+    }
+  });
+
+  resetButton.addEventListener("click", () => {
+    elapsed = 0;
+    render(ctx, 0, true);
+    if (playing) start();
+  });
+
+  speedInput.addEventListener("input", () => {
+    speed = Number(speedInput.value);
+    speedValue.textContent = speed.toFixed(1) + "×";
+  });
+
+  // Export 8 transparent frames in one horizontal PNG sprite sheet.
+  downloadButton.addEventListener("click", () => {
+    const frameW = 96;
+    const frameH = 96;
+    const frameCount = 8;
+
+    const sheet = document.createElement("canvas");
+    sheet.width = frameW * frameCount;
+    sheet.height = frameH;
+
+    const sctx = sheet.getContext("2d");
+    sctx.imageSmoothingEnabled = false;
+
+    for (let i = 0; i < frameCount; i++) {
+      sctx.save();
+      sctx.translate(i * frameW, 0);
+
+      // Character uses transparent background.
+      drawTRI(
+        sctx,
+        frameW / 2,
+        78,
+        (i / frameCount) * Math.PI * 2,
+        1.5
+      );
+
+      sctx.restore();
+    }
+
+    downloadCanvas(sheet, "tri-walk-spritesheet.png");
+  });
+
+  // Export one transparent character image.
+  transparentButton.addEventListener("click", () => {
+    const image = document.createElement("canvas");
+    image.width = 96;
+    image.height = 96;
+
+    const ictx = image.getContext("2d");
+    ictx.imageSmoothingEnabled = false;
+
+    drawTRI(ictx, 48, 78, 0, 1.5);
+    downloadCanvas(image, "tri-character.png");
+  });
+
+  function downloadCanvas(source, filename) {
+    source.toBlob(blob => {
+      if (!blob) {
+        alert("Could not export the image. Please try again.");
+        return;
+      }
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }, "image/png");
+  }
+
+  // Start on the first frame.
+  render(ctx, 0, true);
+  start();
+})();
+</script>
+</body>
+</html>
