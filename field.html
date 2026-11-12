@@ -930,112 +930,59 @@ body.field-visible #field {
 
 
 
+
 <script>
 /* =========================================================
-   DRAVYA — CINEMATIC AUDIO SEQUENCE
-   INTRO → TRANSITION → FIELD ATMOSPHERE
+   DRAVYA — SILENT CINEMATIC EXPERIENCE
+   INTRO → TRANSITION → FIELD
    ========================================================= */
 
 const entry = document.getElementById("entry");
 const video = document.getElementById("entryVideo");
-const introMusic = document.getElementById("introMusic");
-const vacuumMusic = document.getElementById("vacuumMusic");
 
 let finished = false;
-let started = false;
 
 /* =========================================================
-   START THE CINEMATIC
+   START CINEMATIC
    ========================================================= */
 
 async function startExperience() {
-    if (started || finished) return;
-    started = true;
 
     video.muted = true;
-    introMusic.volume = 1;
-    vacuumMusic.volume = 0;
+    video.defaultMuted = true;
+    video.playsInline = true;
 
     try {
-        await Promise.all([
-            video.play(),
-            introMusic.play()
-        ]);
+        await video.play();
     } catch (error) {
-        started = false;
-        showStartPrompt();
+        console.warn("Video autoplay unavailable:", error);
     }
 }
 
 /* =========================================================
-   AUTOPLAY FALLBACK
+   TRANSITION INTO DRAVYA FIELD
    ========================================================= */
 
-function showStartPrompt() {
-    if (document.getElementById("startExperience")) return;
+function finishField() {
 
-    const button = document.createElement("button");
-    button.id = "startExperience";
-    button.textContent = "ENTER DRAVYA";
-
-    Object.assign(button.style, {
-        position: "fixed",
-        left: "50%",
-        bottom: "35px",
-        transform: "translateX(-50%)",
-        zIndex: "200",
-        padding: "15px 25px",
-        background: "rgba(2,5,13,0.85)",
-        color: "#fff",
-        border: "1px solid rgba(255,255,255,0.35)",
-        fontFamily: "Dark, sans-serif",
-        fontSize: "12px",
-        letterSpacing: "0.2em",
-        cursor: "pointer"
-    });
-
-    button.addEventListener("click", async () => {
-        button.remove();
-        started = false;
-        await startExperience();
-    }, { once: true });
-
-    document.body.appendChild(button);
-}
-
-/* =========================================================
-   TRANSITION INTO THE FIELD
-   ========================================================= */
-
-async function finishField() {
     if (finished) return;
     finished = true;
 
-    // Stop the entry music before starting the next track.
-    introMusic.pause();
-    introMusic.currentTime = 0;
-
-    // Reveal the DRAVYA FIELD.
+    // Reveal DRAVYA content.
     document.body.classList.add("field-visible");
 
-    // Fade out the cinematic.
+    // Fade out cinematic.
     entry.style.opacity = "0";
     entry.style.pointerEvents = "none";
 
-    // Start the vacuum atmosphere as the content appears.
-    try {
-        vacuumMusic.currentTime = 0;
-        vacuumMusic.volume = 1;
-        await vacuumMusic.play();
-    } catch (error) {
-        // Audio playback may require a previous user gesture.
-        console.warn("Field audio could not autoplay.", error);
-    }
+    // Stop cinematic video.
+    video.pause();
 
+    // Remove entry screen after transition.
     setTimeout(() => {
         entry.style.visibility = "hidden";
-        video.pause();
-    }, 2000);
+        entry.style.display = "none";
+    }, 2100);
 }
 
 /* =========================================================
@@ -1045,19 +992,28 @@ async function finishField() {
 video.addEventListener("ended", finishField);
 
 video.addEventListener("timeupdate", () => {
+
     if (
-        video.duration &&
-        video.currentTime >= video.duration - 0.08
+        Number.isFinite(video.duration) &&
+        video.duration > 0 &&
+        video.currentTime >= video.duration - 0.15
     ) {
         finishField();
     }
+
 });
 
 /* =========================================================
    AUTOPLAY
    ========================================================= */
 
-window.addEventListener("load", startExperience);
+if (document.readyState === "complete") {
+    startExperience();
+} else {
+    window.addEventListener("load", startExperience, {
+        once: true
+    });
+}
 
 /* =========================================================
    TOUCH GESTURES
@@ -1075,5 +1031,6 @@ document.addEventListener("gestureend", event => {
     event.preventDefault();
 });
 </script>
+
 </body>
 </html>
