@@ -648,7 +648,21 @@
 
 
     </main>
+<script>
+/* DRAVYA — BACK NAVIGATION */
 
+(function () {
+
+    // If the visitor arrived from another DRAVYA page,
+    // make browser Back return to the main field.
+    history.pushState({ dravyaPage: true }, "", location.href);
+
+    window.addEventListener("popstate", function () {
+        window.location.replace("dfield.html");
+    });
+
+})();
+</script>
 
 </body>
 
