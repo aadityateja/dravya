@@ -16,17 +16,10 @@
     font-display: swap;
 }
 
-@font-face {
-    font-family: "DRAVYA-TAGLINE";
-    src: url("assets/fonts/four_pixel_caps_outline.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
 
 @font-face {
     font-family: "DRAVYA-DARK";
-    src: url("assets/fonts/GroovyYellow.ttf") format("truetype");
+    src: url("assets/fonts/Mantra.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -35,6 +28,22 @@
 :root {
     --dravya-font: "DRAVYA-DARK", sans-serif;
     --dravya-white: #ffffff;
+}
+/* ENTER THE DRAVYA FIELD — DEDICATED FONT */
+
+@font-face {
+    font-family: "DRAVYA-ENTRY";
+    src: url("assets/fonts/four_pixel_caps_outline.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.enter-field {
+    font-family: "DRAVYA-ENTRY", sans-serif !important;
+    font-size: 24px;
+    letter-spacing: 0.12em;
+    font-weight: normal;
 }
 
 
