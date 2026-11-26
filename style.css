@@ -17,7 +17,7 @@
 
 @font-face {
     font-family: "DRAVYA-TAGLINE";
-    src: url("assets/fonts/Minecraft.ttf") format("truetype");
+    src: url("assets/fonts/four_pixel_caps_outline.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -30,7 +30,7 @@
 
 @font-face {
     font-family: "DRAVYA-DARK";
-    src: url("assets/fonts/Federation_Starfleet_Hull_23rd.ttf") format("truetype");
+    src: url("assets/fonts/Mleitod.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -174,7 +174,8 @@ body {
             15rem
         );
 
-    line-height: 0.8;
+    line-height: 1.15;
+    padding-top: 0.12em;
 
     font-weight: normal;
 
@@ -462,8 +463,8 @@ body {
         width: 100%;
         max-width: 100%;
 
-        margin-top: 18px;
-        margin-bottom: 26px;
+        margin-top: 35px;
+    margin-bottom: 40px;
 
         font-size: 0.95rem;
 
@@ -481,7 +482,7 @@ body {
         width: 100%;
         max-width: 90%;
 
-        margin: 0 auto 28px auto;
+        margin: 0 auto 38px auto;
 
         font-size: 0.88rem;
 
@@ -506,25 +507,22 @@ body {
 
 
     .enter-field {
-        display: inline-block;
+    display: inline-block;
 
-        width: auto;
-        max-width: 100%;
+    padding: 18px 36px;
 
-        min-width: 0;
+    border: 1px solid rgba(255, 255, 255, 0.55);
 
-        padding: 14px 28px;
+    color: #ffffff;
+    text-decoration: none;
 
-        font-size: 16px;
+    font-size: clamp(18px, 2vw, 28px);
+    letter-spacing: 4px;
 
-        letter-spacing: 3px;
+    background: rgba(0, 0, 0, 0.18);
 
-        box-sizing: border-box;
-
-        white-space: normal;
-
-        text-align: center;
-    }
+    transition: all 0.3s ease;
+}
 
 
     /* ---------- CREATIVE LINKS ---------- */
@@ -895,4 +893,32 @@ body {
 
         overflow: hidden;
     }
+}
+@media (max-width: 700px) {
+
+    .dravyafield {
+        min-height: 100svh;
+        height: auto;
+
+        padding-top: 45px;
+        padding-bottom: 55px;
+
+        overflow: visible;
+    }
+
+    .title,
+    .index-dravya-title {
+        line-height: 1.2 !important;
+        padding-top: 0.12em;
+    }
+
+    .field-entry {
+        margin-bottom: 20px;
+    }
+
+    .enter-field {
+        max-width: 100%;
+        white-space: normal;
+    }
+
 }
