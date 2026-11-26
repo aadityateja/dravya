@@ -4,7 +4,7 @@
 
 @font-face {
     font-family: "DRAVYA-INDEX";
-    src: url("assets/fonts/connected-characters.ttf") format("truetype");
+    src: url("assets/fonts/ATSBengaluru-SquareBold.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -15,10 +15,22 @@
     font-family: "DRAVYA-INDEX" !important;
 }
 
+@font-face {
+    font-family: "DRAVYA-TAGLINE";
+    src: url("assets/fonts/Minecraft.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* TAGLINE ONLY */
+.tagline {
+    font-family: "DRAVYA-TAGLINE", sans-serif !important;
+}
 
 @font-face {
     font-family: "DRAVYA-DARK";
-    src: url("assets/fonts/GermaniaOne-Regular.ttf") format("truetype");
+    src: url("assets/fonts/Federation_Starfleet_Hull_23rd.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
