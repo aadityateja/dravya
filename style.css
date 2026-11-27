@@ -689,3 +689,54 @@ body {
         padding: 9px 17px;
     }
 }
+
+
+/* =========================================
+   DRAVYA — GLOBAL SCROLLING FIX
+   Applies to all website pages
+========================================= */
+
+html {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+
+body {
+    position: relative !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    max-height: none !important;
+
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+
+/* Prevent main content from being locked */
+
+main,
+section,
+article,
+.story-page,
+.story-content,
+.story-container {
+    max-height: none !important;
+}
+
+/* Remove fixed viewport height restrictions */
+
+.story-page,
+.story-content,
+.story-container {
+    height: auto !important;
+    overflow: visible !important;
+}
+
+/* Keep background media from blocking interaction */
+
+video,
+.background-video,
+.fluctuation-background {
+    pointer-events: none;
+}
