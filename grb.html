@@ -1,0 +1,980 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>DRAVYA — GAMMA-RAY BURSTS</title>
+
+    <link rel="icon"
+          type="image/png"
+          href="assets/logo.png">
+
+    <link rel="stylesheet"
+          href="style.css">
+
+    <style>
+
+    /* =====================================
+       DRAVYA — GAMMA-RAY BURSTS
+    ===================================== */
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        background: #03050b;
+        color: #ffffff;
+    }
+
+    .grb-page {
+        position: relative;
+        min-height: 100vh;
+        overflow: hidden;
+        background: #03050b;
+    }
+
+    /* BACKGROUND */
+
+    .grb-background {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+
+        background:
+            radial-gradient(
+                ellipse at 50% 15%,
+                rgba(30, 65, 130, 0.19),
+                transparent 55%
+            ),
+            radial-gradient(
+                ellipse at 80% 70%,
+                rgba(90, 35, 120, 0.10),
+                transparent 50%
+            ),
+            #03050b;
+    }
+
+    /* HEADER */
+
+    .grb-header {
+        position: relative;
+        z-index: 2;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 28px 6vw;
+
+        border-bottom: 1px solid
+        rgba(255,255,255,0.12);
+    }
+
+    .grb-brand {
+        color: white;
+        text-decoration: none;
+
+        font-size: 0.8rem;
+        letter-spacing: 0.25em;
+    }
+
+    .grb-back {
+        color: white;
+        text-decoration: none;
+
+        font-size: 0.75rem;
+        letter-spacing: 0.15em;
+
+        opacity: 0.7;
+    }
+
+    /* HERO */
+
+    .grb-hero {
+        position: relative;
+        z-index: 1;
+
+        min-height: 90vh;
+
+        display: flex;
+        flex-direction: column;
+
+        justify-content: center;
+        align-items: center;
+
+        text-align: center;
+
+        padding: 100px 25px;
+    }
+
+    .grb-index {
+        color: #91b9ff;
+
+        font-family: monospace;
+        font-size: 0.75rem;
+
+        letter-spacing: 0.3em;
+
+        margin-bottom: 35px;
+    }
+
+    .grb-title {
+        font-size: clamp(3rem, 9vw, 8rem);
+
+        font-weight: normal;
+        line-height: 1.05;
+
+        letter-spacing: 0.035em;
+
+        max-width: 1200px;
+    }
+
+    .grb-subtitle {
+        margin-top: 25px;
+
+        font-size: clamp(0.8rem, 1.5vw, 1.1rem);
+
+        letter-spacing: 0.35em;
+
+        color: #a9bad8;
+    }
+
+    /* COSMIC BURST VISUAL */
+
+    .burst-visual {
+        position: relative;
+
+        width: min(650px, 90vw);
+        height: 300px;
+
+        margin: 65px auto 35px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        isolation: isolate;
+    }
+
+    .burst-core {
+        position: relative;
+        z-index: 3;
+
+        width: 12px;
+        height: 12px;
+
+        border-radius: 50%;
+
+        background: white;
+
+        box-shadow:
+            0 0 15px 5px #ffffff,
+            0 0 45px 15px #7abaff,
+            0 0 100px 30px #315bff;
+    }
+
+    .burst-jet {
+        position: absolute;
+
+        width: 85%;
+        height: 75px;
+
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(65, 130, 255, 0.08),
+            rgba(110, 190, 255, 0.65),
+            white,
+            rgba(100, 160, 255, 0.5),
+            transparent
+        );
+
+        filter: blur(13px);
+
+        transform-origin: center;
+    }
+
+    .burst-jet.top {
+        transform: rotate(-24deg);
+    }
+
+    .burst-jet.bottom {
+        transform: rotate(156deg);
+    }
+
+    .burst-ring {
+        position: absolute;
+
+        width: 180px;
+        height: 180px;
+
+        border: 1px solid
+        rgba(120, 180, 255, 0.3);
+
+        border-radius: 50%;
+
+        box-shadow:
+            0 0 40px rgba(50,120,255,0.12);
+
+        animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(0.85);
+            opacity: 0.3;
+        }
+
+        50% {
+            transform: scale(1.2);
+            opacity: 0.8;
+        }
+    }
+
+    .grb-caption {
+        font-family: monospace;
+
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+
+        color: #8199bd;
+    }
+
+    /* INTRODUCTION */
+
+    .grb-section {
+        position: relative;
+        z-index: 1;
+
+        width: 88%;
+        max-width: 1100px;
+
+        margin: 0 auto;
+
+        padding: 110px 0;
+
+        border-top: 1px solid
+        rgba(255,255,255,0.13);
+    }
+
+    .grb-section-label {
+        color: #83b5ff;
+
+        font-family: monospace;
+
+        font-size: 0.72rem;
+        letter-spacing: 0.25em;
+
+        margin-bottom: 30px;
+    }
+
+    .grb-section h2 {
+        font-size: clamp(2rem, 5vw, 4.5rem);
+
+        font-weight: normal;
+        line-height: 1.15;
+
+        max-width: 900px;
+
+        margin-bottom: 35px;
+    }
+
+    .grb-text {
+        max-width: 760px;
+
+        color: #b9c2d2;
+
+        font-size: clamp(1rem, 1.5vw, 1.2rem);
+
+        line-height: 1.9;
+        letter-spacing: 0.015em;
+    }
+
+    .grb-text p {
+        margin-bottom: 25px;
+    }
+
+    /* TWO TYPES */
+
+    .grb-types {
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 25px;
+
+        margin-top: 55px;
+    }
+
+    .grb-type {
+        padding: 35px;
+
+        border: 1px solid
+        rgba(255,255,255,0.16);
+
+        background: rgba(255,255,255,0.025);
+    }
+
+    .grb-type h3 {
+        font-size: 1.8rem;
+
+        font-weight: normal;
+
+        margin-bottom: 20px;
+    }
+
+    .grb-type p {
+        color: #aebbd0;
+
+        line-height: 1.8;
+        font-size: 0.95rem;
+    }
+
+    .grb-type-label {
+        display: block;
+
+        font-family: monospace;
+
+        color: #83b5ff;
+
+        font-size: 0.7rem;
+
+        letter-spacing: 0.2em;
+
+        margin-bottom: 20px;
+    }
+
+    /* ANATOMY */
+
+    .grb-anatomy {
+        margin-top: 55px;
+
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 35px;
+    }
+
+    .anatomy-item {
+        padding-bottom: 25px;
+
+        border-bottom: 1px solid
+        rgba(255,255,255,0.15);
+    }
+
+    .anatomy-item span {
+        display: block;
+
+        color: #83b5ff;
+
+        font-family: monospace;
+
+        font-size: 0.75rem;
+
+        margin-bottom: 15px;
+    }
+
+    .anatomy-item h3 {
+        font-size: 1.5rem;
+        font-weight: normal;
+
+        margin-bottom: 12px;
+    }
+
+    .anatomy-item p {
+        color: #aebbd0;
+
+        line-height: 1.7;
+        font-size: 0.9rem;
+    }
+
+    /* SCIENCE NOTE */
+
+    .grb-note {
+        margin-top: 50px;
+
+        padding: 30px;
+
+        border-left: 2px solid #79aaff;
+
+        background: rgba(70,120,200,0.07);
+
+        color: #b8c9e4;
+
+        line-height: 1.8;
+    }
+
+    /* NUMBERS */
+
+    .grb-facts {
+        display: grid;
+
+        grid-template-columns: repeat(3, 1fr);
+
+        gap: 20px;
+
+        margin-top: 50px;
+    }
+
+    .grb-fact {
+        padding: 25px 15px;
+
+        border-top: 1px solid
+        rgba(255,255,255,0.25);
+    }
+
+    .grb-fact strong {
+        display: block;
+
+        color: #9cc6ff;
+
+        font-family: monospace;
+
+        font-size: clamp(1.3rem, 3vw, 2.2rem);
+
+        font-weight: normal;
+
+        margin-bottom: 15px;
+    }
+
+    .grb-fact span {
+        color: #aebbd0;
+
+        font-size: 0.8rem;
+        line-height: 1.6;
+    }
+
+    /* FOOTER */
+
+    .grb-footer {
+        position: relative;
+        z-index: 1;
+
+        padding: 55px 6vw;
+
+        border-top: 1px solid
+        rgba(255,255,255,0.15);
+
+        display: flex;
+
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 20px;
+    }
+
+    .grb-footer p {
+        font-family: monospace;
+
+        color: #78869c;
+
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+    }
+
+    .grb-footer a {
+        color: white;
+
+        text-decoration: none;
+
+        font-size: 0.8rem;
+        letter-spacing: 0.15em;
+    }
+
+    /* MOBILE */
+
+    @media(max-width: 700px) {
+
+        .grb-header {
+            padding: 22px 20px;
+        }
+
+        .grb-hero {
+            min-height: 85vh;
+            padding: 80px 20px;
+        }
+
+        .grb-title {
+            font-size: clamp(2.7rem, 12vw, 5rem);
+        }
+
+        .grb-subtitle {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+        }
+
+        .burst-visual {
+            height: 220px;
+        }
+
+        .grb-section {
+            width: calc(100% - 40px);
+            padding: 80px 0;
+        }
+
+        .grb-types,
+        .grb-anatomy {
+            grid-template-columns: 1fr;
+        }
+
+        .grb-type {
+            padding: 25px;
+        }
+
+        .grb-facts {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .grb-footer {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="grb-page">
+
+    <div class="grb-background"></div>
+
+    <!-- HEADER -->
+
+    <header class="grb-header">
+
+        <a href="dfield.html" class="grb-brand">
+            DRAVYA / PHYSICS
+        </a>
+
+        <a href="dfield.html" class="grb-back">
+            ← BACK TO FIELD
+        </a>
+
+    </header>
+
+
+    <!-- HERO -->
+
+    <section class="grb-hero">
+
+        <div class="grb-index">
+            ASTROPHYSICS / FIELD NOTES 001
+        </div>
+
+        <h1 class="grb-title">
+            GAMMA-RAY<br>BURSTS
+        </h1>
+
+        <p class="grb-subtitle">
+            THE UNIVERSE IN A FLASH
+        </p>
+
+        <div class="burst-visual">
+
+            <div class="burst-jet top"></div>
+
+            <div class="burst-jet bottom"></div>
+
+            <div class="burst-ring"></div>
+
+            <div class="burst-core"></div>
+
+        </div>
+
+        <div class="grb-caption">
+            RELATIVISTIC JETS / ARTISTIC REPRESENTATION
+        </div>
+
+    </section>
+
+
+    <!-- 01 INTRODUCTION -->
+
+    <section class="grb-section">
+
+        <div class="grb-section-label">
+            01 / THE EVENT
+        </div>
+
+        <h2>
+            Some of the most energetic
+            events in the universe
+            happen in seconds.
+        </h2>
+
+        <div class="grb-text">
+
+            <p>
+                Somewhere in the distant universe,
+                a star reaches the end of its life.
+                Or two incredibly dense stellar remnants
+                spiral towards one another.
+            </p>
+
+            <p>
+                Under extraordinary conditions,
+                a central engine can launch narrow,
+                powerful jets of matter moving
+                extremely close to the speed of light.
+            </p>
+
+            <p>
+                When these jets point towards Earth,
+                we may detect an intense flash of
+                gamma rays.
+            </p>
+
+            <p>
+                We call these events
+                <strong>Gamma-Ray Bursts (GRBs).</strong>
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- 02 TYPES -->
+
+    <section class="grb-section">
+
+        <div class="grb-section-label">
+            02 / CLASSIFICATION
+        </div>
+
+        <h2>
+            Two broad classes.
+            Different cosmic origins.
+        </h2>
+
+        <div class="grb-types">
+
+            <article class="grb-type">
+
+                <span class="grb-type-label">
+                    TYPE 01 / LONG GRB
+                </span>
+
+                <h3>Long-duration bursts</h3>
+
+                <p>
+                    Commonly associated with the
+                    collapse of massive, rapidly
+                    rotating stars and the formation
+                    of a compact central object,
+                    often a black hole.
+                </p>
+
+            </article>
+
+
+            <article class="grb-type">
+
+                <span class="grb-type-label">
+                    TYPE 02 / SHORT GRB
+                </span>
+
+                <h3>Short-duration bursts</h3>
+
+                <p>
+                    Commonly associated with the
+                    merger of compact objects,
+                    particularly two neutron stars,
+                    or a neutron star and a black hole.
+                </p>
+
+            </article>
+
+        </div>
+
+        <div class="grb-note">
+
+            The traditional classification uses
+            the T90 duration of the prompt gamma-ray
+            emission. Short bursts typically last
+            less than 2 seconds, while long bursts
+            typically last more than 2 seconds.
+            This is a useful classification, not an
+            absolute rule for identifying the progenitor.
+
+        </div>
+
+    </section>
+
+
+    <!-- 03 ANATOMY -->
+
+    <section class="grb-section">
+
+        <div class="grb-section-label">
+            03 / ANATOMY OF A BURST
+        </div>
+
+        <h2>
+            What happens during
+            a gamma-ray burst?
+        </h2>
+
+        <div class="grb-anatomy">
+
+            <article class="anatomy-item">
+
+                <span>01 / CENTRAL ENGINE</span>
+
+                <h3>The source</h3>
+
+                <p>
+                    A newly formed compact object
+                    and its surrounding environment
+                    power the relativistic outflow.
+                </p>
+
+            </article>
+
+
+            <article class="anatomy-item">
+
+                <span>02 / RELATIVISTIC JETS</span>
+
+                <h3>The acceleration</h3>
+
+                <p>
+                    Narrow jets of plasma are launched
+                    at velocities approaching
+                    the speed of light.
+                </p>
+
+            </article>
+
+
+            <article class="anatomy-item">
+
+                <span>03 / PROMPT EMISSION</span>
+
+                <h3>The flash</h3>
+
+                <p>
+                    The relativistic outflow produces
+                    intense high-energy radiation,
+                    including gamma rays.
+                </p>
+
+            </article>
+
+
+            <article class="anatomy-item">
+
+                <span>04 / AFTERGLOW</span>
+
+                <h3>The aftermath</h3>
+
+                <p>
+                    As the outflow interacts with
+                    surrounding material, radiation
+                    can continue across X-ray,
+                    optical and radio wavelengths.
+                </p>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- 04 DETECTION -->
+
+    <section class="grb-section">
+
+        <div class="grb-section-label">
+            04 / OBSERVATION
+        </div>
+
+        <h2>
+            How do we observe
+            something so distant?
+        </h2>
+
+        <div class="grb-text">
+
+            <p>
+                Earth's atmosphere absorbs most
+                incoming gamma rays. This makes
+                space-based observatories essential
+                for detecting cosmic gamma-ray bursts.
+            </p>
+
+            <p>
+                Satellites detect the initial flash.
+                Other observatories then rapidly
+                search for the afterglow.
+            </p>
+
+            <p>
+                When gravitational waves accompany
+                a compact-object merger, astronomers
+                can combine gravitational-wave and
+                electromagnetic observations to study
+                the same cosmic event.
+            </p>
+
+        </div>
+
+        <div class="grb-note">
+
+            <strong>OBSERVATORIES TO EXPLORE</strong>
+            <br><br>
+
+            NASA Fermi Gamma-ray Space Telescope
+            <br>
+
+            NASA Neil Gehrels Swift Observatory
+            <br>
+
+            ESA INTEGRAL
+            <br>
+
+            LIGO–Virgo–KAGRA gravitational-wave network
+
+        </div>
+
+    </section>
+
+
+    <!-- 05 COSMIC CONNECTION -->
+
+    <section class="grb-section">
+
+        <div class="grb-section-label">
+            05 / THE COSMIC CONNECTION
+        </div>
+
+        <h2>
+            A flash of light.
+            A story of matter.
+        </h2>
+
+        <div class="grb-text">
+
+            <p>
+                Gamma-ray bursts allow us to
+                investigate some of the most extreme
+                environments in astrophysics.
+            </p>
+
+            <p>
+                Neutron-star mergers, in particular,
+                can produce heavy elements through
+                rapid neutron capture, known as
+                the r-process.
+            </p>
+
+            <p>
+                Their electromagnetic counterparts,
+                called kilonovae, help astronomers
+                investigate how elements heavier
+                than iron are produced and distributed
+                throughout the universe.
+            </p>
+
+            <p>
+                A brief cosmic event can therefore
+                reveal information about stellar
+                evolution, nuclear physics,
+                relativistic outflows and the
+                chemical evolution of galaxies.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- 06 NUMBERS -->
+
+    <section class="grb-section">
+
+        <div class="grb-section-label">
+            06 / QUICK REFERENCE
+        </div>
+
+        <h2>
+            The numbers behind the event.
+        </h2>
+
+        <div class="grb-facts">
+
+            <div class="grb-fact">
+
+                <strong>~2 s</strong>
+
+                <span>
+                    Traditional boundary separating
+                    short and long GRBs by T90.
+                </span>
+
+            </div>
+
+            <div class="grb-fact">
+
+                <strong>~c</strong>
+
+                <span>
+                    Relativistic jets travel at
+                    velocities close to the
+                    speed of light.
+                </span>
+
+            </div>
+
+            <div class="grb-fact">
+
+                <strong>γ</strong>
+
+                <span>
+                    Gamma radiation belongs to
+                    the highest-energy part of
+                    the electromagnetic spectrum.
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer class="grb-footer">
+
+        <p>
+            DRAVYA / OBSERVE · DISTURB · CREATE
+        </p>
+
+        <a href="dfield.html">
+            RETURN TO THE FIELD ↑
+        </a>
+
+    </footer>
+
+</div>
+
+</body>
+</html>
