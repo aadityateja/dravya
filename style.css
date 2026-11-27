@@ -47,6 +47,7 @@
 }
 
 
+
 /* 02 — RESET
    ========================================================== */
 
@@ -58,19 +59,28 @@
     padding: 0;
 }
 
+/* DEFAULT: NORMAL WEBSITE SCROLLING */
+
 html,
 body {
     width: 100%;
-    height: 100%;
     min-height: 100%;
-    overflow: hidden;
-    overscroll-behavior: none;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 body {
     font-family: var(--dravya-font);
     background: #000;
     color: var(--dravya-white);
+}
+
+/* INDEX PAGE: INTENTIONALLY SINGLE SCREEN */
+
+body:has(.dravyafield) {
+    height: 100%;
+    overflow: hidden;
 }
 
 
@@ -401,13 +411,20 @@ body {
 @media (max-width: 700px) {
 
     html,
-    body {
-        width: 100%;
-        height: 100%;
-        min-height: 100%;
-        overflow: hidden !important;
-        overscroll-behavior: none;
-    }
+body {
+    width: 100%;
+    min-height: 100%;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* Keep only the main index locked */
+
+body:has(.dravyafield) {
+    height: 100%;
+    overflow: hidden;
+}
 
     .dravyafield {
         width: 100%;
@@ -690,53 +707,3 @@ body {
     }
 }
 
-
-/* =========================================
-   DRAVYA — GLOBAL SCROLLING FIX
-   Applies to all website pages
-========================================= */
-
-html {
-    height: auto !important;
-    min-height: 100% !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-}
-
-body {
-    position: relative !important;
-    height: auto !important;
-    min-height: 100vh !important;
-    max-height: none !important;
-
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-}
-
-/* Prevent main content from being locked */
-
-main,
-section,
-article,
-.story-page,
-.story-content,
-.story-container {
-    max-height: none !important;
-}
-
-/* Remove fixed viewport height restrictions */
-
-.story-page,
-.story-content,
-.story-container {
-    height: auto !important;
-    overflow: visible !important;
-}
-
-/* Keep background media from blocking interaction */
-
-video,
-.background-video,
-.fluctuation-background {
-    pointer-events: none;
-}
